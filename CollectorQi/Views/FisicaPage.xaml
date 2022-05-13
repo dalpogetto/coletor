@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             Title=""
+             x:Class="CollectorQi.Views.FisicaPage">
+    <ContentPage.Content>
+        <ScrollView  Orientation = "Vertical" VerticalOptions="Start">
+            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+               
+                <Grid Grid.Row="0" Margin="5,0,5,0"  HorizontalOptions="Fill" VerticalOptions="Fill">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    
+                    
+                    <Editor x:Name="edtItCodigo" 
+                        FontSize="Micro"
+                        MaxLength="40"
+                        MinimumWidthRequest="150"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Keyboard="Plain"
+                        Placeholder="Código do produto"
+                        PlaceholderColor="#aaaaaa"
+                        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"/>
+                    <Button x:Name="BtnQR" 
+                        android:Button.UseDefaultPadding="true"
+                        android:Button.UseDefaultShadow="true" 
+                        Padding="14"
+                        FontSize="Micro"
+                        HeightRequest="60"
+                        MinimumHeightRequest="60"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Image="cameraMini.png"                         
+                        BackgroundColor="{StaticResource NavigationPrimary}"
+                        TextColor="White"  
+                        BorderColor="#aaaaaa"
+                        BorderWidth="1"
+                        BorderRadius="16"   
+                        Clicked="OnClick_QR"
+                        Grid.Row="0" Grid.Column="3" />
+
+                    <Editor x:Name="edtDescItem" 
+                        Opacity="0.7"
+                        IsEnabled="False"
+                        FontSize="Micro"
+                        MaxLength="300"
+                        Keyboard="Default"
+                        Placeholder="Descrição do produto"
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+                  <Editor x:Name="Unidade" 
+                        FontSize="Micro"
+                        IsEnabled="False"
+                        MaxLength="30"
+                        Keyboard="Default"
+                        Placeholder="Unidade de Medida"
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Start"
+                        HorizontalOptions="Fill"
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+           
+                    <Switch x:Name="tipoConEst" 
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        OnColor="{StaticResource NavigationPrimary}"
+                        IsToggled="false"
+                        Grid.Row="2" Grid.Column="2"/>
+                    
+                    <Label x:Name="tipoConEstDesc"
+                       Text="Serial" 
+                       Opacity="1.0" 
+                       FontSize="Micro"  
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       VerticalOptions="Center"
+                       WidthRequest="50"
+                       HorizontalTextAlignment="Start"
+                       Grid.Row="2" Grid.Column="3" />
+
+                        
+                     <Label x:Name="lblEntrada"
+                       Text="Entrada" 
+                       Opacity="1.0" 
+                       FontSize="Medium"  
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       VerticalOptions="Center"
+                       WidthRequest="50"
+                       HorizontalTextAlignment="Start"
+                       Grid.Row="3" Grid.Column="0" />
+                    
+                    <Editor x:Name="DepositoEntrada" 
+                        Opacity="1.0"
+                        FontSize="Micro"
+                        MaxLength="50"
+                        WidthRequest="75"
+                        Keyboard="Default"
+                        Placeholder="Depósito de Entrada"
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+                    <Editor x:Name="LoteE" 
+                        Opacity="1.0"
+                        FontSize="Micro"
+                        MaxLength="300"
+                        WidthRequest="300"
+                        Keyboard="Default"
+                        Placeholder="Lote de Entrada"
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"/>
+                        
+                     <Label x:Name="lblQuantidade"
+                       Text="Quantidade" 
+                       Opacity="1.0" 
+                       FontSize="Medium"  
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Start"
+                       Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" />
+                    
+
+                    <Editor
+                        x:Name="Saldo" 
+                        Opacity="0.7"
+                        FontSize="Micro"
+                        IsEnabled="False"
+                        MaxLength="300"
+                        WidthRequest="300"
+                        Keyboard="Default"
+                        Placeholder="Saldo"
+                      
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+                    <Editor x:Name="Quantidade" 
+                        FontSize="Micro"
+                        MaxLength="300"
+                        WidthRequest="300"
+                        Keyboard="Default"
+                        Placeholder="Quantidade"
+                        PlaceholderColor="#aaaaaa"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Fill"
+                        HorizontalOptions="StartAndExpand"
+                        Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+                </Grid>
+                <Grid Grid.Row="1" Margin="5,0,5,0"  VerticalOptions="Start">
+                    <Button x:Name="BtnSair" 
+                        Padding="16"
+                        android:Button.UseDefaultPadding="true"
+                        android:Button.UseDefaultShadow="true" 
+                        FontSize="Micro"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Image="sairMini.png"           
+                        BackgroundColor="{StaticResource NavigationPrimary}"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Sair"
+                        Grid.Row="0" Grid.Column="0"
+                        Text="Sair" />
+                    <Button x:Name="BtnLimpar" 
+                        android:Button.UseDefaultPadding="true"
+                        android:Button.UseDefaultShadow="true" 
+                        Padding="16"
+                        FontSize="Micro"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Image="limparMini.png"           
+                        BackgroundColor="{StaticResource NavigationPrimary}"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Limpar"
+                        Grid.Row="0" Grid.Column="1"
+                        Text="Limpar" />
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="5,0,5,0"  VerticalOptions="Start">
+                    <Label Text="Quali IT©" 
+                       Opacity="0.6" 
+                       FontSize="Micro"  
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       HorizontalTextAlignment="Start" 
+                       Grid.Row="0" Grid.Column="0" />
+                    <Label x:Name="footerCodUsuario" 
+                       Text="Usuário" 
+                       Opacity="0.6" 
+                       FontSize="Micro"  
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       HorizontalTextAlignment="Center"  
+                       Grid.Row="0" Grid.Column="1" />
+                    <Label Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{}{0:dd/MM/yy HH:mm}'}" 
+                       Opacity="0.6" 
+                       FontSize="Micro" 
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       HorizontalTextAlignment="End"  
+                       Grid.Row="0" Grid.Column="2" />
+                </Grid>
+
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

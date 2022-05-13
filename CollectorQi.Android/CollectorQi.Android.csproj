@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{54255005-CC9E-4C9C-BC55-81695C2AE4B8}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TemplateGuid>{c9e5eea5-ca05-42a1-839b-61506e0a37df}</TemplateGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CollectorQi.Droid</RootNamespace>
+    <AssemblyName>CollectorQi.Android</AssemblyName>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <ReleaseVersion>1.5</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
+    <MandroidI18n />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <EnableProguard>true</EnableProguard>
+    <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.v4</AndroidLinkSkip>
+    <AndroidSupportedAbis>x86_64;x86;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugErro|AnyCPU' ">
+    <DebugType>
+    </DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\DebugErro</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <JavaMaximumHeapSize>
+    </JavaMaximumHeapSize>
+    <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
+    <AndroidManifest>
+    </AndroidManifest>
+    <AndroidDexTool>
+    </AndroidDexTool>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>arm64-v8a;armeabi-v7a;x86</AndroidSupportedAbis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="System.Web.Services">
+      <HintPath>..\..\..\Google Drive %28admin%40qualiit.com.br%29\Projetos\Projetos\Santa Colomba\18127-04 - Data Collection\FNT_XAMARIN\Versao_16-03-2019_Original\CollectorQualiIT\CollectorQualiIT.Android\obj\Debug\linksrc\System.Web.Services.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.264807" />
+    <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="System.ServiceModel.Http">
+      <Version>4.5.3</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile.Forms">
+      <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomEntryRenderer.cs" />
+    <Compile Include="EmptyClass.cs" />
+    <Compile Include="ILogImplemention.cs" />
+    <Compile Include="WebService\CallProcedureWithToken.cs" />
+    <Compile Include="WebService\UserLogin.cs" />
+    <Compile Include="Web References\santacolomba_dts.totvscloud.com.br\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Notification\CallNotification.cs" />
+    <Compile Include="Notification\NotificationFormApp.cs" />
+    <Compile Include="Notification\BroadcastReceiver.cs" />
+    <Compile Include="CustomEntryTextRenderer.cs" />
+    <Compile Include="PopUpRendererOld.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="WebService\Icon&#xD;" />
+    <None Include="Web References\santacolomba_dts.totvscloud.com.br\WebServiceExecBO.wsdl" />
+    <None Include="Web References\santacolomba_dts.totvscloud.com.br\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Tabbar.axml" />
+    <AndroidResource Include="Resources\layout\Toolbar.axml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml" />
+    <AndroidResource Include="Resources\mipmap-anydpi-v26\icon_round.xml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\drawable\abastecimento.png" />
+    <AndroidResource Include="Resources\drawable\addMini.png" />
+    <AndroidResource Include="Resources\drawable\almoxarifado.png" />
+    <AndroidResource Include="Resources\drawable\avancar.png" />
+    <AndroidResource Include="Resources\drawable\avancarMini.png" />
+    <AndroidResource Include="Resources\drawable\cameraMini.png" />
+    <AndroidResource Include="Resources\drawable\cb.png" />
+    <AndroidResource Include="Resources\drawable\closeMini.png" />
+    <AndroidResource Include="Resources\drawable\deposito.png" />
+    <AndroidResource Include="Resources\drawable\desktop.ini" />
+    <AndroidResource Include="Resources\drawable\efetivarMini.png" />
+    <AndroidResource Include="Resources\drawable\expedicao.png" />
+    <AndroidResource Include="Resources\drawable\fisica.png" />
+    <AndroidResource Include="Resources\drawable\intErroMed.png" />
+    <AndroidResource Include="Resources\drawable\intPendenteMed.png" />
+    <AndroidResource Include="Resources\drawable\intSucessoMed.png" />
+    <AndroidResource Include="Resources\drawable\inventario.png" />
+    <AndroidResource Include="Resources\drawable\limparMini.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable\logoTotvs.png" />
+    <AndroidResource Include="Resources\drawable\logout.png" />
+    <AndroidResource Include="Resources\drawable\qr.png" />
+    <AndroidResource Include="Resources\drawable\qrload.png" />
+    <AndroidResource Include="Resources\drawable\retirada.png" />
+    <AndroidResource Include="Resources\drawable\sairMini.png" />
+    <AndroidResource Include="Resources\drawable\scaLogo.png" />
+    <AndroidResource Include="Resources\drawable\security.png" />
+    <AndroidResource Include="Resources\drawable\voltar.png" />
+    <AndroidResource Include="Resources\drawable\zoomMini.png" />
+    <AndroidResource Include="Resources\layout\Layout.axml" />
+    <AndroidResource Include="Resources\drawable\splash_background.xml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\iconsca.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\iconsca.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\iconsca.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\iconsca.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\iconsca.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\scabackground.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\scabackground.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\scabackground.9.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\scabackground.9.png" />
+    <AndroidResource Include="Resources\drawable\entry_icon_user.png" />
+    <AndroidResource Include="Resources\drawable\entry_icon_password.png" />
+    <AndroidResource Include="Resources\drawable\icon_help.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CollectorQi\CollectorQi.csproj">
+      <Project>{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}</Project>
+      <Name>CollectorQi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
+      <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+</Project>

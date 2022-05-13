@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Menu principal" x:Class="CollectorQi.Views.PrincipalPage">
+    <ContentPage.Content>
+
+        <StackLayout BackgroundColor="#4E4E4E" Opacity="1" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+         <!--   <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions> -->
+            
+          <Grid  HeightRequest="90" MinimumHeightRequest="90" Margin="0,15,0,0">
+                <Image Source="scaLogo.png" Opacity="1.0" VerticalOptions="Start" Margin="10,0,30,0" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
+            </Grid>
+            
+            <Grid  Margin="15,5,15,0" VerticalOptions="StartAndExpand">
+                <ListView x:Name="listView" VerticalOptions="Start" SeparatorColor="White" SelectionMode="Single" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell Text="{Binding Name}" Detail="{Binding SubTitle}" ImageSource="{Binding Image}" TextColor="White" DetailColor="#aaaaaa" CommandParameter="{Binding .}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            
+            <Label Text=""  x:Name="lblMensagemErro" Margin="15,0,15,0" TextColor="White"  />
+            
+            <Frame  HasShadow="true" Margin="15,10,15,0" CornerRadius="5" x:Name="frameEstab" VerticalOptions="End"  OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+               <Frame.GestureRecognizers>
+                    
+                    <TapGestureRecognizer Tapped="OnTapped_FrameEstab" NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+              
+                        <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                    </Grid>
+                
+            </Frame>
+            
+             <Frame  HasShadow="true" Margin="15,10,15,0" CornerRadius="5" VerticalOptions="End" x:Name="frameCadastros" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" IsVisible="false">
+               <Frame.GestureRecognizers>
+                    
+                    <TapGestureRecognizer Tapped="OnTapped_FrameCadastros" NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+              
+                        <Label x:Name="lblFrameCadastros" Text="ATUALIZA CADASTROS" VerticalOptions="Start" HorizontalOptions="Center" Font="Small" FontAttributes="Bold"  />
+                    </Grid>
+                
+            </Frame>
+            
+            
+            <Grid  Margin="20,0,20,2" VerticalOptions="End"  HeightRequest="30" MinimumHeightRequest="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                  <!--  <ColumnDefinition Width="50" /> -->
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            
+                <Label x:Name="footerCodUsuario"    Text="Usuário"  Opacity="0.6" FontSize="Micro" TextColor="White" HorizontalTextAlignment="Start"   Grid.Row="0" Grid.Column="0" />
+
+                <Label x:Name="footerVersion"       Text="Versão"   Opacity="0.6" FontSize="Micro" TextColor="White" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="1" />
+                <!--<Label x:Name="footerEstabelecimento" Text="" Opacity="0.6" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="2" />-->
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

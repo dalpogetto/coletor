@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Requisição" x:Class="CollectorQi.Views.RequisicaoListaPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#4E4E4E">
+
+             <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" HeightRequest="30">
+                    <SearchBar IsVisible="{Binding SearchMode}" Keyboard="Numeric" Placeholder="Digite o Número da Requisição" Text="{Binding SearchText}" x:Name="SearchNrRequisicao" TextChanged="Handle_TextChanged" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Margin="-10,0,0,0" FontSize="Small" />
+            </Frame>
+            
+            <CollectionView x:Name="cvRequisicao" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10,0,10,0">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label Text="Nenhuma requisição em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                          <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                          
+                                
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                
+                                    
+                                <Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="Auto" />
+                                        
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Requisição" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NrRequisicao}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
+                                  
+                                     
+                                </Grid>
+                                
+                                    <!--
+                                <Grid Grid.Row="0" MinimumWidthRequest="20" Grid.RowSpan="4" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding Image}" Grid.Row="0" WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
+                                    <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Micro"  HorizontalOptions="Center"/>
+                                </Grid> -->
+                                    
+                                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Requisitante" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NomeAbrev}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                </Grid>
+                                    
+                                <Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Dt. Requisição" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtRequisicao, StringFormat='{0:dd/MM/yyyy}'}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                </Grid>
+                                    
+                                    
+                            </Grid>
+                                
+                                <!--
+                                
+                            <Grid Grid.Row="3" HorizontalOptions="StartAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Dt. Requisição:" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtRequisicao, StringFormat='{0:dd/MM/yyyy}'}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                </Grid>
+                            </Grid> -->
+                        
+                        
+                                    </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Grid Grid.Row="0" Margin="0,0,0,5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+              
+                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                 </Grid.RowDefinitions>
+                 <Button x:Name="BtnCarregaRequisicao" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="OnClick_CarregaRequisicao" Grid.Row="0" Grid.Column="0" Text="Carrega Requisição" TextColor="White" />
+             
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

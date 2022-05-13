@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Title="Integração"
+             x:Class="CollectorQi.Views.IntegracaoMovtoPage">
+    <ContentPage.Content>
+        <Grid BackgroundColor="#4E4E4E" Opacity="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="10,0,10,0"  VerticalOptions="StartAndExpand">
+                <ListView x:Name="listView" SeparatorColor="White"  Grid.Row="0" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell Text="{Binding Name}" 
+                                       Detail="{Binding SubTitle}" 
+                                       ImageSource="{Binding Image}" 
+                                       TextColor="White" 
+                                       DetailColor="#aaaaaa"                                      
+                                       CommandParameter="{Binding .}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

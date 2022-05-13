@@ -1,0 +1,90 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectorQi.Android", "CollectorQi.Android\CollectorQi.Android.csproj", "{54255005-CC9E-4C9C-BC55-81695C2AE4B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectorQi.iOS", "CollectorQi.iOS\CollectorQi.iOS.csproj", "{32995649-3FB5-4D02-B4C4-01126EA601DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectorQi", "CollectorQi\CollectorQi.csproj", "{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		DebugErro|Any CPU = DebugErro|Any CPU
+		DebugErro|iPhone = DebugErro|iPhone
+		DebugErro|iPhoneSimulator = DebugErro|iPhoneSimulator
+		Release|Any CPU = Release|Any CPU
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.DebugErro|Any CPU.ActiveCfg = DebugErro|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.DebugErro|Any CPU.Build.0 = DebugErro|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.DebugErro|iPhone.ActiveCfg = DebugErro|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.DebugErro|iPhoneSimulator.ActiveCfg = DebugErro|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhone.Build.0 = Release|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhone.Build.0 = Debug|iPhone
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.DebugErro|Any CPU.ActiveCfg = DebugErro|Any CPU
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.DebugErro|Any CPU.Build.0 = DebugErro|Any CPU
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.DebugErro|iPhone.ActiveCfg = DebugErro|Any CPU
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.DebugErro|iPhoneSimulator.ActiveCfg = DebugErro|Any CPU
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|iPhone.ActiveCfg = Release|iPhone
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|iPhone.Build.0 = Release|iPhone
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|Any CPU.ActiveCfg = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|Any CPU.Build.0 = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|iPhone.ActiveCfg = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|iPhone.Build.0 = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|iPhoneSimulator.ActiveCfg = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.DebugErro|iPhoneSimulator.Build.0 = DebugErro|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|iPhone.Build.0 = Release|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88449D25-789E-4516-9470-6DA0726A6490}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $2
+		$0.VersionControlPolicy = $3
+		version = 1.5
+	EndGlobalSection
+EndGlobal

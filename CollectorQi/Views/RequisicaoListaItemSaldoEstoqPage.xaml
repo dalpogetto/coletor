@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Inventário" x:Class="CollectorQi.Views.RequisicaoListaItemSaldoEstoqPage" xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <ContentPage.Content BackgroundColor="#4E4E4E">
+        <StackLayout BackgroundColor="#4E4E4E" >
+            <!--<Grid BackgroundColor="#4E4E4E" Opacity="1" Margin="5,10,1,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label x:Name="lblCodEstabel" Grid.Row="0" Text="AAAA" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+                <Label x:Name="lblItCodigo" Grid.Row="1" Text="AAAA" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+                <Label x:Name="lblDescItem" Grid.Row="2" Text="AAAA" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalOptions="FillAndExpand" />
+            </Grid> -->
+            <!--=<SearchBar IsVisible="{Binding SearchMode}" Placeholder="Digite o código ou descrição do item..." Text="{Binding SearchText}"  x:Name="SearchBarItCodigo" TextChanged="Handle_TextChanged" PlaceholderColor="White" FontSize="Small"/>-->
+            <StackLayout IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3" >
+                <Frame HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1">
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                          <!--  <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" /> -->
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblCodEstabel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" />
+                        <Label x:Name="lblItCodigo" Grid.Row="1" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" />
+                        <Label x:Name="lblDescItem" Grid.Row="1" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" />
+                        <Label x:Name="lblQtdeAtenderLabel" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" Text="Qtde Atender "/>
+                        <Label x:Name="lblQtdeAtender" Grid.Row="2" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" /> 
+                        
+                        <Label x:Name="lblQtdeDevolverLabel" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" Text="Qtde Devolver "/>
+                        <Label x:Name="lblQtdeDevolver" Grid.Row="2" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" /> 
+                   
+                        
+                    </Grid>
+                </Frame>
+                
+                
+                <StackLayout>
+                    
+                    <!--
+                     <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
+                                    
+                                    <local:CustomEntryText x:Name="edtItCodigo" FontSize="Micro" MaxLength="40" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto..." Grid.Row="1"  Unfocused="edtItCodigo_Unfocused"
+                                        Completed="Handle_Completed" Grid.ColumnSpan="2" />
+                                
+                             <StackLayout Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
+                                    <Button x:Name="BtnQR" android:Button.UseDefaultPadding="true"  android:Button.UseDefaultShadow="true"        WidthRequest="70"  Image="cameraMini.png"
+                                        BackgroundColor="Transparent"   Clicked="OnClick_QR" /> 
+                                    <Button x:Name="BtnBuscaItem" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true"  WidthRequest="70"  Image="zoomMini.png"
+                                        BackgroundColor="Transparent"  Clicked="OnClick_BuscaItem" />
+                                 </StackLayout>
+                                
+                                    <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição do produto..." Grid.Row="2" Grid.Column="0"     Grid.ColumnSpan="4" />
+                                    <local:CustomEntryText x:Name="edtUnidade" IsReadOnly="true" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Unidade de medida..." Grid.Row="3"     Grid.Column="0"     Grid.ColumnSpan="2" />
+                                    <local:CustomEntryText x:Name="edtTipoConEst" IsReadOnly="true" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Tipo de controle..." Grid.Row="3"   Grid.Column="2"     Grid.ColumnSpan="2" />
+                                </Grid>
+                            </Frame>
+                        </StackLayout> -->
+                    
+                        <StackLayout Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblEntrada" Text="Depósito" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                    <local:CustomEntryText x:Name="edtDepEntrada" IsReadOnly="true" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Depósito" Grid.Row="1" Grid.Column="0" />
+                                    <Button x:Name="BtnDeposito" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Micro" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                        Clicked="OnClick_Deposito" Grid.Row="1" Grid.Column="1" />
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                         
+                        <StackLayout  Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frameLocaliz" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="LblLocaliz" Text="Localização" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                    <local:CustomEntryText x:Name="edtCodLocaliz" IsReadOnly="true" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Localização..." Grid.Row="1" Grid.Column="0" />
+                                     <Button x:Name="BtnCodLocaliz" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Micro" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                        Clicked="OnClick_CodLocaliz" Grid.Row="1" Grid.Column="1" /> 
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    
+                        <StackLayout  Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frameLote" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblLote" Text="Lote" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                    <local:CustomEntryText x:Name="edtLote" IsReadOnly="true" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Lote..." Grid.Row="1" Grid.Column="0" />
+                            <!--        <local:CustomEntryText x:Name="edtDtValiLote" IsReadOnly="true" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Data de Validade..." Grid.Row="1" Grid.Column="1" /> -->
+                                    <Button x:Name="BtnLote" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Micro" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                        Clicked="OnClick_Lote" Grid.Row="1" Grid.Column="1" /> 
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    
+                       <StackLayout  Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frameRefer" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblReferencia" Text="Referência" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                    <local:CustomEntryText x:Name="edtCodRefer" IsReadOnly="true" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Referência..." Grid.Row="1" Grid.Column="0" />
+                                     <Button x:Name="BtnCodRefer" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Micro" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                        Clicked="OnClick_CodRefer" Grid.Row="1" Grid.Column="1" /> 
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    
+                        <StackLayout  Grid.Column="0" Grid.ColumnSpan="5">
+                            <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="lblQuantidade" Text="Quantidade" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                    <local:CustomEntry x:Name="edtQuantidade" Grid.Row="1" Margin="0,0,0,0" IsNumeric="True" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Placeholder="Digite a quantidade.." Focused="Focused_QtAtender" />
+                                
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    
+                
+                 <!--   <CollectionView x:Name="cvRequisicaoItemSaldoEstoq" ItemsSource="{Binding ObsReqSaldoEstoq}" SelectionMode="None" Grid.Row="0" Margin="10,0,10,0">
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <Label Text="Item sem saldo" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <StackLayout Spacing="1" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                                <Grid HorizontalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Depósito: " FontAttributes="Bold" FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding __deposito__.Nome}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Micro" />
+                                                </Grid>
+                                                <Grid HorizontalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold" FontSize="Micro">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding CodLocaliz}" Value="">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Setter Property="HeightRequest" Value="0" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Micro">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding CodLocaliz}" Value="">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Setter Property="HeightRequest" Value="0" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </Grid>
+                                                <Grid HorizontalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Lote:" FontAttributes="Bold" FontSize="Micro">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Setter Property="HeightRequest" Value="0" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLote}" FontAttributes="" VerticalTextAlignment="End" FontSize="Micro">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Setter Property="HeightRequest" Value="0" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding DtValiLote, StringFormat='{0:dd/MM/yyyy}'}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="End" FontSize="Micro">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                                <Setter Property="IsVisible" Value="False" />
+                                                                <Setter Property="HeightRequest" Value="0" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </Grid>
+                                                <Grid HorizontalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Qtd. Estoque:" FontAttributes="Bold" FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeAtu}" FontSize="Micro" />
+                                                </Grid>
+                                                <Grid HorizontalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Qtd. Estoque (Mobile):" FontAttributes="Bold" FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeMobile}" FontSize="Micro" />
+                                                </Grid>
+                                                <Frame HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1">
+                                                    <Grid HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Row="0" Grid.Column="0" Text="Quantidade Atender" FontAttributes="Bold" FontSize="Small" />
+                                                        <customentry:CustomEntry Text="{Binding QtdAtender}" Grid.Row="0" Margin="0,20,0,0" Grid.Column="0" IsNumeric="True" FontSize="Small" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Placeholder="Digite a quantidade.." Focused="Focused_QtAtender" />
+                                                    </Grid>
+                                                </Frame>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView> -->
+                    
+                    
+            
+                </StackLayout>
+                        <Grid Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="5"  VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand">
+                        <!-- <Button x:Name="BtnBuscaItem" android:Button.UseDefaultShadow="true" FontSize="Small" MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor=" Silver" BorderRadius="16" Clicked="OnClick_BuscaItem"
+                            Grid.Row="0" Grid.Column="0" Text="Busca Item (Etiqueta)" TextColor="White" /> -->
+                        <Button x:Name="BtnEfetivaInventario" android:Button.UseDefaultShadow="true" FontSize="Small" MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16" Clicked="OnClick_EfetivaRequisicao"
+                            Grid.Row="0" Grid.Column="0" Text="CONFIRMAR" TextColor="White" />
+                    </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

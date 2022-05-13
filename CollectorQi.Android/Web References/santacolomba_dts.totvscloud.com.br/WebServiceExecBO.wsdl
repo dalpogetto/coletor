@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.execbo.ws.framework.totvs.com" name="WebServiceExecBO" targetNamespace="http://service.execbo.ws.framework.totvs.com" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://service.execbo.ws.framework.totvs.com" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="ExecBOServiceException" nillable="true" type="tns:CheckExceptionsFaultBean" />
+      <xs:element name="callProcedure" type="tns:callProcedure" />
+      <xs:element name="callProcedureResponse" type="tns:callProcedureResponse" />
+      <xs:element name="callProcedureWithCompany" type="tns:callProcedureWithCompany" />
+      <xs:element name="callProcedureWithCompanyResponse" type="tns:callProcedureWithCompanyResponse" />
+      <xs:element name="callProcedureWithToken" type="tns:callProcedureWithToken" />
+      <xs:element name="callProcedureWithTokenAndCompany" type="tns:callProcedureWithTokenAndCompany" />
+      <xs:element name="callProcedureWithTokenAndCompanyResponse" type="tns:callProcedureWithTokenAndCompanyResponse" />
+      <xs:element name="callProcedureWithTokenResponse" type="tns:callProcedureWithTokenResponse" />
+      <xs:element name="login" type="tns:login" />
+      <xs:element name="loginResponse" type="tns:loginResponse" />
+      <xs:element name="logoutSession" type="tns:logoutSession" />
+      <xs:element name="logoutSessionResponse" type="tns:logoutSessionResponse" />
+      <xs:element name="userAndPasswordLogin" type="tns:userAndPasswordLogin" />
+      <xs:element name="userAndPasswordLoginResponse" type="tns:userAndPasswordLoginResponse" />
+      <xs:element name="userLogin" type="tns:userLogin" />
+      <xs:element name="userLoginResponse" type="tns:userLoginResponse" />
+      <xs:complexType name="login">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="loginResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CheckExceptionsFaultBean">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="userLogin">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="userLoginResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithTokenAndCompany">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+          <xs:element minOccurs="0" name="arg3" type="xs:string" />
+          <xs:element minOccurs="0" name="arg4" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithTokenAndCompanyResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedure">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="logoutSession">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="logoutSessionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithCompany">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+          <xs:element minOccurs="0" name="arg3" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithCompanyResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="userAndPasswordLogin">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="userAndPasswordLoginResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithToken">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+          <xs:element minOccurs="0" name="arg1" type="xs:string" />
+          <xs:element minOccurs="0" name="arg2" type="xs:string" />
+          <xs:element minOccurs="0" name="arg3" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="callProcedureWithTokenResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="ExecBOServiceEndpoint_logoutSessionResponse">
+    <part name="logoutSessionResponse" element="tns:logoutSessionResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithTokenAndCompany">
+    <part name="callProcedureWithTokenAndCompany" element="tns:callProcedureWithTokenAndCompany" />
+  </message>
+  <message name="ExecBOServiceEndpoint_userAndPasswordLogin">
+    <part name="userAndPasswordLogin" element="tns:userAndPasswordLogin" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithTokenAndCompanyResponse">
+    <part name="callProcedureWithTokenAndCompanyResponse" element="tns:callProcedureWithTokenAndCompanyResponse" />
+  </message>
+  <message name="ExecBOServiceException">
+    <part name="ExecBOServiceException" element="tns:ExecBOServiceException" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithToken">
+    <part name="callProcedureWithToken" element="tns:callProcedureWithToken" />
+  </message>
+  <message name="ExecBOServiceEndpoint_userLoginResponse">
+    <part name="userLoginResponse" element="tns:userLoginResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedure">
+    <part name="callProcedure" element="tns:callProcedure" />
+  </message>
+  <message name="ExecBOServiceEndpoint_login">
+    <part name="login" element="tns:login" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithTokenResponse">
+    <part name="callProcedureWithTokenResponse" element="tns:callProcedureWithTokenResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_logoutSession">
+    <part name="logoutSession" element="tns:logoutSession" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureResponse">
+    <part name="callProcedureResponse" element="tns:callProcedureResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_loginResponse">
+    <part name="loginResponse" element="tns:loginResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithCompanyResponse">
+    <part name="callProcedureWithCompanyResponse" element="tns:callProcedureWithCompanyResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_userAndPasswordLoginResponse">
+    <part name="userAndPasswordLoginResponse" element="tns:userAndPasswordLoginResponse" />
+  </message>
+  <message name="ExecBOServiceEndpoint_userLogin">
+    <part name="userLogin" element="tns:userLogin" />
+  </message>
+  <message name="ExecBOServiceEndpoint_callProcedureWithCompany">
+    <part name="callProcedureWithCompany" element="tns:callProcedureWithCompany" />
+  </message>
+  <portType name="ExecBOServiceEndpoint">
+    <operation name="callProcedure" parameterOrder="callProcedure">
+      <input message="tns:ExecBOServiceEndpoint_callProcedure" />
+      <output message="tns:ExecBOServiceEndpoint_callProcedureResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="callProcedureWithCompany" parameterOrder="callProcedureWithCompany">
+      <input message="tns:ExecBOServiceEndpoint_callProcedureWithCompany" />
+      <output message="tns:ExecBOServiceEndpoint_callProcedureWithCompanyResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="callProcedureWithToken" parameterOrder="callProcedureWithToken">
+      <input message="tns:ExecBOServiceEndpoint_callProcedureWithToken" />
+      <output message="tns:ExecBOServiceEndpoint_callProcedureWithTokenResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="callProcedureWithTokenAndCompany" parameterOrder="callProcedureWithTokenAndCompany">
+      <input message="tns:ExecBOServiceEndpoint_callProcedureWithTokenAndCompany" />
+      <output message="tns:ExecBOServiceEndpoint_callProcedureWithTokenAndCompanyResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="login" parameterOrder="login">
+      <input message="tns:ExecBOServiceEndpoint_login" />
+      <output message="tns:ExecBOServiceEndpoint_loginResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="logoutSession" parameterOrder="logoutSession">
+      <input message="tns:ExecBOServiceEndpoint_logoutSession" />
+      <output message="tns:ExecBOServiceEndpoint_logoutSessionResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="userAndPasswordLogin" parameterOrder="userAndPasswordLogin">
+      <input message="tns:ExecBOServiceEndpoint_userAndPasswordLogin" />
+      <output message="tns:ExecBOServiceEndpoint_userAndPasswordLoginResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+    <operation name="userLogin" parameterOrder="userLogin">
+      <input message="tns:ExecBOServiceEndpoint_userLogin" />
+      <output message="tns:ExecBOServiceEndpoint_userLoginResponse" />
+      <fault name="ExecBOServiceException" message="tns:ExecBOServiceException" />
+    </operation>
+  </portType>
+  <binding name="ExecBOServiceEndpointBinding" type="tns:ExecBOServiceEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="callProcedure">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="callProcedureWithCompany">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="callProcedureWithToken">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="callProcedureWithTokenAndCompany">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="login">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="logoutSession">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="userAndPasswordLogin">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="userLogin">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="ExecBOServiceException">
+        <soap:fault use="literal" name="ExecBOServiceException" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="WebServiceExecBO">
+    <port name="WebServiceExecBOPort" binding="tns:ExecBOServiceEndpointBinding">
+      <soap:address location="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO" />
+    </port>
+  </service>
+</definitions>

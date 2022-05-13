@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup" 
+                 x:Class="CollectorQi.Views.InventarioNovoPopUp"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+                 xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
+    </pages:PopupPage.Animation>
+   
+    
+    <ContentPage.Content> 
+        
+        <ScrollView  Orientation = "Vertical" VerticalOptions="FillAndExpand">
+            
+            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+               
+                <Grid Grid.Row="0" Margin="5,0,5,0"  HorizontalOptions="Fill" VerticalOptions="Fill">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Editor x:Name="edtDeposito" 
+                        IsReadOnly="True"
+                        IsEnabled="true"
+                        FontSize="Micro"
+                        MaxLength="50"
+                        WidthRequest="75"
+                        Keyboard="Default"
+                        PlaceholderColor="White"
+                        Placeholder="Depósito"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
+                    
+                    <Button x:Name="BtnDeposito" 
+                        android:Button.UseDefaultPadding="true"
+                        android:Button.UseDefaultShadow="true" 
+                        Padding="16"
+                        FontSize="Micro"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Image="zoomMini.png"           
+                        BackgroundColor="Transparent"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Deposito"
+                         Grid.Row="0" Grid.Column="4" 
+                        Text="" />
+                        
+                    <DatePicker
+                       x:Name="selDtInventario"
+                       MinimumDate="01/01/1970" 
+                       MaximumDate="01/01/2100"
+                       Format="dd/MM/yyyy"
+                       FontSize="Micro"
+                       WidthRequest="300"
+                       TextColor="{StaticResource NavigationPrimary}" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="Fill"
+                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+                    
+                    <Editor x:Name="edtContagem" 
+                        IsReadOnly="True"
+                        IsEnabled="true"
+                        FontSize="Micro"
+                        MaxLength="50"
+                        WidthRequest="75"
+                        Keyboard="Default"
+                        PlaceholderColor="White"
+                        Placeholder="Contagem"
+                        TextColor="{StaticResource NavigationPrimary}" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"/>
+                    
+                    <Button x:Name="BtnContagem" 
+                        android:Button.UseDefaultPadding="true"
+                        android:Button.UseDefaultShadow="true" 
+                        Padding="16"
+                        FontSize="Micro"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Image="zoomMini.png"           
+                        BackgroundColor="Transparent"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Contagem"
+                         Grid.Row="2" Grid.Column="4" 
+                        Text="" />
+                 
+                </Grid>
+                
+                <Grid Grid.Row="1" Margin="0,0,0,0"  VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+                    
+                    <Button x:Name="BtnEfetivar" 
+                        android:Button.UseDefaultShadow="true" 
+                        FontSize="Micro"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Image="efetivarMini.png"           
+                        BackgroundColor="{StaticResource NavigationPrimary}"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Efetivar"
+                        Grid.Row="1" Grid.Column="0" 
+                        Text="Confirmar" />
+                    
+                    <Button x:Name="BtnLimpar" 
+                        android:Button.UseDefaultShadow="true" 
+                        FontSize="Micro"
+                        MinimumHeightRequest="50"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Image="closeMini.png"           
+                        BackgroundColor="#ff9999"
+                        TextColor="White"  
+                        BorderRadius="16"   
+                        Clicked="OnClick_Limpar"
+                        Grid.Row="1" Grid.Column="1"
+                        Text="Limpar" />
+                    
+                </Grid>
+            </Grid>
+        </ScrollView> 
+    </ContentPage.Content> 
+</pages:PopupPage>

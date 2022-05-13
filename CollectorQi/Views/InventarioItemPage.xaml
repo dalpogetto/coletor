@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Inventário" x:Class="CollectorQi.Views.InventarioItemPage">
+    <ContentPage.Content>
+        <Grid BackgroundColor="#4E4E4E" Opacity="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="10,0,10,0" VerticalOptions="Start" HorizontalOptions="Fill">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Editor x:Name="edtItCodigo" FontSize="Micro" MaxLength="40" MinimumWidthRequest="200" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto" Grid.Row="0"
+                    Grid.Column="0" Grid.ColumnSpan="3" />
+                <Button x:Name="BtnQR" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" Padding="14" FontSize="Micro" HeightRequest="60" MinimumHeightRequest="60" VerticalOptions="Center" HorizontalOptions="End" Image="cameraMini.png"
+                    BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderColor="#aaaaaa" BorderWidth="1" BorderRadius="16" Clicked="OnClick_QR" Grid.Row="0" Grid.Column="3" />
+                <Editor x:Name="edtDescItem" FontSize="Micro" IsEnabled="False" Opacity="0.5" MinimumWidthRequest="200" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição do produto"
+                    PlaceholderColor="#aaaaaa" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+                <Editor x:Name="edtUn" FontSize="Micro" IsEnabled="False" Opacity="0.5" MinimumWidthRequest="75" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Unidade de Medida"
+                    PlaceholderColor="#aaaaaa" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" />
+            </Grid>
+            <Grid Grid.Row="1" Margin="10,0,10,0" VerticalOptions="Start" HorizontalOptions="Fill">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75" />
+                    <RowDefinition Height="75" />
+                </Grid.RowDefinitions>
+                <Editor x:Name="edtLote" FontSize="Micro" MaxLength="40" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Lote" PlaceholderColor="#aaaaaa" Grid.Row="0"
+                    Grid.Column="0" />
+                <Editor x:Name="edtQuantidade" FontSize="Micro" MaxLength="10" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Numeric" Placeholder="Quantidade" PlaceholderColor="#aaaaaa" Grid.Row="1"
+                    Grid.Column="0" />
+            </Grid>
+            <Grid Grid.Row="2" Margin="5,0,5,0" VerticalOptions="End">
+                <Label Text="Data" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" />
+                <Label Text="Depósito" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                <Label Text="Contagem" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="2" />
+                <Label x:Name="lblData" Text="" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="0" />
+                <Label x:Name="lblDeposito" Text="Usuário" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="1" />
+                <Label x:Name="lblContagem" Text="" Opacity="0.8" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="End" Grid.Row="1" Grid.Column="2" />
+            </Grid>
+            <Grid Grid.Row="3" Margin="10,0,10,0" VerticalOptions="Start">
+                <Button x:Name="BtnVoltar" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="125" HeightRequest="75" Padding="16" Text="Sair" FontSize="Micro" Image="sairMini.png" BackgroundColor="{StaticResource NavigationPrimary}"
+                    TextColor="White" HorizontalOptions="Center" BorderRadius="16" VerticalOptions="Center" Clicked="Voltar_Clicked" Grid.Row="0" Grid.Column="0" />
+                <Button x:Name="BtnLimpar" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="125" HeightRequest="75" Padding="16" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center" Image="limparMini.png"
+                    BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16" Clicked="Limpar_Clicked" Grid.Row="0" Grid.Column="1" Text="Limpar" />
+                <Button x:Name="BtnOk" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="125" HeightRequest="75" Padding="16" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center" Image="avancarMini.png"
+                    BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16" Clicked="Ok_Clicked" Grid.Row="0" Grid.Column="2" Text="Ok" />
+            </Grid>
+            <Grid Grid.Row="4" Margin="10,0,10,0" VerticalOptions="Start">
+                <Button x:Name="BtnAdicionarItem" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="125" HeightRequest="75" Padding="16" Text="Sair" FontSize="Micro" Image="sairMini.png" BackgroundColor="{StaticResource NavigationPrimary}"
+                    TextColor="White" HorizontalOptions="Center" BorderRadius="16" VerticalOptions="Center" Clicked="BtnAdicionarItem_Clicked" Grid.Row="0" Grid.Column="0" />
+             
+                <ListView x:Name="listView" SeparatorColor="White"  Grid.Row="0" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                                                   <ImageCell Text="{Binding Name}" 
+                                       Detail="{Binding SubTitle}" 
+                                       ImageSource="{Binding Image}" 
+                                       TextColor="White" 
+                                       DetailColor="#aaaaaa"                                      
+                                       CommandParameter="{Binding .}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </Grid>
+            <Grid Grid.Row="5" Margin="5,0,5,0" VerticalOptions="End">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Quali IT© - 1.0v" Opacity="0.6" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" />
+                <Label x:Name="footerCodUsuario" Text="Usuário" Opacity="0.6" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                <Label x:Name="footerEstabelecimento" Text="" Opacity="0.6" FontSize="Micro" TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="End" Grid.Row="0" Grid.Column="2" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

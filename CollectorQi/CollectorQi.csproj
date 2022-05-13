@@ -1,0 +1,112 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceAssemblyReference>true</ProduceAssemblyReference>
+    <ReleaseVersion>1.5</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <WarningLevel></WarningLevel>
+    <Commandlineparameters></Commandlineparameters>
+    <AllowUnsafeBlocks></AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow></CheckForOverflowUnderflow>
+    <PlatformTarget>anycpu</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugErro|AnyCPU' ">
+    <IntermediateOutputPath>obj\DebugErro</IntermediateOutputPath>
+    <DebugType></DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\DebugErro</OutputPath>
+    <DefineConstants></DefineConstants>
+    <NoWarn></NoWarn>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Matcha.BackgroundService" Version="1.0.5478" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
+    <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
+    <PackageReference Include="sqlite-net" Version="1.0.8" />
+    <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\AboutPage.xaml" />
+    <None Include="Views\AlmoxarifadoPage.xaml" />
+    <None Include="Views\CadastrosPage.xaml" />
+    <None Include="Views\ExpedicaoPage.xaml" />
+    <None Include="Views\FisicaDepositoPage.xaml" />
+    <None Include="Views\FisicaPage.xaml" />
+    <None Include="Views\InventarioItemPage.xaml" />
+    <None Include="Views\InventarioListaItemPage.xaml" />
+    <None Include="Views\InventarioListaPage.xaml" />
+    <None Include="Views\InventarioNovoPopUp.xaml" />
+    <None Include="Views\InventarioPage.xaml" />
+    <None Include="Views\InventarioUpdateItemPopUp.xaml" />
+    <None Include="Views\ItemDetailPage.xaml" />
+    <None Include="Views\ItemPopUp.xaml" />
+    <None Include="Views\ItemsPage.xaml" />
+    <None Include="Views\LoginPage.xaml" />
+    <None Include="Views\MainPage.xaml" />
+    <None Include="Views\MenuPage.xaml" />
+    <None Include="Views\MovimentacaoPage.xaml" />
+    <None Include="Views\NewItemPage.xaml" />
+    <None Include="Views\PrincipalPage.xaml" />
+    <None Include="Views\ProgressBarPopUp.xaml" />
+    <None Include="Views\RecebimentoPage.xaml" />
+    <None Include="Views\SaldoEstoqPopUp.xaml" />
+    <None Include="Views\ZXingScannerPage.xaml" />
+    <None Include="Views\Batch\IntegracaoMovtoInventarioPage.xaml" />
+    <None Include="Views\Batch\IntegracaoMovtoPage.xaml" />
+    <None Include="Views\Batch\IntegracaoMovtoTransferenciaPage.xaml" />
+    <None Include="Views\Batch\IntegracaoPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Batch\" />
+    <Folder Include="Models\Notification\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Views\Batch\InventarioUpdateItemPopUp.xaml.cs" />
+    <Compile Remove="Views\RequisicaoDevListaPage.xaml.cs" />
+    <Compile Remove="Views\RequisicaoListaItemPage %28copiar%29.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\9.2.3-0\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\RequisicaoDevListaPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ConferenciaPage.xaml.cs">
+      <DependentUpon>ConferenciaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FisicaDepositoPage.xaml.cs">
+      <DependentUpon>FisicaDepositoPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Views\ConferenciaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\FisicaDepositoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
