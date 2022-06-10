@@ -10,9 +10,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions> -->
             
-          <Grid  HeightRequest="90" MinimumHeightRequest="90" Margin="0,15,0,0">
-                <Image Source="scaLogo.png" Opacity="1.0" VerticalOptions="Start" Margin="10,0,30,0" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
+            <Grid  HeightRequest="90" MinimumHeightRequest="90" Margin="0,15,0,0">
+                <Image Source="dieboldNixdorfLogo.png" Opacity="1.0" VerticalOptions="Start" Margin="10,0,30,0" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
             </Grid>
+            
             
             <Grid  Margin="15,5,15,0" VerticalOptions="StartAndExpand">
                 <ListView x:Name="listView" VerticalOptions="Start" SeparatorColor="White" SelectionMode="Single" >

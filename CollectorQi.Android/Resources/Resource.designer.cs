@@ -5976,7 +5976,7 @@ namespace CollectorQi.Droid
 			public const int FlyoutContent = 2131427369;
 			
 			// aapt resource value: 0x7F0B002A
-			public const int layout = 2131427370;
+			public const int Layout1 = 2131427370;
 			
 			// aapt resource value: 0x7F0B002B
 			public const int mr_chooser_dialog = 2131427371;

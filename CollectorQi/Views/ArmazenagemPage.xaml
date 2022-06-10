@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             Title="Recebimento"
-             x:Class="CollectorQi.Views.RecebimentoPage">
+             Title="Armazenagem"
+             x:Class="CollectorQi.Views.ArmazenagemPage">
     <ContentPage.Content>
         <Grid BackgroundColor="#4E4E4E" Opacity="1">
             <Grid.RowDefinitions>

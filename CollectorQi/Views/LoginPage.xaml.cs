@@ -68,11 +68,11 @@ namespace CollectorQi.Views
             {
                 BtnLogin.IsEnabled = false;
 
-                if (ItemDB.GetItemCount()             <= 0 ||
-                    SaldoEstoqDB.GetSaldoEstoqCount() <= 0)
-                {
-                    await DisplayAlert("Atenção!", "Primeira conexão com o Sistema, o processo de Integração pode demorar.", "OK");
-                }
+                //if (ItemDB.GetItemCount()             <= 0 ||
+                //    SaldoEstoqDB.GetSaldoEstoqCount() <= 0)
+                //{
+                //    await DisplayAlert("Atenção!", "Primeira conexão com o Sistema, o processo de Integração pode demorar.", "OK");
+                //}
 
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
@@ -80,9 +80,9 @@ namespace CollectorQi.Views
 
                 try
                 {
-                    logon = await Models.Controller.ConectColetorAsync(usuario.Text, senha.Text, page);
-
-                    // logon = "OK";
+                    //logon = await Models.Controller.ConectColetorAsync(usuario.Text, senha.Text, page);
+                        
+                    logon = "OK";
                 }
                 catch (Exception ex)
                 {

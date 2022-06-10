@@ -86,14 +86,29 @@
     <Compile Remove="Views\RequisicaoListaItemPage %28copiar%29.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\9.2.3-0\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Remove="Views\RequisicaoDevListaPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ConferenciaFisicaParametrosPage.xaml.cs">
+      <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ConferenciaFisicaConfirmarPage.xaml.cs">
+      <DependentUpon>ConferenciaFisicaConfirmarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
+      <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RecebimentoPage.xaml.cs">
+      <DependentUpon>RecebimentoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ArmazenagemPage.xaml.cs">
+      <DependentUpon>ArmazenagemPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ConferenciaPage.xaml.cs">
       <DependentUpon>ConferenciaPage.xaml</DependentUpon>
     </Compile>

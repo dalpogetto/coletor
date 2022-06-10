@@ -1,22 +1,17 @@
-﻿using CollectorQi.Resources.DataBaseHelper;
+﻿using CollectorQi.Models;
 using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper;
+using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.ViewModels;
 using CollectorQi.VO;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using CollectorQi.Models;
-using CollectorQi.Resources.DataBaseHelper.Batch;
-using Xamarin.Essentials;
-using Plugin.Connectivity;
 
 
 namespace CollectorQi.Views
@@ -38,8 +33,6 @@ namespace CollectorQi.Views
         {
             try
             {
-
-
                 var security =  await SecurityDB.GetSecurityAsync();
 
                 if (security != null && security.Autenticado)
@@ -83,9 +76,10 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { "almoxarifado.png", "logout.png" };
-                    string[] titulo = new string[] { "Almoxarifado", "Logoff" };
-                    string[] subTitulo = new string[] { "Opções do Almoxarifado" ,                                                    
+                    string[] imagem = new string[] { "security.png", "fisica.png", "expedicao.png", "logoTotvs.png", "logout.png" };
+                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
+
+                    string[] subTitulo = new string[] { "Armazenagem", "Conferência Física", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
@@ -396,39 +390,41 @@ namespace CollectorQi.Views
 
                 switch (menuItemDetail.Name)
                 {
-                    case "Almoxarifado":
+                    case "Armazenagem":
 
                         if (!String.IsNullOrEmpty(lblMensagemErro.Text))
                         {
                             await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
                             return;
                         }
-                                              
                         
-                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        {
-                            var strEstab = await SelectEstab();
-                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
-                                return;
-                        }
+                        //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    var strEstab = await SelectEstab();
+                        //    if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                        //        return;
+                        //}
 
                         // Victor Alves - 08/01/2020 - Busca inventarios ativos, se tiver inventario ativo, não entra na tela
-                        var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).ToList();
-                        if (lstInventario != null && lstInventario.Count > 0)
-                        {
-                            await DisplayAlert("Erro!", "Existe inventário ativo para o estabelecimento (" + SecurityAuxiliar.GetCodEstabel() + ") e não é possivel acessar a tela de Almoxarifado.", "OK");
-                            return;
-                        }
-                        
-                        if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        {
-                            RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
-                            // Application.Current.MainPage = new NavigationPage(new FisicaDepositoPage());
-                            Application.Current.MainPage = new NavigationPage(new AlmoxarifadoPage());
-                        }
+                        //var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).ToList();
+                        //if (lstInventario != null && lstInventario.Count > 0)
+                        //{
+                        //    await DisplayAlert("Erro!", "Existe inventário ativo para o estabelecimento (" + SecurityAuxiliar.GetCodEstabel() + ") e não é possivel acessar a tela de Almoxarifado.", "OK");
+                        //    return;
+                        //}
+
+                        //if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        //    Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+                        //}
+
+                        ArmazenagemPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+
                         break;
 
-                    case "Inventário":
+                    case "Recebimento":
 
                         if (!String.IsNullOrEmpty(lblMensagemErro.Text))
                         {
@@ -436,19 +432,22 @@ namespace CollectorQi.Views
                             return;
                         }
 
-                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        {
-                            var strEstab = await SelectEstab();
-                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
-                                return;
-                        }
+                        //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    var strEstab = await SelectEstab();
+                        //    if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                        //        return;
+                        //}
 
-                        if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        {
-                            RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
-                            //Application.Current.MainPage = new NavigationPage(new InventarioPage());
-                            Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
-                        }
+                        //if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        //    Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+                        //}
+
+                        RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+
                         break;
 
                     case "Estabelecimento":

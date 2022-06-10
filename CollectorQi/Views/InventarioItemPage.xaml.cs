@@ -50,10 +50,10 @@ namespace CollectorQi.Views
                 if (Volta)
                 {
                     Volta = false;
-                    if (RecebimentoPage.Item_VO != null)
-                    {
-                        Fill(RecebimentoPage.Item_VO);
-                    }
+                    //if (RecebimentoPage.Item_VO != null)
+                    //{
+                    //    Fill(RecebimentoPage.Item_VO);
+                    //}
                 }
                 else
                 {
@@ -66,8 +66,8 @@ namespace CollectorQi.Views
         void OnClick_QR(object sender, EventArgs e)
         {
             DisplayAlert("Sim", "Antes Clicar QR", "OK");
-            RecebimentoPage.MenuId = MenuId;
-            RecebimentoPage.MenuDesc = MenuDesc;
+            //RecebimentoPage.MenuId = MenuId;
+            //RecebimentoPage.MenuDesc = MenuDesc;
             Application.Current.MainPage = new NavigationPage(new RecebimentoPage() { Title = "Leitor Teste 123: " + MenuDesc });
             edtLote.Focus();
         }
