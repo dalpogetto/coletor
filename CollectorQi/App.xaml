@@ -5,9 +5,13 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
-            <Color x:Key="NavigationPrimary">#038E8E</Color>
+            <Color x:Key="NavigationPrimary">#004987</Color>
             <Color x:Key="TextColorReadOnly">White</Color>
             <Color x:Key="TextColorPlaceHolder">Silver</Color>
+            
+            <!--<Color x:Key="NavigationPrimary">#038E8E</Color>
+            <Color x:Key="TextColorReadOnly">White</Color>
+            <Color x:Key="TextColorPlaceHolder">Silver</Color>--> 
             
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />

@@ -54,15 +54,12 @@
                     <Button x:Name="BtnEfetivar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="avancarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
                     Clicked="OnClick_Avancar" Grid.Row="0" Text="Proxima Conferência" />
                     
-                    <Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
-                    Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />
+                    <!--<Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
+                    Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />-->
 
                 </Grid>
             </Grid>
 
         </ScrollView>
-
-
-
     </ContentPage.Content>
 </ContentPage>
