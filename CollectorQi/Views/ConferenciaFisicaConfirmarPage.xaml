@@ -3,7 +3,7 @@
     <ContentPage.Content>
 
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
-            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+            <Grid BackgroundColor="#fff">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />
@@ -26,7 +26,12 @@
                             <Grid>
                                 <Label x:Name="lblReparos" Text="Confirmar" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
                                 <Grid>
-                                    <local:CustomEntryText x:Name="edtConfirmar" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Confirmar..." Grid.Row="1"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar1" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="1..." Grid.Row="1"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar2" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="2..." Grid.Row="2"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar3" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="3..." Grid.Row="3"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar4" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="4..." Grid.Row="4"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar5" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="5..." Grid.Row="5"  Grid.Column="0" />
+                                    <local:CustomEntryText x:Name="edtConfirmar6" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="6..." Grid.Row="6"  Grid.Column="0" />
                                 </Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -45,9 +50,12 @@
 
                     <Button x:Name="BtnSalvar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="avancarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
                     Clicked="OnClick_Salvar" Grid.Row="0" Text="Salvar" />
-                    
-                    <Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
-                    Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />
+
+                    <Button x:Name="BtnVoltar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
+                    Clicked="OnClick_Voltar" Grid.Row="1" Text="Voltar" />
+
+                    <!--<Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
+                    Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />-->
 
                 </Grid>
             </Grid>

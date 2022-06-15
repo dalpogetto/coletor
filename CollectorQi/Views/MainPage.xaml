@@ -8,12 +8,12 @@
         <NavigationPage>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png"/>
+                    <On Platform="iOS" Value="tab_feed2.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
+            <!--<x:Arguments>
                 <views:ItemsPage />
-            </x:Arguments>
+            </x:Arguments>-->
         </NavigationPage>
     </MasterDetailPage.Detail>
 </MasterDetailPage>

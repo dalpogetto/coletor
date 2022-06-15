@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Title="Armazenagem"
+             BackgroundImage="pageBackground.png"
              x:Class="CollectorQi.Views.ArmazenagemPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="#4E4E4E" Opacity="1">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>

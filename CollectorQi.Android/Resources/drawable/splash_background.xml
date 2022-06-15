@@ -3,16 +3,10 @@
     <item>
         <color android:color="#4E4E4E"/>
     </item>
-    <item
-        
-      
-      >
-        
+    <item>        
         <bitmap  
-              android:gravity="fill"
+            android:gravity="fill"
             android:src="@drawable/scabackground"
-                    android:tileMode="disabled"
-                    />
-    </item>
-    
+            android:tileMode="disabled" />
+    </item>    
  </layer-list>

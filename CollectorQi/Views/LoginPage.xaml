@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="CollectorQi.Views.LoginPage" xmlns:customentry="clr-namespace:CollectorQi">
     <ContentPage.Content>
-        <Grid BackgroundColor="#4E4E4E" Opacity="1">
+        <!--<Grid BackgroundColor="#0065a4" Opacity="1">-->
+        <Grid BackgroundColor="#ffff" Opacity="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
            <Frame  BackgroundColor="Transparent"  Grid.Row="0"  VerticalOptions="StartAndExpand" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
-               <Frame.GestureRecognizers>
-                    
-                    <TapGestureRecognizer Tapped="OnTapped_Img" NumberOfTapsRequired="1"/>
-                </Frame.GestureRecognizers>
+               <Frame.GestureRecognizers>                    
+                   <TapGestureRecognizer Tapped="OnTapped_Img" NumberOfTapsRequired="1"/>
+               </Frame.GestureRecognizers>
             
-                <Image Grid.Row="0" Aspect="AspectFit" Source="scaLogo.png" Opacity="1.0" VerticalOptions="StartAndExpand" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" />
-            </Frame>
-            <AbsoluteLayout Grid.Row="1" VerticalOptions="Start" Margin="0,0,0,0">
-               
+                <!--<Image Grid.Row="0" Aspect="AspectFit" Source="scaLogo.png" Opacity="1.0" VerticalOptions="StartAndExpand" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" />-->
+               <Image Grid.Row="0" Aspect="AspectFit" Source="logoProjeto.png" Opacity="1.0" VerticalOptions="StartAndExpand" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" />
+           </Frame>
+           <AbsoluteLayout Grid.Row="1" VerticalOptions="Start" Margin="0,0,0,0">               
                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-                    <Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,10,30,30" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
-                      
+                    <!--<Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,10,30,30" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">-->
+                    <Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,10,30,30" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#cccbcb">    
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35" />

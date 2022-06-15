@@ -184,6 +184,11 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" });
             return;
         }
+        void OnClick_Voltar(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });
+            return;
+        }
 
         async void OnClick_QR(object sender, EventArgs e)
         {

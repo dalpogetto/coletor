@@ -71,6 +71,11 @@ namespace CollectorQi.Views
             //edtDescItem.Text = byItemVO.DescItem;
             //edtUnidade.Text = byItemVO.Un;
         }
+        void OnClick_Voltar(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
+            return;
+        }
 
         void OnClick_Sair(object sender, EventArgs e)
         {
