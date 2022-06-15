@@ -36,6 +36,8 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
+
+
             if (SecurityAuxiliar.Autenticado == false)
             {
                 DisplayAlert("Autenticação", "Sinto muito!!! Precisa estar autenticado na página de controle", "OK");
@@ -51,7 +53,7 @@ namespace CollectorQi.Views
                 if (Volta)
                 {
                     Volta = false;
-                    //Limpar(false);
+                    Limpar(false);
                     //if (RecebimentoPage.Item_VO != null)
                     //{
                     //    Fill(RecebimentoPage.Item_VO);
@@ -67,7 +69,7 @@ namespace CollectorQi.Views
         {
             //edtItCodigo.Text = byItemVO.ItCodigo;
             //edtDescItem.Text = byItemVO.DescItem;
-            //edtUnidade.Text = byItemVO.Un;
+            edtUnidade.Text = byItemVO.Un;
         }
 
         void OnClick_Sair(object sender, EventArgs e)
@@ -75,10 +77,10 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
         }
 
-        //void OnClick_Limpar(object sender, EventArgs e)
-        //{
-        //    Limpar(true);
-        //}
+        void OnClick_Limpar(object sender, EventArgs e)
+        {
+            Limpar(true);
+        }
 
         async void OnClick_DepositoSaida(object sender, EventArgs e)
         {
@@ -277,31 +279,31 @@ namespace CollectorQi.Views
             }
         }
 
-        //async void Limpar(bool pBlnQuestion)
-        //{
-        //    if (pBlnQuestion)
-        //    {
-        //        bool blnAlert = await DisplayAlert("Limpar Registros?", "Deseja limpar os campos informados?", "Sim", "Não");
+        async void Limpar(bool pBlnQuestion)
+        {
+            if (pBlnQuestion)
+            {
+                bool blnAlert = await DisplayAlert("Limpar Registros?", "Deseja limpar os campos informados?", "Sim", "Não");
 
-        //        if (!blnAlert)
-        //            return;
-        //    }
+                if (!blnAlert)
+                    return;
+            }
 
-        //    //edtItCodigo.Text = "";
-        //    //edtDescItem.Text = "";
-        //    edtTipoConEst.Text = "";
-        //    edtUnidade.Text = "";
-        //    //edtLote.Text = "";
-        //    //edtDepEntrada.Text = "";
-        //    //edtDepSaida.Text = "";
-        //    //edtCodLocaliz.Text = "";
-        //    //edtSaldo.Text = "";
-        //    //edtQuantidade.Text = "";
-        //    //edtSaldoMobile.Text = "";
-        //    //edtDtValiLote.Text = "";
-        //    //edtNroDocto.Text = "";
+            //edtItCodigo.Text = "";
+            //edtDescItem.Text = "";
+            edtTipoConEst.Text = "";
+            edtUnidade.Text = "";
+            //edtLote.Text = "";
+            //edtDepEntrada.Text = "";
+            //edtDepSaida.Text = "";
+            //edtCodLocaliz.Text = "";
+            //edtSaldo.Text = "";
+            //edtQuantidade.Text = "";
+            //edtSaldoMobile.Text = "";
+            //edtDtValiLote.Text = "";
+            //edtNroDocto.Text = "";
 
-        //}
+        }
 
         protected override bool OnBackButtonPressed()
         {
