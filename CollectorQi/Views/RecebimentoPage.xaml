@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Title="Recebimento"
+             BackgroundImage="pageBackground.png"
              x:Class="CollectorQi.Views.RecebimentoPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="#4E4E4E" Opacity="1">
+        <!--<Grid BackgroundColor="#4E4E4E" Opacity="1"> BackgroundImage="pageBackground.png"-->
+        <Grid>            
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>

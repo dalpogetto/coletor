@@ -5114,7 +5114,10 @@ namespace CollectorQi.Droid
 			public const int voltar = 2131165529;
 			
 			// aapt resource value: 0x7F07015A
-			public const int zoomMini = 2131165530;
+			public const int voltarMini = 2131165530;
+			
+			// aapt resource value: 0x7F07015B
+			public const int zoomMini = 2131165531;
 			
 			static Drawable()
 			{

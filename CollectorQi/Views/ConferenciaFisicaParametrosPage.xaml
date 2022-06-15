@@ -3,7 +3,8 @@
     <ContentPage.Content>
 
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
-            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+            <!--<Grid BackgroundColor="#4E4E4E" Opacity="1">-->
+            <Grid BackgroundColor="#fff">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />

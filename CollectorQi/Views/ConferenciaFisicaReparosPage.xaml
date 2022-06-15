@@ -3,7 +3,7 @@
     <ContentPage.Content>
 
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
-            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+            <Grid BackgroundColor="#fff">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />
@@ -30,12 +30,12 @@
                                     <local:CustomEntryText x:Name="edtEst"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Est..."  Grid.Row="2"  Grid.Column="0" />
                                     <local:CustomEntryText x:Name="edtFil"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Fil..."  Grid.Row="2"  Grid.Column="1" />
                                     <local:CustomEntryText x:Name="edtRR"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..."   Grid.Row="2"  Grid.Column="2" />
-                                    <local:CustomEntryText x:Name="edtIt"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="It..."        Grid.Row="3"  Grid.Column="0" />
+                                    <!--<local:CustomEntryText x:Name="edtIt"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="It..."        Grid.Row="3"  Grid.Column="0" />
                                     <local:CustomEntryText x:Name="edtSituacao" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Situacao..."  Grid.Row="3"  Grid.Column="1"  Grid.ColumnSpan="2" />
                                     <local:CustomEntryText x:Name="edtDes"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Des..." Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="3" />
                                     <local:CustomEntryText x:Name="edtLoc"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Loc..." Grid.Row="5"  Grid.Column="0" Grid.ColumnSpan="3" />
                                     <local:CustomEntryText x:Name="edtQtd"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Qtd..."    Grid.Row="6"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtValor"    FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Valor..."  Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2" />
+                                    <local:CustomEntryText x:Name="edtValor"    FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Valor..."  Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2" />-->
                                 </Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
