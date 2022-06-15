@@ -11,9 +11,11 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Forms.PlatformConfiguration;
 using CollectorQi.VO;
 using CollectorQi.Models;
+using CollectorQi.Services.ESCL002;
 
 /*using Rg.Plugins.Popup.Services;
 */
+using CollectorQi.Services.ESCL002;
 
 namespace CollectorQi.Views
 {
@@ -35,6 +37,97 @@ namespace CollectorQi.Views
         public ConferenciaFisicaParametrosPage()
         {
             InitializeComponent();
+
+            // Nao utilizar request nesse local, o serviço deve ser executado como async
+            // Chamada ESCL002 - ObterParametros
+            // A busca é somente enviado o usuario para buscar os parametros padrao
+            // O retorno sempre será usuario, estabelecimento e data que deve ser populado os campos em questao
+            //ParametersService a = new ParametersService();
+            //var teste = a.GetParametersAsync("","");
+            //System.Diagnostics.Debug.Write(teste);
+
+            // Chamada ESCL002 - EnviarParametros
+            // Enviar no metodo abaixo, os campos que foram digitados na tela após o retorno da API (Busca Parametro)
+            // Com o retorno desse método, pode incluir na lista (browse) que mostra todos os reparos disponiveis
+            ParametersService a = new ParametersService();
+            var teste = a.SendParametersAsync("super", "101", 10098, "02/05/2022", "0140390", "0", 3, 390, 15);
+            System.Diagnostics.Debug.Write(teste);
+
+
+            // Chamada ESCL002 - ValidaReparos
+            /* 
+             * RepairService a = new RepairService();
+            var repairs = new List<RepairService.Repair>();
+
+            repairs.Add(new RepairService.Repair()
+            {
+                CodBarras = "",
+                CodEstabel = "101",
+                CodFilial = "01",
+                NumRR = "2449849",
+                Digito = "9"
+            });
+
+            a.ValidateRepairAsync("super", "101", repairs);
+            */
+
+
+            // Chamada ESCL002 - ExcluirReparos
+            /*
+            RepairService a = new RepairService();
+            var reparis = new List<RepairService.DelRepair>();
+
+            reparis.Add(new RepairService.DelRepair()
+            {
+                RowId = "0x00000000315a38098"
+            });
+
+            reparis.Add(new RepairService.DelRepair()
+            {
+                RowId = "0x00000000315a38228"
+            });
+
+            a.DelRepairAsync("super", reparis); */
+
+            // Chamada ESCL002 - Finalizar Conferencia
+
+            /*
+            ConferenceService a = new ConferenceService();
+
+            ConferenceService.EndConferenceParameters conferenceParam = new ConferenceService.EndConferenceParameters()
+            {
+                UsuarioTotvs = "super",
+                CodEstabel = "101",
+                CodEmitente = 10098,
+                DtEntrada = "02/05/2020",
+                NfRet = "0140390",
+                Serie = "0",
+                QtdeItem = 3,
+                ValorTotal = decimal.Parse("390.12"),
+                DiasXml = 15
+
+            };
+
+            var repairs = new List<ConferenceService.Repair>();
+
+            repairs.Add(new ConferenceService.Repair()
+            {
+                RowId = "0x0000000000c6ffb6"
+            });
+
+            repairs.Add(new ConferenceService.Repair()
+            {
+                RowId = "0x0000000000c70c65"
+            });
+
+
+            repairs.Add(new ConferenceService.Repair()
+            {
+                RowId = "0x0000000000c71eed"
+            });
+
+            a.EndConferenceAsync("super", "prodiebold11", conferenceParam, repairs);
+            */
 
 
 

@@ -60,7 +60,7 @@ namespace CollectorQi.Views
                     footerVersion.Text = "v" + VersionTracking.CurrentVersion;
 
                     /* Valida integração de cadastros */
-                    if (security.DtUltIntegracao < DateTime.Today.Date)
+                    if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
                     {
                         lblMensagemErro.Text = "Atenção! Ultima integração efetuada dia (" + security.DtUltIntegracao.Date.ToString("dd/MM/yyyy") + ") acesse a internet pelo dispositivo para efetuar a integração e continuar usando o sistema.";
                     }
