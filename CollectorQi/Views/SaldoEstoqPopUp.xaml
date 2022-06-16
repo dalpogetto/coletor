@@ -102,7 +102,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="Quantidade:" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeAtu, Converter={StaticResource ConvertDecimal}" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeAtu, Converter={StaticResource ConvertDecimal}}" FontSize="Micro" />
                                     </Grid>
                                     <Grid Grid.Row="4" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
@@ -113,7 +113,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="Quantidade (Mobile):" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeMobile, Converter={StaticResource ConvertDecimal}" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding QtidadeMobile, Converter={StaticResource ConvertDecimal}}" FontSize="Micro" />
                                     </Grid>
                                 </Grid>
                             </Frame>
