@@ -76,7 +76,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
                                 </Grid>
                                 <Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
                                     <Grid.RowDefinitions>
