@@ -31,12 +31,20 @@ namespace CollectorQi.Views
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
+        public List<string> Confirmar { get; set; }
 
         public ConferenciaFisicaConfirmarPage()
         {
             InitializeComponent();
 
+            Confirmar = new List<string>
+            {
+                "Pedro","Beatriz","Carlos","David","Eduardo","Francisco","Gil","Helena","Ivan123456789123456789",
+                "Pedro","Beatriz","Carlos","David","Eduardo","Francisco","Gil","Helena","Ivan123456789123456789"
+            };
 
+            ColConfirmar.BindingContext = this;
+            ColConfirmar.ItemsLayout = new ListItemsLayout(ItemsLayoutOrientation.Vertical);
 
             if (SecurityAuxiliar.Autenticado == false)
             {
@@ -71,6 +79,7 @@ namespace CollectorQi.Views
             //edtDescItem.Text = byItemVO.DescItem;
             //edtUnidade.Text = byItemVO.Un;
         }
+
         void OnClick_Voltar(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
@@ -85,6 +94,11 @@ namespace CollectorQi.Views
         void OnClick_Limpar(object sender, EventArgs e)
         {
             Limpar(true);
+        }
+
+        void OnClick_Confirmar(object sender, EventArgs e)
+        {
+            return;
         }
 
         async void OnClick_DepositoSaida(object sender, EventArgs e)
@@ -358,5 +372,6 @@ namespace CollectorQi.Views
         {
             //edtItCodigo.Unfocus();
         }
+
     }
 }

@@ -11,6 +11,8 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Forms.PlatformConfiguration;
 using CollectorQi.VO;
 using CollectorQi.Models;
+using CollectorQi.Services.ESCL002;
+using static CollectorQi.Services.ESCL002.ParametersService;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -31,6 +33,8 @@ namespace CollectorQi.Views
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
+
+        public List<ResultRepair> ListaReparos = new List<ResultRepair>();
 
         public ConferenciaFisicaReparosPage()
         {
@@ -178,12 +182,39 @@ namespace CollectorQi.Views
             }
 
         }
+        void OnClick_Scan(object sender, EventArgs e)
+        {
+            var repair = new ResultRepair()
+            {
+                RowId = txtScan.Text,
+                CodEstabel = txtEst.Text,
+                CodFilial = txtFil.Text,
+                NumRR = txtRR.Text
+            };
+
+            ListaReparos.Add(repair);
+
+            txtScan.Text = string.Empty;
+            txtEst.Text = string.Empty;
+            txtFil.Text = string.Empty;
+            txtRR.Text = string.Empty;
+        }
 
         void OnClick_Avancar(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" });
+            //var pagina2 = new Pagina2();
+            //pagina2.BindingContext = contato;
+            //await Navigation.PushAsync(pagina2);
+
+
+            ConferenciaFisicaConfirmarPage cfCinfirmar = new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" };
+            cfCinfirmar.BindingContext = ListaReparos;
+            Application.Current.MainPage = new NavigationPage(cfCinfirmar);
+
+            //Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" });
             return;
         }
+
         void OnClick_Voltar(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });

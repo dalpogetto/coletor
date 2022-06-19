@@ -70,7 +70,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Text="Requisitante" FontAttributes="Bold" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NomeAbrev}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NomeAbrev}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
                                 </Grid>
                                     
                                 <Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
@@ -82,7 +82,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Text="Dt. Requisição" FontAttributes="Bold" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtRequisicao, StringFormat='{0:dd/MM/yyyy}'}" FontAttributes="" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtRequisicao, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
                                 </Grid>
                                     
                                     

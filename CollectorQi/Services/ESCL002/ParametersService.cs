@@ -87,7 +87,7 @@ namespace CollectorQi.Services.ESCL002
             return parametros;
         }
 
-        public List<ResultRepair> SendParametersAsync(string usuario_totvs, string cod_estabel, int cod_emitente, string dt_entrega, string nf_ret, string serie, decimal qtde_item, decimal valor_total, int dias_xml)
+        public List<ResultRepair> SendParametersAsync(string usuario_totvs, string cod_estabel, int? cod_emitente, string dt_entrega, string nf_ret, string serie, decimal qtde_item, decimal valor_total, int dias_xml)
         {
             List<ResultRepair> resultRepair = null;
             try

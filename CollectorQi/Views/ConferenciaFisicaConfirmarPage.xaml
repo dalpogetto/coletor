@@ -1,46 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" Title="" xmlns:converterPack="clr-namespace:Xamarin.Forms.ConvertersPack;assembly=Xamarin.Forms.ConvertersPack" x:Class="CollectorQi.Views.ConferenciaFisicaConfirmarPage" xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" Title="" x:Class="CollectorQi.Views.ConferenciaFisicaConfirmarPage" xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
     <ContentPage.Content>
-
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
             <Grid BackgroundColor="#fff">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="450" />
                     <RowDefinition Height="130" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Margin="5,0,5,0" HorizontalOptions="Fill" VerticalOptions="Fill">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-              
-                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
-                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
-                            <Grid>
-                                <Label x:Name="lblReparos" Text="Confirmar" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                <!--<Grid Grid.Row="0" Margin="5,5,5,5" HorizontalOptions="Fill" VerticalOptions="Fill">--><!--
+                <Grid Grid.Row="0" Margin="5,5,5,5">                       
+                    <CollectionView x:Name="ColConfirmar" ItemsSource="{Binding Confirmar}" HeightRequest="200">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>                                
+                                --><!--<Frame VerticalOptions="StartAndExpand" HasShadow="true" x:Name="frameLocaliz" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">--><!--
+                                <Frame VerticalOptions="StartAndExpand" HasShadow="true" CornerRadius="5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">    
+                                    <StackLayout Orientation="Horizontal" Padding="0,0,0,0" BackgroundColor="#fff">
+                                        <Label x:Name="lblConfirmarItem" Text="{Binding}" VerticalOptions="Center" WidthRequest="350" HeightRequest="34" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" />
+                                        <Button x:Name="BtnConfirmar"  Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" WidthRequest="34" Clicked="OnClick_Confirmar" Grid.Row="1" Grid.Column="10" />
+                                    </StackLayout>
+                                </Frame>
+                                
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>                   
+                </Grid>-->
+
+                <StackLayout Margin="20,10">
+                    <CollectionView x:Name="ColConfirmar" ItemsSource="{Binding Confirmar}" VerticalOptions="StartAndExpand" ItemsLayout="HorizontalList" HeightRequest="450">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>                               
                                 <Grid>
-                                    <local:CustomEntryText x:Name="edtConfirmar1" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="1..." Grid.Row="1"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtConfirmar2" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="2..." Grid.Row="2"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtConfirmar3" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="3..." Grid.Row="3"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtConfirmar4" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="4..." Grid.Row="4"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtConfirmar5" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="5..." Grid.Row="5"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtConfirmar6" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="6..." Grid.Row="6"  Grid.Column="0" />
-                                </Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                            </Grid>                              
-                        </Frame>
-                    </StackLayout>                   
-                </Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="25" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="330" />
+                                        <ColumnDefinition Width="34" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding}" FontAttributes="Bold" />
+                                    <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Confirmar" Grid.Column="1" BackgroundColor="#fff"/>                                     
+                                </Grid>                               
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
 
                 <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
                     <Grid.RowDefinitions>
@@ -59,10 +64,6 @@
 
                 </Grid>
             </Grid>
-
         </ScrollView>
-
-
-
     </ContentPage.Content>
 </ContentPage>
