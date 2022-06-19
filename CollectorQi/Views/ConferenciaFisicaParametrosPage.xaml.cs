@@ -33,6 +33,7 @@ namespace CollectorQi.Views
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
+        private static string usuario = "";
 
         public ConferenciaFisicaParametrosPage()
         {
@@ -42,17 +43,18 @@ namespace CollectorQi.Views
             // Chamada ESCL002 - ObterParametros
             // A busca é somente enviado o usuario para buscar os parametros padrao
             // O retorno sempre será usuario, estabelecimento e data que deve ser populado os campos em questao
-            //ParametersService a = new ParametersService();
-            //var teste = a.GetParametersAsync("","");
-            //System.Diagnostics.Debug.Write(teste);
-
-            // Chamada ESCL002 - EnviarParametros
-            // Enviar no metodo abaixo, os campos que foram digitados na tela após o retorno da API (Busca Parametro)
-            // Com o retorno desse método, pode incluir na lista (browse) que mostra todos os reparos disponiveis
-            ParametersService a = new ParametersService();
-            var teste = a.SendParametersAsync("super", "101", 10098, "02/05/2022", "0140390", "0", 3, 390, 15);
-            System.Diagnostics.Debug.Write(teste);
-
+            ParametersService ps = new ParametersService();
+            var parameters = ps.GetParametersAsync("","");
+            usuario = parameters.UsuarioTotvs;
+            txtEstabelecimento.Text = parameters.CodEstabel;
+            txtDataEntrada.Text = parameters.DtEntrada;
+            txtCodEmitente.Text = parameters.CodEmitente.ToString();
+            //txtCodEmitenteDesc.Text
+            txtNFRet.Text = parameters.NFRet;
+            txtSerie.Text = parameters.Serie;
+            txtQtdItens.Text = parameters.QtdeItem.ToString();
+            txtValorTotal.Text = parameters.ValorTotal.ToString();
+            txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
 
             // Chamada ESCL002 - ValidaReparos
             /* 
@@ -271,11 +273,20 @@ namespace CollectorQi.Views
             {
                 //BtnDepEntrada.IsEnabled = true;
             }
-
         }
 
         void OnClick_Avancar(object sender, EventArgs e)
         {
+            // Chamada ESCL002 - EnviarParametros
+            // Enviar no metodo abaixo, os campos que foram digitados na tela após o retorno da API (Busca Parametro)
+            // Com o retorno desse método, pode incluir na lista (browse) que mostra todos os reparos disponiveis
+            ParametersService a = new ParametersService();
+
+            if (string.IsNullOrEmpty(txtCodEmitente.Text))
+                txtCodEmitente.Text = "0";
+
+            a.SendParametersAsync(usuario, txtEstabelecimento.Text, int.Parse(txtCodEmitente.Text), txtDataEntrada.Text, txtNFRet.Text, txtSerie.Text, int.Parse(txtQtdItens.Text), int.Parse(txtValorTotal.Text), int.Parse(txtQtdDiasXMl.Text));
+
             Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
             return;
         }

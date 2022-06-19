@@ -25,17 +25,12 @@
                          <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Label x:Name="lblReparos" Text="Reparos" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                                <Grid>
-                                    <local:CustomEntryText x:Name="edtScan"     FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Scan..." Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3" />
-                                    <local:CustomEntryText x:Name="edtEst"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Est..."  Grid.Row="2"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtFil"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Fil..."  Grid.Row="2"  Grid.Column="1" />
-                                    <local:CustomEntryText x:Name="edtRR"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..."   Grid.Row="2"  Grid.Column="2" />
-                                    <!--<local:CustomEntryText x:Name="edtIt"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="It..."        Grid.Row="3"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtSituacao" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Situacao..."  Grid.Row="3"  Grid.Column="1"  Grid.ColumnSpan="2" />
-                                    <local:CustomEntryText x:Name="edtDes"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Des..." Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="3" />
-                                    <local:CustomEntryText x:Name="edtLoc"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Loc..." Grid.Row="5"  Grid.Column="0" Grid.ColumnSpan="3" />
-                                    <local:CustomEntryText x:Name="edtQtd"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Qtd..."    Grid.Row="6"  Grid.Column="0" />
-                                    <local:CustomEntryText x:Name="edtValor"    FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Valor..."  Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2" />-->
+                                <Grid>                                    
+                                    <local:CustomEntryText x:Name="txtScan"     FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Scan..." Grid.Row="1"  Grid.Column="0"  Grid.ColumnSpan="5" />
+                                    <Button x:Name="BtnScan"  Image="efetivarMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Scan" Grid.Row="1" Grid.Column="5" />
+                                    <local:CustomEntryText x:Name="txtEst"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Est..."  Grid.Row="2"  Grid.Column="0"  Grid.ColumnSpan="2" />
+                                    <local:CustomEntryText x:Name="txtFil"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Fil..."  Grid.Row="2"  Grid.Column="2"  Grid.ColumnSpan="2" />
+                                    <local:CustomEntryText x:Name="txtRR"       FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..."   Grid.Row="2"  Grid.Column="4"  Grid.ColumnSpan="2" />
                                 </Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
