@@ -11,6 +11,7 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Forms.PlatformConfiguration;
 using CollectorQi.VO;
 using CollectorQi.Models;
+using static CollectorQi.Services.ESCL002.ParametersService;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -33,15 +34,18 @@ namespace CollectorQi.Views
         public static bool Volta { get => volta; set => volta = value; }
         public List<string> Confirmar { get; set; }
 
-        public ConferenciaFisicaConfirmarPage()
+        public ConferenciaFisicaConfirmarPage(List<ResultRepair> ListaReparos)
         {
             InitializeComponent();
+            Confirmar = new List<string>();
 
-            Confirmar = new List<string>
+            foreach (ResultRepair item in ListaReparos)
             {
-                "Pedro","Beatriz","Carlos","David","Eduardo","Francisco","Gil","Helena","Ivan123456789123456789",
-                "Pedro","Beatriz","Carlos","David","Eduardo","Francisco","Gil","Helena","Ivan123456789123456789"
-            };
+                if (!string.IsNullOrEmpty(item.RowId))
+                    Confirmar.Add(item.RowId);
+                else
+                    Confirmar.Add(item.CodEstabel + " - " + item.CodFilial + " - " + item.NumRR);
+            }
 
             ColConfirmar.BindingContext = this;
             ColConfirmar.ItemsLayout = new ListItemsLayout(ItemsLayoutOrientation.Vertical);

@@ -206,12 +206,11 @@ namespace CollectorQi.Views
             //pagina2.BindingContext = contato;
             //await Navigation.PushAsync(pagina2);
 
+            //ConferenciaFisicaConfirmarPage cfCinfirmar = new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" };
+            //cfCinfirmar.BindingContext = ListaReparos;
+            //Application.Current.MainPage = new NavigationPage(cfCinfirmar);
 
-            ConferenciaFisicaConfirmarPage cfCinfirmar = new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" };
-            cfCinfirmar.BindingContext = ListaReparos;
-            Application.Current.MainPage = new NavigationPage(cfCinfirmar);
-
-            //Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" });
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage(ListaReparos) { Title = "Conferência Física de Reparos" });
             return;
         }
 
