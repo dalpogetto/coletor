@@ -184,6 +184,8 @@ namespace CollectorQi.Views
         }
         void OnClick_Scan(object sender, EventArgs e)
         {
+          
+
             var repair = new ResultRepair()
             {
                 RowId = txtScan.Text,
