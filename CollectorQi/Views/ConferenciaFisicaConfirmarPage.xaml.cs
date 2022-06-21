@@ -12,6 +12,7 @@ using Xamarin.Forms.PlatformConfiguration;
 using CollectorQi.VO;
 using CollectorQi.Models;
 using static CollectorQi.Services.ESCL002.ParametersService;
+using System.Collections.ObjectModel;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -32,12 +33,12 @@ namespace CollectorQi.Views
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
-        public List<string> Confirmar { get; set; }
+        public ObservableCollection<string> Confirmar { get; set; }
 
         public ConferenciaFisicaConfirmarPage(List<ResultRepair> ListaReparos)
         {
             InitializeComponent();
-            Confirmar = new List<string>();
+            Confirmar = new ObservableCollection<string>();
 
             foreach (ResultRepair item in ListaReparos)
             {
@@ -102,6 +103,11 @@ namespace CollectorQi.Views
 
         void OnClick_Confirmar(object sender, EventArgs e)
         {
+            var stringInThisCell = (string)((Button)sender).BindingContext;
+            Confirmar.Remove(stringInThisCell);
+
+            OnPropertyChanged("Confirmar");
+
             return;
         }
 
