@@ -16,6 +16,7 @@ using CollectorQi.Services.ESCL002;
 /*using Rg.Plugins.Popup.Services;
 */
 using CollectorQi.Services.ESCL002;
+using static CollectorQi.Services.ESCL002.ParametersService;
 
 namespace CollectorQi.Views
 {
@@ -34,6 +35,7 @@ namespace CollectorQi.Views
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
         private static string usuario = "";
+        public ParametersService.ParametrosResult parametersService = new ParametersService.ParametrosResult();
 
         public ConferenciaFisicaParametrosPage()
         {
@@ -48,90 +50,27 @@ namespace CollectorQi.Views
             usuario = parameters.UsuarioTotvs;
             txtEstabelecimento.Text = parameters.CodEstabel;
             txtDataEntrada.Text = parameters.DtEntrada;
-            txtCodEmitente.Text = parameters.CodEmitente.ToString();
+
+            if(parameters.CodEmitente.ToString() != "0")
+                txtCodEmitente.Text = parameters.CodEmitente.ToString();
+
             //txtCodEmitenteDesc.Text
-            txtNFRet.Text = parameters.NFRet;
-            txtSerie.Text = parameters.Serie;
-            txtQtdItens.Text = parameters.QtdeItem.ToString();
-            txtValorTotal.Text = parameters.ValorTotal.ToString();
-            txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
+            if (string.IsNullOrEmpty(parameters.NFRet.ToString()))
+                txtNFRet.Text = parameters.NFRet;
 
-            // Chamada ESCL002 - ValidaReparos
-            /* 
-             * RepairService a = new RepairService();
-            var repairs = new List<RepairService.Repair>();
+            if(string.IsNullOrEmpty(parameters.Serie.ToString()))
+                txtSerie.Text = parameters.Serie;
 
-            repairs.Add(new RepairService.Repair()
-            {
-                CodBarras = "",
-                CodEstabel = "101",
-                CodFilial = "01",
-                NumRR = "2449849",
-                Digito = "9"
-            });
+            if (string.IsNullOrEmpty(parameters.QtdeItem.ToString()))
+                txtQtdItens.Text = parameters.QtdeItem.ToString();
 
-            a.ValidateRepairAsync("super", "101", repairs);
-            */
+            if (parameters.ValorTotal.ToString() != "0")
+                txtValorTotal.Text = parameters.ValorTotal.ToString();
 
+            if (parameters.DiasXML.ToString() != "0")
+                txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
 
-            // Chamada ESCL002 - ExcluirReparos
-            /*
-            RepairService a = new RepairService();
-            var reparis = new List<RepairService.DelRepair>();
-
-            reparis.Add(new RepairService.DelRepair()
-            {
-                RowId = "0x00000000315a38098"
-            });
-
-            reparis.Add(new RepairService.DelRepair()
-            {
-                RowId = "0x00000000315a38228"
-            });
-
-            a.DelRepairAsync("super", reparis); */
-
-            // Chamada ESCL002 - Finalizar Conferencia
-
-            /*
-            ConferenceService a = new ConferenceService();
-
-            ConferenceService.EndConferenceParameters conferenceParam = new ConferenceService.EndConferenceParameters()
-            {
-                UsuarioTotvs = "super",
-                CodEstabel = "101",
-                CodEmitente = 10098,
-                DtEntrada = "02/05/2020",
-                NfRet = "0140390",
-                Serie = "0",
-                QtdeItem = 3,
-                ValorTotal = decimal.Parse("390.12"),
-                DiasXml = 15
-
-            };
-
-            var repairs = new List<ConferenceService.Repair>();
-
-            repairs.Add(new ConferenceService.Repair()
-            {
-                RowId = "0x0000000000c6ffb6"
-            });
-
-            repairs.Add(new ConferenceService.Repair()
-            {
-                RowId = "0x0000000000c70c65"
-            });
-
-
-            repairs.Add(new ConferenceService.Repair()
-            {
-                RowId = "0x0000000000c71eed"
-            });
-
-            a.EndConferenceAsync("super", "prodiebold11", conferenceParam, repairs);
-            */
-
-
+            parametersService = parameters;        
 
             if (SecurityAuxiliar.Autenticado == false)
             {
@@ -139,11 +78,7 @@ namespace CollectorQi.Views
                 Application.Current.MainPage = new NavigationPage(new PrincipalPage());
             }
             else
-            {
-                //footerCodUsuario.Text = SecurityAuxiliar.CodUsuario;
-
-                //tipoConEst.Toggled += tipoConEst_Toggled;
-                //edtItCodigo.Focus();
+            {                
 
                 if (Volta)
                 {
@@ -158,136 +93,44 @@ namespace CollectorQi.Views
 
             //this.Title = "Conferência Física de Reparos";
 
-        }
-
-        void Fill(ItemVO byItemVO)
-        {
-            //edtItCodigo.Text = byItemVO.ItCodigo;
-            //edtDescItem.Text = byItemVO.DescItem;
-            //edtUnidade.Text = byItemVO.Un;
-        }
+        }     
 
         void OnClick_Sair(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
-        }
-
-        //void OnClick_Limpar(object sender, EventArgs e)
-        //{
-        //    Limpar(true);
-        //}
-
-        async void OnClick_DepositoSaida(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepSaida.IsEnabled = false;
-
-                var pageProgress = new ProgressBarPopUp("Carregando Cadastros...");
-
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                //var page = new SaldoEstoqPopUp(SecurityAuxiliar.GetCodEstabel(),
-                //                               edtItCodigo.Text,
-                //                               edtDescItem.Text,
-                //                               edtDepSaida,
-                //                               edtCodLocaliz,
-                //                               edtLote,
-                //                               edtDtValiLote,
-                //                               edtSaldo,
-                //                               edtSaldoMobile,
-                //                               _blnClickQr);
-
-                //await pageProgress.OnClose();
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-                _blnClickQr = false;
-
-                //BtnDepSaida.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepSaida.IsEnabled = true;
-            }
-        }
-
-
-
-        async void OnClick_BuscaItem(object sender, EventArgs e)
-        {
-            try
-            {
-               // BtnBuscaItem.IsEnabled = false;
-
-                //var page = new ItemPopUp(edtItCodigo, edtDescItem, edtUnidade, edtTipoConEst, null);
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnBuscaItem.IsEnabled = true;
-            }
-        }
-
-        async void OnClick_DepositoEntrada(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepEntrada.IsEnabled = false;
-
-                var deposito = DepositoDB.GetDeposito();
-                if (deposito != null)
-                {
-                    string[] arrayDep = new string[deposito.Count];
-                    for (int i = 0; i < deposito.Count; i++)
-                    {
-                        arrayDep[i] = deposito[i].CodDepos + " (" + deposito[i].Nome.Trim() + ")";
-                    }
-
-                    var action = await DisplayActionSheet("Escolha o Depósito?", "Cancelar", null, arrayDep);
-
-                    if (action != "Cancelar" && action != null)
-                    {
-                        //edtDepEntrada.Text = action.ToString();
-                    }
-                }
-                else
-                    await DisplayAlert("Erro!", "Nenhum depósito encontrado.", "OK");
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepEntrada.IsEnabled = true;
-            }
-        }
+        }              
 
         void OnClick_Avancar(object sender, EventArgs e)
         {
             // Chamada ESCL002 - EnviarParametros
             // Enviar no metodo abaixo, os campos que foram digitados na tela após o retorno da API (Busca Parametro)
             // Com o retorno desse método, pode incluir na lista (browse) que mostra todos os reparos disponiveis
-            ParametersService a = new ParametersService();
+            ParametersService parametersService = new ParametersService();
 
-            if (string.IsNullOrEmpty(txtCodEmitente.Text))
-                txtCodEmitente.Text = "0";
+            var parametrosResult = new ParametrosResult();
 
-            a.SendParametersAsync(usuario, txtEstabelecimento.Text, int.Parse(txtCodEmitente.Text), txtDataEntrada.Text, txtNFRet.Text, txtSerie.Text, int.Parse(txtQtdItens.Text), int.Parse(txtValorTotal.Text), int.Parse(txtQtdDiasXMl.Text));
+            parametrosResult.UsuarioTotvs = usuario;
+            parametrosResult.CodEstabel = txtEstabelecimento.Text;
 
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
+            if (!string.IsNullOrEmpty(txtCodEmitente.Text))
+                parametrosResult.CodEmitente = int.Parse(txtCodEmitente.Text);
+
+            parametrosResult.DtEntrada = txtDataEntrada.Text;
+            parametrosResult.NFRet = txtNFRet.Text;
+            parametrosResult.Serie = txtSerie.Text;
+
+            if (!string.IsNullOrEmpty(txtQtdItens.Text))
+                parametrosResult.QtdeItem = decimal.Parse(txtQtdItens.Text);
+
+            if (!string.IsNullOrEmpty(txtValorTotal.Text))
+                parametrosResult.ValorTotal = decimal.Parse(txtValorTotal.Text);
+
+            if (!string.IsNullOrEmpty(txtQtdDiasXMl.Text))
+                parametrosResult.DiasXML = int.Parse(txtQtdDiasXMl.Text);
+
+            parametersService.SendParametersAsync(parametrosResult);
+
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage(parametrosResult) { Title = "Conferência Física de Reparos" });
             return;
         }
 
@@ -382,32 +225,6 @@ namespace CollectorQi.Views
                 DisplayAlert("Erro!", ex.Message, "Cancelar");
             }
         }
-
-        //async void Limpar(bool pBlnQuestion)
-        //{
-        //    if (pBlnQuestion)
-        //    {
-        //        bool blnAlert = await DisplayAlert("Limpar Registros?", "Deseja limpar os campos informados?", "Sim", "Não");
-
-        //        if (!blnAlert)
-        //            return;
-        //    }
-
-        //    //edtItCodigo.Text = "";
-        //    //edtDescItem.Text = "";
-        //    edtTipoConEst.Text = "";
-        //    edtUnidade.Text = "";
-        //    //edtLote.Text = "";
-        //    //edtDepEntrada.Text = "";
-        //    //edtDepSaida.Text = "";
-        //    //edtCodLocaliz.Text = "";
-        //    //edtSaldo.Text = "";
-        //    //edtQuantidade.Text = "";
-        //    //edtSaldoMobile.Text = "";
-        //    //edtDtValiLote.Text = "";
-        //    //edtNroDocto.Text = "";
-
-        //}
 
         protected override bool OnBackButtonPressed()
         {

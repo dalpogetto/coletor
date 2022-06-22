@@ -39,8 +39,11 @@
                                         <ColumnDefinition Width="330" />
                                         <ColumnDefinition Width="34" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding}" FontAttributes="Bold" />
-                                    <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Confirmar" Grid.Column="1" BackgroundColor="#fff"/>                                     
+                                    <!--<Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding RowId}" FontAttributes="Bold" />
+                                    <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Confirmar" Grid.Column="1" BackgroundColor="#fff"/>-->
+                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding CodItem}" FontAttributes="Bold" />
+                                    <Label Grid.Row="2"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding Mensagem}" />
+                                    <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Excluir" Grid.Column="1" BackgroundColor="#fff"/>
                                 </Grid>                               
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

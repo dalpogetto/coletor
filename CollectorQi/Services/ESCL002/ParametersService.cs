@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -87,7 +88,8 @@ namespace CollectorQi.Services.ESCL002
             return parametros;
         }
 
-        public List<ResultRepair> SendParametersAsync(string usuario_totvs, string cod_estabel, int? cod_emitente, string dt_entrega, string nf_ret, string serie, decimal qtde_item, decimal valor_total, int dias_xml)
+        //public List<ResultRepair> SendParametersAsync(string usuario_totvs, string cod_estabel, int cod_emitente, string dt_entrega, string nf_ret, string serie, decimal qtde_item, decimal valor_total, int dias_xml)
+        public List<ResultRepair> SendParametersAsync(ParametrosResult requestParam)
         {
             List<ResultRepair> resultRepair = null;
             try
@@ -158,6 +160,33 @@ namespace CollectorQi.Services.ESCL002
             return resultRepair;
         }
 
+        public ParametrosResult GetParametrosRepairAsync(ParametrosResult parametrosResult, List<ResultRepair> ListaReparos)
+        {
+            try
+            {
+                ResultSendParametrosRepair r = new ResultSendParametrosRepair();
+                r.Param = parametrosResult;
+                r.ListaReparos = ListaReparos;
+            }
+
+            catch (Exception e)
+            {
+                Debug.Write(e);
+            }
+
+            return parametros;
+        }
+
+        public ParametrosResult SendParametersListaReparosAsync(ParametrosResult parametrosResult, List<ResultRepair> ListaReparos)
+        {
+            return parametrosResult;
+        }
+
+        public List<ResultRepair> GetListRepair(ParametrosResult parametrosResult, List<ResultRepair> resultRepair)
+        {
+            return ParametersServiceMock.GetRepairs().ListaReparos;
+        }
+
         public class RequestJson
         {
             [JsonProperty("Parametros")]
@@ -177,20 +206,26 @@ namespace CollectorQi.Services.ESCL002
 
         public class ParametrosResult
         {
-            public int CodEmitente { get; set; }
+            public int? CodEmitente { get; set; }
             public string UsuarioTotvs { get; set; }
-            public int DiasXML { get; set; }
+            public int? DiasXML { get; set; }
             public string CodEstabel { get; set; }
             public string NFRet { get; set; }
             public string DtEntrada { get; set; }
-            public decimal ValorTotal { get; set; }
+            public decimal? ValorTotal { get; set; }
             public string Serie { get; set; }
-            public decimal QtdeItem { get; set; }
+            public decimal? QtdeItem { get; set; }
         }
         
         public class ResultSend
         {
             public string Mensagem { get; set; }
+            public List<ResultRepair> ListaReparos { get; set; }
+        }
+         public class ResultSendParametrosRepair
+        {
+            public string Mensagem { get; set; }
+            public ParametrosResult Param { get; set; }
             public List<ResultRepair> ListaReparos { get; set; }
         }
 

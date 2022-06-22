@@ -13,6 +13,7 @@ using CollectorQi.VO;
 using CollectorQi.Models;
 using static CollectorQi.Services.ESCL002.ParametersService;
 using System.Collections.ObjectModel;
+using CollectorQi.Services.ESCL002;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -33,19 +34,24 @@ namespace CollectorQi.Views
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
-        public ObservableCollection<string> Confirmar { get; set; }
+        public ObservableCollection<ResultRepair> Confirmar { get; set; }
+        public ParametrosResult parametrosResult = new ParametrosResult();
 
-        public ConferenciaFisicaConfirmarPage(List<ResultRepair> ListaReparos)
+        public ConferenciaFisicaConfirmarPage(ParametrosResult _parametrosResult, List<ResultRepair> listaReparos)
         {
             InitializeComponent();
-            Confirmar = new ObservableCollection<string>();
+            Confirmar = new ObservableCollection<ResultRepair>();
+            parametrosResult = _parametrosResult;
 
-            foreach (ResultRepair item in ListaReparos)
+            foreach (ResultRepair item in listaReparos)
             {
-                if (!string.IsNullOrEmpty(item.RowId))
-                    Confirmar.Add(item.RowId);
-                else
-                    Confirmar.Add(item.CodEstabel + " - " + item.CodFilial + " - " + item.NumRR);
+                ResultRepair resultRepair = new ResultRepair();
+                resultRepair.RowId = item.RowId;
+                resultRepair.CodItem = item.CodItem + " / " + item.NumRR;
+                //resultRepair.NumRR = item.NumRR;                
+                resultRepair.Mensagem = item.Mensagem;
+
+                Confirmar.Add(resultRepair);                
             }
 
             ColConfirmar.BindingContext = this;
@@ -57,33 +63,15 @@ namespace CollectorQi.Views
                 Application.Current.MainPage = new NavigationPage(new PrincipalPage());
             }
             else
-            {
-                //footerCodUsuario.Text = SecurityAuxiliar.CodUsuario;
-
-                //tipoConEst.Toggled += tipoConEst_Toggled;
-                //edtItCodigo.Focus();
-
+            {  
                 if (Volta)
                 {
                     Volta = false;
                     Limpar(false);
-                    //if (RecebimentoPage.Item_VO != null)
-                    //{
-                    //    Fill(RecebimentoPage.Item_VO);
-                    //}
                 }
             }
-
-            //this.Title = "Conferência de depósito";
-
         }
-
-        void Fill(ItemVO byItemVO)
-        {
-            //edtItCodigo.Text = byItemVO.ItCodigo;
-            //edtDescItem.Text = byItemVO.DescItem;
-            //edtUnidade.Text = byItemVO.Un;
-        }
+     
 
         void OnClick_Voltar(object sender, EventArgs e)
         {
@@ -101,115 +89,32 @@ namespace CollectorQi.Views
             Limpar(true);
         }
 
-        void OnClick_Confirmar(object sender, EventArgs e)
+        void OnClick_Excluir(object sender, EventArgs e)
         {
-            var stringInThisCell = (string)((Button)sender).BindingContext;
+            ResultRepair stringInThisCell = (ResultRepair)((Button)sender).BindingContext;
             Confirmar.Remove(stringInThisCell);
 
             OnPropertyChanged("Confirmar");
 
             return;
         }
-
-        async void OnClick_DepositoSaida(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepSaida.IsEnabled = false;
-
-                var pageProgress = new ProgressBarPopUp("Carregando Cadastros...");
-
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                //var page = new SaldoEstoqPopUp(SecurityAuxiliar.GetCodEstabel(),
-                //                               edtItCodigo.Text,
-                //                               edtDescItem.Text,
-                //                               edtDepSaida,
-                //                               edtCodLocaliz,
-                //                               edtLote,
-                //                               edtDtValiLote,
-                //                               edtSaldo,
-                //                               edtSaldoMobile,
-                //                               _blnClickQr);
-
-                //await pageProgress.OnClose();
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-                _blnClickQr = false;
-
-                //BtnDepSaida.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepSaida.IsEnabled = true;
-            }
-        }
-
-        async void OnClick_BuscaItem(object sender, EventArgs e)
-        {
-            try
-            {
-               // BtnBuscaItem.IsEnabled = false;
-
-                //var page = new ItemPopUp(edtItCodigo, edtDescItem, edtUnidade, edtTipoConEst, null);
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnBuscaItem.IsEnabled = true;
-            }
-        }
-
-        async void OnClick_DepositoEntrada(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepEntrada.IsEnabled = false;
-
-                var deposito = DepositoDB.GetDeposito();
-                if (deposito != null)
-                {
-                    string[] arrayDep = new string[deposito.Count];
-                    for (int i = 0; i < deposito.Count; i++)
-                    {
-                        arrayDep[i] = deposito[i].CodDepos + " (" + deposito[i].Nome.Trim() + ")";
-                    }
-
-                    var action = await DisplayActionSheet("Escolha o Depósito?", "Cancelar", null, arrayDep);
-
-                    if (action != "Cancelar" && action != null)
-                    {
-                        //edtDepEntrada.Text = action.ToString();
-                    }
-                }
-                else
-                    await DisplayAlert("Erro!", "Nenhum depósito encontrado.", "OK");
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepEntrada.IsEnabled = true;
-            }
-
-        }
-
+               
         void OnClick_Salvar(object sender, EventArgs e)
-        {            
+        {
+            ParametersService ps = new ParametersService();
+
+            List<ResultRepair> listaReparos = new List<ResultRepair>(); 
+
+            foreach (var item in Confirmar)
+            {
+                ResultRepair reparos = new ResultRepair();
+                reparos.RowId = item.RowId;
+
+                listaReparos.Add(reparos);
+            }
+
+            ps.SendParametersListaReparosAsync(parametrosResult, listaReparos);
+
             return;
         }
 
@@ -233,8 +138,6 @@ namespace CollectorQi.Views
             {
                 VerifyProd(result.Text.ToString().Trim()); 
             }*/
-
-
 
             try
             {
@@ -287,10 +190,7 @@ namespace CollectorQi.Views
                         itRIQ = mdlEtiqueta.itRIQ,
                         itVol = mdlEtiqueta.itVol,
                         itExtra = mdlEtiqueta.itExtra
-                    };
-
-                    
-
+                    }; 
 
                     /*
                     edtQuantidade.Focus();*/
@@ -328,7 +228,6 @@ namespace CollectorQi.Views
             //edtSaldoMobile.Text = "";
             //edtDtValiLote.Text = "";
             //edtNroDocto.Text = "";
-
         }
 
         protected override bool OnBackButtonPressed()
@@ -382,6 +281,5 @@ namespace CollectorQi.Views
         {
             //edtItCodigo.Unfocus();
         }
-
     }
 }

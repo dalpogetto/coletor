@@ -25,14 +25,14 @@ namespace CollectorQi.Services.ESCL002
 
         public static ParametersService.ResultSend GetRepairs() => new ParametersService.ResultSend
         {
-            Mensagem = "OK: Parametros enviados com sucesso",
+            //Mensagem = "OK: Parametros enviados com sucesso",
             ListaReparos = GetDefaultListRepair()
         };
 
         public static List<ParametersService.ResultRepair> GetDefaultListRepair() => new List<ParametersService.ResultRepair> { GetDefaultRepair() };
 
         public static ParametersService.ResultRepair GetDefaultRepair() => new ParametersService.ResultRepair
-        {
+        { 
             CodEmitente = 10098,
             RowId = "0x0000000000d9040c",
             Qtde = 1,
@@ -43,11 +43,11 @@ namespace CollectorQi.Services.ESCL002
             NumRR = "959328.0",
             Situacao = "F",
             CodFilial = "07",
-            Mensagem = "",
+            Mensagem = "OK: Teste...",
             Valor = Decimal.Parse("1201.16"),
             CodBarras = "",
             Origem = "Externo",
-            DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"
+            DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"                
         };
     }
 }
