@@ -35,12 +35,17 @@ namespace CollectorQi.Views
         public static bool Volta { get => volta; set => volta = value; }
 
         public List<ResultRepair> ListaReparos = new List<ResultRepair>();
+        public ParametrosResult parametrosResult = new ParametrosResult();
 
         public ConferenciaFisicaReparosPage()
         {
+        }
+
+        public ConferenciaFisicaReparosPage(ParametrosResult _parametrosResult)
+        {
             InitializeComponent();
 
-
+            parametrosResult = _parametrosResult;
 
             if (SecurityAuxiliar.Autenticado == false)
             {
@@ -69,126 +74,16 @@ namespace CollectorQi.Views
 
         }
 
-        void Fill(ItemVO byItemVO)
-        {
-            //edtItCodigo.Text = byItemVO.ItCodigo;
-            //edtDescItem.Text = byItemVO.DescItem;
-            //edtUnidade.Text = byItemVO.Un;
-        }
-
         void OnClick_Sair(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
-        }
-
-        void OnClick_Limpar(object sender, EventArgs e)
-        {
-            Limpar(true);
-        }
-
-        async void OnClick_DepositoSaida(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepSaida.IsEnabled = false;
-
-                var pageProgress = new ProgressBarPopUp("Carregando Cadastros...");
-
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                //var page = new SaldoEstoqPopUp(SecurityAuxiliar.GetCodEstabel(),
-                //                               edtItCodigo.Text,
-                //                               edtDescItem.Text,
-                //                               edtDepSaida,
-                //                               edtCodLocaliz,
-                //                               edtLote,
-                //                               edtDtValiLote,
-                //                               edtSaldo,
-                //                               edtSaldoMobile,
-                //                               _blnClickQr);
-
-                //await pageProgress.OnClose();
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-                _blnClickQr = false;
-
-                //BtnDepSaida.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepSaida.IsEnabled = true;
-            }
-        }
-
-        async void OnClick_BuscaItem(object sender, EventArgs e)
-        {
-            try
-            {
-               // BtnBuscaItem.IsEnabled = false;
-
-                //var page = new ItemPopUp(edtItCodigo, edtDescItem, edtUnidade, edtTipoConEst, null);
-
-                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnBuscaItem.IsEnabled = true;
-            }
-        }
-
-        async void OnClick_DepositoEntrada(object sender, EventArgs e)
-        {
-            try
-            {
-                //BtnDepEntrada.IsEnabled = false;
-
-                var deposito = DepositoDB.GetDeposito();
-                if (deposito != null)
-                {
-                    string[] arrayDep = new string[deposito.Count];
-                    for (int i = 0; i < deposito.Count; i++)
-                    {
-                        arrayDep[i] = deposito[i].CodDepos + " (" + deposito[i].Nome.Trim() + ")";
-                    }
-
-                    var action = await DisplayActionSheet("Escolha o Depósito?", "Cancelar", null, arrayDep);
-
-                    if (action != "Cancelar" && action != null)
-                    {
-                        //edtDepEntrada.Text = action.ToString();
-                    }
-                }
-                else
-                    await DisplayAlert("Erro!", "Nenhum depósito encontrado.", "OK");
-
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                //BtnDepEntrada.IsEnabled = true;
-            }
-
-        }
+        }               
+       
         void OnClick_Scan(object sender, EventArgs e)
-        {
-          
-
+        {   
             var repair = new ResultRepair()
             {
-                RowId = txtScan.Text,
+                CodBarras = txtScan.Text,
                 CodEstabel = txtEst.Text,
                 CodFilial = txtFil.Text,
                 NumRR = txtRR.Text
@@ -204,15 +99,21 @@ namespace CollectorQi.Views
 
         void OnClick_Avancar(object sender, EventArgs e)
         {
-            //var pagina2 = new Pagina2();
-            //pagina2.BindingContext = contato;
-            //await Navigation.PushAsync(pagina2);
+            List<ResultRepair> resultRepairList = new List<ResultRepair>();
+            ParametersService ps = new ParametersService();
 
-            //ConferenciaFisicaConfirmarPage cfCinfirmar = new ConferenciaFisicaConfirmarPage() { Title = "Conferência Física de Reparos" };
-            //cfCinfirmar.BindingContext = ListaReparos;
-            //Application.Current.MainPage = new NavigationPage(cfCinfirmar);
+            foreach (var item in ps.GetListRepair(parametrosResult, ListaReparos))
+            {
+                ResultRepair resultRepair = new ResultRepair();
+                resultRepair.CodItem = item.CodItem;
+                resultRepair.NumRR = item.NumRR;
+                resultRepair.Mensagem = item.Mensagem;
+                resultRepair.RowId = item.RowId;
 
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage(ListaReparos) { Title = "Conferência Física de Reparos" });
+                resultRepairList.Add(resultRepair);
+            }          
+
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage(parametrosResult, resultRepairList) { Title = "Conferência Física de Reparos" });
             return;
         }
 
@@ -296,9 +197,7 @@ namespace CollectorQi.Views
                         itRIQ = mdlEtiqueta.itRIQ,
                         itVol = mdlEtiqueta.itVol,
                         itExtra = mdlEtiqueta.itExtra
-                    };
-
-                    
+                    };                   
 
 
                     /*
