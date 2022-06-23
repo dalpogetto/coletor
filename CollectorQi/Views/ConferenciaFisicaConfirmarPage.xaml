@@ -27,23 +27,33 @@
                 </Grid>-->
 
                 <StackLayout Margin="20,10">
-                    <CollectionView x:Name="ColConfirmar" ItemsSource="{Binding Confirmar}" VerticalOptions="StartAndExpand" ItemsLayout="HorizontalList" HeightRequest="450">
+                    <CollectionView x:Name="ColConfirmar" ItemsSource="{Binding Items}" SelectionMode="Single" VerticalOptions="StartAndExpand" ItemsLayout="HorizontalList" HeightRequest="450">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>                               
                                 <Grid>
-                                    <Grid.RowDefinitions>
+                                    <!--<Grid.RowDefinitions>
                                         <RowDefinition Height="10" />
                                         <RowDefinition Height="25" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="330" />
                                         <ColumnDefinition Width="34" />
+                                    </Grid.ColumnDefinitions>-->                                    
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="150" />
                                     </Grid.ColumnDefinitions>
                                     <!--<Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding RowId}" FontAttributes="Bold" />
                                     <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Confirmar" Grid.Column="1" BackgroundColor="#fff"/>-->
-                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding CodItem}" FontAttributes="Bold" />
-                                    <Label Grid.Row="2"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding Mensagem}" />
-                                    <Button Grid.RowSpan="2" Padding="0,10,0,0" x:Name="BtnConfirmar" Image="closeMini.png" HorizontalOptions="Center" BorderRadius="16" Clicked="OnClick_Excluir" Grid.Column="1" BackgroundColor="#fff"/>
+                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="0" Text="{Binding CodItem}" FontAttributes="Bold"/>
+                                    <Label Grid.Row="1"  VerticalOptions="StartAndExpand" Grid.Column="1" Text="{Binding NumRR}" FontAttributes="Bold"/>
+                                    <Image Source="{Binding Image}" Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" />
+                                    <Button Grid.Row="1" Grid.Column="3" x:Name="BtnExcluir" Image="closeMini.png" HorizontalOptions="Center" VerticalOptions="Start" BorderRadius="16" Clicked="OnClick_Excluir" />
+                                    <Label Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand" Text="{Binding Mensagem}" />
                                 </Grid>                               
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -61,10 +71,7 @@
 
                     <Button x:Name="BtnVoltar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
                     Clicked="OnClick_Voltar" Grid.Row="1" Text="Voltar" />
-
-                    <!--<Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
-                    Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />-->
-
+                    
                 </Grid>
             </Grid>
         </ScrollView>

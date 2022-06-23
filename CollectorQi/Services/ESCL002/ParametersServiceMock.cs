@@ -29,7 +29,7 @@ namespace CollectorQi.Services.ESCL002
             ListaReparos = GetDefaultListRepair()
         };
 
-        public static List<ParametersService.ResultRepair> GetDefaultListRepair() => new List<ParametersService.ResultRepair> { GetDefaultRepair() };
+        public static List<ParametersService.ResultRepair> GetDefaultListRepair() => new List<ParametersService.ResultRepair> { GetDefaultRepair(), GetDefaultRepair2(), GetDefaultRepair3(), GetDefaultRepair4() };
 
         public static ParametersService.ResultRepair GetDefaultRepair() => new ParametersService.ResultRepair
         { 
@@ -43,11 +43,68 @@ namespace CollectorQi.Services.ESCL002
             NumRR = "959328.0",
             Situacao = "F",
             CodFilial = "07",
-            Mensagem = "OK: Teste...",
+            Mensagem = "OK: Teste ok",
             Valor = Decimal.Parse("1201.16"),
             CodBarras = "",
             Origem = "Externo",
             DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"                
+        };
+
+        public static ParametersService.ResultRepair GetDefaultRepair2() => new ParametersService.ResultRepair
+        {
+            CodEmitente = 10098,
+            RowId = "0x0000000000ddrt47",
+            Qtde = 1,
+            CodEstabel = "101",
+            Digito = 4,
+            Localiza = "",
+            CodItem = "96.150.00004-8B",
+            NumRR = "959328.0",
+            Situacao = "F",
+            CodFilial = "07",
+            Mensagem = "ERRO: Teste erro",
+            Valor = Decimal.Parse("1201.16"),
+            CodBarras = "",
+            Origem = "Externo",
+            DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"
+        };
+
+        public static ParametersService.ResultRepair GetDefaultRepair3() => new ParametersService.ResultRepair
+        {
+            CodEmitente = 10098,
+            RowId = "0x0000000000dbhyu1",
+            Qtde = 1,
+            CodEstabel = "101",
+            Digito = 4,
+            Localiza = "",
+            CodItem = "96.150.00004-8B",
+            NumRR = "959328.0",
+            Situacao = "F",
+            CodFilial = "07",
+            Mensagem = "OK: Teste ok",
+            Valor = Decimal.Parse("1201.16"),
+            CodBarras = "",
+            Origem = "Externo",
+            DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"
+        };
+
+        public static ParametersService.ResultRepair GetDefaultRepair4() => new ParametersService.ResultRepair
+        {
+            CodEmitente = 10098,
+            RowId = "0x0000000000dbrtyu",
+            Qtde = 1,
+            CodEstabel = "101",
+            Digito = 4,
+            Localiza = "",
+            CodItem = "96.150.00004-8B",
+            NumRR = "959328.0",
+            Situacao = "F",
+            CodFilial = "07",
+            Mensagem = "OK: Teste ok",
+            Valor = Decimal.Parse("1201.16"),
+            CodBarras = "",
+            Origem = "Externo",
+            DescItem = "K7 INK STAINNING CASSETE P/ RM4H PATS C/PPB"
         };
     }
 }

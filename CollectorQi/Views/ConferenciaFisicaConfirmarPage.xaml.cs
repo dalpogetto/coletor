@@ -1,19 +1,14 @@
-﻿using CollectorQi.Resources.DataBaseHelper;
-using CollectorQi.Resources;
+﻿using CollectorQi.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.PlatformConfiguration;
-using CollectorQi.VO;
 using CollectorQi.Models;
 using static CollectorQi.Services.ESCL002.ParametersService;
 using System.Collections.ObjectModel;
 using CollectorQi.Services.ESCL002;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -21,37 +16,47 @@ using CollectorQi.Services.ESCL002;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ConferenciaFisicaConfirmarPage : ContentPage
+    public partial class ConferenciaFisicaConfirmarPage : ContentPage, INotifyPropertyChanged
     {
-        private static int itemListaColetor = 0;
         private static ItemColetor itemColetor;
-
         private static int menuId = 0;
         private static string menuDesc = "";
         private static bool volta = false;
         private bool _blnClickQr { get; set; }
-
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
-        public ObservableCollection<ResultRepair> Confirmar { get; set; }
         public ParametrosResult parametrosResult = new ParametrosResult();
+        public ObservableCollection<ResultRepairViewModel> Items
+        {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        private ObservableCollection<ResultRepairViewModel> _Items;
 
         public ConferenciaFisicaConfirmarPage(ParametrosResult _parametrosResult, List<ResultRepair> listaReparos)
         {
-            InitializeComponent();
-            Confirmar = new ObservableCollection<ResultRepair>();
+            InitializeComponent();            
+
+            Items = new ObservableCollection<ResultRepairViewModel>();
             parametrosResult = _parametrosResult;
 
             foreach (ResultRepair item in listaReparos)
             {
-                ResultRepair resultRepair = new ResultRepair();
+                var resultRepair = new ResultRepairViewModel();
                 resultRepair.RowId = item.RowId;
-                resultRepair.CodItem = item.CodItem + " / " + item.NumRR;
-                //resultRepair.NumRR = item.NumRR;                
-                resultRepair.Mensagem = item.Mensagem;
+                resultRepair.CodItem = item.CodItem;
+                resultRepair.NumRR = item.NumRR;
+                string[] msg = item.Mensagem.Split(':');
+                resultRepair.RetornoMsg = msg[0];
+                resultRepair.Mensagem = msg[1];
 
-                Confirmar.Add(resultRepair);                
+                Items.Add(resultRepair);
             }
 
             ColConfirmar.BindingContext = this;
@@ -70,8 +75,7 @@ namespace CollectorQi.Views
                     Limpar(false);
                 }
             }
-        }
-     
+        }     
 
         void OnClick_Voltar(object sender, EventArgs e)
         {
@@ -91,8 +95,8 @@ namespace CollectorQi.Views
 
         void OnClick_Excluir(object sender, EventArgs e)
         {
-            ResultRepair stringInThisCell = (ResultRepair)((Button)sender).BindingContext;
-            Confirmar.Remove(stringInThisCell);
+            ResultRepairViewModel stringInThisCell = (ResultRepairViewModel)((Button)sender).BindingContext;
+            Items.Remove(stringInThisCell);
 
             OnPropertyChanged("Confirmar");
 
@@ -102,10 +106,9 @@ namespace CollectorQi.Views
         void OnClick_Salvar(object sender, EventArgs e)
         {
             ParametersService ps = new ParametersService();
+            var listaReparos = new List<ResultRepair>(); 
 
-            List<ResultRepair> listaReparos = new List<ResultRepair>(); 
-
-            foreach (var item in Confirmar)
+            foreach (var item in Items)
             {
                 ResultRepair reparos = new ResultRepair();
                 reparos.RowId = item.RowId;
@@ -116,6 +119,29 @@ namespace CollectorQi.Views
             ps.SendParametersListaReparosAsync(parametrosResult, listaReparos);
 
             return;
+        }
+
+        public class ResultRepairViewModel : ResultRepair, INotifyPropertyChanged
+        {
+            public string Image
+            {
+                get
+                {
+                    OnPropertyChanged("Image");                   
+
+                    if (RetornoMsg == "OK")                    
+                        return "intSucessoMed.png";                    
+                    else                    
+                        return "intPendenteMed.png";
+                }
+            }            
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         async void OnClick_QR(object sender, EventArgs e)
@@ -275,7 +301,6 @@ namespace CollectorQi.Views
             //    edtTipoConEst.Text = "";
             //}
         }
-
 
         void Handle_Completed(object sender, System.EventArgs e)
         {
