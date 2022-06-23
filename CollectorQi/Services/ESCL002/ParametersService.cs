@@ -246,6 +246,7 @@ namespace CollectorQi.Services.ESCL002
             public string CodBarras { get; set; }
             public string Origem { get; set; }
             public string DescItem { get; set; }
+            public string RetornoMsg { get; set; }
         }
     }
 }
