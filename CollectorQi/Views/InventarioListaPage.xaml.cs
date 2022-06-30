@@ -18,6 +18,8 @@ using CollectorQi.Models.Datasul;
 using AutoMapper;
 using System.Globalization;
 using Plugin.Connectivity;
+using CollectorQi.Services.ESCL018;
+using ESCL = CollectorQi.Models.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -54,8 +56,8 @@ namespace CollectorQi.Views
             InitializeComponent();
 
             ObsInventario = new ObservableCollection<InventarioViewModel>();
-
-            lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
+            //lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;  
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
             var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
 
@@ -74,9 +76,9 @@ namespace CollectorQi.Views
             var current = (cvInventario.SelectedItem as VO.InventarioVO);
 
             if (current != null)
-            {
-                
-                var batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
+            {            
+                //var batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
+                var batchInventario = BatchInventarioDB.GetBatchInventario(current.CodInventario);
 
                 // Inventário efetivado
                 if (batchInventario != null &&
@@ -115,12 +117,13 @@ namespace CollectorQi.Views
 
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)
         {
+            var current = (cvInventario.SelectedItem as VO.InventarioVO);
+
             if (!CrossConnectivity.Current.IsConnected)
             {
                 await DisplayAlert("Erro!", "Para buscar os inventários no sistema o dispositivo deve estar conectado.", "CANCELAR");
 
                 return;
-
             }
 
             BtnCarregaInventario.IsEnabled = false;
@@ -129,24 +132,77 @@ namespace CollectorQi.Views
 
             try
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                var lstInventarioERP = Models.Controller.GetInventario();
-
-                await Models.Controller.CriaInventario(lstInventarioERP);
-
-                var lstInventarioAsync = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel());
-
-                var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
-
                 ObsInventario.Clear();
 
-                for (int i = 0; i < lstInventario.Count(); i++)
-                {
-                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+                //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
+                //var lstInventarioERP = Models.Controller.GetInventario();                 
+
+                //var lstInventarioAsync = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel());
+                //var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
+
+                var parametersInventario = new ParametersInventarioService();
+                var lstInventario = await parametersInventario.SendParametersAsync();
+                var listInventario = new List<ModelInventario>();
+
+                foreach (var item in lstInventario.param.Resultparam)
+                {
+                    var inventario = new ModelInventario();
+                    inventario.dtSaldo = item.DtSaldo;
+                    inventario.codEstabel = item.CodEstabel;
+                    inventario.codDepos = item.CodDeposito;
+                    inventario.idInventario = item.IdInventario;
+                    listInventario.Add(inventario);
+
+                    var inventarioVO = new InventarioVO();
+                    inventarioVO.DtInventario = DateTime.ParseExact(item.DtSaldo, "dd/MM/yy", CultureInfo.InvariantCulture);
+                    inventarioVO.CodEstabel = item.CodEstabel;
+                    inventarioVO.CodDepos = item.CodDeposito;
+                    inventarioVO.CodInventario = item.IdInventario;
+
+                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(inventarioVO);
                     ObsInventario.Add(modelView);
                 }
+
+                var parametersFichasUsuario = new ParametersFichasUsuarioService();
+                var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
+
+                foreach (var item in lstInventarioVO.param.Resultparam)
+                {
+                    //var itemView = new InventarioItemViewModel() { CodRefer = item.CodItem, CodLocaliz = item.Localizacao, NrFicha = item.Quantidade };
+                    //var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(itemView);
+
+                    InventarioItemVO inventarioItem = new InventarioItemVO();
+                    inventarioItem.InventarioId = item.IdInventario;
+                    inventarioItem.CodLote = item.Lote;
+                    inventarioItem.CodLocaliz = item.Localizacao;
+                    inventarioItem.CodRefer = item.CodItem;                     
+                    inventarioItem.NrFicha = item.Quantidade;
+
+                    InventarioItemDB.InserirInventarioItem(inventarioItem);
+                }
+
+                //"IdInventario": 796,
+                //"Lote": "",
+                //"CodEstabel": "101",
+                //"Localizacao": "F01GV00203",
+                //"CodItem": "65.111.06998-2",
+                //"Contagem": 1,
+                //"Serie": "",
+                //"IVL": 294674,
+                //"CodEmp": "1",
+                //"CodDepos": "DAT",
+                //"Quantidade": 0
+
+                //InventarioItemVO inventarioItem = new InventarioItemVO();
+                //inventarioItem.InventarioId = Inventario.InventarioId;
+                //inventarioItem.ItemId = Item_VO.ItemId;
+                //inventarioItem.CodigoItem = edtItCodigo.Text.Trim();
+                //inventarioItem.Lote = edtLote.Text.Trim().ToUpper();
+                //inventarioItem.Quantidade = Qtde;
+
+
+                await Models.Controller.CriaInventario(listInventario);
             }
             catch (Exception ex)
             {
@@ -159,23 +215,23 @@ namespace CollectorQi.Views
             }
         }
 
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
 
-            ObsInventario.Clear();
+        //    ObsInventario.Clear();
 
-            var lstInventarioAsync = InventarioDB.GetInventarioByEstab(SecurityAuxiliar.GetCodEstabel());
+        //    var lstInventarioAsync = InventarioDB.GetInventarioByEstab(SecurityAuxiliar.GetCodEstabel());
 
-            var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
+        //    var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
 
-            for (int i = 0; i < lstInventario.Count(); i++)
-            {
-                var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+        //    for (int i = 0; i < lstInventario.Count(); i++)
+        //    {
+        //        var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
 
-                ObsInventario.Add(modelView);
-            }
-        }
+        //        ObsInventario.Add(modelView);
+        //    }
+        //}
 
 
         protected override bool OnBackButtonPressed()
@@ -186,7 +242,6 @@ namespace CollectorQi.Views
             return true;
         }
     }
-
 
     public class InventarioViewModel : InventarioVO
     {

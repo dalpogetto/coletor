@@ -109,8 +109,8 @@ namespace CollectorQi.Resources.DataBaseHelper
 
             try
             {
+                string teste = Path.GetFullPath(pasta);
 
-                
                 if (!System.IO.File.Exists(System.IO.Path.Combine(pasta, banco)) || VersionTracking.IsFirstLaunchForCurrentVersion)
                 {     
                     using (SQLiteConnection conexao = new SQLiteConnection(System.IO.Path.Combine(pasta, banco)))

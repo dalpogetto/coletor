@@ -76,10 +76,10 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { "security.png", "fisica.png", "expedicao.png", "logoTotvs.png", "logout.png" };
-                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
+                    string[] imagem = new string[] { "security.png", "fisica.png", "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
+                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
 
-                    string[] subTitulo = new string[] { "Armazenagem", "Conferência Física", "Escolher o estabelecimento", "Última Integração",
+                    string[] subTitulo = new string[] { "Armazenagem", "Conferência Física", "Inventário", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
@@ -448,6 +448,31 @@ namespace CollectorQi.Views
                         RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
                         Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
 
+                        break;
+
+
+                    case "Inventário":
+
+                        if (!String.IsNullOrEmpty(lblMensagemErro.Text))
+                        {
+                            await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
+                            return;
+                        }
+
+                        //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    var strEstab = await SelectEstab();
+                        //    if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                        //        return;
+                        //}
+
+                        //if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //{
+                        //    RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        //    Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+                        //}
+
+                        Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
                         break;
 
                     case "Estabelecimento":

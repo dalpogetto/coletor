@@ -17,6 +17,7 @@ using CollectorQi.Models.Datasul;
 using AutoMapper;
 using System.Threading;
 using Rg.Plugins.Popup.Services;
+using CollectorQi.Services.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -42,7 +43,6 @@ namespace CollectorQi.Views
             storage = value;
             OnPropertyChanged(propertyName);
             return true;
-
         }
 
         #endregion
@@ -69,9 +69,10 @@ namespace CollectorQi.Views
 
             _inventario = pInventarioVO;
 
-            this.Title = "Inventário (" + pInventarioVO.__deposito__.Nome + ")";
+            //this.Title = "Inventário (" + pInventarioVO.__deposito__.Nome + ")";
+            this.Title = "Inventário (" + pInventarioVO.CodInventario + ")";
 
-            var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList()); ;
+            var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.CodInventario).OrderBy(p => p.ItCodigo).ToList());
 
             Items = new ObservableCollection<InventarioItemViewModel>();
 
@@ -85,14 +86,13 @@ namespace CollectorQi.Views
                 /*
                 var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == Items[i].ItCodigo);
                 Items[i].__itemDesc__ = item.ItCodigo + item.DescItem; */
-            }      
+            }
 
             _ItemsUnfiltered = Items;
 
-            Task.Run(CarregaDescricao);            
-                        
-            cvInventarioItem.BindingContext = this;                        
+            //Task.Run(CarregaDescricao);
 
+            cvInventarioItem.BindingContext = this;
         }
 
         public void CarregaDescricao()
@@ -115,27 +115,27 @@ namespace CollectorQi.Views
                 var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
                 if (current != null)
                 {
-                    var  page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
+                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
                     page.SetResultDigita(resultDigita);
-                    
-                }                
+
+                }
             }
-            catch (Exception  ex)
+            catch (Exception ex)
             {
                 await DisplayAlert("Erro!", ex.Message, "OK");
             }
             finally
             {
-                cvInventarioItem.IsEnabled = true;                
+                cvInventarioItem.IsEnabled = true;
                 await pageProgress.OnClose();
             }
         }
 
-        public void resultDigita (InventarioItemVO byCurrent, bool byQtdDigita)
-        {            
+        public void resultDigita(InventarioItemVO byCurrent, bool byQtdDigita)
+        {
             var idxCurrent = Items.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
             var idxCurrentUnfiltred = _ItemsUnfiltered.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
 
@@ -166,7 +166,6 @@ namespace CollectorQi.Views
                 Items.Add(Mapper.Map<InventarioItemVO, InventarioItemViewModel>(byCurrent));
                 OnPropertyChanged("Items");
             }
-            
         }
 
         protected override void OnAppearing()
@@ -202,7 +201,6 @@ namespace CollectorQi.Views
                 BtnBuscaItem.IsEnabled = true;
             }
         }
-
 
         private async void VerifyProd(string strQr)
         {
@@ -247,15 +245,15 @@ namespace CollectorQi.Views
                     }
                     else
                     {
-                        throw new Exception("Item (" + mdlEtiqueta.itCodigo + ") não encontrado no inventário." + Environment.NewLine + 
-                                            "Nova ficha (item) no inventário só pode ser criado na contagem (1) e não é permitido a criação de uma nova ficha (item) no inventário (" + _inventario.Contagem.ToString() + ")." );
+                        throw new Exception("Item (" + mdlEtiqueta.itCodigo + ") não encontrado no inventário." + Environment.NewLine +
+                                            "Nova ficha (item) no inventário só pode ser criado na contagem (1) e não é permitido a criação de uma nova ficha (item) no inventário (" + _inventario.Contagem.ToString() + ").");
                     }
                 }
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Erro!", ex.Message, "OK");
-            } 
+            }
         }
 
         async void OnClick_EfetivaInventario(object sender, System.EventArgs e)
@@ -286,7 +284,6 @@ namespace CollectorQi.Views
             }
         }
 
-
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
@@ -295,70 +292,70 @@ namespace CollectorQi.Views
             return true;
         }
 
-        private CancellationTokenSource throttleCts = new CancellationTokenSource();
+        //private CancellationTokenSource throttleCts = new CancellationTokenSource();
 
-        async void Handle_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
-        {
-            try
-            {
-                //await Task.Run(() => PerformSearch());
-                //PerformSearch();
-                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
-                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
-                    .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
-                        CancellationToken.None,
-                        TaskContinuationOptions.OnlyOnRanToCompletion,
-                        TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            catch (Exception ex)
-            {
-                //await DisplayAlert("Erro!", ex.Message, "Cancel");
-            }
-        }
+        //async void Handle_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        //await Task.Run(() => PerformSearch());
+        //        //PerformSearch();
+        //        /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
+        //        Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+        //        await Task.Delay(TimeSpan.FromMilliseconds(100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+        //            .ContinueWith(
+        //                delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+        //                CancellationToken.None,
+        //                TaskContinuationOptions.OnlyOnRanToCompletion,
+        //                TaskScheduler.FromCurrentSynchronizationContext());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //await DisplayAlert("Erro!", ex.Message, "Cancel");
+        //    }
+        //}
 
-        async public void PerformSearch()
-        {
-            try
-            {
-                //cvInventarioItem.IsEnabled = false;
+        //async public void PerformSearch()
+        //{
+        //    try
+        //    {
+        //        //cvInventarioItem.IsEnabled = false;
 
-                if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
-                    Items = _ItemsUnfiltered;
-                else
-                {
-                    /*
-                    _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))  ||
-                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-                    ));*/
+        //        if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
+        //            Items = _ItemsUnfiltered;
+        //        else
+        //        {
+        //            /*
+        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))  ||
+        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+        //            ));*/
 
-                    /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
-                     _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__itemDesc__.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-                    )); 
+        //            /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
+        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+        //           (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__itemDesc__.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+        //           ));
 
-                    /*
-                    _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower()))) ||
-                     i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-                    );*/
+        //            /*
+        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower()))) ||
+        //             i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+        //            );*/
 
-                    Items = _ItemsFiltered;
-                }                
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancel");
-            }
-            finally
-            {
-                //cvInventarioItem.IsEnabled = true;
-            }
-        }        
+        //            Items = _ItemsFiltered;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await DisplayAlert("Erro!", ex.Message, "Cancel");
+        //    }
+        //    finally
+        //    {
+        //        //cvInventarioItem.IsEnabled = true;
+        //    }
+        //}
     }
-
+    
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged
     {
         public string Image
@@ -425,7 +422,5 @@ namespace CollectorQi.Views
             OnPropertyChanged(propertyName);
             return true;
         }
-
-
     }
 }

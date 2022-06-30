@@ -80,7 +80,6 @@
   <ItemGroup>
     <Folder Include="Services\ESCL000\" />
     <Folder Include="Services\ESCL028\" />
-    <Folder Include="Services\ESCL018\" />
     <Folder Include="Views\Batch\" />
     <Folder Include="Models\Notification\" />
   </ItemGroup>

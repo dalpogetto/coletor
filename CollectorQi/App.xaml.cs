@@ -14,6 +14,7 @@ using Xamarin.Essentials;
 using CollectorQi.Resources.DataBaseHelper;
 using Rg.Plugins.Popup.Services;
 using CollectorQi.Resources;
+using ESCL = CollectorQi.Models.ESCL018;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CollectorQi
@@ -125,6 +126,7 @@ namespace CollectorQi
                 _.CreateMap<InventarioVO, InventarioViewModel>();
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
+                //_.CreateMap<ESCL.Parametros, InventarioViewModel>();
                 //_.CreateMap<SaldoEstoqVO, RequisicaoSaldoEstoqViewModel>();
                 //_.CreateMap add ma s configuração.
 
