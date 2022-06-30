@@ -18,7 +18,7 @@
         
         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" HeightRequest="30">
                                 
-            <!--<SearchBar IsVisible="{Binding SearchMode}" 
+            <SearchBar IsVisible="{Binding SearchMode}" 
                        Placeholder="Digite o código ou descrição do item..." 
                        Text="{Binding SearchText}" 
                        x:Name="SearchBarItCodigo" 
@@ -26,7 +26,7 @@
                        VerticalOptions="StartAndExpand"
                        HorizontalOptions="StartAndExpand"
                        Margin="-10,0,0,0"
-                       FontSize="Small"/>-->
+                       FontSize="Small"/>
         </Frame>
         
             

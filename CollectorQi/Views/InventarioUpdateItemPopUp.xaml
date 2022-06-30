@@ -10,9 +10,10 @@
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
     </pages:PopupPage.Animation>
-    <StackLayout BackgroundColor="#4E4E4E" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3">
+    <StackLayout BackgroundColor="#fff" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+                <!--<Grid BackgroundColor="#4E4E4E" Opacity="1">-->
+            <Grid BackgroundColor="#fff" Opacity="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />
@@ -67,7 +68,7 @@
                     </StackLayout>
                         
                     <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,4,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

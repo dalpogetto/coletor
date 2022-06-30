@@ -28,17 +28,21 @@ namespace CollectorQi.Views
 
                 if (_inventarioItemVO != null)
                 {
-                    edtItCodigo.Text = _inventarioItemVO.ItCodigo;
-                    edtDescItem.Text = _inventarioItemVO.__item__.DescItem;
-                    edtUnidade.Text = _inventarioItemVO.__item__.Un;
-                    edtTipoConEst.Text = _inventarioItemVO.__item__.__TipoConEst__;
-                    edtLote.Text = _inventarioItemVO.CodLote;
-                    edtDtValiLote.Text = _inventarioItemVO.DtUltEntr.HasValue ? _inventarioItemVO.DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty;
-                    edtQuantidade.Text = _inventarioItemVO.QtdDigitada ? _inventarioItemVO.ValApurado.ToString() : String.Empty;
+                    edtItCodigo.Text = _inventarioItemVO.CodRefer;
+                    edtDescItem.Text = _inventarioItemVO.CodLocaliz;
+                }                             
 
-                    edtQuantidade.Focus();
-
-                }
+                //if (_inventarioItemVO != null)
+                //{
+                //    edtItCodigo.Text = _inventarioItemVO.ItCodigo;
+                //    edtDescItem.Text = _inventarioItemVO.__item__.DescItem;
+                //    edtUnidade.Text = _inventarioItemVO.__item__.Un;
+                //    edtTipoConEst.Text = _inventarioItemVO.__item__.__TipoConEst__;
+                //    edtLote.Text = _inventarioItemVO.CodLote;
+                //    edtDtValiLote.Text = _inventarioItemVO.DtUltEntr.HasValue ? _inventarioItemVO.DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty;
+                //    edtQuantidade.Text = _inventarioItemVO.QtdDigitada ? _inventarioItemVO.ValApurado.ToString() : String.Empty;
+                //    edtQuantidade.Focus();
+                //}
             }
         }
 

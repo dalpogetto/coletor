@@ -107,8 +107,8 @@ namespace CollectorQi.Views
         async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cvInventarioItem.IsEnabled = false;
-            var pageProgress = new ProgressBarPopUp("Carregando Item..");
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+            //var pageProgress = new ProgressBarPopUp("Carregando Item..");
+            //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
             try
             {
@@ -130,7 +130,7 @@ namespace CollectorQi.Views
             finally
             {
                 cvInventarioItem.IsEnabled = true;
-                await pageProgress.OnClose();
+                //await pageProgress.OnClose();
             }
         }
 
@@ -292,68 +292,68 @@ namespace CollectorQi.Views
             return true;
         }
 
-        //private CancellationTokenSource throttleCts = new CancellationTokenSource();
+        private CancellationTokenSource throttleCts = new CancellationTokenSource();
 
-        //async void Handle_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        //await Task.Run(() => PerformSearch());
-        //        //PerformSearch();
-        //        /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
-        //        Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-        //        await Task.Delay(TimeSpan.FromMilliseconds(100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
-        //            .ContinueWith(
-        //                delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
-        //                CancellationToken.None,
-        //                TaskContinuationOptions.OnlyOnRanToCompletion,
-        //                TaskScheduler.FromCurrentSynchronizationContext());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //await DisplayAlert("Erro!", ex.Message, "Cancel");
-        //    }
-        //}
+        async void Handle_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
+        {
+            try
+            {
+                //await Task.Run(() => PerformSearch());
+                //PerformSearch();
+                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
+                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+                await Task.Delay(TimeSpan.FromMilliseconds(100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                    .ContinueWith(
+                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+                        CancellationToken.None,
+                        TaskContinuationOptions.OnlyOnRanToCompletion,
+                        TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                //await DisplayAlert("Erro!", ex.Message, "Cancel");
+            }
+        }
 
-        //async public void PerformSearch()
-        //{
-        //    try
-        //    {
-        //        //cvInventarioItem.IsEnabled = false;
+        async public void PerformSearch()
+        {
+            try
+            {
+                //cvInventarioItem.IsEnabled = false;
 
-        //        if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
-        //            Items = _ItemsUnfiltered;
-        //        else
-        //        {
-        //            /*
-        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))  ||
-        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-        //            ));*/
+                if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
+                    Items = _ItemsUnfiltered;
+                else
+                {
+                    /*
+                    _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))  ||
+                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+                    ));*/
 
-        //            /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
-        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-        //           (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__itemDesc__.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-        //           ));
+                    /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
+                    _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+                   (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__itemDesc__.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+                   ));
 
-        //            /*
-        //            _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-        //            (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower()))) ||
-        //             i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
-        //            );*/
+                    /*
+                    _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
+                    (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower()))) ||
+                     i is InventarioItemViewModel && (((InventarioItemViewModel)i).__item__.DescItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+                    );*/
 
-        //            Items = _ItemsFiltered;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await DisplayAlert("Erro!", ex.Message, "Cancel");
-        //    }
-        //    finally
-        //    {
-        //        //cvInventarioItem.IsEnabled = true;
-        //    }
-        //}
+                    Items = _ItemsFiltered;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro!", ex.Message, "Cancel");
+            }
+            finally
+            {
+                //cvInventarioItem.IsEnabled = true;
+            }
+        }
     }
     
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged
