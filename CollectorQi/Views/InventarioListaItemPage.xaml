@@ -184,11 +184,11 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <Grid Grid.Row="1" Margin="0,0,0,0" VerticalOptions="End" HorizontalOptions="FillAndExpand">                        
-                        <Button x:Name="BtnBuscaItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor=" Silver"  BorderRadius="16"
-                                Clicked="OnClick_BuscaItem" Grid.Row="1" Grid.Column="0" Text="Busca Item (Etiqueta)" TextColor="White" />
+                    <Grid Grid.Row="1" Margin="0,0,0,0" VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                        <Button x:Name="BtnBuscaItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  BorderRadius="16"
+                                Clicked="OnClick_BuscaItem" Grid.Row="0" Grid.Column="0" Text="Busca Item (Etiqueta)" TextColor="White" />
                         <Button x:Name="BtnCaixaIncompleta" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  BorderRadius="16"
-                                Clicked="OnClick_CaixaIncompleta"  Grid.Row="0" Grid.Column="0" Text="Caixa Incompleta" TextColor="White" />
+                                Clicked="OnClick_CaixaIncompleta"  Grid.Row="1" Grid.Column="0" Text="Caixa Incompleta" TextColor="White" />
                         <Button x:Name="BtnEfetivaInventario" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  BorderRadius="16"
                                 Clicked="OnClick_EfetivaInventario" Grid.Row="2" Grid.Column="0" Text="Efetiva Inventário" TextColor="White" />
                     </Grid>

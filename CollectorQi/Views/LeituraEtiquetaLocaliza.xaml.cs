@@ -64,6 +64,7 @@ namespace CollectorQi.Views
             //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
 
             pInventarioVO = inventarioVO;
+            BtnProximo.IsEnabled = false;
         }      
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
@@ -94,6 +95,7 @@ namespace CollectorQi.Views
             finally
             {
                 await pageProgress.OnClose();
+                BtnProximo.IsEnabled = true;
             }           
         }
 
