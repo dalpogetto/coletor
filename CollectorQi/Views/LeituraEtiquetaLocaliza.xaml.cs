@@ -59,8 +59,10 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+
             //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
-            
+
             pInventarioVO = inventarioVO;
         }      
 
@@ -120,7 +122,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new PrincipalPage());
+            Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
 
             return true;
         }
