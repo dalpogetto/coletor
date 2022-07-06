@@ -70,9 +70,9 @@ namespace CollectorQi.Views
             _inventario = pInventarioVO;
 
             //this.Title = "Inventário (" + pInventarioVO.__deposito__.Nome + ")";
-            this.Title = "Inventário (" + pInventarioVO.CodInventario + ")";
+            this.Title = "Inventário (" + pInventarioVO.InventarioId + ")";
 
-            var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.CodInventario).OrderBy(p => p.ItCodigo).ToList());
+            var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
 
             Items = new ObservableCollection<InventarioItemViewModel>();
 
@@ -104,34 +104,64 @@ namespace CollectorQi.Views
             }
         }
 
-        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    cvInventarioItem.IsEnabled = false;
+        //    //var pageProgress = new ProgressBarPopUp("Carregando Item..");
+        //    //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+        //    try
+        //    {
+        //        var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
+        //        if (current != null)
+        //        {
+        //            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
+
+        //            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+        //            page.SetResultDigita(resultDigita);
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await DisplayAlert("Erro!", ex.Message, "OK");
+        //    }
+        //    finally
+        //    {
+        //        cvInventarioItem.IsEnabled = true;               
+        //    }
+        //}
+
+        async void OnClick_CaixaIncompleta(object sender, EventArgs e)
         {
-            cvInventarioItem.IsEnabled = false;
-            //var pageProgress = new ProgressBarPopUp("Carregando Item..");
-            //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+            await PopupNavigation.Instance.PushAsync(new InventarioUpdateItemPopUp(_inventario.InventarioId, 64));
 
-            try
-            {
-                var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
-                if (current != null)
-                {
-                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
+            //cvInventarioItem.IsEnabled = false;
+            ////var pageProgress = new ProgressBarPopUp("Carregando Item..");
+            ////await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+            //try
+            //{
+            //    var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
+            //    if (current != null)
+            //    {
+            //        var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
 
-                    page.SetResultDigita(resultDigita);
+            //        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
-            finally
-            {
-                cvInventarioItem.IsEnabled = true;
-                //await pageProgress.OnClose();
-            }
+            //        page.SetResultDigita(resultDigita);
+
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("Erro!", ex.Message, "OK");
+            //}
+            //finally
+            //{
+            //    cvInventarioItem.IsEnabled = true;
+            //}
         }
 
         public void resultDigita(InventarioItemVO byCurrent, bool byQtdDigita)

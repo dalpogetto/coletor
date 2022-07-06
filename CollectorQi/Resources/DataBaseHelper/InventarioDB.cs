@@ -141,7 +141,6 @@ namespace CollectorQi.Resources.DataBaseHelper
                         byInventarioVO.CodDepos,
                         byInventarioVO.DtInventario,
                         byInventarioVO.Contagem);
-                        //byInventarioVO.CodInventario);
 
                 if (inventarioVO != null && inventarioVO.Count > 0)
                 {

@@ -106,6 +106,9 @@
     <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
+      <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\RecebimentoPage.xaml.cs">
       <DependentUpon>RecebimentoPage.xaml</DependentUpon>
     </Compile>

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using CollectorQi.Resources.DataBaseHelper;
 using Rg.Plugins.Popup.Pages;
-using CollectorQi.Resources.DataBaseHelper;
 using Rg.Plugins.Popup.Services;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 //using Android.Graphics;
 
 namespace CollectorQi.Views
@@ -15,34 +13,41 @@ namespace CollectorQi.Views
         private VO.InventarioItemVO _inventarioItemVO;
 
         public Action<VO.InventarioItemVO,bool> ResultAction;
-        
-        public InventarioUpdateItemPopUp(int pInventarioId, int pInventarioItemId)
+
+        public InventarioUpdateItemPopUp(int pInventarioId, int pInventarioItemId)       
         {
-            InitializeComponent();
-
-            _inventarioVO      = InventarioDB.GetInventario(pInventarioId).Result;
-
-            if (pInventarioItemId > 0)
+            try
             {
-                _inventarioItemVO = InventarioItemDB.GetInventarioItem(pInventarioItemId);
+                InitializeComponent();
 
-                if (_inventarioItemVO != null)
-                {
-                    edtItCodigo.Text = _inventarioItemVO.CodRefer;
-                    edtDescItem.Text = _inventarioItemVO.CodLocaliz;
-                }                             
+                //_inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
 
-                //if (_inventarioItemVO != null)
+                //if (pInventarioItemId > 0)
                 //{
-                //    edtItCodigo.Text = _inventarioItemVO.ItCodigo;
-                //    edtDescItem.Text = _inventarioItemVO.__item__.DescItem;
-                //    edtUnidade.Text = _inventarioItemVO.__item__.Un;
-                //    edtTipoConEst.Text = _inventarioItemVO.__item__.__TipoConEst__;
-                //    edtLote.Text = _inventarioItemVO.CodLote;
-                //    edtDtValiLote.Text = _inventarioItemVO.DtUltEntr.HasValue ? _inventarioItemVO.DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty;
-                //    edtQuantidade.Text = _inventarioItemVO.QtdDigitada ? _inventarioItemVO.ValApurado.ToString() : String.Empty;
-                //    edtQuantidade.Focus();
+                //    _inventarioItemVO = InventarioItemDB.GetInventarioItem(pInventarioItemId);
+
+                //    if (_inventarioItemVO != null)
+                //    {
+                //        edtItCodigo.Text = _inventarioItemVO.CodRefer;
+                //        edtDescItem.Text = _inventarioItemVO.CodLocaliz;
+                //    }
+
+                //    //if (_inventarioItemVO != null)
+                //    //{
+                //    //    edtItCodigo.Text = _inventarioItemVO.ItCodigo;
+                //    //    edtDescItem.Text = _inventarioItemVO.__item__.DescItem;
+                //    //    edtUnidade.Text = _inventarioItemVO.__item__.Un;
+                //    //    edtTipoConEst.Text = _inventarioItemVO.__item__.__TipoConEst__;
+                //    //    edtLote.Text = _inventarioItemVO.CodLote;
+                //    //    edtDtValiLote.Text = _inventarioItemVO.DtUltEntr.HasValue ? _inventarioItemVO.DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty;
+                //    //    edtQuantidade.Text = _inventarioItemVO.QtdDigitada ? _inventarioItemVO.ValApurado.ToString() : String.Empty;
+                //    //    edtQuantidade.Focus();
+                //    //}
                 //}
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
@@ -215,7 +220,6 @@ namespace CollectorQi.Views
                             InventarioItemDB.ConfirmaQuantidadeDigitada(_inventarioItemVO.InventarioItemId, true);
 
                             //InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);
-
                         }
 
                         InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);

@@ -1346,7 +1346,7 @@ namespace CollectorQi.Models
                                 Contagem = inventario[i].NumContagem,
                                 /* Victor Alves - 26/11/2019 - adiciona inventário ativo */
                                 inventarioAtivo = true,
-                                CodInventario = inventario[i].idInventario
+                                InventarioId  = inventario[i].idInventario
                             };
 
                             lstInventarioVO.Add(inventarioVO);
