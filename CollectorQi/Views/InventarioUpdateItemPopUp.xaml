@@ -34,14 +34,14 @@
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
-                                <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto..." Grid.Row="1"
+                                <Label x:Name="lblInventario" Text="Inventário" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtInventario" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
                                     Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Descrição do produto..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
                                     Grid.ColumnSpan="4" />
-                                <local:CustomEntryText x:Name="edtUnidade" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Unidade de Medida..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodDeposito" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Codigo Deposito..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
                                     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtTipoConEst" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Tipo Controle de Lote..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
+                                <local:CustomEntryText x:Name="edtDtSaldo" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Data Saldo..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
                                     Grid.ColumnSpan="2" />
                             </Grid>
                         </Frame>

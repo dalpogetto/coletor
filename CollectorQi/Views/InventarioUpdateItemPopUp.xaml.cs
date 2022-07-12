@@ -1,4 +1,6 @@
-﻿using CollectorQi.Resources.DataBaseHelper;
+﻿using CollectorQi.Models.ESCL018;
+using CollectorQi.Resources.DataBaseHelper;
+using CollectorQi.Services.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -14,13 +16,19 @@ namespace CollectorQi.Views
 
         public Action<VO.InventarioItemVO,bool> ResultAction;
 
-        public InventarioUpdateItemPopUp(int pInventarioId, int pInventarioItemId)       
+        public InventarioUpdateItemPopUp(int pInventarioId, int pInventarioItemId)        
         {
             try
             {
                 InitializeComponent();
 
-                //_inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
+                _inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
+
+                edtInventario.Text = _inventarioVO.InventarioId.ToString();
+                edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
+                edtCodDeposito.Text = _inventarioVO.CodDepos;
+                edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");
+
 
                 //if (pInventarioItemId > 0)
                 //{
@@ -53,10 +61,10 @@ namespace CollectorQi.Views
 
         public void SetNovoItemInventario(string pItCodigo, string pDescItem, string pUnidade, string pTipoConEst, string pLote, string pDtValiLote)
         {
-            edtItCodigo.Text = pItCodigo;
-            edtDescItem.Text = pDescItem;
-            edtUnidade.Text = pUnidade;
-            edtTipoConEst.Text = pTipoConEst;
+            //edtItCodigo.Text = pItCodigo;
+            //edtDescItem.Text = pDescItem;
+            //edtUnidade.Text = pUnidade;
+            //edtTipoConEst.Text = pTipoConEst;
             edtLote.Text = pLote;
             edtDtValiLote.Text = pDtValiLote;
         }
@@ -68,82 +76,80 @@ namespace CollectorQi.Views
         
         async void OnClick_Cancelar(object sender, EventArgs e)
         {
-            BtnCancelar.IsEnabled = false;
-            try
-            {
-                bool execProc = false;
+            //BtnCancelar.IsEnabled = false;
+            //try
+            //{
+            //    bool execProc = false;
 
-                var result = await DisplayAlert("Atenção!", "Confirma o cancelamento da quantidade no inventário? O item não será integrado com o sistema", "Sim", "Não");
+            //    var result = await DisplayAlert("Atenção!", "Confirma o cancelamento da quantidade no inventário? O item não será integrado com o sistema", "Sim", "Não");
 
-                if (result.ToString() == "True")
-                    execProc = true;
+            //    if (result.ToString() == "True")
+            //        execProc = true;
 
-                if (execProc)
-                {
-                    if (_inventarioItemVO == null)
-                    {
-                        DateTime? dtValiLote = null;
+            //    if (execProc)
+            //    {
+            //        if (_inventarioItemVO == null)
+            //        {
+            //            DateTime? dtValiLote = null;
 
-                        if (!String.IsNullOrEmpty(edtDtValiLote.Text))
-                            dtValiLote = new DateTime(int.Parse(edtDtValiLote.Text.Substring(6)),
-                                                      int.Parse(edtDtValiLote.Text.Substring(3, 2)),
-                                                      int.Parse(edtDtValiLote.Text.Substring(0, 2)));
+            //            if (!String.IsNullOrEmpty(edtDtValiLote.Text))
+            //                dtValiLote = new DateTime(int.Parse(edtDtValiLote.Text.Substring(6)),
+            //                                          int.Parse(edtDtValiLote.Text.Substring(3, 2)),
+            //                                          int.Parse(edtDtValiLote.Text.Substring(0, 2)));
 
 
-                        InventarioItemDB.InserirInventarioItem(new VO.InventarioItemVO
-                        {
-                            InventarioId = _inventarioVO.InventarioId,
-                            CodLocaliz = String.Empty,
-                            CodLote = edtLote.Text,
-                            ItCodigo = edtItCodigo.Text,
-                            DtUltEntr = dtValiLote,
-                            CodRefer = String.Empty,
-                            NrFicha = 0,
-                            ValApurado = 0,
-                            QtdDigitada = false,
-                        });
-                    }
-                    else
-                    {
+            //            InventarioItemDB.InserirInventarioItem(new VO.InventarioItemVO
+            //            {
+            //                InventarioId = _inventarioVO.InventarioId,
+            //                CodLocaliz = String.Empty,
+            //                CodLote = edtLote.Text,
+            //                //ItCodigo = edtItCodigo.Text,
+            //                DtUltEntr = dtValiLote,
+            //                CodRefer = String.Empty,
+            //                NrFicha = 0,
+            //                ValApurado = 0,
+            //                QtdDigitada = false,
+            //            });
+            //        }
+            //        else
+            //        {
 
-                        InventarioItemDB.ConfirmaQuantidadeDigitada(_inventarioItemVO.InventarioItemId, false);
+            //            InventarioItemDB.ConfirmaQuantidadeDigitada(_inventarioItemVO.InventarioItemId, false);
 
-                        _inventarioItemVO.ValApurado = 0;
+            //            _inventarioItemVO.ValApurado = 0;
 
-                        InventarioItemDB.AtualizaQuantidadeInventario(_inventarioItemVO);
-                    }
+            //            InventarioItemDB.AtualizaQuantidadeInventario(_inventarioItemVO);
+            //        }
 
-                    // Se nao tem nada digitado, marca como Nao Inciado 
-                    if (InventarioItemDB.GetInventarioItemDigitadoByInventarioId(_inventarioVO.InventarioId).Count <= 0)
-                    {
-                        InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.NaoIniciado);
-                    }
+            //        // Se nao tem nada digitado, marca como Nao Inciado 
+            //        if (InventarioItemDB.GetInventarioItemDigitadoByInventarioId(_inventarioVO.InventarioId).Count <= 0)
+            //        {
+            //            InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.NaoIniciado);
+            //        }
 
-                    ResultAction(_inventarioItemVO, false);
+            //        ResultAction(_inventarioItemVO, false);
                     
-                    await PopupNavigation.Instance.PopAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
-            }
-            finally
-            {
-                BtnCancelar.IsEnabled = true;
-            }
+            //        await PopupNavigation.Instance.PopAsync();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            //}
+            //finally
+            //{
+            //    BtnCancelar.IsEnabled = true;
+            //}
         }
 
         protected override bool OnBackButtonPressed()
-        {
-            
+        {            
             PopupNavigation.Instance.PopAsync();
             return true;
         }
 
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
-
             if (String.IsNullOrEmpty(edtQuantidade.Text))
             {
                 await DisplayAlert("Erro!", "Quantidade digitada inválida", "Cancelar");
@@ -153,94 +159,120 @@ namespace CollectorQi.Views
                 return;
             }
 
-            BtnEfetivar.IsEnabled = false;
-            try
+            var param = new ParametersItemLeituraEtiquetaService();
+
+            var inventario = new Inventario()
             {
-                bool execProc = false;
+                IdInventario = _inventarioVO.InventarioId,
+                CodEstabel = _inventarioVO.CodEstabel,
+                CodDepos = _inventarioVO.CodDepos,
+                Localizacao = "F01GV03101",
+                Lote = "",
+                QuantidadeDigitada = int.Parse(edtQuantidade.Text),
+                CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"
+            };       
 
-                if (_inventarioItemVO != null && _inventarioItemVO.QtdDigitada)
-                {
-                    var result = await DisplayAlert("Atenção!", "Item já digitado com a quantidade (" + _inventarioItemVO.ValApurado + "). Confirma a alteração do inventário? " + Environment.NewLine + "VERIFICAR SE O ITEM NÃO ESTÁ EM OUTRA LOCALIDADE", "Sim", "Não");
-
-                    if (result.ToString() == "True")
-                        execProc = true;
-                    else
-                        execProc = false;
-                }
-                else if (_inventarioVO != null)
-                    execProc = true;
+            var _inventarioItem = await param.SendInventarioAsync(inventario);
+         
 
 
-                if (execProc)
-                {
+            //if (String.IsNullOrEmpty(edtQuantidade.Text))
+            //{
+            //    await DisplayAlert("Erro!", "Quantidade digitada inválida", "Cancelar");
 
-                    if (decimal.Parse(edtQuantidade.Text) <= 0)
-                    {
-                        var result = await DisplayAlert("Atenção!", "Quantidade informada 0! O saldo em estoque será eliminado no sistema, deseja continuar?", "Sim", "Não");
+            //    edtQuantidade.Focus();
 
-                        if (result.ToString() == "True")
-                            execProc = true;
-                        else
-                            execProc = false;
+            //    return; 
+            //}
 
-                    }
+            //BtnEfetivar.IsEnabled = false;
+            //try
+            //{
+            //    bool execProc = false;
 
-                    if (execProc)
-                    {
-                        if (_inventarioVO != null && _inventarioItemVO == null)
-                        {
-                            DateTime? dtValiLote = null;
+            //    if (_inventarioItemVO != null && _inventarioItemVO.QtdDigitada)
+            //    {
+            //        var result = await DisplayAlert("Atenção!", "Item já digitado com a quantidade (" + _inventarioItemVO.ValApurado + "). Confirma a alteração do inventário? " + Environment.NewLine + "VERIFICAR SE O ITEM NÃO ESTÁ EM OUTRA LOCALIDADE", "Sim", "Não");
 
-                            if (!String.IsNullOrEmpty(edtDtValiLote.Text))
-                                dtValiLote = new DateTime(int.Parse(edtDtValiLote.Text.Substring(6)),
-                                                          int.Parse(edtDtValiLote.Text.Substring(3, 2)),
-                                                          int.Parse(edtDtValiLote.Text.Substring(0, 2)));
+            //        if (result.ToString() == "True")
+            //            execProc = true;
+            //        else
+            //            execProc = false;
+            //    }
+            //    else if (_inventarioVO != null)
+            //        execProc = true;
 
 
-                            _inventarioItemVO = InventarioItemDB.InserirInventarioItem(new VO.InventarioItemVO
-                            {
-                                InventarioId = _inventarioVO.InventarioId,
-                                CodLocaliz = String.Empty,
-                                CodLote = edtLote.Text,
-                                DtUltEntr = dtValiLote,
-                                ItCodigo = edtItCodigo.Text,
-                                CodRefer = String.Empty,
-                                NrFicha = 0,
-                                ValApurado = decimal.Parse(edtQuantidade.Text.Replace(".", ",")),
+            //    if (execProc)
+            //    {
 
-                                QtdDigitada = true,
-                            });
-                        }
-                        else
-                        {
+            //        if (decimal.Parse(edtQuantidade.Text) <= 0)
+            //        {
+            //            var result = await DisplayAlert("Atenção!", "Quantidade informada 0! O saldo em estoque será eliminado no sistema, deseja continuar?", "Sim", "Não");
 
-                            _inventarioItemVO.ValApurado = decimal.Parse(edtQuantidade.Text.Replace(".",","));
+            //            if (result.ToString() == "True")
+            //                execProc = true;
+            //            else
+            //                execProc = false;
 
-                            InventarioItemDB.AtualizaQuantidadeInventario(_inventarioItemVO);
-                            InventarioItemDB.ConfirmaQuantidadeDigitada(_inventarioItemVO.InventarioItemId, true);
+            //        }
 
-                            //InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);
-                        }
+            //        if (execProc)
+            //        {
+            //            if (_inventarioVO != null && _inventarioItemVO == null)
+            //            {
+            //                DateTime? dtValiLote = null;
 
-                        InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);
+            //                if (!String.IsNullOrEmpty(edtDtValiLote.Text))
+            //                    dtValiLote = new DateTime(int.Parse(edtDtValiLote.Text.Substring(6)),
+            //                                              int.Parse(edtDtValiLote.Text.Substring(3, 2)),
+            //                                              int.Parse(edtDtValiLote.Text.Substring(0, 2)));
 
-                        ResultAction(_inventarioItemVO, true);
 
-                        await DisplayAlert("Item Inventário", "Item do inventário atualizado com sucesso", "OK");
+            //                _inventarioItemVO = InventarioItemDB.InserirInventarioItem(new VO.InventarioItemVO
+            //                {
+            //                    InventarioId = _inventarioVO.InventarioId,
+            //                    CodLocaliz = String.Empty,
+            //                    CodLote = edtLote.Text,
+            //                    DtUltEntr = dtValiLote,
+            //                    //ItCodigo = edtItCodigo.Text,
+            //                    CodRefer = String.Empty,
+            //                    NrFicha = 0,
+            //                    ValApurado = decimal.Parse(edtQuantidade.Text.Replace(".", ",")),
 
-                        
-                        await PopupNavigation.Instance.PopAsync();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
-            }
-            finally
-            {
-                BtnEfetivar.IsEnabled = true;
-            }
+            //                    QtdDigitada = true,
+            //                });
+            //            }
+            //            else
+            //            {
+
+            //                _inventarioItemVO.ValApurado = decimal.Parse(edtQuantidade.Text.Replace(".",","));
+
+            //                InventarioItemDB.AtualizaQuantidadeInventario(_inventarioItemVO);
+            //                InventarioItemDB.ConfirmaQuantidadeDigitada(_inventarioItemVO.InventarioItemId, true);
+
+            //                //InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);
+            //            }
+
+            //            InventarioDB.EfetivaInventarioMobile(_inventarioVO.InventarioId, eStatusInventario.IniciadoMobile);
+
+            //            ResultAction(_inventarioItemVO, true);
+
+            //            await DisplayAlert("Item Inventário", "Item do inventário atualizado com sucesso", "OK");
+
+
+            //            await PopupNavigation.Instance.PopAsync();
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            //}
+            //finally
+            //{
+            //    BtnEfetivar.IsEnabled = true;
+            //}
         }
-    }
+        }
 }
