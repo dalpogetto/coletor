@@ -210,7 +210,7 @@ namespace CollectorQi.Models.Datasul
             }
         }
 
-        public static Tuple<TipoIntegracao,string>  EfetivaInventarioSistemaOnline(InventarioVO pInventarioVO)
+        public static Tuple<TipoIntegracao, string> EfetivaInventarioSistemaOnline(InventarioVO pInventarioVO)
         {
             List<ModelInventario> lstModelInventario = new List<ModelInventario>();
 
@@ -220,26 +220,26 @@ namespace CollectorQi.Models.Datasul
             var lstInventarioItem = lstInventarioItemAsync.FindAll(p => p.QtdDigitada);
 
             for (int iItem = 0; iItem < lstInventarioItem.Count; iItem++)
+            {
+                lstModelInventario.Add(new ModelInventario
                 {
-                    lstModelInventario.Add(new ModelInventario
-                    {
-                        dtSaldo          = pInventarioVO.DtInventario.ToString("dd/MM/yyyy"),
-                        itCodigo         = lstInventarioItem[iItem].ItCodigo,
-                        codEstabel       = pInventarioVO.CodEstabel,
-                        codDepos         = pInventarioVO.CodDepos,
-                        codLocaliz       = lstInventarioItem[iItem].CodLocaliz,
-                        lote             = lstInventarioItem[iItem].CodLote,
-                        dtUltSaida       = "",
-                        dtUltEntr        = lstInventarioItem[iItem].DtUltEntr.HasValue ? lstInventarioItem[iItem].DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty,
-                        situacao         = "",
-                        nrFicha          = lstInventarioItem[iItem].NrFicha,
-                        valApurado       = lstInventarioItem[iItem].ValApurado,
-                        codRefer         = lstInventarioItem[iItem].CodRefer,
-                        NumContagem      = pInventarioVO.Contagem
+                    dtSaldo = pInventarioVO.DtInventario.ToString("dd/MM/yyyy"),
+                    itCodigo = lstInventarioItem[iItem].ItCodigo,
+                    codEstabel = pInventarioVO.CodEstabel,
+                    codDepos = pInventarioVO.CodDepos,
+                    codLocaliz = lstInventarioItem[iItem].CodLocaliz,
+                    lote = lstInventarioItem[iItem].CodLote,
+                    dtUltSaida = "",
+                    dtUltEntr = lstInventarioItem[iItem].DtUltEntr.HasValue ? lstInventarioItem[iItem].DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty,
+                    situacao = "",
+                    nrFicha = lstInventarioItem[iItem].NrFicha,
+                    valApurado = lstInventarioItem[iItem].ValApurado,
+                    codRefer = lstInventarioItem[iItem].CodRefer,
+                    NumContagem = pInventarioVO.Contagem
 
-                    });
-                }
-            
+                });
+            }
+
 
             var result = Controller.SetInventario(lstModelInventario);
 

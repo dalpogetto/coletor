@@ -84,7 +84,7 @@ namespace CollectorQi.Views
 
                 var localizacao = new ParametersLocalizacaoLeituraEtiquetaService();
                 var localizacaoResult = await localizacao.SendInventarioAsync(inventario);
-                localizacaoRetorno = localizacaoResult.Resultparam.Localizacao;
+                txtEtiqueta.Text = localizacaoRetorno = localizacaoResult.Resultparam.Localizacao;
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace CollectorQi.Views
                 InventarioItemDB.InserirInventarioItem(inventarioItem);
             }
 
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, null));
         } 
 
         protected override bool OnBackButtonPressed()
