@@ -36,10 +36,10 @@ namespace CollectorQi.VO
 
         [Indexed(Name = "uInventarioIndex", Order = 2, Unique = true)]
         [MaxLength(40)]        
-        public string CodDepos { get => codDepos; set => codDepos = value; } //CodDeposito [Column("CodDeposito")]
+        public string CodDepos { get => codDepos; set => codDepos = value; } 
 
         [Indexed(Name = "uInventarioIndex", Order = 3, Unique = true)]       
-        public DateTime DtInventario { get => dtInventario; set => dtInventario = value; }  //DtSaldo [Column("DtSaldo")]
+        public DateTime DtInventario { get => dtInventario; set => dtInventario = value; } 
 
         [Indexed(Name = "uInventarioIndex", Order = 4, Unique = true)]
         public int Contagem { get => contagem; set => contagem = value; }

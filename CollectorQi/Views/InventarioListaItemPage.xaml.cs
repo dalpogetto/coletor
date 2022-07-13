@@ -61,43 +61,76 @@ namespace CollectorQi.Views
         private ObservableCollection<InventarioItemViewModel> _Items;
         private ObservableCollection<InventarioItemViewModel> _ItemsFiltered;
         private ObservableCollection<InventarioItemViewModel> _ItemsUnfiltered;
+        //private ObservableCollection<InventarioItemVO> listFiltro;
 
         private InventarioVO _inventario;
         private string localizacao;
 
-        public InventarioListaItemPage(InventarioVO pInventarioVO)
+        public InventarioListaItemPage(InventarioVO pInventarioVO, ObservableCollection<InventarioItemViewModel> inventarioItem, string _localizacao)
         {
             InitializeComponent();
 
             _inventario = pInventarioVO;
-
-            //this.Title = "Inventário (" + pInventarioVO.__deposito__.Nome + ")";
-            this.Title = "Inventário (" + pInventarioVO.InventarioId + ")";
-
-            var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
-
             Items = new ObservableCollection<InventarioItemViewModel>();
 
-            for (int i = 0; i < lstInventarioVO.Count; i++)
-            {
-                var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(lstInventarioVO[i]);
-                localizacao = modelView.CodLocaliz;
 
-                Items.Add(modelView);
+            if (inventarioItem == null)
+            { 
+                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
+               
+                for (int i = 0; i < lstInventarioVO.Count; i++)
+                {
+                    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(lstInventarioVO[i]);
+                    localizacao = modelView.CodLocaliz;
 
-                /* Adiciona descricao do item para busca */
-                /*
-                var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == Items[i].ItCodigo);
-                Items[i].__itemDesc__ = item.ItCodigo + item.DescItem; */
+                    Items.Add(modelView);
+
+                    /* Adiciona descricao do item para busca */
+                    /*
+                    var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == Items[i].ItCodigo);
+                    Items[i].__itemDesc__ = item.ItCodigo + item.DescItem; */
+                }
+
+                _ItemsUnfiltered = Items;
+                this.Title = "Localização (" + localizacao + ")";
             }
+            else
+            {                
+                foreach (var item in inventarioItem)
+                {
+                    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(item);
+                    Items.Add(modelView);
+                }
 
-            _ItemsUnfiltered = Items;
-
-            //Task.Run(CarregaDescricao);
+                localizacao = _localizacao;
+                this.Title = "Localização (" + localizacao + ")";                        
+            }
 
             cvInventarioItem.BindingContext = this;
         }
 
+        //public InventarioListaItemPage(ObservableCollection<InventarioItemViewModel> _Items)
+        //{
+        //    InitializeComponent();
+
+        //    try
+        //    {
+        //        Items = new ObservableCollection<InventarioItemViewModel>();
+        //        Items = _Items;
+
+        //        //foreach (var item in _Items)
+        //        //{
+        //        //    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(item);
+        //        //    Items.Add(modelView);
+        //        //}
+
+        //        cvInventarioItem.BindingContext = this;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string teste = ex.Message;
+        //    }            
+        //}
         public void CarregaDescricao()
         {
             foreach (var i in _ItemsUnfiltered)
@@ -138,11 +171,12 @@ namespace CollectorQi.Views
 
         async void OnClick_CaixaIncompleta(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PushAsync(new ProgressBarPopUp("Carregando..."));
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, localizacao, Items);
+            await PopupNavigation.Instance.PushAsync(page);
+            Thread.Sleep(1000);
+            await pageProgress.OnClose();
 
-            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, 0);
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
             //cvInventarioItem.IsEnabled = false;
             //var pageProgress = new ProgressBarPopUp("Carregando Item..");
@@ -230,15 +264,30 @@ namespace CollectorQi.Views
                 Lote = "",
                 QuantidadeDigitada = 0,
                 CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-            };
+            };      
 
             var _inventarioItem = await param.SendInventarioAsync(inventario);
 
-            // Adcionar Quantidade...
+            var filtroReturn = Items.FirstOrDefault(x => x.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem);
+            filtroReturn.Quantidade += _inventarioItem.paramConteudo.Resultparam[0].Quantidade;           
+
+            foreach (var item in Items)
+            {
+                if (item.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem)
+                {
+                    Items.Remove(item);
+                    break;
+                }
+            }
+
+            var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(filtroReturn);
+            Items.Add(modelView);          
+
+            cvInventarioItem.BindingContext = this;
 
             var pageProgress = new ProgressBarPopUp("Leitura realizada com sucesso !!!");
             await PopupNavigation.Instance.PushAsync(pageProgress);
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             await pageProgress.OnClose();
 
 
@@ -261,7 +310,7 @@ namespace CollectorQi.Views
             //    BtnBuscaItem.IsEnabled = true;
             //}
         }
-
+       
         private async void VerifyProd(string strQr)
         {
             if (strQr == null)
@@ -275,7 +324,8 @@ namespace CollectorQi.Views
 
                 if (inventarioItem != null)
                 {
-                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId); 
+                    //var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId);
+                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null); 
                     page.SetResultDigita(resultDigita);
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
@@ -288,7 +338,7 @@ namespace CollectorQi.Views
 
                         if (result.ToString() == "True")
                         {
-                            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, 0);                           
+                            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null);                           
 
                             page.SetResultDigita(resultDigita);
 
@@ -433,7 +483,7 @@ namespace CollectorQi.Views
 
             var pageProgress = new ProgressBarPopUp(_inventarioItemZerar.Resultparam.Zerar);
             await PopupNavigation.Instance.PushAsync(pageProgress);
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             await pageProgress.OnClose();
         }
 
@@ -456,8 +506,13 @@ namespace CollectorQi.Views
 
             var pageProgress = new ProgressBarPopUp(_inventarioItemLimpar.Resultparam.LimparLeitura);
             await PopupNavigation.Instance.PushAsync(pageProgress);
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             await pageProgress.OnClose();
+        }
+
+        private void BtnImprimir_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new ImprimirPage());
         }
     }
 

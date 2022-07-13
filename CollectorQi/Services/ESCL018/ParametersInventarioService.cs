@@ -93,7 +93,9 @@ namespace CollectorQi.Services.ESCL018
             public string DtSaldo { get; set; }
             public int IdInventario { get; set; }
             public string CodEstabel { get; set; }
+            public string DescEstabel { get; set; }
             public string CodDeposito { get; set; }
+            public string DescDepos { get; set; }
         }    
 
         //public class ResultSend

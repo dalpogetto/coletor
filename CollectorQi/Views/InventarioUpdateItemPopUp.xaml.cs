@@ -1,26 +1,45 @@
-﻿using CollectorQi.Models.ESCL018;
+﻿using AutoMapper;
+using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
+using CollectorQi.VO;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using Xamarin.Forms;
 //using Android.Graphics;
 
 namespace CollectorQi.Views
 {
     public partial class InventarioUpdateItemPopUp : PopupPage
     {
+        public ObservableCollection<InventarioItemViewModel> Items
+        {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
         //private int             _inventarioId = 0;
         private VO.InventarioVO _inventarioVO;
         private VO.InventarioItemVO _inventarioItemVO;
-
+        private ObservableCollection<InventarioItemViewModel> _Items;
         public Action<VO.InventarioItemVO,bool> ResultAction;
+        private string localizacao;
 
-        public InventarioUpdateItemPopUp(int pInventarioId, int pInventarioItemId)        
+        public InventarioUpdateItemPopUp(int pInventarioId, string _localizacao, ObservableCollection<InventarioItemViewModel> _Items)        
         {
             try
             {
                 InitializeComponent();
+
+                Items = _Items;
 
                 _inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
 
@@ -28,6 +47,7 @@ namespace CollectorQi.Views
                 edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
                 edtCodDeposito.Text = _inventarioVO.CodDepos;
                 edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");
+                localizacao = _localizacao;
 
 
                 //if (pInventarioItemId > 0)
@@ -159,6 +179,7 @@ namespace CollectorQi.Views
                 return;
             }
 
+            
             var param = new ParametersItemLeituraEtiquetaService();
 
             var inventario = new Inventario()
@@ -166,14 +187,35 @@ namespace CollectorQi.Views
                 IdInventario = _inventarioVO.InventarioId,
                 CodEstabel = _inventarioVO.CodEstabel,
                 CodDepos = _inventarioVO.CodDepos,
-                Localizacao = "F01GV03101",
+                Localizacao = localizacao,
                 Lote = "",
                 QuantidadeDigitada = int.Parse(edtQuantidade.Text),
-                CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"
-            };       
+                CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
+            };
 
             var _inventarioItem = await param.SendInventarioAsync(inventario);
-         
+
+            var filtroReturn = Items.FirstOrDefault(x => x.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem);
+            filtroReturn.Quantidade += int.Parse(edtQuantidade.Text);
+
+            foreach (var item in Items)
+            {
+                if (item.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem)
+                {
+                    Items.Remove(item);
+                    break;
+                }
+            }
+
+            var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(filtroReturn);
+            Items.Add(modelView);
+
+            //await PopupNavigation.Instance.PushAsync(new ProgressBarPopUp("Carregando..."));
+            var pageProgress = new ProgressBarPopUp("Carregando... !");
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, Items, localizacao));
+            await pageProgress.OnClose();  
+
+            OnBackButtonPressed();
 
 
             //if (String.IsNullOrEmpty(edtQuantidade.Text))
@@ -274,5 +316,5 @@ namespace CollectorQi.Views
             //    BtnEfetivar.IsEnabled = true;
             //}
         }
-        }
+    }
 }
