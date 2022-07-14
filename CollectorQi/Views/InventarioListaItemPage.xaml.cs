@@ -190,6 +190,8 @@ namespace CollectorQi.Views
 
                 customScanPage.SetResultAction(VerifyProd);
 
+                
+
                 await Navigation.PushModalAsync(customScanPage);
 
             }

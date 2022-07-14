@@ -48,9 +48,9 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Depósito: " FontAttributes="Bold" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding __deposito__.Nome}"  LineBreakMode="TailTruncation"  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="End" FontSize="Micro" /> 
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Scan: " FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NumRR}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
+                               
                                      
                                 </Grid>
                                 
