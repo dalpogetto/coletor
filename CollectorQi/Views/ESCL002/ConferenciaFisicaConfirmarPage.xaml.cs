@@ -1,18 +1,14 @@
-﻿using CollectorQi.Resources.DataBaseHelper;
-using CollectorQi.Resources;
+﻿using CollectorQi.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.PlatformConfiguration;
-using CollectorQi.VO;
 using CollectorQi.Models;
-using CollectorQi.Services.ESCL002;
 using static CollectorQi.Services.ESCL002.ParametersService;
+using System.Collections.ObjectModel;
+using CollectorQi.Services.ESCL002;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 /*using Rg.Plugins.Popup.Services;
 */
@@ -20,32 +16,61 @@ using static CollectorQi.Services.ESCL002.ParametersService;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ConferenciaFisicaReparosPage : ContentPage
+    public partial class ConferenciaFisicaConfirmarPage : ContentPage, INotifyPropertyChanged
     {
-        private static int itemListaColetor = 0;
         private static ItemColetor itemColetor;
-
         private static int menuId = 0;
         private static string menuDesc = "";
         private static bool volta = false;
         private bool _blnClickQr { get; set; }
-
         public static int MenuId { get => menuId; set => menuId = value; }
         public static string MenuDesc { get => menuDesc; set => menuDesc = value; }
         public static bool Volta { get => volta; set => volta = value; }
-
-        public List<ResultRepair> ListaReparos = new List<ResultRepair>();
         public ParametrosResult parametrosResult = new ParametrosResult();
-
-        public ConferenciaFisicaReparosPage()
+        public ObservableCollection<ResultRepairViewModel> Items
         {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
         }
 
-        public ConferenciaFisicaReparosPage(ParametrosResult _parametrosResult)
-        {
-            InitializeComponent();
+        private ObservableCollection<ResultRepairViewModel> _Items;
 
+        public ConferenciaFisicaConfirmarPage(ParametrosResult _parametrosResult, List<ResultRepair> listaReparos)
+        {
+            InitializeComponent();            
+
+            Items = new ObservableCollection<ResultRepairViewModel>();
             parametrosResult = _parametrosResult;
+
+            foreach (ResultRepair item in listaReparos)
+            {
+                var resultRepair = new ResultRepairViewModel();
+                resultRepair.RowId = item.RowId;
+                resultRepair.CodItem = item.CodItem;
+                resultRepair.NumRR = item.NumRR;
+                string[] msg = item.Mensagem.Split(':');
+                resultRepair.RetornoMsg = msg[0];
+                resultRepair.Mensagem = msg[1];
+                resultRepair.DescItem = item.DescItem;
+
+                if (resultRepair.RetornoMsg.Contains("OK"))
+                {
+                    resultRepair.Mensagem = "Nr Reparo: " + item.NumRR.ToString();
+                }
+                else
+                {
+                    //resultRepair
+                }
+
+                Items.Add(resultRepair);
+            }
+
+            ColConfirmar.BindingContext = this;
+            ColConfirmar.ItemsLayout = new ListItemsLayout(ItemsLayoutOrientation.Vertical);
 
             if (SecurityAuxiliar.Autenticado == false)
             {
@@ -53,74 +78,103 @@ namespace CollectorQi.Views
                 Application.Current.MainPage = new NavigationPage(new PrincipalPage());
             }
             else
-            {
-                //footerCodUsuario.Text = SecurityAuxiliar.CodUsuario;
-
-                //tipoConEst.Toggled += tipoConEst_Toggled;
-                //edtItCodigo.Focus();
-
+            {  
                 if (Volta)
                 {
                     Volta = false;
                     Limpar(false);
-                    //if (RecebimentoPage.Item_VO != null)
-                    //{
-                    //    Fill(RecebimentoPage.Item_VO);
-                    //}
                 }
             }
+        }     
 
-            //this.Title = "Conferência de depósito";
-
+        void OnClick_Voltar(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
+            return;
         }
 
         void OnClick_Sair(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new PrincipalPage());
-        }               
-       
-        void OnClick_Scan(object sender, EventArgs e)
-        {   
-            var repair = new ResultRepair()
-            {
-                CodBarras = txtScan.Text,
-                CodEstabel = txtEst.Text,
-                CodFilial = txtFil.Text,
-                NumRR = txtRR.Text
-            };
-
-            ListaReparos.Add(repair);
-
-            txtScan.Text = string.Empty;
-            txtEst.Text = string.Empty;
-            txtFil.Text = string.Empty;
-            txtRR.Text = string.Empty;
+            Application.Current.MainPage = new NavigationPage(new AlmoxarifadoPage());
         }
 
-        void OnClick_Avancar(object sender, EventArgs e)
+        void OnClick_Limpar(object sender, EventArgs e)
         {
-            List<ResultRepair> resultRepairList = new List<ResultRepair>();
+            Limpar(true);
+        }
+
+        void OnClick_Excluir(object sender, EventArgs e)
+        {
+            ResultRepairViewModel stringInThisCell = (ResultRepairViewModel)((Button)sender).BindingContext;
+            Items.Remove(stringInThisCell);
+
+            OnPropertyChanged("Confirmar");
+
+            return;
+        }
+               
+        async void OnClick_Salvar(object sender, EventArgs e)
+        {
+            /*
             ParametersService ps = new ParametersService();
+            var listaReparos = new List<ResultRepair>(); 
+            */
 
-            foreach (var item in ps.GetListRepair(parametrosResult, ListaReparos))
+
+            var lstConference = new List<ConferenceService.Repair>();
+
+            foreach (var item in Items)
             {
-                ResultRepair resultRepair = new ResultRepair();
-                resultRepair.CodItem = item.CodItem;
-                resultRepair.NumRR = item.NumRR;
-                resultRepair.Mensagem = item.Mensagem;
-                resultRepair.RowId = item.RowId;
+                ConferenceService.Repair r = new ConferenceService.Repair();
+                r.RowId = item.RowId;
 
-                resultRepairList.Add(resultRepair);
-            }          
+                lstConference.Add(r);
+            }
 
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaConfirmarPage(parametrosResult, resultRepairList) { Title = "Conferência Física de Reparos" });
+            /*
+            ps.SendParametersListaReparosAsync(parametrosResult, listaReparos);
+            */
+
+            ConferenceService rep = new ConferenceService();
+
+            ConferenceService.EndConferenceParameters v = new ConferenceService.EndConferenceParameters();
+
+            v.UsuarioTotvs = parametrosResult.UsuarioTotvs;
+            v.CodEstabel = parametrosResult.CodEstabel;
+            v.CodEmitente = parametrosResult.CodEmitente??0;
+            v.DtEntrada = parametrosResult.DtEntrada;
+            v.NfRet = parametrosResult.NFRet;
+            v.Serie = parametrosResult.Serie;
+            v.QtdeItem = parametrosResult.QtdeItem??0;
+            v.ValorTotal = parametrosResult.ValorTotal??0;
+            v.DiasXml = parametrosResult.DiasXML??0;
+
+            var result = await rep.EndConferenceAsync("super", "super", v, lstConference);
+
             return;
         }
 
-        void OnClick_Voltar(object sender, EventArgs e)
+        public class ResultRepairViewModel : ResultRepair, INotifyPropertyChanged
         {
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });
-            return;
+            public string Image
+            {
+                get
+                {
+                    OnPropertyChanged("Image");                   
+
+                    if (RetornoMsg == "OK")                    
+                        return "intSucessoMed.png";                    
+                    else                    
+                        return "intErroMed.png";
+                }
+            }            
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         async void OnClick_QR(object sender, EventArgs e)
@@ -143,8 +197,6 @@ namespace CollectorQi.Views
             {
                 VerifyProd(result.Text.ToString().Trim()); 
             }*/
-
-
 
             try
             {
@@ -197,8 +249,7 @@ namespace CollectorQi.Views
                         itRIQ = mdlEtiqueta.itRIQ,
                         itVol = mdlEtiqueta.itVol,
                         itExtra = mdlEtiqueta.itExtra
-                    };                   
-
+                    }; 
 
                     /*
                     edtQuantidade.Focus();*/
@@ -236,13 +287,12 @@ namespace CollectorQi.Views
             //edtSaldoMobile.Text = "";
             //edtDtValiLote.Text = "";
             //edtNroDocto.Text = "";
-
         }
 
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });
+            Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage() { Title = "Conferência Física de Reparos" });
 
             return true;
         }
@@ -285,30 +335,9 @@ namespace CollectorQi.Views
             //}
         }
 
-
         void Handle_Completed(object sender, System.EventArgs e)
         {
             //edtItCodigo.Unfocus();
         }
     }
-
-    public class DecimalConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new Exception(value.ToString());
-            if (value is decimal)
-                return value.ToString();
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            decimal dec;
-            if (decimal.TryParse(value as string, out dec))
-                return dec;
-            return value;
-        }
-    }
-
 }

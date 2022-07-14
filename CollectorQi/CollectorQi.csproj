@@ -79,8 +79,9 @@
     <None Include="Views\Batch\IntegracaoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\ESCL000\" />
     <Folder Include="Services\ESCL028\" />
+    <Folder Include="Services\ESCL018\" />
+    <Folder Include="ViewsOld\" />
     <Folder Include="Views\Batch\" />
     <Folder Include="Models\Notification\" />
   </ItemGroup>
@@ -98,13 +99,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\ConferenciaFisicaParametrosPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ConferenciaFisicaConfirmarPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaConfirmarPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaConfirmarPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirPage.xaml.cs">

@@ -5,17 +5,13 @@
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
             <Grid BackgroundColor="#fff">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="130" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="180" />
+                    <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="5,0,5,0" HorizontalOptions="Fill" VerticalOptions="Fill">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -41,8 +37,48 @@
                     </StackLayout>                   
                 </Grid>
 
-                <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <CollectionView Grid.Row="1" x:Name="cvListaReparos" ItemsSource="{Binding ListaReparos}" SelectionMode="Single"  Margin="10,0,10,0">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label Text="Nenhum Reparo Registrado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+
+                                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="80"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Scan: " FontAttributes="Bold" FontSize="Micro" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodBarras}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
+
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Grid Margin="10,5,10,5" Grid.Row="2"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -53,6 +89,10 @@
                     <Button x:Name="BtnVoltar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
                     Clicked="OnClick_Voltar" Grid.Row="1" Text="Voltar" />
 
+                    <Button x:Name="BtnBuscaItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor=" Silver"  BorderRadius="16"
+                            Clicked="OnClick_BuscaItem" Grid.Row="2" Grid.Column="0" Text="Busca Item (Etiqueta)" TextColor="White" />
+
+                    
                     <!--<Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
                     Clicked="OnClick_Limpar"   Grid.Row="1"   Text="Excluir" />-->
 
@@ -60,7 +100,7 @@
             </Grid>
 
         </ScrollView>
-
+        
 
 
     </ContentPage.Content>

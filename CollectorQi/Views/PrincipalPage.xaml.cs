@@ -35,6 +35,7 @@ namespace CollectorQi.Views
             {
                 var security =  await SecurityDB.GetSecurityAsync();
 
+                
                 if (security != null && security.Autenticado)
                 {
                     SecurityAuxiliar.Autenticado = true;

@@ -22,7 +22,7 @@ namespace CollectorQi.Services.ESCL002
         private const string URI_DEL_REPAIR = "/api/integracao/coletores/v1/escl002api/ExcluirReparos";
 
         // Metodo ValidarReparos - Totvs
-        public async Task<IEnumerable<Repair>> ValidateRepairAsync(string user, string password, List<Repair> repairs)
+        public async Task<List<RepairResult>> ValidateRepairAsync(string user, string password, List<Repair> repairs)
         {
             try
             {
@@ -54,9 +54,11 @@ namespace CollectorQi.Services.ESCL002
                         string responseData = await result.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.Write(result);
 
-                        var resultConvert = JsonConvert.DeserializeObject<ValidateResultJson>(responseData);
+                        var resultConvert = JsonConvert.DeserializeObject<ValidateResultJsonV2>(responseData);
 
                         System.Diagnostics.Debug.Write(resultConvert);
+
+                        return resultConvert.Conteudo.RepairResult;
                     }
                     else {
                         // Throw
@@ -140,6 +142,12 @@ namespace CollectorQi.Services.ESCL002
             return parametros;
         }
         
+        public class ValidateResultJsonV2
+        {
+            [JsonProperty("Conteudo")]
+            public ValidateResultJson Conteudo { get; set; }
+            public string Retorno { get; set; }
+        }
 
         #region Metodos utilizados para validate
         public class ValidateRequestJson
