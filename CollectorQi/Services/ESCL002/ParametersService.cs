@@ -199,11 +199,11 @@ namespace CollectorQi.Services.ESCL002
             return ParametersServiceMock.GetRepairs().ListaReparos;
         }
 
-        public class RequestJson
-        {
-            [JsonProperty("Parametros")]
-            public Parametros Param { get; set; }
-        }
+        //public class RequestJson
+        //{
+        //    [JsonProperty("Parametros")]
+        //    public Parametros Param { get; set; }
+        //}
 
         public class RequestParameters
         {

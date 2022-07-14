@@ -10,9 +10,10 @@
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
     </pages:PopupPage.Animation>
-    <StackLayout BackgroundColor="#4E4E4E" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3">
+    <StackLayout BackgroundColor="#fff" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3">
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <Grid BackgroundColor="#4E4E4E" Opacity="1">
+                <!--<Grid BackgroundColor="#4E4E4E" Opacity="1">-->
+            <Grid BackgroundColor="#fff" Opacity="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />
@@ -33,14 +34,14 @@
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
-                                <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto..." Grid.Row="1"
+                                <Label x:Name="lblInventario" Text="Inventário" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtInventario" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
                                     Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Descrição do produto..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
                                     Grid.ColumnSpan="4" />
-                                <local:CustomEntryText x:Name="edtUnidade" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Unidade de Medida..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodDeposito" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Codigo Deposito..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
                                     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtTipoConEst" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Tipo Controle de Lote..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
+                                <local:CustomEntryText x:Name="edtDtSaldo" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Data Saldo..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
                                     Grid.ColumnSpan="2" />
                             </Grid>
                         </Frame>
@@ -67,7 +68,7 @@
                     </StackLayout>
                         
                     <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,4,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

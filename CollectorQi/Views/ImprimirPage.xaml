@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             Title="Imprimir" 
+             x:Class="CollectorQi.Views.ImprimirPage">
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+        <StackLayout BackgroundColor="#fff">
+            <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                </Grid>
+            </Frame>
+
+            <StackLayout Spacing="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Frame HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+
+                    <!--<SearchBar IsVisible="{Binding SearchMode}" 
+                                   Placeholder="Digite a etiqueta..." 
+                                   Text="{Binding SearchText}" 
+                                   x:Name="txtEtiqueta"                         
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="StartAndExpand"
+                                   Margin="-10,0,0,0"
+                                   FontSize="Small"/>-->
+
+                    <!--<StackLayout x:Name="rbgImprimir" Padding="30,0" Spacing="12">-->
+                    
+                    <StackLayout x:Name="rbgImprimir" >
+                            <input:RadioButtonGroupView>                            
+                            <input:RadioButton Text="Item" />
+                            <input:RadioButton Text="Localização" />
+                            <input:RadioButton Text="Reparo" />
+                        </input:RadioButtonGroupView>
+                    </StackLayout>                    
+
+                </Frame>
+
+            </StackLayout>
+
+            <!--<CollectionView x:Name="cvLeituraEtiquetaLocaliza" SelectionMode="Single" Margin="10,0,10,0">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label Text="Nenhum inventário em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                          
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+
+            <!--<Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnBuscaEtiqueta" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                            Clicked="OnClick_BuscaEtiqueta" Grid.Row="0" Grid.Column="0" Text="Busca Etiqueta" TextColor="White" />
+
+                <Button x:Name="BtnProximo" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="OnClick_Proximo" Grid.Row="1" Grid.Column="0" Text="Próximo" TextColor="White" />
+
+            </Grid>-->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

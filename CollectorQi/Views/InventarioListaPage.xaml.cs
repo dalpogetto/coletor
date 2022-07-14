@@ -18,6 +18,8 @@ using CollectorQi.Models.Datasul;
 using AutoMapper;
 using System.Globalization;
 using Plugin.Connectivity;
+using CollectorQi.Services.ESCL018;
+using ESCL = CollectorQi.Models.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -54,13 +56,15 @@ namespace CollectorQi.Views
             InitializeComponent();
 
             ObsInventario = new ObservableCollection<InventarioViewModel>();
+            //lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;  
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
-            lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
-
-            var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
+            var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();                        
 
             for (int i = 0; i < lstInventario.Count(); i++)
             {
+                //_ = InventarioDB.DeletarInventario(lstInventario[i]);
+
                 var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
 
                 ObsInventario.Add(modelView);
@@ -73,54 +77,56 @@ namespace CollectorQi.Views
         {
             var current = (cvInventario.SelectedItem as VO.InventarioVO);
 
-            if (current != null)
-            {
-                
-                var batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
+            //if (current != null)
+            //{            
+            //    var batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
 
-                // Inventário efetivado
-                if (batchInventario != null &&
-                    batchInventario.StatusIntegracao != eStatusIntegracao.EnviadoIntegracao)
-                {
-                    var result = await DisplayAlert("Inventário Efetivado", "Inventário está efetivado para integração com sistema, deseja habilitar alteração no inventário? Habilitando a alteração será cancelado a integração com o sistema", "Sim", "Não");
+            //    // Inventário efetivado
+            //    if (batchInventario != null &&
+            //        batchInventario.StatusIntegracao != eStatusIntegracao.EnviadoIntegracao)
+            //    {
+            //        var result = await DisplayAlert("Inventário Efetivado", "Inventário está efetivado para integração com sistema, deseja habilitar alteração no inventário? Habilitando a alteração será cancelado a integração com o sistema", "Sim", "Não");
 
-                    if (result.ToString() == "True")
-                    {
-                        // Valida novamente se no meio da efetivação nao foi enviado para o TOTVS
-                        batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
+            //        if (result.ToString() == "True")
+            //        {
+            //            // Valida novamente se no meio da efetivação nao foi enviado para o TOTVS
+            //            batchInventario = BatchInventarioDB.GetBatchInventario(current.InventarioId);
 
-                        if (batchInventario.StatusIntegracao != eStatusIntegracao.EnviadoIntegracao)
-                        {
-                            IntegracaoOnlineBatch.CancelaInventarioMobile(current.InventarioId);
-                            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(current));
-                        }
-                        else
-                            await DisplayAlert("Erro!", "Inventário integrado com o sistema, não pode ser alterado.", "Cancelar");
+            //            if (batchInventario.StatusIntegracao != eStatusIntegracao.EnviadoIntegracao)
+            //            {
+            //                IntegracaoOnlineBatch.CancelaInventarioMobile(current.InventarioId);
+            //                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(current));
+            //            }
+            //            else
+            //                await DisplayAlert("Erro!", "Inventário integrado com o sistema, não pode ser alterado.", "Cancelar");
 
-                    }
-                }
-                // Inventario efetivado e integrado com TOTVS
-                else if (batchInventario != null)
-                {
-                    await DisplayAlert("Erro!", "Inventário integrado com o sistema, não pode ser alterado.", "Cancelar");
-                }
-                else
-                {
-                    Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(current));
-                }
-            }
+            //        }
+            //    }
+            //    // Inventario efetivado e integrado com TOTVS
+            //    else if (batchInventario != null)
+            //    {
+            //        await DisplayAlert("Erro!", "Inventário integrado com o sistema, não pode ser alterado.", "Cancelar");
+            //    }
+            //    else
+            //    {
+            //        Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(current));
+            //    }
+            //}
 
-            cvInventario.SelectedItem = null;
+            //cvInventario.SelectedItem = null;
+
+            Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(current));
         }
 
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)
         {
+            var current = (cvInventario.SelectedItem as VO.InventarioVO);
+
             if (!CrossConnectivity.Current.IsConnected)
             {
                 await DisplayAlert("Erro!", "Para buscar os inventários no sistema o dispositivo deve estar conectado.", "CANCELAR");
 
                 return;
-
             }
 
             BtnCarregaInventario.IsEnabled = false;
@@ -129,24 +135,47 @@ namespace CollectorQi.Views
 
             try
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+                ObsInventario.Clear(); 
 
-                var lstInventarioERP = Models.Controller.GetInventario();
+                var parametersInventario = new ParametersInventarioService();
+                var lstInventario = await parametersInventario.SendParametersAsync();
+                var listInventario = new List<ModelInventario>();
 
-                await Models.Controller.CriaInventario(lstInventarioERP);
-
-                var lstInventarioAsync = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel());
-
-                var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
-
-                ObsInventario.Clear();
-
-                for (int i = 0; i < lstInventario.Count(); i++)
+                foreach (var item in lstInventario.param.Resultparam)
                 {
-                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+                    var inventario = new ModelInventario();
+                    inventario.dtSaldo = item.DtSaldo;
+                    inventario.codEstabel = item.CodEstabel;
+                    inventario.codDepos = item.CodDeposito;
+                    inventario.idInventario = item.IdInventario;
+                    listInventario.Add(inventario);
 
+                    var inventarioVO = new InventarioVO();
+                    inventarioVO.DtInventario = DateTime.ParseExact(item.DtSaldo, "dd/MM/yy", CultureInfo.InvariantCulture);
+                    inventarioVO.CodEstabel = item.CodEstabel;
+                    inventarioVO.CodDepos = item.CodDeposito;
+                    inventarioVO.InventarioId = item.IdInventario;                    
+
+                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(inventarioVO);
                     ObsInventario.Add(modelView);
                 }
+
+                //var parametersFichasUsuario = new ParametersFichasUsuarioService();
+                //var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
+
+                //foreach (var item in lstInventarioVO.param.Resultparam)
+                //{
+                //    InventarioItemVO inventarioItem = new InventarioItemVO();
+                //    inventarioItem.InventarioId = item.IdInventario;
+                //    inventarioItem.CodLote = item.Lote;
+                //    inventarioItem.CodLocaliz = item.Localizacao;
+                //    inventarioItem.CodRefer = item.CodItem;                     
+                //    inventarioItem.NrFicha = item.Quantidade;                    
+
+                //    InventarioItemDB.InserirInventarioItem(inventarioItempageProgress);
+                //}  
+
+                await Models.Controller.CriaInventario(listInventario);
             }
             catch (Exception ex)
             {
@@ -159,23 +188,23 @@ namespace CollectorQi.Views
             }
         }
 
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
 
-            ObsInventario.Clear();
+        //    ObsInventario.Clear();
 
-            var lstInventarioAsync = InventarioDB.GetInventarioByEstab(SecurityAuxiliar.GetCodEstabel());
+        //    var lstInventarioAsync = InventarioDB.GetInventarioByEstab(SecurityAuxiliar.GetCodEstabel());
 
-            var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
+        //    var lstInventario = lstInventarioAsync.OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
 
-            for (int i = 0; i < lstInventario.Count(); i++)
-            {
-                var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+        //    for (int i = 0; i < lstInventario.Count(); i++)
+        //    {
+        //        var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
 
-                ObsInventario.Add(modelView);
-            }
-        }
+        //        ObsInventario.Add(modelView);
+        //    }
+        //}
 
 
         protected override bool OnBackButtonPressed()
@@ -186,7 +215,6 @@ namespace CollectorQi.Views
             return true;
         }
     }
-
 
     public class InventarioViewModel : InventarioVO
     {

@@ -1323,10 +1323,20 @@ namespace CollectorQi.Models
                                                              int.Parse(inventario[i].dtUltEntr.Substring(0, 2)));
 
                             DateTime dtSaldoInventario = DateTime.MinValue;
+
+                            //if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
+                            //    dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 4)),
+                            //                                     int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
+                            //                                     int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
+
+
+                            //string teste = inventario[i].dtSaldo.Substring(0, 2) + inventario[i].dtSaldo.Substring(3, 2) + inventario[i].dtSaldo.Substring(6, 2);
+
                             if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
-                                dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 4)),
+                                dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 2)),
                                                                  int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
                                                                  int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
+
 
                             var inventarioVO = new VO.InventarioVO
                             {
@@ -1335,7 +1345,8 @@ namespace CollectorQi.Models
                                 DtInventario = dtSaldoInventario,
                                 Contagem = inventario[i].NumContagem,
                                 /* Victor Alves - 26/11/2019 - adiciona inventário ativo */
-                                inventarioAtivo = true
+                                inventarioAtivo = true,
+                                InventarioId  = inventario[i].idInventario
                             };
 
                             lstInventarioVO.Add(inventarioVO);

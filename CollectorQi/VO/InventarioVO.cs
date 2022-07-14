@@ -16,6 +16,7 @@ namespace CollectorQi.VO
         private int      inventarioId = 0;
         private string   codEstabel   = "";
         private string   codDepos     = "";
+        //private string codigoBarras = "";
         private DateTime dtInventario = DateTime.Now;
         private int      contagem     = 0;
 
@@ -25,7 +26,8 @@ namespace CollectorQi.VO
 
         private DepositoVO deposito = null;
 
-        [AutoIncrement, PrimaryKey]
+        //[AutoIncrement, PrimaryKey]
+        [PrimaryKey]
         public virtual int  InventarioId { get => inventarioId; set => inventarioId = value; }
 
         [Indexed(Name = "uInventarioIndex", Order = 1, Unique = true)]
@@ -33,15 +35,15 @@ namespace CollectorQi.VO
         public string CodEstabel { get => codEstabel; set => codEstabel = value; }
 
         [Indexed(Name = "uInventarioIndex", Order = 2, Unique = true)]
-        [MaxLength(40)]
-        public string CodDepos { get => codDepos; set => codDepos = value; }
+        [MaxLength(40)]        
+        public string CodDepos { get => codDepos; set => codDepos = value; } 
 
-        [Indexed(Name = "uInventarioIndex", Order = 3, Unique = true)]
-        public DateTime DtInventario { get => dtInventario; set => dtInventario = value; }
+        [Indexed(Name = "uInventarioIndex", Order = 3, Unique = true)]       
+        public DateTime DtInventario { get => dtInventario; set => dtInventario = value; } 
 
         [Indexed(Name = "uInventarioIndex", Order = 4, Unique = true)]
         public int Contagem { get => contagem; set => contagem = value; }
-
+        //public string CodigoBarras { get => codigoBarras; set => codigoBarras = value; } 
         public int               OrigemInventario { get => origemInventario; set => origemInventario = value; }
         public eStatusInventario StatusInventario { get => statusInventario; set => statusInventario = value; }
         public bool              InventarioAtivo  { get => inventarioAtivo;  set => inventarioAtivo  = value; }
