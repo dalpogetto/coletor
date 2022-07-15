@@ -23,13 +23,160 @@
                                    VerticalOptions="StartAndExpand"
                                    HorizontalOptions="StartAndExpand"
                                    Margin="-10,0,0,0"
-                                   FontSize="Small"/>-->
-            
+                                   FontSize="Small"/>-->            
                     <Entry x:Name="txtEtiqueta" Placeholder="Digite a etiqueta.." VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" FontSize="Small" WidthRequest="400"/>
-
-                </Frame>              
-
+                </Frame> 
             </StackLayout>
+
+            <Grid Grid.Row="0">
+                <CollectionView x:Name="cvLeituraEtiqueta" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="cvLeituraEtiqueta_SelectionChanged" Grid.Row="0" Margin="10,0,10,0">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label Text="Nenhum item no inventário" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="70"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0" MinimumWidthRequest="20" Grid.RowSpan="4" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding Image}" Grid.Row="0"  WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
+                                            <Label Text="{Binding StatusItemInventario}" Grid.Row="1"  FontSize="Micro" HorizontalOptions="Center" VerticalOptions="Start" />
+                                        </Grid>
+
+                                        <StackLayout Spacing="1" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+
+                                            <Grid HorizontalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold"  FontSize="Micro" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding InventarioItemId}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />
+                                            </Grid>
+                                            <Grid HorizontalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="Lote: " FontAttributes="Bold"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLote}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding DtUltEntr, StringFormat='{0:dd/MM/yyyy}'}" HorizontalTextAlignment="Start" VerticalTextAlignment="End"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodLote}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </Grid>
+                                            <Grid HorizontalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="Referencia: " FontAttributes="Bold"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodRefer}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodRefer}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodRefer}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </Grid>
+                                            <Grid HorizontalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodLocaliz}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding CodLocaliz}" Value="">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                            <Setter Property="HeightRequest" Value="0" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </Grid>
+                                            <Grid HorizontalOptions="FillAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="Quantidade: " FontAttributes="Bold"  FontSize="Micro" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Quantidade}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
 
             <!--<CollectionView x:Name="cvLeituraEtiquetaLocaliza" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>

@@ -93,5 +93,50 @@ namespace CollectorQi.Views
 
             return true;
         }
+
+        async void BtnItem_Clicked(object sender, EventArgs e)
+        {
+            var inventario = new Inventario()
+            { 
+                CodEstabel = "101",
+                CodDepos = "DAT",
+                QuantidadeDigitada = 1                
+            };
+
+            //"CodEstabel": "101",
+            //"CodDeposito": "DAT",
+            //"CodItem": "65.111.06998-2",
+            //"Quantidade": 1,
+            //"QtdeEtiqueta": 1
+
+            var imprimir = new ParametersImprimirEtiquetaService();
+            await imprimir.SendImpressaoAsync(inventario);
+        }
+
+        async void BtnLocalizacao_Clicked(object sender, EventArgs e)
+        {
+            var inventario = new Inventario()
+            {
+                CodEstabel = "101",
+                CodDepos = "DAT",
+                QuantidadeDigitada = 1
+            };
+
+            var imprimir = new ParametersImprimirEtiquetaService();
+            await imprimir.SendImpressaoAsync(inventario);
+        }
+
+        async void BtnReparo_Clicked(object sender, EventArgs e)
+        {
+            var inventario = new Inventario()
+            {
+                CodEstabel = "101",
+                CodDepos = "DAT",
+                QuantidadeDigitada = 1
+            };
+
+            var imprimir = new ParametersImprimirEtiquetaService();
+            await imprimir.SendImpressaoAsync(inventario);
+        }
     }
 }

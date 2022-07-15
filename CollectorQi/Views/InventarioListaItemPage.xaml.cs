@@ -172,7 +172,7 @@ namespace CollectorQi.Views
         async void OnClick_CaixaIncompleta(object sender, EventArgs e)
         {
             var pageProgress = new ProgressBarPopUp("Carregando...");
-            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, localizacao, Items);
+            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, localizacao, Items);
             await PopupNavigation.Instance.PushAsync(page);
             Thread.Sleep(1000);
             await pageProgress.OnClose();
@@ -325,7 +325,7 @@ namespace CollectorQi.Views
                 if (inventarioItem != null)
                 {
                     //var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId);
-                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null); 
+                    var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, "", null); 
                     page.SetResultDigita(resultDigita);
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
@@ -338,7 +338,7 @@ namespace CollectorQi.Views
 
                         if (result.ToString() == "True")
                         {
-                            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null);                           
+                            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, "", null);                           
 
                             page.SetResultDigita(resultDigita);
 
@@ -514,6 +514,16 @@ namespace CollectorQi.Views
         {
             Application.Current.MainPage = new NavigationPage(new ImprimirPage());
         }
+
+        async void cvInventarioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, localizacao, Items);
+            await PopupNavigation.Instance.PushAsync(page);
+            Thread.Sleep(1000);
+            await pageProgress.OnClose();
+        }
+        
     }
 
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged

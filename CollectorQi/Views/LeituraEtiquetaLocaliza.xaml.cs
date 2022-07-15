@@ -63,9 +63,13 @@ namespace CollectorQi.Views
 
             //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
 
+            //Parametros();
+
             pInventarioVO = inventarioVO;
             BtnProximo.IsEnabled = false;
-        }      
+        }
+
+       
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
         {
@@ -127,6 +131,11 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
 
             return true;
+        }
+
+        private void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

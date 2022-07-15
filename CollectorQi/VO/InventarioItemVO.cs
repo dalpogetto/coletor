@@ -19,7 +19,7 @@ namespace CollectorQi.VO
         private decimal valApurado = 0;
         private DateTime? dtUltEntr;
         private bool qtdDigitada = false;
-        private int quantidade = 0;
+        private decimal quantidade = 0;
         private ItemVO  item;
         private InventarioVO inventario;
 
@@ -55,7 +55,7 @@ namespace CollectorQi.VO
 
         public bool QtdDigitada { get => qtdDigitada; set => qtdDigitada = value; }
 
-        public int Quantidade { get => quantidade; set => quantidade = value; }
+        public decimal Quantidade { get => quantidade; set => quantidade = value; }
 
         [Ignore]
         public string __itemDesc__
