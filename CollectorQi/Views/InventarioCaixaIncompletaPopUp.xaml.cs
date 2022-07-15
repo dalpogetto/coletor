@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Views
 {
-    public partial class InventarioUpdateItemPopUp : PopupPage
+    public partial class InventarioCaixaIncompletaPopUp : PopupPage
     {
         public ObservableCollection<InventarioItemViewModel> Items
         {
@@ -33,7 +33,7 @@ namespace CollectorQi.Views
         public Action<VO.InventarioItemVO,bool> ResultAction;
         private string localizacao;
 
-        public InventarioUpdateItemPopUp(int pInventarioId, string _localizacao, ObservableCollection<InventarioItemViewModel> _Items)        
+        public InventarioCaixaIncompletaPopUp(int pInventarioId, string _localizacao, ObservableCollection<InventarioItemViewModel> _Items)        
         {
             try
             {

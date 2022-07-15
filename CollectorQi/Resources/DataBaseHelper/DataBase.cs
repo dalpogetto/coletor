@@ -51,60 +51,8 @@ namespace CollectorQi.Resources.DataBaseHelper
             }
         }
 
-
-
         public bool CriarBancoDeDados()
         {
-      
-
-
-            //var strDir = Android.OS.Environment.GetExternalStoragePublicDirectory(Environment.SpecialFolder.CommonDocuments.ToString()) + "/FolderName";
-
-            //var strDir = System.IO.Path.Combine((string)Android.OS.Environment.ExternalStorageDirectory, "FolderPath");
-
-            //string strDir = Path.Combine(documents, "CollectorQi");
-
-
-            /*
-            if (!Directory.Exists(strDir))
-            {
-                Directory.CreateDirectory(strDir);
-            }*/
-            /*FileSystem.
-            var strDir = Android.OS.Environment.ExternalStorageDirectory.Path;
-
-            var dbAsync = new BaseOperations();
-
-            using (StreamWriter str = new StreamWriter(strDir + "/UsuarioVO.qip"))
-            {
-                var u = dbAsync.Connection.Table<UsuarioVO>();
-
-                using (var csv = new CsvWriter(str))
-                {
-                    csv.WriteRecords(u.ToListAsync().Result);
-                }
-            }
-    
-            */
-
-            /* string pastaFiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
-
-                        System.Diagnostics.Debug.Write(pastaFiles);
-
-
-                        pastaFiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-
-
-
-                        System.Diagnostics.Debug.Write(pastaFiles);
-
-
-                        pastaFiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Cookies);
-
-
-                        System.Diagnostics.Debug.Write(pastaFiles);*/
-
-
             Version version = new Version();
 
             try
@@ -116,8 +64,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                     using (SQLiteConnection conexao = new SQLiteConnection(System.IO.Path.Combine(pasta, banco)))
                     {
 
-                        if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) == 120)
-                        {
+                        //if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) == 120)
+                        //{
                             /* Se for ambiente (1.2.0), limpa o banco de dados */
                             conexao.DropTable<UsuarioVO>();
                             conexao.DropTable<ItemVO>();
@@ -130,7 +78,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoVO>();
                             conexao.DropTable<RequisicaoItemVO>();
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
-                        }                                                                       
+                            conexao.DropTable<FichasUsuarioVO>();
+                        //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))
                             conexao.CreateTable<UsuarioVO>();
@@ -145,24 +94,24 @@ namespace CollectorQi.Resources.DataBaseHelper
                         {
                             conexao.CreateTable<InventarioVO>();
                         }
-                        else
-                        {
-                            /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
-                            if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
-                            {
-                                SQLiteCommand cmd = new SQLiteCommand(conexao);
-                                cmd.CommandText = "ALTER TABLE InventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
-                                try
-                                {
-                                    cmd.ExecuteNonQuery();
-                                }
-                                catch (Exception ex)
-                                {
-                                    /* Se já existir o campo, desconsidera */
-                                    System.Diagnostics.Debug.Write(ex);
-                                }
-                            }
-                        }
+                        //else
+                        //{
+                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
+                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
+                        //    {
+                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
+                        //        cmd.CommandText = "ALTER TABLE InventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
+                        //        try
+                        //        {
+                        //            cmd.ExecuteNonQuery();
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            /* Se já existir o campo, desconsidera */
+                        //            System.Diagnostics.Debug.Write(ex);
+                        //        }
+                        //    }
+                        //}
 
                         if (!IsTableExists("InventarioItemVO", conexao))
                             conexao.CreateTable<InventarioItemVO>();
@@ -195,24 +144,27 @@ namespace CollectorQi.Resources.DataBaseHelper
                         {
                             conexao.CreateTable<BatchInventarioVO>();
                         }
-                        else
-                        {
-                            /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
-                            if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
-                            {
-                                SQLiteCommand cmd = new SQLiteCommand(conexao);
-                                cmd.CommandText = "ALTER TABLE BatchInventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
-                                try
-                                {
-                                    cmd.ExecuteNonQuery();
-                                }
-                                catch (Exception ex)
-                                {
-                                    /* Se já existir o campo, desconsidera */
-                                    System.Diagnostics.Debug.Write(ex);
-                                }
-                            }
-                        }
+                        //else
+                        //{
+                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
+                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
+                        //    {
+                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
+                        //        cmd.CommandText = "ALTER TABLE BatchInventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
+                        //        try
+                        //        {
+                        //            cmd.ExecuteNonQuery();
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            /* Se já existir o campo, desconsidera */
+                        //            System.Diagnostics.Debug.Write(ex);
+                        //        }
+                        //    }
+                        //}
+
+                        if (!IsTableExists("FichasUsuarioVO", conexao))
+                            conexao.CreateTable<FichasUsuarioVO>();
 
                     }
 

@@ -110,6 +110,9 @@
     <Compile Update="Views\ImprimirPage.xaml.cs">
       <DependentUpon>ImprimirPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
+      <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
     </Compile>
