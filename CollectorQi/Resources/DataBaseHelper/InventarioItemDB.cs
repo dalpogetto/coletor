@@ -11,7 +11,6 @@ namespace CollectorQi.Resources.DataBaseHelper
 {
     public static class InventarioItemDB
     {
-
         public static List<InventarioItemVO> GetInventarioItemByInventario(int inventarioById)
         {
             List<InventarioItemVO> lstInventarioItem = new List<InventarioItemVO>();

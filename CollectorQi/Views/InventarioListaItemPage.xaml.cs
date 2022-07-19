@@ -69,10 +69,9 @@ namespace CollectorQi.Views
         public InventarioListaItemPage(InventarioVO pInventarioVO, ObservableCollection<InventarioItemViewModel> inventarioItem, string _localizacao)
         {
             InitializeComponent();
-
+            
             _inventario = pInventarioVO;
             Items = new ObservableCollection<InventarioItemViewModel>();
-
 
             if (inventarioItem == null)
             { 
@@ -84,11 +83,6 @@ namespace CollectorQi.Views
                     localizacao = modelView.CodLocaliz;
 
                     Items.Add(modelView);
-
-                    /* Adiciona descricao do item para busca */
-                    /*
-                    var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == Items[i].ItCodigo);
-                    Items[i].__itemDesc__ = item.ItCodigo + item.DescItem; */
                 }
 
                 _ItemsUnfiltered = Items;
@@ -522,8 +516,7 @@ namespace CollectorQi.Views
             await PopupNavigation.Instance.PushAsync(page);
             Thread.Sleep(1000);
             await pageProgress.OnClose();
-        }
-        
+        }        
     }
 
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged

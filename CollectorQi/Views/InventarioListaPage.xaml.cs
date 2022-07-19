@@ -73,32 +73,30 @@ namespace CollectorQi.Views
             cvInventario.BindingContext = this;
         }
 
-        //async void Parametros()
-        //{
-        //    var parametersFichasUsuario = new ParametersFichasUsuarioService();
-        //    var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
+        async void Parametros()
+        {
+            var parametersFichasUsuario = new ParametersFichasUsuarioService();
+            var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
 
-        //    //var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
+            //var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
 
-        //    var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.GroupBy(x => x.Localizacao);
-        //    var listFichasUsuarioVO = new List<FichasUsuarioVO>();
+            var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.GroupBy(x => x.Localizacao);
+            var listFichasUsuarioVO = new List<FichasUsuarioVO>();
 
-        //    foreach (var item in lstInventarioVOFiltro.Select(g => g.Key))
-        //    {
-        //        var usuarioVO = new FichasUsuarioVO()
-        //        {
-        //            Localizacao = item.ToString()
-        //        };
+            foreach (var item in lstInventarioVOFiltro.Select(g => g.Key))
+            {
+                var usuarioVO = new FichasUsuarioVO()
+                {
+                    Localizacao = item.ToString()
+                };
 
-        //        listFichasUsuarioVO.Add(usuarioVO);
-        //    }
-            
-        //    FichasUsuarioDB.InserirFichasUsuarioItem(listFichasUsuarioVO);           
-        //}
+                FichasUsuarioDB.InserirFichasUsuarioItem(usuarioVO);
+            }            
+        }
 
         async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Parametros();
+            Parametros();
 
             var current = (cvInventario.SelectedItem as VO.InventarioVO);
 

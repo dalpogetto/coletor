@@ -51,6 +51,17 @@ namespace CollectorQi.Views
 
         #endregion
 
+        public ObservableCollection<FichasUsuarioVO> Items
+        {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        private ObservableCollection<FichasUsuarioVO> _Items;
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
         public InventarioVO pInventarioVO { get; }
         public string localizacaoRetorno { get; set; }
@@ -60,16 +71,26 @@ namespace CollectorQi.Views
             InitializeComponent();
 
             lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
-
-            //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
-
-            //Parametros();
-
             pInventarioVO = inventarioVO;
-            BtnProximo.IsEnabled = false;
-        }
 
-       
+            Items = new ObservableCollection<FichasUsuarioVO>();
+
+            var lstFichasUsuarioVO = new ObservableCollection<FichasUsuarioVO>(FichasUsuarioDB.GetFichasUsuarioBy().OrderBy(p => p.Localizacao).ToList());
+
+            for (int i = 0; i < lstFichasUsuarioVO.Count; i++)
+            {
+                var modelView = Mapper.Map<FichasUsuarioVO>(lstFichasUsuarioVO[i]);  
+                Items.Add(modelView);               
+            }
+
+            BtnProximo.IsEnabled = false;
+            //_ItemsUnfiltered = Items;
+            //this.Title = "Localização (" + localizacao + ")";
+
+            cvLeituraEtiqueta.BindingContext = this;            
+
+            //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);            
+        }       
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
         {
@@ -77,14 +98,14 @@ namespace CollectorQi.Views
             await PopupNavigation.Instance.PushAsync(pageProgress);
 
             try
-            {
+            {                
                 var inventario = new Inventario()
                 {
                     IdInventario = pInventarioVO.InventarioId,
                     CodEstabel = pInventarioVO.CodEstabel,
                     CodDepos = pInventarioVO.CodDepos,
-                    CodigoBarras = txtEtiqueta.Text
-                };
+                    CodigoBarras = txtEtiqueta.Text,
+                };                
 
                 var localizacao = new ParametersLocalizacaoLeituraEtiquetaService();
                 var localizacaoResult = await localizacao.SendInventarioAsync(inventario);
@@ -135,7 +156,10 @@ namespace CollectorQi.Views
 
         private void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var current = (cvLeituraEtiqueta.SelectedItem as FichasUsuarioVO);
 
+            if (current != null)            
+                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, current.Localizacao));
         }
     }
 }
