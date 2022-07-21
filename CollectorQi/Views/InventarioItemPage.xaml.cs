@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CollectorQi.Services.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -94,11 +95,12 @@ namespace CollectorQi.Views
         void Limpar_Clicked(object sender, System.EventArgs e)
         {
             Limpar();
-        }
+        }        
 
         void BtnAdicionarItem_Clicked(object sender, System.EventArgs e)
         {
-            //await DisplayAlert("Teste", "Adicionando Item", "Cancel");
+            //await DisplayAlert("Teste", "Adicionando Item", "Cancel");          
+
             MenuItemDetail menuItemDetail;
 
             List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();

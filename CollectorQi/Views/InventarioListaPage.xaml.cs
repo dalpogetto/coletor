@@ -28,24 +28,24 @@ namespace CollectorQi.Views
     {
         #region Property
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
 
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
+        //protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        //{
+        //    if (EqualityComparer<T>.Default.Equals(storage, value))
+        //    {
+        //        return false;
+        //    }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //    return true;
+        //}
 
         #endregion
 
@@ -56,16 +56,17 @@ namespace CollectorQi.Views
             InitializeComponent();
 
             ObsInventario = new ObservableCollection<InventarioViewModel>();
-            //lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;  
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel() + " - PROCOMP INDUSTRIA ELETRONICA LTDA";
 
-            var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();                        
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+
+            var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
 
             for (int i = 0; i < lstInventario.Count(); i++)
             {
                 //_ = InventarioDB.DeletarInventario(lstInventario[i]);
 
                 var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+                lblCodEstabel.Text = lstInventario[i].CodEstabel + " - " + lstInventario[i].DescEstabel;
 
                 ObsInventario.Add(modelView);
             }
@@ -73,8 +74,32 @@ namespace CollectorQi.Views
             cvInventario.BindingContext = this;
         }
 
-        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void Parametros()
         {
+            var parametersFichasUsuario = new ParametersFichasUsuarioService();
+            var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
+
+            //var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
+
+            var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.GroupBy(x => x.Localizacao);
+            var listFichasUsuarioVO = new List<FichasUsuarioVO>();
+
+            foreach (var item in lstInventarioVOFiltro.Select(g => g.Key))
+            {
+                var usuarioVO = new FichasUsuarioVO()
+                {
+                    Localizacao = item.ToString()
+                };
+
+                FichasUsuarioDB.InserirFichasUsuarioItem(usuarioVO);
+            }
+        }
+
+        public void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cvInventario.SelectedItem == null)
+                return;
+            
             var current = (cvInventario.SelectedItem as VO.InventarioVO);
 
             //if (current != null)
@@ -112,12 +137,16 @@ namespace CollectorQi.Views
             //        Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(current));
             //    }
             //}
+            //
 
-            //cvInventario.SelectedItem = null;
+            if (current != null)
+            {
+                Parametros();               
 
-            System.Diagnostics.Debug.Write(current);
+                Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(current));
+            }            
 
-            Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(current));
+            cvInventario.SelectedItem = null;
         }
 
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)
@@ -137,7 +166,7 @@ namespace CollectorQi.Views
 
             try
             {
-                ObsInventario.Clear(); 
+                ObsInventario.Clear();
 
                 var parametersInventario = new ParametersInventarioService();
                 var lstInventario = await parametersInventario.SendParametersAsync();
@@ -150,13 +179,17 @@ namespace CollectorQi.Views
                     inventario.codEstabel = item.CodEstabel;
                     inventario.codDepos = item.CodDeposito;
                     inventario.idInventario = item.IdInventario;
+                    inventario.DescEstabel = item.DescEstabel;
+                    inventario.DescDepos = item.DescDepos;
                     listInventario.Add(inventario);
 
                     var inventarioVO = new InventarioVO();
                     inventarioVO.DtInventario = DateTime.ParseExact(item.DtSaldo, "dd/MM/yy", CultureInfo.InvariantCulture);
                     inventarioVO.CodEstabel = item.CodEstabel;
                     inventarioVO.CodDepos = item.CodDeposito;
-                    inventarioVO.InventarioId = item.IdInventario;                    
+                    inventarioVO.InventarioId = item.IdInventario;
+                    inventarioVO.DescEstabel = item.DescEstabel;
+                    inventarioVO.DescDepos = item.DescDepos;
 
                     var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(inventarioVO);
                     ObsInventario.Add(modelView);

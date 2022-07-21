@@ -66,49 +66,31 @@ namespace CollectorQi.Views
         private InventarioVO _inventario;
         private string localizacao;
 
-        public InventarioListaItemPage(InventarioVO pInventarioVO, ObservableCollection<InventarioItemViewModel> inventarioItem, string _localizacao)
+        //public InventarioListaItemPage(InventarioVO pInventarioVO, ObservableCollection<InventarioItemViewModel> inventarioItem, string _localizacao)
+        public InventarioListaItemPage(InventarioVO pInventarioVO)
         {
             InitializeComponent();
 
-            _inventario = pInventarioVO;
-            Items = new ObservableCollection<InventarioItemViewModel>();
+            if (pInventarioVO != null)
+            {
+                _inventario = pInventarioVO;
 
-            System.Diagnostics.Debug.Write(inventarioItem);
+                Items = new ObservableCollection<InventarioItemViewModel>();
 
+                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
 
-            if (inventarioItem == null)
-            { 
-                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(797).OrderBy(p => p.ItCodigo).ToList());
-               
                 for (int i = 0; i < lstInventarioVO.Count; i++)
                 {
                     var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(lstInventarioVO[i]);
                     localizacao = modelView.CodLocaliz;
 
                     Items.Add(modelView);
-
-                    /* Adiciona descricao do item para busca */
-                    /*
-                    var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == Items[i].ItCodigo);
-                    Items[i].__itemDesc__ = item.ItCodigo + item.DescItem; */
                 }
 
                 _ItemsUnfiltered = Items;
                 this.Title = "Localização (" + localizacao + ")";
+                cvInventarioItem.BindingContext = this;
             }
-            else
-            {                
-                foreach (var item in inventarioItem)
-                {
-                    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(item);
-                    Items.Add(modelView);
-                }
-
-                localizacao = _localizacao;
-                this.Title = "Localização (" + localizacao + ")";                        
-            }
-
-            cvInventarioItem.BindingContext = this;
         }
 
         //public InventarioListaItemPage(ObservableCollection<InventarioItemViewModel> _Items)
@@ -174,7 +156,7 @@ namespace CollectorQi.Views
         async void OnClick_CaixaIncompleta(object sender, EventArgs e)
         {
             var pageProgress = new ProgressBarPopUp("Carregando...");
-            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, localizacao, Items);
+            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);
             await PopupNavigation.Instance.PushAsync(page);
             Thread.Sleep(1000);
             await pageProgress.OnClose();
@@ -385,7 +367,7 @@ namespace CollectorQi.Views
                 if (inventarioItem != null)
                 {
                     //var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId);
-                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null); 
+                    var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null); 
                     page.SetResultDigita(resultDigita);
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
@@ -398,7 +380,7 @@ namespace CollectorQi.Views
 
                         if (result.ToString() == "True")
                         {
-                            var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, "", null);                           
+                            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);                           
 
                             page.SetResultDigita(resultDigita);
 
@@ -463,7 +445,7 @@ namespace CollectorQi.Views
 
         private CancellationTokenSource throttleCts = new CancellationTokenSource();
 
-        async void Handle_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
+        async void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -572,8 +554,20 @@ namespace CollectorQi.Views
 
         private void BtnImprimir_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new ImprimirPage());
+            Application.Current.MainPage = new NavigationPage(new ImprimirPage(_inventario, localizacao));
         }
+
+        async void cvInventarioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+
+            var current = (cvInventarioItem.SelectedItem as InventarioItemVO);
+
+            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, current);
+            await PopupNavigation.Instance.PushAsync(page);
+            Thread.Sleep(1000);
+            await pageProgress.OnClose();
+        }        
     }
 
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged

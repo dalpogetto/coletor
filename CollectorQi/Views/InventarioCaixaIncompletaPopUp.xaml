@@ -3,7 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-                 x:Class="CollectorQi.Views.InventarioUpdateItemPopUp" 
+                 x:Class="CollectorQi.Views.InventarioCaixaIncompletaPopUp" 
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
                  xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
@@ -79,7 +79,7 @@
 
                               <!-- Correção BUG Android (Samsung Não pega "," e "." no teclado númerico) -->
                     
-                                <local:CustomEntry IsNumeric="True" x:Name="edtQuantidade" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                                <local:CustomEntry IsNumeric="True" x:Name="txtQuantidade" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                                                     Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                             </Grid>
                         </Frame>
@@ -106,8 +106,12 @@
                             Grid.Row="0" 
                             Grid.Column="0" 
                             Text="Confirmar" />
-                    <Button x:Name="BtnCancelar"  FontSize="Small" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
-                        Clicked="OnClick_Cancelar" Grid.Row="1" Text="Cancelar (digitação inventário)" />
+                    <!--<Button x:Name="BtnCancelar"  FontSize="Small" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
+                        Clicked="OnClick_Cancelar" Grid.Row="1" Text="Cancelar (digitação inventário)" />-->
+
+                    <Button x:Name="BtnVoltar"  FontSize="Small" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  TextColor="White" BorderRadius="16"
+                        Clicked="BtnVoltar_Clicked" Grid.Row="1" Text="Voltar" /> 
+                     
                 </Grid>
             </Grid>
         </ScrollView>

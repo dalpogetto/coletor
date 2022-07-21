@@ -15,14 +15,17 @@ namespace CollectorQi.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ImprimirPage : ContentPage, INotifyPropertyChanged
     {
-        public ObservableCollection<InventarioViewModel> ObsInventario { get; }
-        public InventarioVO pInventarioVO { get; }
+        public ObservableCollection<InventarioViewModel> ObsInventario { get; }       
         public string localizacaoRetorno { get; set; }
+        private InventarioVO _inventario;
+        public string localizacao;  
 
-        public ImprimirPage()
+        public ImprimirPage(InventarioVO pInventarioVO, string _localizacao)
         {
             InitializeComponent();
 
+            _inventario = pInventarioVO;
+            localizacao = _localizacao;
             //lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
             ////_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
@@ -40,9 +43,9 @@ namespace CollectorQi.Views
             {
                 var inventario = new Inventario()
                 {
-                    IdInventario = pInventarioVO.InventarioId,
-                    CodEstabel = pInventarioVO.CodEstabel,
-                    CodDepos = pInventarioVO.CodDepos //,
+                    IdInventario = _inventario.InventarioId,
+                    CodEstabel = _inventario.CodEstabel,
+                    CodDepos = _inventario.CodDepos //,
                     //CodigoBarras = txtEtiqueta.Text
                 };
 
@@ -61,37 +64,43 @@ namespace CollectorQi.Views
                 await pageProgress.OnClose();
                 //BtnProximo.IsEnabled = true;
             }           
-        }
+        }        
 
-        async void OnClick_Proximo(object sender, EventArgs e)
-        {
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    base.OnBackButtonPressed();
+        //    //Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
 
-            //var parametersFichasUsuario = new ParametersFichasUsuarioService();
-            //var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
-
-            ////var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
-
-            //foreach (var item in lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno))
-            //{
-            //    InventarioItemVO inventarioItem = new InventarioItemVO();
-            //    inventarioItem.InventarioId = item.IdInventario;
-            //    inventarioItem.CodLote = item.Lote;
-            //    inventarioItem.CodLocaliz = item.Localizacao;
-            //    inventarioItem.CodRefer = item.CodItem;
-            //    inventarioItem.NrFicha = item.Quantidade;
-
-            //    InventarioItemDB.InserirInventarioItem(inventarioItem);
-            //}
-
-            //Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null));
-        } 
+        //    return true;
+        //}
 
         protected override bool OnBackButtonPressed()
         {
-            base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
-
+            PopupNavigation.Instance.PopAsync();
             return true;
+        }
+
+        async void BtnItem_Clicked(object sender, EventArgs e)
+        {
+            var page = new ImprimirEtiquetaItem(_inventario);
+            await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        async void BtnLocalizacao_Clicked(object sender, EventArgs e)
+        {
+            var page = new ImprimirEtiquetaLocalizacao(_inventario, localizacao);
+            await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        async void BtnReparo_Clicked(object sender, EventArgs e)
+        {
+            var page = new ImprimirEtiquetaReparo();
+            await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        public void BtnVoltar_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventario));
         }
     }
 }

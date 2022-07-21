@@ -51,8 +51,19 @@ namespace CollectorQi.Views
 
         #endregion
 
+        public ObservableCollection<FichasUsuarioVO> Items
+        {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        private ObservableCollection<FichasUsuarioVO> _Items;
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
-        public InventarioVO pInventarioVO { get; }
+        public InventarioVO pInventarioVO { get; set; }
         public string localizacaoRetorno { get; set; }
 
         public ObservableCollection<InventarioViewModel> _localizacaoInventario;
@@ -73,19 +84,37 @@ namespace CollectorQi.Views
         public LeituraEtiquetaLocaliza(InventarioVO inventarioVO)
         {
             InitializeComponent();
+          
+            try
+            {
+                if (!string.IsNullOrEmpty(inventarioVO.CodEstabel) && !string.IsNullOrEmpty(inventarioVO.CodEstabel))
+                lblCodEstabel.Text = inventarioVO.CodEstabel + " - " + inventarioVO.DescEstabel;
 
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel() + " - PROCOMP INDUSTRIA ELETRONICA LTDA";
+                pInventarioVO = new InventarioVO();
+                pInventarioVO = inventarioVO;  
+               
+                Items = new ObservableCollection<FichasUsuarioVO>();
 
-            //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
+                var lstFichasUsuarioVO = new ObservableCollection<FichasUsuarioVO>(FichasUsuarioDB.GetFichasUsuarioBy().OrderBy(p => p.Localizacao).ToList());
 
-            pInventarioVO = inventarioVO;
-            //BtnProximo.IsEnabled = false;
+                for (int i = 0; i < lstFichasUsuarioVO.Count; i++)
+                {
+                    var modelView = Mapper.Map<FichasUsuarioVO>(lstFichasUsuarioVO[i]);
+                    Items.Add(modelView);
+                }
 
-            this.Title = "Buscar a localização (Depósito: " + inventarioVO.CodDepos;
+                BtnProximo.IsEnabled = false;
 
-            cvInventario.BindingContext = this;
+                if(lstFichasUsuarioVO.Count != 0)
+                    cvLeituraEtiqueta.BindingContext = this;
 
-        }      
+                //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);    
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }  
+        }       
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
         {
@@ -93,14 +122,14 @@ namespace CollectorQi.Views
             await PopupNavigation.Instance.PushAsync(pageProgress);
 
             try
-            {
+            {                
                 var inventario = new Inventario()
                 {
                     IdInventario = pInventarioVO.InventarioId,
                     CodEstabel = pInventarioVO.CodEstabel,
                     CodDepos = pInventarioVO.CodDepos,
-                    CodigoBarras = txtEtiqueta.Text
-                };
+                    CodigoBarras = txtEtiqueta.Text,
+                };                
 
                 var localizacao = new ParametersLocalizacaoLeituraEtiquetaService();
                 var localizacaoResult = await localizacao.SendInventarioAsync(inventario);
@@ -119,26 +148,7 @@ namespace CollectorQi.Views
             }           
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            LocalizacaoInventario = new ObservableCollection<InventarioViewModel>();
-
-            LocalizacaoInventario.Add(new InventarioViewModel
-            {
-                CodEstabel = "F01GV03101"
-            });
-
-            LocalizacaoInventario.Add(new InventarioViewModel
-            {
-                CodEstabel = "F01GV05701"
-            });
-
-            OnPropertyChanged("LocalizacaoInventario");
-        }
-
-        async void OnClick_Proximo(object sender, System.EventArgs e)
+        async void Criar()
         {
             var parametersFichasUsuario = new ParametersFichasUsuarioService();
             var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
@@ -167,8 +177,12 @@ namespace CollectorQi.Views
                     ItCodigo = item.CodItem
                 });
             }
+        }
 
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, lstInventarioListViewModel, localizacaoRetorno));
+        async void OnClick_Proximo(object sender, System.EventArgs e)
+        {
+            Criar();
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
         } 
 
         protected override bool OnBackButtonPressed()
@@ -177,6 +191,17 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
 
             return true;
+        }
+
+        private void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var current = (cvLeituraEtiqueta.SelectedItem as FichasUsuarioVO);
+
+            if (current != null)
+            {
+                Criar();
+                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
+            }
         }
     }
 }
