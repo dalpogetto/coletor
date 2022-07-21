@@ -5,6 +5,7 @@ using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Models;
 using System.Threading.Tasks;
+using CollectorQi.Services.ESCL002;
 //using Android.Widget;
 
 namespace CollectorQi.Views
@@ -81,14 +82,24 @@ namespace CollectorQi.Views
                 try
                 {
                     //logon = await Models.Controller.ConectColetorAsync(usuario.Text, senha.Text, page);
-                        
-                    logon = "OK";
+
+                    var t = new Cadastros();
+
+                    logon = await t.ObterListaFiliais(usuario.Text, senha.Text);
+
+                    if (logon != "OK")
+                    {
+
+                        logon = await t.ObterListaFiliais(usuario.Text + "@DIEBOLD_MASTER", senha.Text);
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
                     await DisplayAlert("Erro!?", ex.Message, "Cancelar");
                     logon = "Erro";
-                    logon = "OK";
+                    //logon = "OK";
 
                 }
 

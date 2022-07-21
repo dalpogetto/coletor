@@ -14,8 +14,8 @@ namespace CollectorQi.Services.ESCL018
         ResultInventarioItemJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
 
         // Metodo ObterParametros Totvs
@@ -23,7 +23,7 @@ namespace CollectorQi.Services.ESCL018
         {
             try
             {
-                FichasUsuario requestParam = new FichasUsuario() { IdInventario = 796 };
+                FichasUsuario requestParam = new FichasUsuario() { IdInventario = 797 };
 
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 
@@ -31,8 +31,8 @@ namespace CollectorQi.Services.ESCL018
                 //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
@@ -94,7 +94,7 @@ namespace CollectorQi.Services.ESCL018
             public int IVL { get; set; }
             public string CodEmp { get; set; }
             public string CodDepos { get; set; }
-            public int Quantidade { get; set; }
+            public decimal Quantidade { get; set; }
         }   
     }
 }

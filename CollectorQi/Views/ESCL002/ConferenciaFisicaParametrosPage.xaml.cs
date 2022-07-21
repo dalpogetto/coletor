@@ -40,38 +40,7 @@ namespace CollectorQi.Views
         public ConferenciaFisicaParametrosPage()
         {
             InitializeComponent();
-
-            // Nao utilizar request nesse local, o serviço deve ser executado como async
-            // Chamada ESCL002 - ObterParametros
-            // A busca é somente enviado o usuario para buscar os parametros padrao
-            // O retorno sempre será usuario, estabelecimento e data que deve ser populado os campos em questao
-            ParametersService ps = new ParametersService();
-            var parameters = ps.GetParametersAsync("","");
-            usuario = parameters.UsuarioTotvs;
-            txtEstabelecimento.Text = parameters.CodEstabel;
-            txtDataEntrada.Text = parameters.DtEntrada;
-
-            if(parameters.CodEmitente.ToString() != "0")
-                txtCodEmitente.Text = parameters.CodEmitente.ToString();
-
-            //txtCodEmitenteDesc.Text
-            if (string.IsNullOrEmpty(parameters.NFRet.ToString()))
-                txtNFRet.Text = parameters.NFRet;
-
-            if(string.IsNullOrEmpty(parameters.Serie.ToString()))
-                txtSerie.Text = parameters.Serie;
-
-            if (string.IsNullOrEmpty(parameters.QtdeItem.ToString()))
-                txtQtdItens.Text = parameters.QtdeItem.ToString();
-
-            if (parameters.ValorTotal.ToString() != "0")
-                txtValorTotal.Text = parameters.ValorTotal.ToString();
-
-            if (parameters.DiasXML.ToString() != "0")
-                txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
-
-            parametersService = parameters;        
-
+                     
             if (SecurityAuxiliar.Autenticado == false)
             {
                 DisplayAlert("Autenticação", "Sinto muito!!! Precisa estar autenticado na página de controle", "OK");
@@ -93,14 +62,61 @@ namespace CollectorQi.Views
 
             //this.Title = "Conferência Física de Reparos";
 
-        }     
+        }
+
+        // Roberto - Metodos de initialize precisa ser chamados no OnAppearing
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var page = new ProgressBarPopUp("");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+
+            // Nao utilizar request nesse local, o serviço deve ser executado como async
+            // Chamada ESCL002 - ObterParametros
+            // A busca é somente enviado o usuario para buscar os parametros padrao
+            // O retorno sempre será usuario, estabelecimento e data que deve ser populado os campos em questao
+            ParametersService ps = new ParametersService();
+            // Ajustar Result
+            var parameters = await ps.GetParametersAsync("", "");
+
+            usuario = parameters.UsuarioTotvs;
+            txtEstabelecimento.Text = parameters.CodEstabel;
+            txtDataEntrada.Text = parameters.DtEntrada;
+
+            if(parameters.CodEmitente != null && parameters.CodEmitente.ToString() != "0")
+                txtCodEmitente.Text = parameters.CodEmitente.ToString();
+
+            //txtCodEmitenteDesc.Text
+            if (parameters.NFRet != null && string.IsNullOrEmpty(parameters.NFRet.ToString()))
+                txtNFRet.Text = parameters.NFRet;
+
+            if(parameters.Serie != null && string.IsNullOrEmpty(parameters.Serie.ToString()))
+                txtSerie.Text = parameters.Serie;
+
+            if (parameters.QtdeItem != null && string.IsNullOrEmpty(parameters.QtdeItem.ToString()))
+                txtQtdItens.Text = parameters.QtdeItem.ToString();
+
+            if (parameters.ValorTotal != null && parameters.ValorTotal.ToString() != "0")
+                txtValorTotal.Text = parameters.ValorTotal.ToString();
+
+            if (parameters.DiasXML != null && parameters.DiasXML.ToString() != "0")
+                txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
+            
+            parametersService = parameters;
+
+            await page.OnClose();
+
+        }
 
         void OnClick_Sair(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
         }              
 
-        void OnClick_Avancar(object sender, EventArgs e)
+        async void OnClick_Avancar(object sender, EventArgs e)
         {
             // Chamada ESCL002 - EnviarParametros
             // Enviar no metodo abaixo, os campos que foram digitados na tela após o retorno da API (Busca Parametro)
@@ -128,10 +144,10 @@ namespace CollectorQi.Views
             if (!string.IsNullOrEmpty(txtQtdDiasXMl.Text))
                 parametrosResult.DiasXML = int.Parse(txtQtdDiasXMl.Text);
 
-            parametersService.SendParametersAsync(parametrosResult);
+            var resultLista = await parametersService.SendParametersAsync(parametrosResult);
 
             Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaReparosPage(parametrosResult) { Title = "Conferência Física de Reparos" });
-            return;
+            
         }
 
         async void OnClick_QR(object sender, EventArgs e)
@@ -276,6 +292,20 @@ namespace CollectorQi.Views
         void Handle_Completed(object sender, System.EventArgs e)
         {
             //edtItCodigo.Unfocus();
+        }
+
+        private async void txtCodEmitente_Unfocused(object sender, FocusEventArgs e)
+        {
+            var page = new ProgressBarPopUp("");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+
+            string nomeEmitente = await CollectorQi.Services.ESCL000.Cadastros.ObterEmitente("super","prodiebold11",txtCodEmitente.Text);
+
+            txtCodEmitenteDesc.Text = nomeEmitente;
+
+            await page.OnClose();
         }
     }
 

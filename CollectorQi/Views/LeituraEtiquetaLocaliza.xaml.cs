@@ -66,6 +66,21 @@ namespace CollectorQi.Views
         public InventarioVO pInventarioVO { get; set; }
         public string localizacaoRetorno { get; set; }
 
+        public ObservableCollection<InventarioViewModel> _localizacaoInventario;
+
+        public ObservableCollection<InventarioViewModel> LocalizacaoInventario
+        {
+            get { return _localizacaoInventario; }
+            set
+            {
+                _localizacaoInventario = value;
+                OnPropertyChanged("LocalizacaoInventario");
+            }
+        }
+
+
+        // public ObservableCollection<InventarioViewModel> LocalizacaoInventario = new ObservableCollection<InventarioViewModel>();
+
         public LeituraEtiquetaLocaliza(InventarioVO inventarioVO)
         {
             InitializeComponent();
@@ -138,18 +153,29 @@ namespace CollectorQi.Views
             var parametersFichasUsuario = new ParametersFichasUsuarioService();
             var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
 
+            var lstInventarioVOSend = new List<InventarioItemVO>();
+
             //var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
 
-            foreach (var item in lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno))
+            ObservableCollection<InventarioItemViewModel> lstInventarioListViewModel = new ObservableCollection<InventarioItemViewModel>();
+
+            foreach (var item in lstInventarioVO.param.Resultparam /*.Where(x => x.Localizacao == localizacaoRetorno)*/ )
             {
                 InventarioItemVO inventarioItem = new InventarioItemVO();
                 inventarioItem.InventarioId = item.IdInventario;
                 inventarioItem.CodLote = item.Lote;
                 inventarioItem.CodLocaliz = item.Localizacao;
                 inventarioItem.CodRefer = item.CodItem;
-                inventarioItem.NrFicha = item.Quantidade;
+                inventarioItem.ItCodigo = item.CodItem;
+               // inventarioItem.NrFicha = item.Quantidade;
 
                 InventarioItemDB.InserirInventarioItem(inventarioItem);
+                lstInventarioVOSend.Add(inventarioItem);
+
+                lstInventarioListViewModel.Add(new InventarioItemViewModel
+                {
+                    ItCodigo = item.CodItem
+                });
             }
         }
 

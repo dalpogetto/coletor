@@ -19,7 +19,8 @@ namespace CollectorQi.Resources.DataBaseHelper
             {
                 //lstInventarioItem = dbAsync.Connection.QueryAsync<InventarioItemVO>("SELECT * FROM InventarioItemVO WHERE inventarioId = ?", inventarioById).Result;
 
-                lstInventarioItem = dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == inventarioById).ToListAsync().Result;
+               // lstInventarioItem = dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == inventarioById).ToListAsync().Result;
+                lstInventarioItem = dbAsync.Connection.Table<InventarioItemVO>().ToListAsync().Result;
                 return lstInventarioItem;
 
             }

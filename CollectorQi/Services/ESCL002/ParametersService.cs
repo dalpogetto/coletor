@@ -25,19 +25,19 @@ namespace CollectorQi.Services.ESCL002
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         // Metodo ObterParametros Totvs
-        public ParametrosResult GetParametersAsync(string user, string password)
+        public async Task<ParametrosResult> GetParametersAsync(string user, string password)
         {
             try
             {
 
-                #if (DEBUG)
+               // #if (DEBUG)
 
-                var result = ParametersServiceMock.GetParametersResult();
+               // var result = ParametersServiceMock.GetParametersResult();
 
-                parametros = result.param;
+               // parametros = result.param;
 
 
-                #else
+               // #else
                 //return ParametersServiceMock.GetParametersResult();
 
                 Parametros requestParam = new Parametros() { UsuarioTotvs = user };
@@ -45,11 +45,14 @@ namespace CollectorQi.Services.ESCL002
                 RequestJson requestJson = new RequestJson() { Param = requestParam };
                 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+                client.Timeout = TimeSpan.FromSeconds(30);
 
                 client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+
+                var byteArray = new UTF8Encoding().GetBytes("a.alvessouzasilva@DIEBOLD_MASTER:D!ebold2022");
 
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
@@ -68,16 +71,23 @@ namespace CollectorQi.Services.ESCL002
                         string responseData = await result.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.Write(result);
 
-                        var resultConvert = JsonConvert.DeserializeObject<ResultJson>(responseData);
+                        var resultConvert = JsonConvert.DeserializeObject<ResultJsonV2>(responseData);
 
                         System.Diagnostics.Debug.Write(resultConvert);
+
+
+                        if (resultConvert != null && resultConvert.Conteudo != null && resultConvert.Conteudo.param != null && resultConvert.Retorno == "OK")
+                        {
+                            parametros = resultConvert.Conteudo.param;
+                        }
+
                     }
                     else {
                         // Throw
                     }
 
                 }
-                #endif
+                //#endif
             }
 
             catch (Exception e)
@@ -85,23 +95,25 @@ namespace CollectorQi.Services.ESCL002
                 System.Diagnostics.Debug.Write(e);
             }
 
+
             return parametros;
         }
 
         //public List<ResultRepair> SendParametersAsync(string usuario_totvs, string cod_estabel, int cod_emitente, string dt_entrega, string nf_ret, string serie, decimal qtde_item, decimal valor_total, int dias_xml)
-        public List<ResultRepair> SendParametersAsync(ParametrosResult requestParam)
+        public async Task<List<ResultRepair>> SendParametersAsync(ParametrosResult requestParam)
         {
             List<ResultRepair> resultRepair = null;
             try
             {
 
-                #if (DEBUG)
-                var result = ParametersServiceMock.GetRepairs();
+                //#if (DEBUG)
+                //var result = ParametersServiceMock.GetRepairs();
 
-                return result.ListaReparos;
+                //return result.ListaReparos;
 
-                #else
-                ParametrosResult requestParam = new ParametrosResult() { 
+                //#else
+
+/*                ParametrosResult requestParam = new ParametrosResult() { 
                     UsuarioTotvs = usuario_totvs,
                     CodEstabel = cod_estabel,
                     CodEmitente = cod_emitente, 
@@ -112,6 +124,7 @@ namespace CollectorQi.Services.ESCL002
                     ValorTotal = valor_total,  
                     DiasXML = dias_xml
                 };
+*/
 
                 ResultJson requestJson = new ResultJson() { param = requestParam };
 
@@ -139,10 +152,9 @@ namespace CollectorQi.Services.ESCL002
                         string responseData = await result.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.Write(result);
 
-                        var resultConvert = JsonConvert.DeserializeObject<ResultSend>(responseData);
+                        var resultConvert = JsonConvert.DeserializeObject<ResultSendV2>(responseData);
 
                         System.Diagnostics.Debug.Write(resultConvert);
-
                     }
                     else
                     {
@@ -150,7 +162,7 @@ namespace CollectorQi.Services.ESCL002
                         // Throw
                     }
                 }
-                #endif
+                //#endif
             }
             catch (Exception e)
             {
@@ -187,11 +199,11 @@ namespace CollectorQi.Services.ESCL002
             return ParametersServiceMock.GetRepairs().ListaReparos;
         }
 
-        //public class RequestJson
-        //{
-        //    [JsonProperty("Parametros")]
-        //    public Parametros Param { get; set; }
-        //}
+        public class RequestJson
+        {
+            [JsonProperty("Parametros")]
+            public Parametros Param { get; set; }
+        }
 
         public class RequestParameters
         {
@@ -202,6 +214,14 @@ namespace CollectorQi.Services.ESCL002
         {
             [JsonProperty("Parametros")]
             public ParametrosResult param { get; set; }
+        }
+
+
+        public class ResultJsonV2
+        {
+            [JsonProperty("Conteudo")]
+            public ResultJson Conteudo { get; set; }
+            public string Retorno { get; set; }
         }
 
         public class ParametrosResult
@@ -222,7 +242,14 @@ namespace CollectorQi.Services.ESCL002
             public string Mensagem { get; set; }
             public List<ResultRepair> ListaReparos { get; set; }
         }
-         public class ResultSendParametrosRepair
+
+        public class ResultSendV2
+        {
+            public ResultSend Conteudo { get; set; }
+            public string Retorno { get; set; }
+        }
+
+        public class ResultSendParametrosRepair
         {
             public string Mensagem { get; set; }
             public ParametrosResult Param { get; set; }

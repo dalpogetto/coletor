@@ -10,66 +10,80 @@ using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
-namespace CollectorQi.Services.ESCL002
+namespace CollectorQi.Services.ESCL000
 {
-    public class ConferenceService
+    public static class Cadastros
     {
-        private IEnumerable<Parametros> parametros;
+        //private IEnumerable<Parametros> parametros;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI_END_CONFERENCE = "/api/integracao/coletores/v1/escl002api/FinalizarConferencia";
+        private const string URI_OBTER_EMITENTE = "/api/integracao/coletores/v1/escl000api/ObterEmitente";
 
         // Metodo Finalizar Conferencia - Totvs
-        public async Task<IEnumerable<EndConferenceResult>> EndConferenceAsync(string user, string password, EndConferenceParameters param, List<Repair> repairs )
+        public static async Task<string> ObterEmitente(string user, string password, string codEmitente)
         {
             try
             {
 
-                EndConferenceRequest requestJson = new EndConferenceRequest() { Param = param, Repairs = repairs };
-
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
 
-                client.BaseAddress = new Uri(URI);
+                client.BaseAddress = new Uri(URI) ;
 
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                var byteArray = new UTF8Encoding().GetBytes($"{user}:{password}");
 
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                var json = JsonConvert.SerializeObject(requestJson);
-                using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
-                {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_END_CONFERENCE)
+                //var json = JsonConvert.SerializeObject(requestJson);
+
+                /*
+                using (var content = new StringContent(null, Encoding.UTF8, "application/json"))
+                { */
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_OBTER_EMITENTE + "?CodEmitente=" + codEmitente.ToString())
                     {
-                        Content = content
-                    };
+                        //Content = content
+                    }; 
 
                     var result = await client.SendAsync(req);
 
                     if (result.IsSuccessStatusCode)
                     {
-                        string responseData = await result.Content.ReadAsStringAsync();
+                    string responseData = await result.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.Write(result);
+
+                    var resultConvert = JsonConvert.DeserializeObject<ResultJson>(responseData);
+
+
+                    return resultConvert.nome;
+                    
+
+
+                    /*string responseData = await result.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.Write(result);
 
                         var resultConvert = JsonConvert.DeserializeObject<EndConferenceResultV2>(responseData);
 
                         System.Diagnostics.Debug.Write(resultConvert);
+                    */
+                    return "OK";
                     }
-                    else {
-                        // Throw
-
-                        System.Diagnostics.Debug.Write(result);
-                    }
-
-                }
+               // }
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.Write(e);
             }
 
-            return null;
+            return "NOK";
+        }
+
+        public class ResultJson
+        {
+            public string codEmitente { get; set; }
+            public string nomeAbrev { get; set; }
+
+            public string nome { get; set; }
         }
 
         #region Metodos utilizados para finalizar conferencia

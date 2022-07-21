@@ -29,13 +29,13 @@
                                 <Grid>
                                     <local:CustomEntryText x:Name="txtEstabelecimento" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Estabelecimento..." Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2" />
                                     <local:CustomEntryText x:Name="txtDataEntrada"     FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Data Entrada..."    Grid.Row="1"  Grid.Column="2" Grid.ColumnSpan="1" />
-                                    <local:CustomEntryText x:Name="txtCodEmitente"     FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Emitente..."        Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="3" />
-                                    <local:CustomEntryText x:Name="txtCodEmitenteDesc" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição..."       Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="3" />
+                                    <local:CustomEntryText x:Name="txtCodEmitente"     FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Emitente..."        Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="3" Unfocused="txtCodEmitente_Unfocused"/>
+                                    <local:CustomEntryText x:Name="txtCodEmitenteDesc" FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Nome..."            Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="3" IsReadOnly="true" />
                                     <local:CustomEntryText x:Name="txtNFRet"           FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="NF Ret."            Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="1" />
                                     <local:CustomEntryText x:Name="txtSerie"           FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Serie"              Grid.Row="4"  Grid.Column="1" Grid.ColumnSpan="2"  />
-                                    <local:CustomEntryText x:Name="txtQtdItens"        FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="QtdItens"           Grid.Row="5"  Grid.Column="0"  />
+                                    <local:CustomEntryText x:Name="txtQtdItens"        FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Qtd Itens"          Grid.Row="5"  Grid.Column="0"  />
                                     <local:CustomEntryText x:Name="txtValorTotal"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="ValorTotal"         Grid.Row="5"  Grid.Column="1"  />
-                                    <local:CustomEntryText x:Name="txtQtdDiasXMl"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="QtdDiasXMl"         Grid.Row="5"  Grid.Column="2"  />
+                                    <local:CustomEntryText x:Name="txtQtdDiasXMl"      FontSize="Micro" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Qtd Dias XML"       Grid.Row="5"  Grid.Column="2"  />
                                 </Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
