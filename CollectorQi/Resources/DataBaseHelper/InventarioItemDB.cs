@@ -11,7 +11,6 @@ namespace CollectorQi.Resources.DataBaseHelper
 {
     public static class InventarioItemDB
     {
-
         public static List<InventarioItemVO> GetInventarioItemByInventario(int inventarioById)
         {
             List<InventarioItemVO> lstInventarioItem = new List<InventarioItemVO>();
@@ -120,7 +119,7 @@ namespace CollectorQi.Resources.DataBaseHelper
             var dbAsync = new BaseOperations();
             try
             {
-                dbAsync.InsertAsync(byInventarioItem);
+                _ = dbAsync.InsertAsync(byInventarioItem);
 
                 var inventarioItem = dbAsync.Connection.Table<InventarioItemVO>().ToListAsync().Result.LastOrDefault();
 

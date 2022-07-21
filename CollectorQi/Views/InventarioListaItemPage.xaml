@@ -61,7 +61,7 @@
                                                 <Label Text="{Binding StatusItemInventario}" Grid.Row="1"  FontSize="Micro" HorizontalOptions="Center" VerticalOptions="Start" />
                                             </Grid>
 
-                                            <StackLayout Spacing="1" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                            <StackLayout Spacing="1" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" Padding="10">
 
                                                 <Grid HorizontalOptions="FillAndExpand">
                                                     <Grid.RowDefinitions>
@@ -73,11 +73,11 @@
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold"  FontSize="Micro" />
-                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding InventarioItemId}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodRefer}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />
                                                     <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding ItCodigo}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />-->
                                                     <!--<Label Grid.Row="0" Grid.Column="2" Text="{Binding __item__.DescItem}" LineBreakMode="TailTruncation"  HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />-->
                                                 </Grid>
-                                                <Grid HorizontalOptions="FillAndExpand">
+                                                <!--<Grid HorizontalOptions="FillAndExpand">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
@@ -135,7 +135,7 @@
                                                             </DataTrigger>
                                                         </Label.Triggers>
                                                     </Label>
-                                                </Grid>
+                                                </Grid>-->
                                                 <Grid HorizontalOptions="FillAndExpand">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
@@ -145,12 +145,12 @@
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold"  FontSize="Micro">
-                                                        <Label.Triggers>
+                                                        <!--<Label.Triggers>
                                                             <DataTrigger TargetType="Label" Binding="{Binding CodLocaliz}" Value="">
                                                                 <Setter Property="IsVisible" Value="False" />
                                                                 <Setter Property="HeightRequest" Value="0" />
                                                             </DataTrigger>
-                                                        </Label.Triggers>
+                                                        </Label.Triggers>-->
                                                     </Label>
                                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro">
                                                         <Label.Triggers>

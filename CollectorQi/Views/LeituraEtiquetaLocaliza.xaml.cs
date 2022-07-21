@@ -51,25 +51,55 @@ namespace CollectorQi.Views
 
         #endregion
 
+        public ObservableCollection<FichasUsuarioVO> Items
+        {
+            get { return _Items; }
+            set
+            {
+                _Items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        private ObservableCollection<FichasUsuarioVO> _Items;
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
-        public InventarioVO pInventarioVO { get; }
+        public InventarioVO pInventarioVO { get; set; }
         public string localizacaoRetorno { get; set; }
 
         public LeituraEtiquetaLocaliza(InventarioVO inventarioVO)
         {
             InitializeComponent();
+          
+            try
+            {
+                if (!string.IsNullOrEmpty(inventarioVO.CodEstabel) && !string.IsNullOrEmpty(inventarioVO.CodEstabel))
+                lblCodEstabel.Text = inventarioVO.CodEstabel + " - " + inventarioVO.DescEstabel;
 
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+                pInventarioVO = new InventarioVO();
+                pInventarioVO = inventarioVO;  
+               
+                Items = new ObservableCollection<FichasUsuarioVO>();
 
-            //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
+                var lstFichasUsuarioVO = new ObservableCollection<FichasUsuarioVO>(FichasUsuarioDB.GetFichasUsuarioBy().OrderBy(p => p.Localizacao).ToList());
 
-            //Parametros();
+                for (int i = 0; i < lstFichasUsuarioVO.Count; i++)
+                {
+                    var modelView = Mapper.Map<FichasUsuarioVO>(lstFichasUsuarioVO[i]);
+                    Items.Add(modelView);
+                }
 
-            pInventarioVO = inventarioVO;
-            BtnProximo.IsEnabled = false;
-        }
+                BtnProximo.IsEnabled = false;
 
-       
+                if(lstFichasUsuarioVO.Count != 0)
+                    cvLeituraEtiqueta.BindingContext = this;
+
+                //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);    
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }  
+        }       
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
         {
@@ -77,14 +107,14 @@ namespace CollectorQi.Views
             await PopupNavigation.Instance.PushAsync(pageProgress);
 
             try
-            {
+            {                
                 var inventario = new Inventario()
                 {
                     IdInventario = pInventarioVO.InventarioId,
                     CodEstabel = pInventarioVO.CodEstabel,
                     CodDepos = pInventarioVO.CodDepos,
-                    CodigoBarras = txtEtiqueta.Text
-                };
+                    CodigoBarras = txtEtiqueta.Text,
+                };                
 
                 var localizacao = new ParametersLocalizacaoLeituraEtiquetaService();
                 var localizacaoResult = await localizacao.SendInventarioAsync(inventario);
@@ -103,7 +133,7 @@ namespace CollectorQi.Views
             }           
         }
 
-        async void OnClick_Proximo(object sender, System.EventArgs e)
+        async void Criar()
         {
             var parametersFichasUsuario = new ParametersFichasUsuarioService();
             var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
@@ -121,8 +151,12 @@ namespace CollectorQi.Views
 
                 InventarioItemDB.InserirInventarioItem(inventarioItem);
             }
+        }
 
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, null));
+        async void OnClick_Proximo(object sender, System.EventArgs e)
+        {
+            Criar();
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
         } 
 
         protected override bool OnBackButtonPressed()
@@ -135,7 +169,13 @@ namespace CollectorQi.Views
 
         private void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var current = (cvLeituraEtiqueta.SelectedItem as FichasUsuarioVO);
 
+            if (current != null)
+            {
+                Criar();
+                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
+            }
         }
     }
 }

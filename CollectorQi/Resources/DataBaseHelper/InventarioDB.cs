@@ -136,11 +136,15 @@ namespace CollectorQi.Resources.DataBaseHelper
                     ("select * from InventarioVO where codEstabel   = ? " +
                                                  " and codDepos     = ? " +
                                                  " and dtInventario = ? " +
-                                                 " and contagem     = ? ",
+                                                 " and contagem     = ? " +
+                                                 " and descEstabel  = ? " +
+                                                 " and descDepos    = ? ",
                         byInventarioVO.CodEstabel,
                         byInventarioVO.CodDepos,
                         byInventarioVO.DtInventario,
-                        byInventarioVO.Contagem);
+                        byInventarioVO.Contagem,
+                        byInventarioVO.DescEstabel,
+                        byInventarioVO.DescDepos);
 
                 if (inventarioVO != null && inventarioVO.Count > 0)
                 {
@@ -190,7 +194,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                         byInventarioVO.CodEstabel,
                         byInventarioVO.CodDepos,
                         byInventarioVO.DtInventario,
-                        byInventarioVO.Contagem);
+                        byInventarioVO.Contagem
+                        );
 
                 if (inventarioVO != null && inventarioVO.Count > 0)
                 {
