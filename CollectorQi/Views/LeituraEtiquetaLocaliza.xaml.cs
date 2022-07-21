@@ -63,33 +63,42 @@ namespace CollectorQi.Views
 
         private ObservableCollection<FichasUsuarioVO> _Items;
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
-        public InventarioVO pInventarioVO { get; }
+        public InventarioVO pInventarioVO { get; set; }
         public string localizacaoRetorno { get; set; }
 
         public LeituraEtiquetaLocaliza(InventarioVO inventarioVO)
         {
             InitializeComponent();
-
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
-            pInventarioVO = inventarioVO;
-
-            Items = new ObservableCollection<FichasUsuarioVO>();
-
-            var lstFichasUsuarioVO = new ObservableCollection<FichasUsuarioVO>(FichasUsuarioDB.GetFichasUsuarioBy().OrderBy(p => p.Localizacao).ToList());
-
-            for (int i = 0; i < lstFichasUsuarioVO.Count; i++)
+          
+            try
             {
-                var modelView = Mapper.Map<FichasUsuarioVO>(lstFichasUsuarioVO[i]);  
-                Items.Add(modelView);               
+                if (!string.IsNullOrEmpty(inventarioVO.CodEstabel) && !string.IsNullOrEmpty(inventarioVO.CodEstabel))
+                lblCodEstabel.Text = inventarioVO.CodEstabel + " - " + inventarioVO.DescEstabel;
+
+                pInventarioVO = new InventarioVO();
+                pInventarioVO = inventarioVO;  
+               
+                Items = new ObservableCollection<FichasUsuarioVO>();
+
+                var lstFichasUsuarioVO = new ObservableCollection<FichasUsuarioVO>(FichasUsuarioDB.GetFichasUsuarioBy().OrderBy(p => p.Localizacao).ToList());
+
+                for (int i = 0; i < lstFichasUsuarioVO.Count; i++)
+                {
+                    var modelView = Mapper.Map<FichasUsuarioVO>(lstFichasUsuarioVO[i]);
+                    Items.Add(modelView);
+                }
+
+                BtnProximo.IsEnabled = false;
+
+                if(lstFichasUsuarioVO.Count != 0)
+                    cvLeituraEtiqueta.BindingContext = this;
+
+                //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);    
             }
-
-            BtnProximo.IsEnabled = false;
-            //_ItemsUnfiltered = Items;
-            //this.Title = "Localização (" + localizacao + ")";
-
-            cvLeituraEtiqueta.BindingContext = this;            
-
-            //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);            
+            catch (Exception ex)
+            {
+                throw;
+            }  
         }       
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
@@ -124,7 +133,7 @@ namespace CollectorQi.Views
             }           
         }
 
-        async void OnClick_Proximo(object sender, System.EventArgs e)
+        async void Criar()
         {
             var parametersFichasUsuario = new ParametersFichasUsuarioService();
             var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
@@ -142,8 +151,12 @@ namespace CollectorQi.Views
 
                 InventarioItemDB.InserirInventarioItem(inventarioItem);
             }
+        }
 
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, null));
+        async void OnClick_Proximo(object sender, System.EventArgs e)
+        {
+            Criar();
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
         } 
 
         protected override bool OnBackButtonPressed()
@@ -158,8 +171,11 @@ namespace CollectorQi.Views
         {
             var current = (cvLeituraEtiqueta.SelectedItem as FichasUsuarioVO);
 
-            if (current != null)            
-                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, current.Localizacao));
+            if (current != null)
+            {
+                Criar();
+                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO));
+            }
         }
     }
 }

@@ -119,7 +119,7 @@ namespace CollectorQi.Resources.DataBaseHelper
             var dbAsync = new BaseOperations();
             try
             {
-                dbAsync.InsertAsync(byInventarioItem);
+                _ = dbAsync.InsertAsync(byInventarioItem);
 
                 var inventarioItem = dbAsync.Connection.Table<InventarioItemVO>().ToListAsync().Result.LastOrDefault();
 

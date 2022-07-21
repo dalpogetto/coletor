@@ -66,20 +66,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </Grid>
-
-            <!--<CollectionView x:Name="cvLeituraEtiquetaLocaliza" SelectionMode="Single" Margin="10,0,10,0">
-                <CollectionView.EmptyView>
-                    <StackLayout>
-                        <Label Text="Nenhum inventário em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
-                    </StackLayout>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                          
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
+            </Grid>      
 
             <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
                 <Grid.RowDefinitions>

@@ -98,8 +98,9 @@ namespace CollectorQi
         public decimal? valApurado { get; set; } = 0;
         public string codRefer { get; set; } = String.Empty;
         public int NumContagem { get; set; } = 0;  
-        public int idInventario { get; set; } = 0;  
-        //public int codInventario { get; set; } = 0;
+        public int idInventario { get; set; } = 0;
+        public string DescEstabel { get; set; }
+        public string DescDepos { get; set; }
 
         //public string DtSaldo { get; set; }
         //public int? IdInventario { get; set; }

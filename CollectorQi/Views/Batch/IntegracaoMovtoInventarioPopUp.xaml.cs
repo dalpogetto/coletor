@@ -29,7 +29,7 @@ namespace CollectorQi.Views
 
                 edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel       + " (" + pBatchInventarioViewModel.__estabelec__.Nome.Trim() + ")" ;
                 edtCodDepos.Text        = pBatchInventarioViewModel.CodDepos         + " (" + pBatchInventarioViewModel.__deposito__.Nome.Trim() + ")";
-                edtDtInventario.Text    = pBatchInventarioViewModel.DtInventario.ToString("dd/MM/yyyy");   
+                edtDtInventario.Text = pBatchInventarioViewModel.DtInventario.ToString("dd/MM/yy");   
                 edtContagem.Text        = pBatchInventarioViewModel.Contagem.ToString();    
                 edtErro.Text            = pBatchInventarioViewModel.MsgIntegracao;
 

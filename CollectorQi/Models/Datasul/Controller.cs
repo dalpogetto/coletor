@@ -1205,9 +1205,9 @@ namespace CollectorQi.Models
                     strTemp = strTemp.Replace("#dtUltEntr"   , lstInventario[i].dtUltEntr.Trim());
                     strTemp = strTemp.Replace("#dtUltSaida"  , lstInventario[i].dtUltSaida.Trim());
                     strTemp = strTemp.Replace("#nrFicha"     , lstInventario[i].nrFicha.ToString().Trim());
-                    strTemp = strTemp.Replace("#valApurado", lstInventario[i].valApurado.ToString().Trim().Replace(",","."));
-                    strTemp = strTemp.Replace("#codRefer"    , lstInventario[i].codRefer.Trim().Trim());
-                    strTemp = strTemp.Replace("#NumContagem", lstInventario[i].NumContagem.ToString().Trim());
+                    strTemp = strTemp.Replace("#valApurado"  ,lstInventario[i].valApurado.ToString().Trim().Replace(",","."));
+                    strTemp = strTemp.Replace("#codRefer"    ,lstInventario[i].codRefer.Trim().Trim());
+                    strTemp = strTemp.Replace("#NumContagem" ,lstInventario[i].NumContagem.ToString().Trim());
 
                     strJson = strJson + strTemp;
                 }
@@ -1343,10 +1343,11 @@ namespace CollectorQi.Models
                                 CodEstabel = inventario[i].codEstabel,
                                 CodDepos = inventario[i].codDepos,
                                 DtInventario = dtSaldoInventario,
-                                Contagem = inventario[i].NumContagem,
-                                /* Victor Alves - 26/11/2019 - adiciona inventário ativo */
+                                Contagem = inventario[i].NumContagem,                                
                                 inventarioAtivo = true,
-                                InventarioId  = inventario[i].idInventario
+                                InventarioId  = inventario[i].idInventario,
+                                DescEstabel = inventario[i].DescEstabel,
+                                DescDepos = inventario[i].DescDepos
                             };
 
                             lstInventarioVO.Add(inventarioVO);
@@ -1381,8 +1382,9 @@ namespace CollectorQi.Models
                         var inventarioAtual = lstInventarioVO.Find(
                             InventarioModel => InventarioModel.DtInventario == lstInventarioAtual[i].DtInventario &&
                                                InventarioModel.CodDepos        == lstInventarioAtual[i].CodDepos &&
-                                               InventarioModel.CodEstabel      == lstInventarioAtual[i].CodEstabel &&
-                                               InventarioModel.Contagem        == lstInventarioAtual[i].Contagem);
+                                               InventarioModel.CodEstabel      == lstInventarioAtual[i].CodEstabel //&&
+                                               //InventarioModel.Contagem        == lstInventarioAtual[i].Contagem
+                                               );
 
                         if (inventarioAtual == null)
                         {

@@ -236,10 +236,8 @@ namespace CollectorQi.Models.Datasul
                     valApurado = lstInventarioItem[iItem].ValApurado,
                     codRefer = lstInventarioItem[iItem].CodRefer,
                     NumContagem = pInventarioVO.Contagem
-
-                });
+                }); 
             }
-
 
             var result = Controller.SetInventario(lstModelInventario);
 
