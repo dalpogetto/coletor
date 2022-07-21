@@ -77,10 +77,10 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { "security.png", "fisica.png", "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
-                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
+                    string[] imagem = new string[] { /* "security.png"  , */ "fisica.png", "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
+                    string[] titulo = new string[] { /* "Armazenagem"   , */ "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
 
-                    string[] subTitulo = new string[] { "Armazenagem", "Conferência Física", "Inventário", "Escolher o estabelecimento", "Última Integração",
+                    string[] subTitulo = new string[] {/*  "Armazenagem", */ "Conferência Física", "Inventário", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();

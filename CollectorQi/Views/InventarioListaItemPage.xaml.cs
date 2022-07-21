@@ -73,10 +73,12 @@ namespace CollectorQi.Views
             _inventario = pInventarioVO;
             Items = new ObservableCollection<InventarioItemViewModel>();
 
+            System.Diagnostics.Debug.Write(inventarioItem);
+
 
             if (inventarioItem == null)
             { 
-                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
+                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(797).OrderBy(p => p.ItCodigo).ToList());
                
                 for (int i = 0; i < lstInventarioVO.Count; i++)
                 {
@@ -310,7 +312,65 @@ namespace CollectorQi.Views
             //    BtnBuscaItem.IsEnabled = true;
             //}
         }
-       
+
+        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cvInventarioItem.IsEnabled = false;
+
+            var pageProgress = new ProgressBarPopUp("Carregando Item..");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+            try
+
+            {
+
+                var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
+
+                if (current != null)
+
+                {
+
+                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, localizacao, Items);
+
+                  //  var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
+
+
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+
+
+                    page.SetResultDigita(resultDigita);
+
+
+
+                }
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                await DisplayAlert("Erro!", ex.Message, "OK");
+
+            }
+
+            finally
+
+            {
+
+                cvInventarioItem.IsEnabled = true;
+
+                await pageProgress.OnClose();
+
+            }
+
+
+        }
+
+
         private async void VerifyProd(string strQr)
         {
             if (strQr == null)

@@ -57,7 +57,7 @@ namespace CollectorQi.Views
 
             ObsInventario = new ObservableCollection<InventarioViewModel>();
             //lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;  
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel() + " - PROCOMP INDUSTRIA ELETRONICA LTDA";
 
             var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();                        
 
@@ -114,6 +114,8 @@ namespace CollectorQi.Views
             //}
 
             //cvInventario.SelectedItem = null;
+
+            System.Diagnostics.Debug.Write(current);
 
             Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(current));
         }

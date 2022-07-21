@@ -30,8 +30,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                    </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="80"/>
@@ -47,8 +46,8 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Scan: " FontAttributes="Bold" FontSize="Micro" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NumRR}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Deposito: " FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
                                
                                      
                                 </Grid>
@@ -69,6 +68,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -77,7 +77,7 @@
                                     <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Micro" />
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
                                 </Grid>
-                                <Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
+                                <!--<Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
@@ -87,8 +87,19 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="Contagem:" FontAttributes="Bold" FontSize="Micro" />
                                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding Contagem}" FontSize="Micro" />
-                                    </Grid>
-                            </Grid>
+                                 </Grid>
+                                 <Grid Grid.Row="3" HorizontalOptions="StartAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Inventario:" FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding IdInventario}" FontSize="Micro" />
+                                    </Grid> -->
+                                </Grid> 
                         
                                     </Frame>
                         </StackLayout>

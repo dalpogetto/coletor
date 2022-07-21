@@ -43,7 +43,7 @@ namespace CollectorQi.Views
 
                 _inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
 
-                edtInventario.Text = _inventarioVO.InventarioId.ToString();
+                edtInventario.Text = "65.111.03319-6";
                 edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
                 edtCodDeposito.Text = _inventarioVO.CodDepos;
                 edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");

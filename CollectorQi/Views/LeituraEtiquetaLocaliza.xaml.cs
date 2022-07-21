@@ -55,16 +55,36 @@ namespace CollectorQi.Views
         public InventarioVO pInventarioVO { get; }
         public string localizacaoRetorno { get; set; }
 
+        public ObservableCollection<InventarioViewModel> _localizacaoInventario;
+
+        public ObservableCollection<InventarioViewModel> LocalizacaoInventario
+        {
+            get { return _localizacaoInventario; }
+            set
+            {
+                _localizacaoInventario = value;
+                OnPropertyChanged("LocalizacaoInventario");
+            }
+        }
+
+
+        // public ObservableCollection<InventarioViewModel> LocalizacaoInventario = new ObservableCollection<InventarioViewModel>();
+
         public LeituraEtiquetaLocaliza(InventarioVO inventarioVO)
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel() + " - PROCOMP INDUSTRIA ELETRONICA LTDA";
 
             //_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
 
             pInventarioVO = inventarioVO;
-            BtnProximo.IsEnabled = false;
+            //BtnProximo.IsEnabled = false;
+
+            this.Title = "Buscar a localização (Depósito: " + inventarioVO.CodDepos;
+
+            cvInventario.BindingContext = this;
+
         }      
 
         async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
@@ -99,26 +119,56 @@ namespace CollectorQi.Views
             }           
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            LocalizacaoInventario = new ObservableCollection<InventarioViewModel>();
+
+            LocalizacaoInventario.Add(new InventarioViewModel
+            {
+                CodEstabel = "F01GV03101"
+            });
+
+            LocalizacaoInventario.Add(new InventarioViewModel
+            {
+                CodEstabel = "F01GV05701"
+            });
+
+            OnPropertyChanged("LocalizacaoInventario");
+        }
+
         async void OnClick_Proximo(object sender, System.EventArgs e)
         {
             var parametersFichasUsuario = new ParametersFichasUsuarioService();
             var lstInventarioVO = await parametersFichasUsuario.GetObterFichasUsuarioAsync();
 
+            var lstInventarioVOSend = new List<InventarioItemVO>();
+
             //var lstInventarioVOFiltro = lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno);
 
-            foreach (var item in lstInventarioVO.param.Resultparam.Where(x => x.Localizacao == localizacaoRetorno))
+            ObservableCollection<InventarioItemViewModel> lstInventarioListViewModel = new ObservableCollection<InventarioItemViewModel>();
+
+            foreach (var item in lstInventarioVO.param.Resultparam /*.Where(x => x.Localizacao == localizacaoRetorno)*/ )
             {
                 InventarioItemVO inventarioItem = new InventarioItemVO();
                 inventarioItem.InventarioId = item.IdInventario;
                 inventarioItem.CodLote = item.Lote;
                 inventarioItem.CodLocaliz = item.Localizacao;
                 inventarioItem.CodRefer = item.CodItem;
-                inventarioItem.NrFicha = item.Quantidade;
+                inventarioItem.ItCodigo = item.CodItem;
+               // inventarioItem.NrFicha = item.Quantidade;
 
                 InventarioItemDB.InserirInventarioItem(inventarioItem);
+                lstInventarioVOSend.Add(inventarioItem);
+
+                lstInventarioListViewModel.Add(new InventarioItemViewModel
+                {
+                    ItCodigo = item.CodItem
+                });
             }
 
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, null, null));
+            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(pInventarioVO, lstInventarioListViewModel, localizacaoRetorno));
         } 
 
         protected override bool OnBackButtonPressed()

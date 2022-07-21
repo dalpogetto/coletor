@@ -69,6 +69,11 @@ namespace CollectorQi.Views
         {
             base.OnAppearing();
 
+            var page = new ProgressBarPopUp("");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+
             // Nao utilizar request nesse local, o serviço deve ser executado como async
             // Chamada ESCL002 - ObterParametros
             // A busca é somente enviado o usuario para buscar os parametros padrao
@@ -100,7 +105,9 @@ namespace CollectorQi.Views
             if (parameters.DiasXML != null && parameters.DiasXML.ToString() != "0")
                 txtQtdDiasXMl.Text = parameters.DiasXML.ToString();
             
-            parametersService = parameters;        
+            parametersService = parameters;
+
+            await page.OnClose();
 
         }
 
@@ -285,6 +292,20 @@ namespace CollectorQi.Views
         void Handle_Completed(object sender, System.EventArgs e)
         {
             //edtItCodigo.Unfocus();
+        }
+
+        private async void txtCodEmitente_Unfocused(object sender, FocusEventArgs e)
+        {
+            var page = new ProgressBarPopUp("");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
+
+
+            string nomeEmitente = await CollectorQi.Services.ESCL000.Cadastros.ObterEmitente("super","prodiebold11",txtCodEmitente.Text);
+
+            txtCodEmitenteDesc.Text = nomeEmitente;
+
+            await page.OnClose();
         }
     }
 
