@@ -20,12 +20,12 @@ namespace CollectorQi.Views
         private InventarioVO _inventario;
         public string localizacao;  
 
-        public ImprimirPage(InventarioVO pInventarioVO, string _localizacao)
+        public ImprimirPage(InventarioVO pInventarioVO)
         {
             InitializeComponent();
 
             _inventario = pInventarioVO;
-            localizacao = _localizacao;
+           // localizacao = _localizacao;
             //lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
             ////_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
@@ -100,7 +100,7 @@ namespace CollectorQi.Views
 
         public void BtnVoltar_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventario));
+           // Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventario));
         }
     }
 }

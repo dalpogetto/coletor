@@ -34,7 +34,6 @@ namespace CollectorQi.Views
             try
             {
                 var security =  await SecurityDB.GetSecurityAsync();
-
                 
                 if (security != null && security.Autenticado)
                 {
@@ -43,16 +42,15 @@ namespace CollectorQi.Views
                     SecurityAuxiliar.CodSenha = security.CodSenha;
                 }
 
-                // Victor - apenas apresentacao (09/04/2020)
-
-                //await SecurityDB.AtualizarSecurityIntegracao();
+                // Victor Alves - Verifica ultima atualizacao Banco
+                await SecurityDB.AtualizarSecurityIntegracao();
 
                 if (security != null)
                 {
 
                     if (CrossConnectivity.Current.IsConnected)
                     {
-                        Task.Run(() => Controller.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha, null));
+                        Task.Run(() => Services.ESCL000.ConnectService.ConnectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha, null));
                     }
 
                     lblMensagemErro.Text = String.Empty;
@@ -77,10 +75,10 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { /* "security.png"  , */ "fisica.png", "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
-                    string[] titulo = new string[] { /* "Armazenagem"   , */ "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
+                    string[] imagem = new string[] { /* "security.png"  , */ /* "fisica.png", */ "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
+                    string[] titulo = new string[] { /* "Armazenagem"   , */ /* "Recebimento",*/  "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
 
-                    string[] subTitulo = new string[] {/*  "Armazenagem", */ "Conferência Física", "Inventário", "Escolher o estabelecimento", "Última Integração",
+                    string[] subTitulo = new string[] {/*  "Armazenagem", */ /* "Conferência Física", */ "Inventário", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
@@ -107,7 +105,7 @@ namespace CollectorQi.Views
                     if (!String.IsNullOrEmpty(lblMensagemErro.Text))
                     {
                         frameCadastros.IsVisible = true;
-                        frameEstab.IsVisible = false;
+                        frameEstab.IsVisible = true;
                     }
                     else
                     {
@@ -121,9 +119,15 @@ namespace CollectorQi.Views
                         else
                         {
                             lblCodEstabel.Text = String.Empty;
-                            frameEstab.IsVisible = false;
+                            frameEstab.IsVisible = true;
                         }
                     }
+
+                    if (String.IsNullOrEmpty(lblCodEstabel.Text))
+                    {
+                        lblCodEstabel.Text = "Escolha o Estabelecimento";
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -217,27 +221,40 @@ namespace CollectorQi.Views
                     arrayDep[i] = estabelec[i].CodEstabel + " (" + estabelec[i].Nome.Trim() + ")";
                 }
 
-                var action = await DisplayActionSheet("Escolha o Estabelecimento?", "Cancelar", null, arrayDep);
-
-                if (action == "Cancelar" && action != null)
+                if (estabelec.Count == 1)
                 {
-                    SecurityAuxiliar.Estabelecimento = action;
-                    //
+                    SecurityAuxiliar.Estabelecimento = estabelec[0].CodEstabel + " (" + estabelec[0].Nome.Trim() + ")";
 
-                    lblCodEstabel.Text   = action;
+                    lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
                     frameEstab.IsVisible = true;
 
                     return SecurityAuxiliar.Estabelecimento;
                 }
                 else
                 {
-                    SecurityAuxiliar.Estabelecimento = String.Empty;
-                    lblCodEstabel.Text               = String.Empty;
-                    frameEstab.IsVisible             = false;
 
+                    var action = await DisplayActionSheet("Escolha o Estabelecimento?", "Cancelar", null, arrayDep);
+
+                    if (action != "Cancelar" && action != null)
+                    {
+                        SecurityAuxiliar.Estabelecimento = action;
+                        //
+
+                        lblCodEstabel.Text = action;
+                        frameEstab.IsVisible = true;
+
+                        return SecurityAuxiliar.Estabelecimento;
+                    }
+                    else
+                    {
+                        SecurityAuxiliar.Estabelecimento = String.Empty;
+                        lblCodEstabel.Text = String.Empty;
+                        //   frameEstab.IsVisible             = false;
+
+                    }
                 }
             }
-            else
+            else;
                 await DisplayAlert("Erro!", "Nenhum estabelecimento encontrado.", "Cancelar");
 
             return String.Empty;
@@ -351,7 +368,7 @@ namespace CollectorQi.Views
 
             try
             {
-                var result = await Models.Controller.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha, page);
+                var result = await Models.ConnectService.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha, page);
 
                 if (result == "OK")
                 {
@@ -399,12 +416,12 @@ namespace CollectorQi.Views
                             return;
                         }
                         
-                        //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        //{
-                        //    var strEstab = await SelectEstab();
-                        //    if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
-                        //        return;
-                        //}
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        {
+                            var strEstab = await SelectEstab();
+                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                                return;
+                        }
 
                         // Victor Alves - 08/01/2020 - Busca inventarios ativos, se tiver inventario ativo, não entra na tela
                         //var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).ToList();
@@ -460,18 +477,18 @@ namespace CollectorQi.Views
                             return;
                         }
 
-                        //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        //{
-                        //    var strEstab = await SelectEstab();
-                        //    if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
-                        //        return;
-                        //}
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        {
+                            var strEstab = await SelectEstab();
+                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                                return;
+                        }
 
-                        //if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        //{
-                        //    RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
-                        //    Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
-                        //}
+                        if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        {
+                            RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                            Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+                        }
 
                         Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
                         break;

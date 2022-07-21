@@ -18,7 +18,7 @@ using Xamarin.Forms;
 namespace CollectorQi.Models
 {
 
-    public static class Controller
+    public static class ConnectService
     {
         private static string ProgramName                     = "qip/qi0001.p";
         private static string ProgramNameCollector            = "qip/qi0004.p";
@@ -289,11 +289,11 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttEstabelec")
                     {
-                        Controller.CriaEstabelecimento(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelEstabelec>>());
+                        ConnectService.CriaEstabelecimento(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelEstabelec>>());
                     }
                     else if (jsonTempTable[i].name == "ttDeposito")
                     {
-                        Controller.CriaDeposito(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelDeposito>>());
+                        ConnectService.CriaDeposito(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelDeposito>>());
                     }
                     else if (jsonTempTable[i].name == "ttItem")
                     {
@@ -304,7 +304,7 @@ namespace CollectorQi.Models
                                 pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados (Item)...");
                         });
 
-                        await Controller.CriaItem(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelItem>>());
+                        await ConnectService.CriaItem(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelItem>>());
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
@@ -315,7 +315,7 @@ namespace CollectorQi.Models
                                 pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados (Saldo Estoque)...");
                         });
 
-                         await Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                         await ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -680,7 +680,7 @@ namespace CollectorQi.Models
 
                     await SaldoEstoqDB.AtualizarSaldoEstoq(lstSaldoEstoqVO);
                     if (lstDepositoTransfere.Count > 0)
-                        Controller.MovtoEstoqMobile(true, lstDepositoTransfere, lstDeposConsidera);
+                        ConnectService.MovtoEstoqMobile(true, lstDepositoTransfere, lstDeposConsidera);
                 }
 
                 return true;
@@ -998,7 +998,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -1860,7 +1860,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -2149,7 +2149,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 

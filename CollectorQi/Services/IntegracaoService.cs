@@ -129,7 +129,7 @@ namespace CollectorQi.Services
                     if (SecurityAuxiliar.Autenticado)
                     {
                         /* Integracao de cadastro */
-                        var result = await Models.Controller.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha);
+                        var result = await Models.ConnectService.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha);
 
                         if (result == "OK")
                         {

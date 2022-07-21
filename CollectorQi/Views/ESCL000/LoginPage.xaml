@@ -40,11 +40,11 @@
                             <Label Text="Usuário" Margin="0, 0, 0, 0" VerticalOptions="Start" Grid.Row="1" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" />
                             <!--<Entry Grid.Row="2"  Margin="0, 0, 0, 0" x:Name="usuario" VerticalOptions="Start" Placeholder="Usuário" PlaceholderColor="{StaticResource TextColorPlaceHolder}" FontSize="14"  />
                             -->
-                            <customentry:CustomEntryText x:Name="usuario"                   Image="entry_icon_user"    Grid.Row="2"  FontSize="16"     IsCurvedCornersEnabled="false" Placeholder="Digite o usuário..." />
+                            <customentry:CustomEntryText x:Name="usuario"                   Image="entry_icon_user"    Grid.Row="2"  FontSize="16"   ImageHeight="13" ImageWidth="13"  IsCurvedCornersEnabled="false" Placeholder="Digite o usuário..." />
                            
                             <Label Text="Senha" Margin="0, 0, 0, 0" VerticalOptions="Start" Grid.Row="3" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" />
-                         
-                            <customentry:CustomEntryText x:Name="senha" IsPassword="true"  Image="entry_icon_password" Grid.Row="4"  FontSize="16"     IsCurvedCornersEnabled="false"  Placeholder="Digite a senha..." />
+
+                            <customentry:CustomEntryText x:Name="senha" IsPassword="true"  Image="entry_icon_password" Grid.Row="4"  FontSize="16"   ImageHeight="13" ImageWidth="13"  IsCurvedCornersEnabled="false"  Placeholder="Digite a senha..." />
                    
                             
                             <Button x:Name="BtnLogin" Text="ACESSAR" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" HeightRequest="50" BorderRadius="16" VerticalOptions="Start" Grid.Row="5" />

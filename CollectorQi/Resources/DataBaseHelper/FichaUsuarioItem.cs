@@ -3,10 +3,11 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CollectorQi.Resources.DataBaseHelper
 {
-    public static class FichasUsuarioDB
+    public static class FichaUsuarioItem
     {
         public static List<FichasUsuarioVO> GetFichasUsuarioBy()
         {
@@ -40,6 +41,29 @@ namespace CollectorQi.Resources.DataBaseHelper
                 var inventarioItem = dbAsync.Connection.Table<FichasUsuarioVO>().ToListAsync().Result.LastOrDefault();
                 return inventarioItem;
 
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+        public async static Task<bool> DeleteFichaUsuarioItem()
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                await dbAsync.DeleteAllAsync<FichasUsuarioVO>();
+
+                return true;
             }
             catch (SQLiteException ex)
             {

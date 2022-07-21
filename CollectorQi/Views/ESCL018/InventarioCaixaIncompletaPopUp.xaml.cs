@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL018;
+using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.VO;
@@ -33,6 +34,8 @@ namespace CollectorQi.Views
         public Action<VO.InventarioItemVO,bool> ResultAction;
         private string localizacao;
 
+        public Action<InventarioItemVO> _actDeleteRow;
+
         public InventarioCaixaIncompletaPopUp(int pInventarioId, InventarioItemVO inventarioItem)        
         {
             try
@@ -44,9 +47,10 @@ namespace CollectorQi.Views
                 //Items = _Items;
                 _inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
 
-                edtInventario.Text = _inventarioVO.InventarioId.ToString();
+                edtItCodigo.Text = inventarioItem.ItCodigo.ToString();
                 edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
                 edtCodDeposito.Text = _inventarioVO.CodDepos;
+                edtCodigoBarras.Text = inventarioItem.CodigoBarras;
                 //edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");
                 //localizacao = _localizacao;
 
@@ -109,31 +113,80 @@ namespace CollectorQi.Views
 
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
-            var param = new ParametersGravarFichasUsuarioService();
-            var pageProgress = new ProgressBarPopUp("Carregando...");
-
-            if (!string.IsNullOrEmpty(txtQuantidade.Text))
+            if (string.IsNullOrEmpty(txtQuantidade.Text))
             {
-                var inventario = new InventarioItem()
-                {
-                    IdInventario = _inventarioItemVO.InventarioItemId,
-                    Lote = _inventarioItemVO.CodLote,
-                    Localizacao = _inventarioItemVO.CodLocaliz,
-                    CodItem = _inventarioItemVO.CodRefer,
-                    CodDepos = _inventarioVO.CodDepos,
-                    Quantidade = int.Parse(txtQuantidade.Text)
-                };
-
-                var _inventarioItem = await param.SendGravarFichasUsuarioAsync(inventario);
-
-                pageProgress = new ProgressBarPopUp(_inventarioItem.paramConteudo.Ok);
-                //Thread.Sleep(2000);
-
-                await pageProgress.OnClose();
-                OnBackButtonPressed();
+                await DisplayAlert("Erro!", "Informe a quantidade do produto disponivel para a contagem do inventário", "Cancelar");
+                return; 
             }
-            else
-                pageProgress = new ProgressBarPopUp("Digite uma quantidade !");
+
+
+            if (string.IsNullOrEmpty(edtCodigoBarras.Text))
+            {
+                await DisplayAlert("Erro!", "Informe o código de barras", "Cancelar");
+                return;
+            }
+
+            var result = await DisplayAlert("Confirmação!", $"Deseja concluír a digitação com a quantidade de {txtQuantidade.Text} produto?", "Sim", "Não");
+
+            if (result.ToString() == "True")
+            {
+                try {
+                    var pageProgress = new ProgressBarPopUp("Carregando...");
+
+                    if (!string.IsNullOrEmpty(txtQuantidade.Text))
+                    {
+                        var inventario = new InventarioItem()
+                        {
+                            IdInventario = _inventarioVO.InventarioId,
+                            Lote = _inventarioItemVO.CodLote,
+                            Localizacao = _inventarioItemVO.CodLocaliz,
+                            CodItem = _inventarioItemVO.ItCodigo,
+                            CodDepos = _inventarioVO.CodDepos,
+                            Quantidade = int.Parse(txtQuantidade.Text),
+                            CodEmp = "1",
+                            Contagem = 1,
+                            CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+
+
+                        };
+
+                        var inventarioBarra = new InventarioItemBarra()
+                        {
+                            IdInventario = _inventarioVO.InventarioId,
+                            Lote = _inventarioItemVO.CodLote,
+                            Localizacao = _inventarioItemVO.CodLocaliz,
+                            CodItem = _inventarioItemVO.ItCodigo,
+                            CodDepos = _inventarioVO.CodDepos,
+                            Quantidade = int.Parse(txtQuantidade.Text),
+                            CodEmp = "1",
+                            Contagem = 1,
+                            CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                            CodigoBarras = _inventarioItemVO.CodigoBarras
+
+
+                        };
+
+                        var t = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra);
+
+                        var _inventarioItem = await ParametersGravarFichasUsuarioService.SendGravarFichasUsuarioAsync(inventario);
+
+                        pageProgress = new ProgressBarPopUp(_inventarioItem.paramConteudo.Ok);
+                        //Thread.Sleep(2000);
+
+                        _actDeleteRow(_inventarioItemVO);
+
+                        await pageProgress.OnClose();
+                        OnBackButtonPressed();
+                    }   
+                }
+                
+                    catch (Exception ex) {
+                    throw ex;
+                        }
+            finally { }
+        }
+            /*else
+                pageProgress = new ProgressBarPopUp("Digite uma quantidade !"); */
 
 
             //if (String.IsNullOrEmpty(edtQuantidade.Text))
@@ -149,7 +202,8 @@ namespace CollectorQi.Views
 
             //var inventario = new Inventario()
             //{
-            //    IdInventario = _inventarioVO.InventarioId,
+            //    IdInventario = _inventarioVO
+            //    .InventarioId,
             //    CodEstabel = _inventarioVO.CodEstabel,
             //    CodDepos = _inventarioVO.CodDepos,
             //    Localizacao = localizacao,

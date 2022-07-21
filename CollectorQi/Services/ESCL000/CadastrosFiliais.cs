@@ -10,22 +10,21 @@ using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
-namespace CollectorQi.Services.ESCL002
+namespace CollectorQi.Services.ESCL000
 {
-    public class Cadastros
+    public static class CadastrosFiliais
     {
-        private IEnumerable<Parametros> parametros;
-
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         private const string URI_CADASTRO_FILIAIS = "/api/integracao/coletores/v1/escl000api/ObterListaFiliais";
 
         // Metodo Finalizar Conferencia - Totvs
-        public async Task<string> ObterListaFiliais(string user, string password)
+        public static async Task<List<Models.ESCL000.Filial>> ObterListaFiliais(string user, string password)
         {
+            var filiais = new List<Models.ESCL000.Filial>();
+
             try
             {
-
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
 
                 client.BaseAddress = new Uri(URI) ;
@@ -35,96 +34,35 @@ namespace CollectorQi.Services.ESCL002
 
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                //var json = JsonConvert.SerializeObject(requestJson);
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS);
 
-                /*
-                using (var content = new StringContent(null, Encoding.UTF8, "application/json"))
-                { */
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS)
-                    {
-                        //Content = content
-                    }; 
+                var result = await client.SendAsync(req);
 
-                    var result = await client.SendAsync(req);
+                if (result.IsSuccessStatusCode)
+                {
+                    string responseData = await result.Content.ReadAsStringAsync();
 
-                    if (result.IsSuccessStatusCode)
-                    {
+                    var resultResponse = JsonConvert.DeserializeObject<ResultFiliais>(responseData);
 
-                    /*string responseData = await result.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.Write(result);
-
-                        var resultConvert = JsonConvert.DeserializeObject<EndConferenceResultV2>(responseData);
-
-                        System.Diagnostics.Debug.Write(resultConvert);
-                    */
-                    return "OK";
-                    }
-               // }
+                    filiais = resultResponse.items;
+                }
+                else if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("Senha Invalida");
+                }
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
-            return "NOK";
+            return filiais;
         }
 
-        #region Metodos utilizados para finalizar conferencia
-        public class EndConferenceRequest
+        public class ResultFiliais
         {
-            [JsonProperty("Parametros")]
-            public EndConferenceParameters Param { get; set; }
-
-            [JsonProperty("ListaReparos")]
-            public List<Repair> Repairs { get; set; }
+            [JsonProperty("items")]
+            public List<Models.ESCL000.Filial> items { get; set; }
         }
-
-        /*
-        public class ValidateResultJson
-        {
-            [JsonProperty("ReparosValidados")]
-            public List<RepairResult> RepairResult { get; set; }
-        }*/
-
-        public class Repair
-        {
-            public string RowId { get; set; }
-        }
-
-        public class EndConferenceParameters
-        {
-            public string UsuarioTotvs { get; set; }
-            public string CodEstabel { get; set; }
-            public int CodEmitente { get; set; }
-            public string DtEntrada { get; set; }
-            public string NfRet { get; set; }
-
-            public string Serie { get; set; }
-            public decimal QtdeItem { get; set; }
-            public decimal ValorTotal { get; set; }
-            public decimal DiasXml { get; set; }
-
-        }
-
-        public class EndConferenceResultV2
-        {
-            public EndConferenceResult Conteudo { get; set; }
-            public string Retorno { get; set; }
-        }
-        public class EndConferenceResult
-        {
-            [JsonProperty("DocumentoGerado")]
-            public EndConferenceResultDocto Docto {get;set;}
-        }
-        
-        public class EndConferenceResultDocto
-        {
-            public int CodEmitente { get; set; }
-            public string NroDocto { get; set; }
-            public string NatOperacao { get; set; }
-
-            public string SerieDocto { get; set; }
-        }
-        #endregion
     }
 }

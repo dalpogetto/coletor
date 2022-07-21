@@ -7,12 +7,14 @@ using ESCL = CollectorQi.Models.ESCL018;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using CollectorQi.Resources;
+using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public class ParametersLimparLeituraEtiquetaService
+    public static class ParametersLeituraEtiquetaService
     {
-        ResultInventarioJson parametros = null;
+       // ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
@@ -20,27 +22,30 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LimparLeitura";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioJson> SendInventarioAsync(ESCL.Inventario requestParam)
+        public static async Task<ResultInventarioItemJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam)
         {
+
+
+            ResultInventarioItemJson parametros = null;
             try
             {
-                RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };
-                
+                RequestInventarioBarraJson requestJson = new RequestInventarioBarraJson() { Param = requestParam };
+
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
@@ -50,7 +55,7 @@ namespace CollectorQi.Services.ESCL018
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultInventarioJson>(responseData);
+                        parametros = JsonConvert.DeserializeObject<ResultInventarioItemJson>(responseData);
                     }
                     else
                     {
@@ -68,8 +73,15 @@ namespace CollectorQi.Services.ESCL018
 
         public class RequestInventarioJson
         {
-            public ESCL.Inventario Param { get; set; }
-        }      
+            [JsonProperty("Inventario")]
+            public ESCL.InventarioItem Param { get; set; }
+        }
+
+        public class RequestInventarioBarraJson
+        {
+            [JsonProperty("Inventario")]
+            public ESCL.InventarioItemBarra Param { get; set; }
+        }
 
         public class ResultInventarioJson
         {

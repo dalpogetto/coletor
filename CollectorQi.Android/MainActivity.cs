@@ -76,6 +76,14 @@ namespace CollectorQi.Droid
 
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+           // MenuInflater.Inflate(Resource.Menu.mainMenu, menu);
+
+            
+            return base.OnCreateOptionsMenu(menu);
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);

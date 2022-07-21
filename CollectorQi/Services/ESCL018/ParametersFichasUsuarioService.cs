@@ -1,4 +1,5 @@
 ﻿using CollectorQi.Models.ESCL018;
+using CollectorQi.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public class ParametersFichasUsuarioService
+    public static class ParametersFichasUsuarioService
     {
-        ResultInventarioItemJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
@@ -19,11 +19,14 @@ namespace CollectorQi.Services.ESCL018
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsync()
+        public static async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsync(int pInventarioId)
         {
+
+            ResultInventarioItemJson parametros = null;
+
             try
             {
-                FichasUsuario requestParam = new FichasUsuario() { IdInventario = 797 };
+                FichasUsuario requestParam = new FichasUsuario() { IdInventario = pInventarioId };
 
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 
@@ -31,7 +34,7 @@ namespace CollectorQi.Services.ESCL018
                 //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);

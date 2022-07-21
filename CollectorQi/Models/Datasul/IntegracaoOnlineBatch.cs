@@ -21,7 +21,7 @@ namespace CollectorQi.Models.Datasul
                 {
                     /* Integracao Online */
 
-                    var tplRetorno = Controller.SetDepositoTransfere(lstDepositoTransfere);
+                    var tplRetorno = ConnectService.SetDepositoTransfere(lstDepositoTransfere);
 
                     return tplRetorno;
                 }
@@ -54,7 +54,7 @@ namespace CollectorQi.Models.Datasul
                     }
 
                     ///var batchDepositoTransfere = new BatchDepositoTransfereDB();
-                    Controller.MovtoEstoqMobile(true, lstDepositoTransfere);
+                    ConnectService.MovtoEstoqMobile(true, lstDepositoTransfere);
                     BatchDepositoTransfereDB.InserirBatchDepositoTransfere(transfereDB);
 
                     return Tuple.Create<TipoIntegracao, string>(TipoIntegracao.IntegracaoBatch,
@@ -95,7 +95,7 @@ namespace CollectorQi.Models.Datasul
 
                     });
 
-                    var tplRetorno = Controller.SetDepositoTransfere(models);
+                    var tplRetorno = ConnectService.SetDepositoTransfere(models);
 
                     lstDepositoTransfereVO[i].DtIntegracao  = DateTime.Now;
                     lstDepositoTransfereVO[i].MsgIntegracao = tplRetorno.Item2;
@@ -179,7 +179,7 @@ namespace CollectorQi.Models.Datasul
                 codUsuario      = pBatchDepositoTransfere.CodUsuario
             });
 
-            var result = Controller.MovtoEstoqMobile(true, lstDepositoTransfere);
+            var result = ConnectService.MovtoEstoqMobile(true, lstDepositoTransfere);
 
             if (!result)
                 return;
@@ -239,7 +239,7 @@ namespace CollectorQi.Models.Datasul
                 }); 
             }
 
-            var result = Controller.SetInventario(lstModelInventario);
+            var result = ConnectService.SetInventario(lstModelInventario);
 
             if (result.Item1 == TipoIntegracao.IntegracaoOnline)
             {
@@ -298,7 +298,7 @@ namespace CollectorQi.Models.Datasul
 
                     lstRequisicaoItemSaldoEstoq.RemoveAll(p => p.QtdDevolver <= 0);
 
-                    tplRet = Controller.SetDevolucao(lstRequisicaoItemSaldoEstoq);
+                    tplRet = ConnectService.SetDevolucao(lstRequisicaoItemSaldoEstoq);
                     /*
                     foreach (var row in lstRequisicaoItemSaldoEstoq)
                     {
@@ -310,7 +310,7 @@ namespace CollectorQi.Models.Datasul
                 {
 
 
-                    tplRet = Controller.SetRequisicao(lstRequisicaoItemSaldoEstoq);
+                    tplRet = ConnectService.SetRequisicao(lstRequisicaoItemSaldoEstoq);
                 }
 
                 if (tplRet.Item1 == TipoIntegracao.IntegracaoOnline)

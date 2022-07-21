@@ -23,6 +23,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
      
                     <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
@@ -35,7 +36,7 @@
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
                                 <Label x:Name="lblInventario" Text="Inventário" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtInventario" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
+                                <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
                                     Grid.Column="0" Grid.ColumnSpan="2" />
                                 <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
                                     Grid.ColumnSpan="4" />
@@ -66,9 +67,28 @@
                                 </Grid>
                         </Frame>
                     </StackLayout>
-                        
+
+
                     <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,4,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+
+                                <Label x:Name="lblCodigoBarras" Text="Codigo de Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+
+                                <local:CustomEntryText x:Name="edtCodigoBarras" IsReadOnly="false" FontSize="Micro" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Codigo de Barras"  VerticalOptions="Center"
+                                        HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,4,10,0" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

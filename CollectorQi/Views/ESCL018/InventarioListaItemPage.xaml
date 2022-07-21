@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Inventário" x:Class="CollectorQi.Views.InventarioListaItemPage">
-    <ContentPage.Content BackgroundColor="#4E4E4E">
+
+        <ContentPage.Content BackgroundColor="#4E4E4E">
         <StackLayout BackgroundColor="#fff">
             <!--<Grid BackgroundColor="#4E4E4E" Opacity="1" Margin="5,10,1,1">
                 <Grid.RowDefinitions>
@@ -26,7 +27,8 @@
                                VerticalOptions="StartAndExpand"
                                HorizontalOptions="StartAndExpand"
                                Margin="-10,0,0,0"
-                               FontSize="Small"/>
+                               FontSize="Small"
+                               Unfocused="SearchBarItCodigo_Unfocused"/>
                 </Frame>               
 
                 <Grid Grid.Row="0">
@@ -70,10 +72,9 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold"  FontSize="Micro" />
-                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodRefer}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding ItCodigo}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />
                                                     <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding ItCodigo}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />-->
                                                     <!--<Label Grid.Row="0" Grid.Column="2" Text="{Binding __item__.DescItem}" LineBreakMode="TailTruncation"  HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro" />-->
                                                 </Grid>
@@ -161,7 +162,7 @@
                                                         </Label.Triggers>
                                                     </Label>
                                                 </Grid>
-                                                <Grid HorizontalOptions="FillAndExpand">
+                                             <!--   <Grid HorizontalOptions="FillAndExpand">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
@@ -169,11 +170,9 @@
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
-                                                    <!--<Label Grid.Row="0" Grid.Column="0" Text="Nr Ficha: " FontAttributes="Bold"  FontSize="Micro" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding NrFicha}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro" />-->
                                                     <Label Grid.Row="0" Grid.Column="0" Text="Quantidade: " FontAttributes="Bold"  FontSize="Micro" />
                                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding Quantidade}" HorizontalTextAlignment="End" VerticalTextAlignment="End"  FontSize="Micro" />
-                                                </Grid>
+                                                </Grid> -->
                                             </StackLayout>
                                         </Grid>
                                     </Frame>

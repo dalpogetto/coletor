@@ -7,6 +7,7 @@ using ESCL = CollectorQi.Models.ESCL018;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using CollectorQi.Resources;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -29,7 +30,7 @@ namespace CollectorQi.Services.ESCL018
         {
             try
             {
-                ESCL.Parametros requestParam = new ESCL.Parametros() { CodEstabel = "101"
+                ESCL.Parametros requestParam = new ESCL.Parametros() { CodEstabel = SecurityAuxiliar.GetCodEstabel()
                 
                 
                 };

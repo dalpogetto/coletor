@@ -23,6 +23,8 @@ namespace CollectorQi.VO
         private ItemVO  item;
         private InventarioVO inventario;
 
+        private string codigoBarras = "";
+
         private decimal? qtidadeInventarioItem = null;
 
         private string ItemItCodigoDescItem = null;
@@ -58,6 +60,10 @@ namespace CollectorQi.VO
         public decimal Quantidade { get => quantidade; set => quantidade = value; }
 
         [Ignore]
+        public string CodigoBarras { get => codigoBarras; set => codigoBarras = value; }
+
+        /*
+        [Ignore]
         public string __itemDesc__
         {
             get
@@ -83,7 +89,8 @@ namespace CollectorQi.VO
                 ItemItCodigoDescItem = value;
             }
         }
-
+        */
+        /*
         [Ignore]
         public ItemVO __item__
         {
@@ -129,6 +136,6 @@ namespace CollectorQi.VO
 
                 return inventario;
             }
-        }
+        } */
     }
 }

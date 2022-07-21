@@ -64,33 +64,27 @@ namespace CollectorQi.Views
         //private ObservableCollection<InventarioItemVO> listFiltro;
 
         private InventarioVO _inventario;
-        private string localizacao;
+        //private string _codLocaliz;
+
+        private List<InventarioItemVO> _lstInventarioItemVO;
+
 
         //public InventarioListaItemPage(InventarioVO pInventarioVO, ObservableCollection<InventarioItemViewModel> inventarioItem, string _localizacao)
-        public InventarioListaItemPage(InventarioVO pInventarioVO)
+        public InventarioListaItemPage(InventarioVO pInventarioVO , List<InventarioItemVO> pLstInventarioItemVO)
+
         {
             InitializeComponent();
 
-            if (pInventarioVO != null)
-            {
-                _inventario = pInventarioVO;
+            _lstInventarioItemVO = pLstInventarioItemVO;
+            _inventario = pInventarioVO;
+           // _codLocaliz = pCodLocaliz;
 
-                Items = new ObservableCollection<InventarioItemViewModel>();
+            cvInventarioItem.BindingContext = this;
 
-                var lstInventarioVO = new ObservableCollection<InventarioItemVO>(InventarioItemDB.GetInventarioItemByInventario(_inventario.InventarioId).OrderBy(p => p.ItCodigo).ToList());
+         //   this.Title = "Busca Item";
 
-                for (int i = 0; i < lstInventarioVO.Count; i++)
-                {
-                    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(lstInventarioVO[i]);
-                    localizacao = modelView.CodLocaliz;
 
-                    Items.Add(modelView);
-                }
 
-                _ItemsUnfiltered = Items;
-                this.Title = "Localização (" + localizacao + ")";
-                cvInventarioItem.BindingContext = this;
-            }
         }
 
         //public InventarioListaItemPage(ObservableCollection<InventarioItemViewModel> _Items)
@@ -120,7 +114,7 @@ namespace CollectorQi.Views
             foreach (var i in _ItemsUnfiltered)
             {
                 var item = SecurityAuxiliar.ItemAll.Find(p => p.ItCodigo == i.ItCodigo);
-                i.__itemDesc__ = item.ItCodigo + item.DescItem;
+              //  i.__itemDesc__ = item.ItCodigo + item.DescItem;
             }
         }
 
@@ -223,9 +217,47 @@ namespace CollectorQi.Views
             }
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            var pageProgress = new ProgressBarPopUp("Carregando Itens, aguarde...");
+
+            try
+            {
+
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                Items = new ObservableCollection<InventarioItemViewModel>();
+
+                foreach (var row in _lstInventarioItemVO)
+                {
+                    var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(row);
+                    //localizacao = modelView.CodLocaliz;
+
+                    Items.Add(modelView);
+                }
+
+                //cvInventarioItem.BindingContext = this;
+
+                _ItemsUnfiltered = Items;
+
+
+                //Items = _ItemsUnfiltered;
+
+                OnPropertyChanged("Items");
+
+            }
+            catch (Exception ex)
+            {
+
+                System.Diagnostics.Debug.Write(ex);
+                //await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            }
+            finally
+            {
+                await pageProgress.OnClose();
+            }
         }
 
         async void OnClick_NovoItem(object sender, EventArgs e)
@@ -244,16 +276,16 @@ namespace CollectorQi.Views
                 IdInventario = _inventario.InventarioId,
                 CodEstabel = _inventario.CodEstabel,
                 CodDepos = _inventario.CodDepos,
-                Localizacao = localizacao,
+               // Localizacao = localizacao,
                 Lote = "",
                 QuantidadeDigitada = 0,
                 CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-            };      
+            };
 
             var _inventarioItem = await param.SendInventarioAsync(inventario);
 
             var filtroReturn = Items.FirstOrDefault(x => x.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem);
-            filtroReturn.Quantidade += _inventarioItem.paramConteudo.Resultparam[0].Quantidade;           
+            filtroReturn.Quantidade += _inventarioItem.paramConteudo.Resultparam[0].Quantidade;
 
             foreach (var item in Items)
             {
@@ -265,7 +297,7 @@ namespace CollectorQi.Views
             }
 
             var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(filtroReturn);
-            Items.Add(modelView);          
+            Items.Add(modelView);
 
             cvInventarioItem.BindingContext = this;
 
@@ -295,64 +327,6 @@ namespace CollectorQi.Views
             //}
         }
 
-        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cvInventarioItem.IsEnabled = false;
-
-            var pageProgress = new ProgressBarPopUp("Carregando Item..");
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-            try
-
-            {
-
-                var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
-
-                if (current != null)
-
-                {
-
-                    var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, localizacao, Items);
-
-                  //  var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, current.InventarioItemId);
-
-
-
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-
-
-                    page.SetResultDigita(resultDigita);
-
-
-
-                }
-
-            }
-
-            catch (Exception ex)
-
-            {
-
-                await DisplayAlert("Erro!", ex.Message, "OK");
-
-            }
-
-            finally
-
-            {
-
-                cvInventarioItem.IsEnabled = true;
-
-                await pageProgress.OnClose();
-
-            }
-
-
-        }
-
-
         private async void VerifyProd(string strQr)
         {
             if (strQr == null)
@@ -367,7 +341,7 @@ namespace CollectorQi.Views
                 if (inventarioItem != null)
                 {
                     //var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId);
-                    var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null); 
+                    var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);
                     page.SetResultDigita(resultDigita);
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
@@ -380,7 +354,7 @@ namespace CollectorQi.Views
 
                         if (result.ToString() == "True")
                         {
-                            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);                           
+                            var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);
 
                             page.SetResultDigita(resultDigita);
 
@@ -438,7 +412,10 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(new InventarioVO()));
+            // Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(new InventarioVO()));
+
+            // Criar();
+            Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(_inventario));
 
             return true;
         }
@@ -453,7 +430,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(1200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,
@@ -472,6 +449,8 @@ namespace CollectorQi.Views
             {
                 //cvInventarioItem.IsEnabled = false;
 
+
+
                 if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
                     Items = _ItemsUnfiltered;
                 else
@@ -484,7 +463,7 @@ namespace CollectorQi.Views
 
                     /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
                     _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-                   (i is InventarioItemViewModel && (((InventarioItemViewModel)i).__itemDesc__.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+                   (i is InventarioItemViewModel && (((InventarioItemViewModel)i).ItCodigo.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
                    ));
 
                     /*
@@ -515,7 +494,7 @@ namespace CollectorQi.Views
                 IdInventario = _inventario.InventarioId,
                 CodEstabel = _inventario.CodEstabel,
                 CodDepos = _inventario.CodDepos,
-                Localizacao = localizacao,
+              //  Localizacao = localizacao,
                 Lote = "",
                 QuantidadeDigitada = 0,
                 CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
@@ -529,9 +508,44 @@ namespace CollectorQi.Views
             await pageProgress.OnClose();
         }
 
+        private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
+            {
+                var current = _ItemsUnfiltered.FirstOrDefault(p => p.ItCodigo == SearchBarItCodigo.Text);
+
+                if (current == null)
+                {
+                    if (SearchBarItCodigo.Text.Contains(';'))
+                    {
+
+                        var textItCodigo = SearchBarItCodigo.Text.Split(';');
+                        if (textItCodigo.Length > 1)
+                        {
+                            current = _ItemsUnfiltered.FirstOrDefault(p => p.ItCodigo == textItCodigo[1]);
+                        }
+                    }
+                }
+
+                if (current != null)
+                {
+                    var pageProgress = new ProgressBarPopUp("Carregando...");
+
+                    current.CodigoBarras = SearchBarItCodigo.Text.Replace(";","[");
+                    var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, current);
+                    await PopupNavigation.Instance.PushAsync(page);
+                    Thread.Sleep(1000);
+                    await pageProgress.OnClose();
+
+                    cvInventarioItem.SelectedItem = null;
+                    
+                }
+            }
+        }
+
         async void BtnLimpar_Clicked(object sender, EventArgs e)
         {
-            var param = new ParametersLimparLeituraEtiquetaService();
+           /* var param = new ParametersLimparLeituraEtiquetaService();
 
             var inventario = new Inventario()
             {
@@ -549,25 +563,42 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp(_inventarioItemLimpar.Resultparam.LimparLeitura);
             await PopupNavigation.Instance.PushAsync(pageProgress);
             Thread.Sleep(1000);
-            await pageProgress.OnClose();
+            await pageProgress.OnClose(); */
         }
 
         private void BtnImprimir_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new ImprimirPage(_inventario, localizacao));
+            Application.Current.MainPage = new NavigationPage(new ImprimirPage(_inventario));
         }
 
         async void cvInventarioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var pageProgress = new ProgressBarPopUp("Carregando...");
+            var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
 
-            var current = (cvInventarioItem.SelectedItem as InventarioItemVO);
+            if (cvInventarioItem.SelectedItem == null)
+                return;
+
+            var pageProgress = new ProgressBarPopUp("Carregando...");
 
             var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, current);
             await PopupNavigation.Instance.PushAsync(page);
             Thread.Sleep(1000);
             await pageProgress.OnClose();
-        }        
+
+            page._actDeleteRow = DeleteRowInventarioItem;
+
+            cvInventarioItem.SelectedItem = null;
+        }
+
+        public void DeleteRowInventarioItem(InventarioItemVO pInventario)
+        {
+            var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventario.InventarioItemId);
+
+            if (current != null) {
+                Items.Remove(current);
+                OnPropertyChanged("Items");
+            }
+        }
     }
 
     public class InventarioItemViewModel : InventarioItemVO, INotifyPropertyChanged
@@ -634,5 +665,6 @@ namespace CollectorQi.Views
             OnPropertyChanged(propertyName);
             return true;
         }
+        
     }
 }

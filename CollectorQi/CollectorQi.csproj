@@ -108,6 +108,9 @@
     <Compile Update="Views\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ESCL018\InventarioListaLocalizacaoPage.xaml.cs">
+      <DependentUpon>InventarioListaLocalizacaoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ImprimirEtiquetaReparo.xaml.cs">
       <DependentUpon>ImprimirEtiquetaReparo.xaml</DependentUpon>
     </Compile>
@@ -120,10 +123,10 @@
     <Compile Update="Views\ImprimirEtiquetaItem.xaml.cs">
       <DependentUpon>ImprimirEtiquetaItem.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
+    <Compile Update="Views\ESCL018\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
+    <Compile Update="Views\ESCL018\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\RecebimentoPage.xaml.cs">

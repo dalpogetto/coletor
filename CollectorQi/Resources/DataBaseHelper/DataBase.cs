@@ -71,7 +71,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<ItemVO>();
                             conexao.DropTable<SecurityVO>();
                             conexao.DropTable<InventarioVO>();
-                            conexao.DropTable<InventarioItemVO>();
+                        conexao.DropTable<InventarioLocalizacaoVO>();
+                        conexao.DropTable<InventarioItemVO>();
                             conexao.DropTable<DepositoVO>();
                             conexao.DropTable<EstabelecVO>();
                             conexao.DropTable<SaldoEstoqVO>();
@@ -79,6 +80,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoItemVO>();
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                             conexao.DropTable<FichasUsuarioVO>();
+                        
                         //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))
@@ -93,6 +95,11 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("InventarioVO", conexao))
                         {
                             conexao.CreateTable<InventarioVO>();
+                        }
+
+                        if (!IsTableExists("InventarioLocalizacaoVO", conexao))
+                        {
+                            conexao.CreateTable<InventarioLocalizacaoVO>();
                         }
                         //else
                         //{

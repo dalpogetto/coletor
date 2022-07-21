@@ -63,17 +63,11 @@ namespace CollectorQi.Views
 
         private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
-            var page = new ProgressBarPopUp("Carregando Cadastros...");
+            var page = new ProgressBarPopUp("Autenticando...");
 
             try
             {
                 BtnLogin.IsEnabled = false;
-
-                //if (ItemDB.GetItemCount()             <= 0 ||
-                //    SaldoEstoqDB.GetSaldoEstoqCount() <= 0)
-                //{
-                //    await DisplayAlert("Atenção!", "Primeira conexão com o Sistema, o processo de Integração pode demorar.", "OK");
-                //}
 
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
@@ -81,23 +75,12 @@ namespace CollectorQi.Views
 
                 try
                 {
-                    //logon = await Models.Controller.ConectColetorAsync(usuario.Text, senha.Text, page);
-
-                    var t = new Cadastros();
-
-                    logon = await t.ObterListaFiliais(usuario.Text, senha.Text);
-
-                    if (logon != "OK")
-                    {
-
-                        logon = await t.ObterListaFiliais(usuario.Text + "@DIEBOLD_MASTER", senha.Text);
-                    }
-
-
+                    logon = await Services.ESCL000.ConnectService.ConnectColetorAsync (usuario.Text, senha.Text, page);
+                    
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Erro!?", ex.Message, "Cancelar");
+                    await DisplayAlert("Erro!", ex.Message, "Cancelar");
                     logon = "Erro";
                     //logon = "OK";
 
@@ -121,8 +104,6 @@ namespace CollectorQi.Views
                     SecurityAuxiliar.CodSenha = senha.Text.Trim();
 
                     await Navigation.PopModalAsync(true);
-
-                    //ActAtualizaListView();
 
                 }
                 else if (logon != "Erro")
