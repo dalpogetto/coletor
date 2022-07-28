@@ -14,6 +14,7 @@ using CollectorQi.Resources;
 using System.Threading;
 using System.Globalization;
 using Xamarin.Forms;
+using CollectorQi.Models.ESCL028;
 
 namespace CollectorQi.Models
 {
@@ -1444,6 +1445,36 @@ namespace CollectorQi.Models
                             throw new Exception("(CriaNotaFiscal) - " + ex.Message);
                         }
                     }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static bool AtualizaNotaFiscal(ValidarReparosNotaFiscal validarReparosNotaFiscal)
+        {
+            try
+            {
+                if (validarReparosNotaFiscal != null)
+                {                    
+                    try
+                    {
+                        var notaFiscalVO = new VO.NotaFiscalVO
+                        {
+                            NumRR = validarReparosNotaFiscal.NumRR,
+                            Conferido = validarReparosNotaFiscal.Conferido                           
+                        };
+
+                        NotaFiscalDB.AtualizaNotaFiscal(notaFiscalVO);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("(AtualizaNotaFiscal) - " + ex.Message);                        
+                    }                    
                 }
 
                 return true;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CollectorQi.Models.ESCL028;
 using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
@@ -119,10 +120,22 @@ namespace CollectorQi.Views
         async void BtnScan_Clicked(object sender, EventArgs e)
         {            
             var parametersNotaFiscal = new ValidarReparosNotaFiscalService();
-            var lstNotaFiscal = await parametersNotaFiscal.SendValidarReparosAsync();
+            var validarReparosNotaFiscal = new ValidarReparosNotaFiscal() { CodBarras = "" };
 
+            var lstNotaFiscal = await parametersNotaFiscal.SendValidarReparosAsync(validarReparosNotaFiscal);
 
+            foreach (var item in lstNotaFiscal.Resultparam)            
+                Models.Controller.AtualizaNotaFiscal(item);
 
+            var lstNotaFiscalRetorno = NotaFiscalDB.GetNotaFiscalByEstab("126").OrderBy(p => p.RowId).ToList();
+
+            for (int i = 0; i < lstNotaFiscalRetorno.Count(); i++)
+            {
+                var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(lstNotaFiscalRetorno[i]);
+                ObsNotaFiscal.Add(modelView);
+            }
+
+            cvNotaFiscal.BindingContext = this;
         }
     }
 

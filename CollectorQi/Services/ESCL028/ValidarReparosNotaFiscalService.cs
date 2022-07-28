@@ -13,22 +13,24 @@ namespace CollectorQi.Services.ESCL028
 {
     public class ValidarReparosNotaFiscalService
     {
-        ResultInventarioJson parametros = null;
+        ResultNotaFiscalJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://62d19f93d4eb6c69e7e10a56.mockapi.io";
+        private const string URI = "https://62d19f93d4eb6c69e7e10a56.mockapi.io";        
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/ValidarReparos";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioJson> SendValidarReparosAsync()
+        public async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal)
         {
             try
             {
-                ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
+                validarReparosNotaFiscal.CodEstabel = "126";
 
-                RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };
+                //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
+
+                RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { Param = validarReparosNotaFiscal };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
@@ -51,7 +53,7 @@ namespace CollectorQi.Services.ESCL028
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultInventarioJson>(responseData);
+                        parametros = JsonConvert.DeserializeObject<ResultNotaFiscalJson>(responseData);
                     }
                     else
                     {
@@ -67,22 +69,25 @@ namespace CollectorQi.Services.ESCL028
             return parametros;
         }
 
-        public class RequestInventarioJson
+        public class RequestNotaFiscalJson
         {
             [JsonProperty("Parametros")]
-            public ESCL.ParametrosNotaFiscal Param { get; set; }
+            public string CodEstabel { get; set; }
+
+            [JsonProperty("ListaReparos")]
+            public ESCL.ValidarReparosNotaFiscal Param { get; set; }
         }
 
-        public class ResultInventarioJson
-        {
-            [JsonProperty("Conteudo")]
-            public ResultConteudoJson param { get; set; }
-        }
-
-        public class ResultConteudoJson
+        public class ResultNotaFiscalJson
         {
             [JsonProperty("ListaReparos")]
-            public List<ESCL.ParametrosNotaFiscal> Resultparam { get; set; }
-        }        
+            public List<ESCL.ValidarReparosNotaFiscal> Resultparam { get; set; }
+        }
+
+        //public class ResultConteudoJson
+        //{
+        //    [JsonProperty("ListaReparos")]
+        //    public List<ESCL.ParametrosNotaFiscal> Resultparam { get; set; }
+        //}        
     }
 }
