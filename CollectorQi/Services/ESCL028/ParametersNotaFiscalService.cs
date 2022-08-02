@@ -1,13 +1,12 @@
-﻿using System;
+﻿using CollectorQi.Models.ESCL028;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using CollectorQi.Models;
-using ESCL = CollectorQi.Models.ESCL028;
-using Newtonsoft.Json;
 using Xamarin.Forms;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace CollectorQi.Services.ESCL028
 {
@@ -26,7 +25,7 @@ namespace CollectorQi.Services.ESCL028
         {
             try
             {
-                ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
+                ParametrosNotaFiscal requestParam = new ParametrosNotaFiscal() { CodEstabel = "126" };
 
                 RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };
 
@@ -70,7 +69,7 @@ namespace CollectorQi.Services.ESCL028
         public class RequestInventarioJson
         {
             [JsonProperty("Parametros")]
-            public ESCL.ParametrosNotaFiscal Param { get; set; }
+            public ParametrosNotaFiscal Param { get; set; }
         }
 
         public class ResultInventarioJson
@@ -82,7 +81,9 @@ namespace CollectorQi.Services.ESCL028
         public class ResultConteudoJson
         {
             [JsonProperty("ListaReparos")]
-            public List<ESCL.ParametrosNotaFiscal> Resultparam { get; set; }
-        }        
+            public List<ParametrosNotaFiscal> Resultparam { get; set; }
+            [JsonProperty("ListaDocumentos")]
+            public List<ListaDocumentosNotaFiscal> ListaDocumentos { get; set; }
+        }
     }
 }

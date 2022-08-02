@@ -79,6 +79,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoItemVO>();
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                             conexao.DropTable<FichasUsuarioVO>();
+                            conexao.DropTable<NotaFiscalVO>();
                         //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))

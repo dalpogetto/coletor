@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Inventário" x:Class="CollectorQi.Views.NotaFiscalConferenciaReparosListaPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Nota Fiscal" x:Class="CollectorQi.Views.NotaFiscalConferenciaReparosListaPage">
     <ContentPage.Content>
         <!--<StackLayout BackgroundColor="#4E4E4E">-->
         <StackLayout BackgroundColor="#fff">
@@ -80,9 +80,17 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Número Documento:" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding NroDocto}" FontSize="Micro" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Doc.:" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NroDocto}" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="2" Text="RR:" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="{Binding NumRR}" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="4" Text="Local:" FontAttributes="Bold" FontSize="Micro" />
+                                    <Label Grid.Row="0" Grid.Column="5" Text="{Binding Localizacao}" FontSize="Micro" />
                                     </Grid>
                                 </Grid>                        
                             </Frame>
@@ -112,8 +120,8 @@
 
                 <Button x:Name="BtnScan" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                           Clicked="BtnScan_Clicked" Grid.Row="0" Grid.Column="0" Text="Buscar Etiqueta" TextColor="White" />
-                <Button x:Name="BtnFinalizarNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                          Grid.Row="1" Grid.Column="0" Text="Finalizar Nota Fiscal" TextColor="White" />
+                <Button x:Name="BtnAtualizarNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="BtnAtualizarNotaFiscal_Clicked" Grid.Row="1" Grid.Column="0" Text="Atualizar Nota Fiscal" TextColor="White" />
                 <Button x:Name="BtnCarregaNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                           Clicked="OnClick_CarregaNotaFiscal" Grid.Row="2" Grid.Column="0" Text="Carrega Nota Fiscal em andamento" TextColor="White" />
                

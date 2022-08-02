@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using CollectorQi.Models;
-using ESCL = CollectorQi.Models.ESCL028;
-using Newtonsoft.Json;
 using Xamarin.Forms;
-using System.Collections.Generic;
-using System.Diagnostics;
+using ESCL = CollectorQi.Models.ESCL028;
 
 namespace CollectorQi.Services.ESCL028
 {
-    public class ValidarReparosNotaFiscalService
+    public class FinalizarConferenciaNotaFiscalService
     {
         ResultNotaFiscalJson parametros = null;
 
@@ -19,18 +17,18 @@ namespace CollectorQi.Services.ESCL028
         //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         private const string URI = "https://62d19f93d4eb6c69e7e10a56.mockapi.io";        
 
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/ValidarReparos";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/FinalizarConferencia";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal)
+        public async Task<ResultNotaFiscalJson> SendFinalizarConferenciaAsync(ESCL.FinalizarConferenciaNotaFiscal finalizarConferenciaNotaFiscal)
         {
             try
             {
-                validarReparosNotaFiscal.CodEstabel = "126";
+                finalizarConferenciaNotaFiscal.CodEstabel = "126";
 
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
 
-                RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { Param = validarReparosNotaFiscal };
+                RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { Param = finalizarConferenciaNotaFiscal };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
@@ -75,18 +73,19 @@ namespace CollectorQi.Services.ESCL028
             public string CodEstabel { get; set; }
 
             [JsonProperty("ListaReparos")]
-            public ESCL.ValidarReparosNotaFiscal Param { get; set; }
+            public ESCL.FinalizarConferenciaNotaFiscal Param { get; set; }
         }
 
         public class ResultNotaFiscalJson
         {
-            [JsonProperty("ListaReparos")]
-            public List<ESCL.ValidarReparosNotaFiscal> Resultparam { get; set; }
+            [JsonProperty("Conteudo")]
+            public ResultConteudoJson Param { get; set; }
+            public string Retorno { get; set; }
+        }
 
-            [JsonProperty("ListaDocumentos")]
-            public List<ESCL.ListaDocumentosNotaFiscal> ListaDocumentos { get; set; }
-
-            public string id { get; set; }
-        }          
+        public class ResultConteudoJson
+        {           
+            public string Mensagem { get; set; }
+        }
     }
 }

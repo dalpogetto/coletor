@@ -20,20 +20,25 @@ namespace CollectorQi.Views
     public partial class NotaFiscalConferenciaReparosListaPage : ContentPage, INotifyPropertyChanged
     {  
         public ObservableCollection<NotaFiscalViewModel> ObsNotaFiscal { get; }
+        public List<NotaFiscalVO> listNotaFiscalVO { get; }
+        public ListaDocumentosNotaFiscal listaDocumentosNotaFiscal { get; set; }
+        public string Estabelecimento { get; }
 
         public NotaFiscalConferenciaReparosListaPage()
         {
             InitializeComponent();
 
             ObsNotaFiscal = new ObservableCollection<NotaFiscalViewModel>();
+            listNotaFiscalVO = new List<NotaFiscalVO>();
 
             //var lstNotaFiscal = NotaFiscalDB.GetNotaFiscalAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.RowId).ToList();
-            var lstNotaFiscal = NotaFiscalDB.GetNotaFiscalAtivoByEstab("126").OrderBy(p => p.RowId).ToList();
+            var lstNotaFiscal = listNotaFiscalVO = NotaFiscalDB.GetNotaFiscalByEstab("126").OrderBy(p => p.RowId).ToList();       
 
             for (int i = 0; i < lstNotaFiscal.Count(); i++)
             { 
                 var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(lstNotaFiscal[i]);
-                lblCodEstabel.Text = lstNotaFiscal[i].CodEstabel; // + " - " + lstNotaFiscal[i].DescEstabel;
+                lblCodEstabel.Text = "Estabelecimento: " + lstNotaFiscal[i].CodEstabel;
+                Estabelecimento = lstNotaFiscal[i].CodEstabel;
 
                 ObsNotaFiscal.Add(modelView);
             }
@@ -43,7 +48,7 @@ namespace CollectorQi.Views
 
         async void OnClick_CarregaNotaFiscal(object sender, EventArgs e)
         {
-            var current = (cvNotaFiscal.SelectedItem as VO.NotaFiscalVO);
+            //var current = (cvNotaFiscal.SelectedItem as NotaFiscalVO);
 
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -61,8 +66,10 @@ namespace CollectorQi.Views
                 ObsNotaFiscal.Clear();
 
                 var parametersNotaFiscal = new ParametersNotaFiscalService();
-                var lstNotaFiscal = await parametersNotaFiscal.SendParametersAsync();
                 var listNotaFiscal = new List<ModelNotaFiscal>();
+                //var listaDocumentosNotaFiscal = new ListaDocumentosNotaFiscal();
+
+                var lstNotaFiscal = await parametersNotaFiscal.SendParametersAsync();
 
                 foreach (var item in lstNotaFiscal.param.Resultparam)
                 {
@@ -71,13 +78,18 @@ namespace CollectorQi.Views
                     notaFiscal.codEstabel = item.CodEstabel;
                     notaFiscal.codItem = item.CodItem;
                     notaFiscal.localizacao = item.Localizacao;
-                    notaFiscal.descricaoItem = item.DescricaoItem;
+                    string[] descricaoItem = item.DescricaoItem.Split(' ');
+                    foreach (string descricao in descricaoItem)
+                    {
+                        if(descricao != "")
+                            notaFiscal.descricaoItem += descricao + " ";
+                    }
+                    notaFiscal.descricaoItem = notaFiscal.descricaoItem.TrimEnd();
                     notaFiscal.nroDocto = item.NroDocto;
                     notaFiscal.numRR = item.NumRR;
                     notaFiscal.conferido = item.Conferido;
                     notaFiscal.relaciona = item.Relaciona;
                     notaFiscal.codFilial = item.CodFilial;
-
                     listNotaFiscal.Add(notaFiscal);
 
                     var notaFiscalVO = new NotaFiscalVO();
@@ -85,7 +97,13 @@ namespace CollectorQi.Views
                     notaFiscalVO.CodEstabel = item.CodEstabel;
                     notaFiscalVO.CodItem = item.CodItem;
                     notaFiscalVO.Localizacao = item.Localizacao;
-                    notaFiscalVO.DescricaoItem = item.DescricaoItem;
+                    string[] descricaoItems = item.DescricaoItem.Split(' ');
+                    foreach (string descricao in descricaoItems)
+                    {
+                        if (descricao != "")
+                            notaFiscalVO.DescricaoItem += descricao + " ";
+                    }
+                    notaFiscalVO.DescricaoItem = notaFiscalVO.DescricaoItem.TrimEnd();
                     notaFiscalVO.NroDocto = item.NroDocto;
                     notaFiscalVO.NumRR = item.NumRR;
                     notaFiscalVO.Conferido = item.Conferido;
@@ -94,9 +112,13 @@ namespace CollectorQi.Views
 
                     var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(notaFiscalVO);
                     ObsNotaFiscal.Add(modelView);
+                    lblCodEstabel.Text = "Estabelecimento: " + notaFiscalVO.CodEstabel;
                 }               
 
                 Models.Controller.CriaNotaFiscal(listNotaFiscal);
+
+                foreach (var item in lstNotaFiscal.param.ListaDocumentos)
+                    listaDocumentosNotaFiscal = item;
             }
             catch (Exception ex)
             {
@@ -120,14 +142,17 @@ namespace CollectorQi.Views
         async void BtnScan_Clicked(object sender, EventArgs e)
         {            
             var parametersNotaFiscal = new ValidarReparosNotaFiscalService();
-            var validarReparosNotaFiscal = new ValidarReparosNotaFiscal() { CodBarras = "" };
+            var validarReparosNotaFiscal = new ValidarReparosNotaFiscal() { CodBarras = "" };           
 
             var lstNotaFiscal = await parametersNotaFiscal.SendValidarReparosAsync(validarReparosNotaFiscal);
+
+            //foreach (var item in lstNotaFiscal.ListaDocumentos)            
+            //    listaDocumentosNotaFiscal = item;   
 
             foreach (var item in lstNotaFiscal.Resultparam)            
                 Models.Controller.AtualizaNotaFiscal(item);
 
-            var lstNotaFiscalRetorno = NotaFiscalDB.GetNotaFiscalByEstab("126").OrderBy(p => p.RowId).ToList();
+            var lstNotaFiscalRetorno = NotaFiscalDB.GetNotaFiscalByEstab(Estabelecimento).OrderBy(p => p.RowId).ToList();
 
             for (int i = 0; i < lstNotaFiscalRetorno.Count(); i++)
             {
@@ -136,6 +161,11 @@ namespace CollectorQi.Views
             }
 
             cvNotaFiscal.BindingContext = this;
+        }
+
+        private void BtnAtualizarNotaFiscal_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarConferenciaListaPage(listNotaFiscalVO, listaDocumentosNotaFiscal));
         }
     }
 
