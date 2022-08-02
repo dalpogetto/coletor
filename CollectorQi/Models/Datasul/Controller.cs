@@ -14,6 +14,7 @@ using CollectorQi.Resources;
 using System.Threading;
 using System.Globalization;
 using Xamarin.Forms;
+using CollectorQi.Models.ESCL028;
 
 namespace CollectorQi.Models
 {
@@ -1404,10 +1405,88 @@ namespace CollectorQi.Models
             }
         }
 
+        public static bool CriaNotaFiscal(List<ModelNotaFiscal> notaFiscal)
+        {
+            try
+            {
+                List<VO.NotaFiscalVO> lstNotaFiscalVO = new List<VO.NotaFiscalVO>();
+
+                if (notaFiscal != null)
+                {
+                    for (int i = 0; i < notaFiscal.Count; i++)
+                    {
+                        try
+                        {
+                            var notaFiscalVO = new VO.NotaFiscalVO
+                            {
+                                RowId = notaFiscal[i].rowId,
+                                CodEstabel = notaFiscal[i].codEstabel,
+                                CodItem = notaFiscal[i].codItem,
+                                Localizacao = notaFiscal[i].localizacao,
+                                DescricaoItem = notaFiscal[i].descricaoItem,
+                                NroDocto = notaFiscal[i].nroDocto,
+                                NumRR = notaFiscal[i].numRR,
+                                Conferido = notaFiscal[i].conferido,
+                                Relaciona = notaFiscal[i].relaciona,
+                                CodFilial = notaFiscal[i].codFilial
+                                //OrigemNotaFiscal = notaFiscal[i].origemNotaFiscal,
+                                //NotaFiscalAtivo = notaFiscal[i].notaFiscalAtivo
+                            };
+
+                            lstNotaFiscalVO.Add(notaFiscalVO);
+
+                            NotaFiscalDB.InserirNotaFiscal(notaFiscalVO);
+
+                            //int idInventario = await InventarioDB.AtualizaInventarioGetId(inventarioVO);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("(CriaNotaFiscal) - " + ex.Message);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static bool AtualizaNotaFiscal(ValidarReparosNotaFiscal validarReparosNotaFiscal)
+        {
+            try
+            {
+                if (validarReparosNotaFiscal != null)
+                {                    
+                    try
+                    {
+                        var notaFiscalVO = new VO.NotaFiscalVO
+                        {
+                            NumRR = validarReparosNotaFiscal.NumRR,
+                            Conferido = validarReparosNotaFiscal.Conferido                           
+                        };
+
+                        NotaFiscalDB.AtualizaNotaFiscal(notaFiscalVO);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("(AtualizaNotaFiscal) - " + ex.Message);                        
+                    }                    
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public static Tuple<List<ModelRequisicao>, List<ModelRequisicaoItem>, List<ModelRequisicaoSaldoEstoqDev>> GetRequisicao()
         {
-
             try
             {
 

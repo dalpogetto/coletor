@@ -20,6 +20,16 @@ namespace CollectorQi
         EncerradoMobile = 3
     }
 
+    public enum eStatusNotaFiscal
+    {
+        [Description("Não Iniciado")]
+        NaoIniciado = 1,
+        [Description("Iniciado")]
+        IniciadoMobile = 2,
+        [Description("Encerrado")]
+        EncerradoMobile = 3
+    }
+
     public enum eStatusIntegracao
     { 
         [Description("Pendente")]

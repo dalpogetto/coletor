@@ -59,7 +59,7 @@ namespace CollectorQi.Views
                 case "AtualizacaoEntrada":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Atualização de NF de Entrada";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Estoque" });
+                    Application.Current.MainPage = new NavigationPage(new NotaFiscalConferenciaReparosListaPage() { Title = "Nota Fiscal" });
                     break;               
             }
 

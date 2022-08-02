@@ -98,10 +98,6 @@ namespace CollectorQi
 
             // List of builds installed (1, 2)
             var buildHistory = VersionTracking.BuildHistory;
-
-
-
-
         }
 
         protected async override void OnStart()
@@ -126,11 +122,12 @@ namespace CollectorQi
                 _.CreateMap<InventarioVO, InventarioViewModel>();
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
+                _.CreateMap<NotaFiscalViewModel, NotaFiscalVO>();
                 //_.CreateMap<ESCL.Parametros, InventarioViewModel>();
                 //_.CreateMap<SaldoEstoqVO, RequisicaoSaldoEstoqViewModel>();
                 //_.CreateMap add ma s configuração.
 
-             //   var modelView = Mapper.Map<RequisicaoItemViewModel, RequisicaoItemVO>(_currentClick);
+                //   var modelView = Mapper.Map<RequisicaoItemViewModel, RequisicaoItemVO>(_currentClick);
 
             };
         }

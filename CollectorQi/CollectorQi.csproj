@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\ESCL000\" />
-    <Folder Include="Services\ESCL028\" />
     <Folder Include="Views\Batch\" />
     <Folder Include="Models\Notification\" />
   </ItemGroup>
@@ -121,6 +120,15 @@
     </Compile>
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarItemConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalFinalizarConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalConferenciaReparosListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalConferenciaReparosListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
