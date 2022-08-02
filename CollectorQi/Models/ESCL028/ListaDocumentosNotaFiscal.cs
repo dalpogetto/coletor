@@ -15,5 +15,6 @@ namespace CollectorQi.Models.ESCL028
         public int Relaciona { get; set; }
         public bool Bloqueado { get; set; }
         public int NrProcesso { get; set; } 
+        public bool ItensRestantes { get; set; }
     }
 }

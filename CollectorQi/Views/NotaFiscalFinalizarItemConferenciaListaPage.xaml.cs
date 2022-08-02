@@ -16,9 +16,9 @@ namespace CollectorQi.Views
     {
         public ObservableCollection<NotaFiscalViewModel> ObsNotaFiscalItem { get; set; }
         public List<NotaFiscalVO> ListNotaFiscalVO { get; set; }
-        public ListaDocumentosNotaFiscal ListaDocumentosNotaFiscal { get; set; }
+        public List<ListaDocumentosNotaFiscal> ListaDocumentosNotaFiscal { get; set; }
 
-        public NotaFiscalFinalizarItemConferenciaListaPage(List<NotaFiscalVO> listNotaFiscalVO, ListaDocumentosNotaFiscal listaDocumentosNotaFiscal)
+        public NotaFiscalFinalizarItemConferenciaListaPage(List<NotaFiscalVO> listNotaFiscalVO, List<ListaDocumentosNotaFiscal> listaDocumentosNotaFiscal)
         {
             InitializeComponent();
             ListNotaFiscalVO = listNotaFiscalVO;

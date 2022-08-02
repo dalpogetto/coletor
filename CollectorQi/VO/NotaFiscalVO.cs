@@ -44,6 +44,6 @@ namespace CollectorQi.VO
         public int Relaciona { get => relaciona; set => relaciona = value; }
 
         [Indexed(Name = "uNotaFiscalIndex", Order = 9, Unique = true)]
-        public string CodFilial { get => codFilial; set => codFilial = value; }        
+        public string CodFilial { get => codFilial; set => codFilial = value; }  
     }
 }

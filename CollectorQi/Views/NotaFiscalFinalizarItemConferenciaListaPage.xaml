@@ -15,7 +15,7 @@
 
             <CollectionView x:Name="cvNotaFiscalItem" ItemsSource="{Binding ObsNotaFiscalItem}" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
-                    <StackLayout>
+                    <StackLayout>                        
                         <Label Text="Nenhuma nota fiscal em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
                     </StackLayout>
                 </CollectionView.EmptyView>

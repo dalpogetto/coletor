@@ -17,23 +17,30 @@ namespace CollectorQi.Views
     {  
         public ObservableCollection<NotaFiscalCabecalhoViewModel> ObsCabecalhoNotaFiscal { get; set; }
         public List<NotaFiscalVO> ListNotaFiscalVO { get; set; }
-        public ListaDocumentosNotaFiscal ListaDocumentosNotaFiscal { get; set; }
+        public List<ListaDocumentosNotaFiscal> ListaDocumentosNotaFiscal { get; set; }
+        public bool Conferidos { get; set; } = true;
 
-        public NotaFiscalFinalizarConferenciaListaPage(List<NotaFiscalVO> listNotaFiscalVO, ListaDocumentosNotaFiscal listaDocumentosNotaFiscal)
+        public NotaFiscalFinalizarConferenciaListaPage(List<NotaFiscalVO> listNotaFiscalVO, List<ListaDocumentosNotaFiscal> listaDocumentosNotaFiscal)
         {
             InitializeComponent();
             ListNotaFiscalVO = listNotaFiscalVO;
             ListaDocumentosNotaFiscal = listaDocumentosNotaFiscal;
             ObsCabecalhoNotaFiscal = new ObservableCollection<NotaFiscalCabecalhoViewModel>();
 
-            if (listaDocumentosNotaFiscal != null)
+            foreach (var item in ListNotaFiscalVO)
             {
-                var modelView = Mapper.Map<ListaDocumentosNotaFiscal, NotaFiscalCabecalhoViewModel>(listaDocumentosNotaFiscal);
-                ObsCabecalhoNotaFiscal.Add(modelView);
+                lblCodEstabel.Text = "Estabelecimento: " + item.CodEstabel;
+                Conferidos = item.Conferido;
             }
 
-            foreach (var item in ListNotaFiscalVO)
-                lblCodEstabel.Text = "Estabelecimento: " + item.CodEstabel;
+            if (listaDocumentosNotaFiscal != null)
+            {
+                foreach (var item in listaDocumentosNotaFiscal)
+                {
+                    var modelView = Mapper.Map<ListaDocumentosNotaFiscal, NotaFiscalCabecalhoViewModel>(item);
+                    ObsCabecalhoNotaFiscal.Add(modelView);                    
+                }                
+            }          
 
             cvCabecalhoNotaFiscal.BindingContext = this;
         }     
@@ -55,9 +62,9 @@ namespace CollectorQi.Views
             ObsCabecalhoNotaFiscal = new ObservableCollection<NotaFiscalCabecalhoViewModel>();            
 
             if (lstNotaFiscalFinalizar.Retorno == "OK")            
-                await DisplayAlert("OK!", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
+                await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
             else
-                await DisplayAlert("Erro!", lstNotaFiscalFinalizar.Param.Mensagem, "OK");         
+                await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");         
 
             cvCabecalhoNotaFiscal.BindingContext = this;
         }
@@ -67,13 +74,16 @@ namespace CollectorQi.Views
             OnBackButtonPressed();
         }
 
-        private void cvCabecalhoNotaFiscal_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void cvCabecalhoNotaFiscal_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var current = (cvCabecalhoNotaFiscal.SelectedItem as ListaDocumentosNotaFiscal);
 
             var listItemNotaFiscal = ListNotaFiscalVO.Where(x => x.NroDocto == current.Docto && x.Conferido == false).ToList();
 
-            Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarItemConferenciaListaPage(listItemNotaFiscal, ListaDocumentosNotaFiscal));
+            if(listItemNotaFiscal.Count > 0)
+                Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarItemConferenciaListaPage(listItemNotaFiscal, ListaDocumentosNotaFiscal));
+            else
+                await DisplayAlert("", "Todos os itens foram lidos !", "OK");
         }
     }
 
@@ -83,10 +93,10 @@ namespace CollectorQi.Views
         {
             get
             {
-                if (this.Atualizar)
-                    return "intSucessoMed.png";
-                else
-                    return "intPendenteMed.png";
+                if (this.ItensRestantes)
+                        return "intSucessoMed.png";
+                    else
+                        return "intPendenteMed.png";
             }
         }
     }

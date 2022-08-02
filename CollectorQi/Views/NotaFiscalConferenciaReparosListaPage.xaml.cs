@@ -21,8 +21,9 @@ namespace CollectorQi.Views
     {  
         public ObservableCollection<NotaFiscalViewModel> ObsNotaFiscal { get; }
         public List<NotaFiscalVO> listNotaFiscalVO { get; }
-        public ListaDocumentosNotaFiscal listaDocumentosNotaFiscal { get; set; }
+        public List<ListaDocumentosNotaFiscal> listaDocumentosNotaFiscal { get; set; }
         public string Estabelecimento { get; }
+        public bool Conferido { get; set; } = true;
 
         public NotaFiscalConferenciaReparosListaPage()
         {
@@ -67,7 +68,7 @@ namespace CollectorQi.Views
 
                 var parametersNotaFiscal = new ParametersNotaFiscalService();
                 var listNotaFiscal = new List<ModelNotaFiscal>();
-                //var listaDocumentosNotaFiscal = new ListaDocumentosNotaFiscal();
+                listaDocumentosNotaFiscal = new List<ListaDocumentosNotaFiscal>();
 
                 var lstNotaFiscal = await parametersNotaFiscal.SendParametersAsync();
 
@@ -117,8 +118,31 @@ namespace CollectorQi.Views
 
                 Models.Controller.CriaNotaFiscal(listNotaFiscal);
 
-                foreach (var item in lstNotaFiscal.param.ListaDocumentos)
-                    listaDocumentosNotaFiscal = item;
+                for (int i = 0; i < lstNotaFiscal.param.ListaDocumentos.Count(); i++)
+                {
+                    bool existeItensRestantes = listNotaFiscalVO.Any(x => x.NroDocto == lstNotaFiscal.param.ListaDocumentos[i].Docto && x.Conferido == false);
+
+                    var documentosNotaFiscal = new ListaDocumentosNotaFiscal();
+                    documentosNotaFiscal.Atualizar = lstNotaFiscal.param.ListaDocumentos[i].Atualizar;
+                    documentosNotaFiscal.Bloqueado = lstNotaFiscal.param.ListaDocumentos[i].Bloqueado;
+                    documentosNotaFiscal.CodEmitente = lstNotaFiscal.param.ListaDocumentos[i].CodEmitente;
+                    documentosNotaFiscal.CodEstabel = lstNotaFiscal.param.ListaDocumentos[i].CodEstabel;
+                    documentosNotaFiscal.Docto = lstNotaFiscal.param.ListaDocumentos[i].Docto;
+                    documentosNotaFiscal.Marca = lstNotaFiscal.param.ListaDocumentos[i].Marca;
+                    documentosNotaFiscal.NatOperacao = lstNotaFiscal.param.ListaDocumentos[i].NatOperacao;
+                    documentosNotaFiscal.NrProcesso = lstNotaFiscal.param.ListaDocumentos[i].NrProcesso;
+                    documentosNotaFiscal.Usuario = lstNotaFiscal.param.ListaDocumentos[i].Usuario;
+                    documentosNotaFiscal.SerieDocto = lstNotaFiscal.param.ListaDocumentos[i].SerieDocto;
+                    documentosNotaFiscal.Relaciona = lstNotaFiscal.param.ListaDocumentos[i].Relaciona;
+
+                    if(existeItensRestantes)
+                        documentosNotaFiscal.ItensRestantes = false;
+                    else
+                        documentosNotaFiscal.ItensRestantes = true;
+
+                    listaDocumentosNotaFiscal.Add(documentosNotaFiscal);
+                }         
+
             }
             catch (Exception ex)
             {
@@ -144,10 +168,7 @@ namespace CollectorQi.Views
             var parametersNotaFiscal = new ValidarReparosNotaFiscalService();
             var validarReparosNotaFiscal = new ValidarReparosNotaFiscal() { CodBarras = "" };           
 
-            var lstNotaFiscal = await parametersNotaFiscal.SendValidarReparosAsync(validarReparosNotaFiscal);
-
-            //foreach (var item in lstNotaFiscal.ListaDocumentos)            
-            //    listaDocumentosNotaFiscal = item;   
+            var lstNotaFiscal = await parametersNotaFiscal.SendValidarReparosAsync(validarReparosNotaFiscal);  
 
             foreach (var item in lstNotaFiscal.Resultparam)            
                 Models.Controller.AtualizaNotaFiscal(item);
