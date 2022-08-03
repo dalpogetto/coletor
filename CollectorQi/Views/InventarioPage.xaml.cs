@@ -32,10 +32,12 @@ namespace CollectorQi.Views
             }
             else
             {
-             
-                string[] imagem = new string[] { /*"almoxarifado.png", */ "inventario.png",  };
-                string[] titulo = new string[] { /*"Novo Inventário" , */ "Lista de inventário" };
-                string[] subTitulo = new string[] { /* "Digitação de inventário" , */ "Inventários em andamento" };
+                //Inventário Físico: Processo já desenvolvido anteriormente.
+                //Inventário de Reparos: Processo proposto nesse documento.
+
+                string[] imagem = new string[] { "inventario.png", "inventario.png" };
+                string[] titulo = new string[] { "Inventário Físico", "Inventário de Reparos" };
+                string[] subTitulo = new string[] { "Processo já desenvolvido anteriormente", "Processo proposto nesse documento" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -86,15 +88,12 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-                case "Novo Inventário":
-
-                    var page = new InventarioNovoPopUp();
-
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
+                case "Inventário Físico":
+                    Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
                     break;
-                case "Lista de inventário":
-                    Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
+
+                case "Inventário de Reparos":
+                    //Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
                     break;                
             }
         }

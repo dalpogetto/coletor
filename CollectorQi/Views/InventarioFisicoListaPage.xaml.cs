@@ -1,30 +1,22 @@
-﻿using CollectorQi.Models;
-using CollectorQi.ViewModels;
-using CollectorQi.Resources.DataBaseHelper;
-using CollectorQi.Resources.DataBaseHelper.Batch;
+﻿using AutoMapper;
 using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper;
+using CollectorQi.Services.ESCL018;
 using CollectorQi.VO;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CollectorQi.Models.Datasul;
-using AutoMapper;
-using System.Globalization;
-using Plugin.Connectivity;
-using CollectorQi.Services.ESCL018;
-using ESCL = CollectorQi.Models.ESCL018;
 
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InventarioListaPage : ContentPage, INotifyPropertyChanged
+    public partial class InventarioFisicoListaPage : ContentPage, INotifyPropertyChanged
     {
         #region Property
 
@@ -51,7 +43,7 @@ namespace CollectorQi.Views
 
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
 
-        public InventarioListaPage()
+        public InventarioFisicoListaPage()
         {
             InitializeComponent();
 
