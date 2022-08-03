@@ -16,7 +16,7 @@ using Xamarin.Forms.Xaml;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InventarioListaPage : ContentPage, INotifyPropertyChanged
+    public partial class InventarioFisicoListaPage : ContentPage, INotifyPropertyChanged
     {
         #region Property
 
@@ -43,7 +43,7 @@ namespace CollectorQi.Views
 
         public ObservableCollection<InventarioViewModel> ObsInventario { get; }
 
-        public InventarioListaPage()
+        public InventarioFisicoListaPage()
         {
             InitializeComponent();
 

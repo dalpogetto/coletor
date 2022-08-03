@@ -89,7 +89,7 @@ namespace CollectorQi.Views
             switch (menuItemDetail.Name)
             {
                 case "Inventário Físico":
-                    Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
+                    Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
                     break;
 
                 case "Inventário de Reparos":

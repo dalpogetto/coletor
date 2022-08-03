@@ -56,7 +56,7 @@
     <None Include="Views\FisicaPage.xaml" />
     <None Include="Views\InventarioItemPage.xaml" />
     <None Include="Views\InventarioListaItemPage.xaml" />
-    <None Include="Views\InventarioListaPage.xaml" />
+    <None Include="Views\InventarioFisicoListaPage.xaml" />
     <None Include="Views\InventarioNovoPopUp.xaml" />
     <None Include="Views\InventarioPage.xaml" />
     <None Include="Views\InventarioUpdateItemPopUp.xaml" />
@@ -120,6 +120,9 @@
     </Compile>
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
+      <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">
       <DependentUpon>NotaFiscalFinalizarItemConferenciaListaPage.xaml</DependentUpon>
