@@ -119,7 +119,7 @@ namespace CollectorQi
                 _.CreateMap<InventarioVO, BatchInventarioVO>();
                 _.CreateMap<BatchInventarioVO, BatchInventarioViewModel>();
                 _.CreateMap<InventarioItemVO, InventarioItemViewModel>();
-                _.CreateMap<InventarioVO, InventarioViewModel>();
+                _.CreateMap<InventarioVO, InventarioFisicoViewModel>();
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
                 _.CreateMap<NotaFiscalViewModel, NotaFiscalVO>();

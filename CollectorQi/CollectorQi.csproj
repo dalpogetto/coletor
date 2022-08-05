@@ -121,6 +121,9 @@
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
       <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
     </Compile>

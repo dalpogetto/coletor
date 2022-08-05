@@ -1,23 +1,12 @@
-﻿using CollectorQi.Models;
+﻿using CollectorQi.Resources;
 using CollectorQi.ViewModels;
-using CollectorQi.Resources.DataBaseHelper;
-using CollectorQi.Resources;
-using CollectorQi.VO;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-
-
 namespace CollectorQi.Views
 {
-
-
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InventarioPage : ContentPage
     {
@@ -93,7 +82,7 @@ namespace CollectorQi.Views
                     break;
 
                 case "Inventário de Reparos":
-                    //Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
+                    Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage());
                     break;                
             }
         }

@@ -41,13 +41,13 @@ namespace CollectorQi.Views
 
         #endregion
 
-        public ObservableCollection<InventarioViewModel> ObsInventario { get; }
+        public ObservableCollection<InventarioFisicoViewModel> ObsInventario { get; }
 
         public InventarioFisicoListaPage()
         {
             InitializeComponent();
 
-            ObsInventario = new ObservableCollection<InventarioViewModel>();
+            ObsInventario = new ObservableCollection<InventarioFisicoViewModel>();
 
             lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
@@ -57,7 +57,7 @@ namespace CollectorQi.Views
             {
                 //_ = InventarioDB.DeletarInventario(lstInventario[i]);
 
-                var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
+                var modelView = Mapper.Map<InventarioVO, InventarioFisicoViewModel>(lstInventario[i]);
                 lblCodEstabel.Text = lstInventario[i].CodEstabel + " - " + lstInventario[i].DescEstabel;
 
                 ObsInventario.Add(modelView);
@@ -183,7 +183,7 @@ namespace CollectorQi.Views
                     inventarioVO.DescEstabel = item.DescEstabel;
                     inventarioVO.DescDepos = item.DescDepos;
 
-                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(inventarioVO);
+                    var modelView = Mapper.Map<InventarioVO, InventarioFisicoViewModel>(inventarioVO);
                     ObsInventario.Add(modelView);
                 }
 
@@ -237,13 +237,13 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new PrincipalPage());
+            Application.Current.MainPage = new NavigationPage(new InventarioPage());
 
             return true;
         }
     }
 
-    public class InventarioViewModel : InventarioVO
+    public class InventarioFisicoViewModel : InventarioVO
     {
         public string Image
         {
