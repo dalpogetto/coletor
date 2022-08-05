@@ -203,7 +203,7 @@ namespace CollectorQi.Views
                 ToolBarPrint.IsEnabled = false;
 
                 var pageProgress = new ProgressBarPopUp("Carregando...");
-                var page = new InventarioPrintPopUp();
+                var page = new InventarioPrintPopUp(null,null);
                 await PopupNavigation.Instance.PushAsync(page);
                 //Thread.Sleep(1000);
                 await pageProgress.OnClose();

@@ -84,7 +84,7 @@ namespace CollectorQi.Views
 
             this.Title = $"Busca Localização";
 
-            lblCodEstabel.Text = $"Depósito: {inventarioVO.CodDepos} - {inventarioVO.DescDepos}";
+            lblCodDepos.Text = $"Depósito: {inventarioVO.CodDepos} - {inventarioVO.DescDepos}";
 
             cvLeituraEtiqueta.BindingContext = this;
         }
@@ -156,40 +156,55 @@ namespace CollectorQi.Views
 
                 Items = new ObservableCollection<InventarioLocalizacaoViewModel>();
 
+                var lstLocalizacoes = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.InventarioId);
 
-                var lstInventarioItem = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventarioVO.InventarioId);
-
-
-                List<InventarioLocalizacaoVO> lstInventarioLocalizacaoVO = new List<InventarioLocalizacaoVO>();
-                _lstInventarioItemVO = new List<InventarioItemVO>();
-
-                foreach (var inventarioItem in lstInventarioItem.param.Resultparam)
+                foreach (var localizacao in lstLocalizacoes.param.Resultparam)
                 {
-                    InventarioItemVO inventarioItemVO = new InventarioItemVO();
-                    inventarioItemVO.InventarioId = inventarioItem.IdInventario;
-                    inventarioItemVO.CodLocaliz = inventarioItem.Localizacao;
-                    inventarioItemVO.CodLote = inventarioItem.Lote;
-                        // CodRefer = inventarioItem.Cod
-                    inventarioItemVO.ItCodigo = inventarioItem.CodItem;
+                    InventarioLocalizacaoVO inventarioLocalizacaoVO = new InventarioLocalizacaoVO();
+                    inventarioLocalizacaoVO.CodLocaliz = localizacao.Localizacao;
 
-                    InventarioItemDB.InserirInventarioItem(inventarioItemVO);
+                 //   InventarioLocalizacaoDB.InserirInventarioLocalizacao(inventarioLocalizacaoVO);
 
-                    _lstInventarioItemVO.Add(inventarioItemVO);
+                    var modelView = Mapper.Map<InventarioLocalizacaoVO, InventarioLocalizacaoViewModel>(inventarioLocalizacaoVO);
 
-                    if (Items.FirstOrDefault(p => p.CodLocaliz == inventarioItem.Localizacao) == null)
+                    Items.Add(modelView);
+                }
+                /*
+                foreach (var localizacao in lstLocalizacoes.param.Resultparam)
+                {
+                    var lstInventarioItem = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventarioVO.InventarioId, localizacao.Localizacao);
+
+                    List<InventarioLocalizacaoVO> lstInventarioLocalizacaoVO = new List<InventarioLocalizacaoVO>();
+                    _lstInventarioItemVO = new List<InventarioItemVO>();
+
+                    foreach (var inventarioItem in lstInventarioItem.param.Resultparam)
                     {
-                        InventarioLocalizacaoVO inventarioLocalizacaoVO = new InventarioLocalizacaoVO();
-                        inventarioLocalizacaoVO.CodLocaliz = inventarioItem.Localizacao;
+                        InventarioItemVO inventarioItemVO = new InventarioItemVO();
+                        inventarioItemVO.InventarioId = inventarioItem.IdInventario;
+                        inventarioItemVO.CodLocaliz = inventarioItem.Localizacao;
+                        inventarioItemVO.CodLote = inventarioItem.Lote;
+                        // CodRefer = inventarioItem.Cod
+                        inventarioItemVO.ItCodigo = inventarioItem.CodItem;
+
+                        InventarioItemDB.InserirInventarioItem(inventarioItemVO);
+
+                        _lstInventarioItemVO.Add(inventarioItemVO);
+
+                        if (Items.FirstOrDefault(p => p.CodLocaliz == inventarioItem.Localizacao) == null)
+                        {
+                            InventarioLocalizacaoVO inventarioLocalizacaoVO = new InventarioLocalizacaoVO();
+                            inventarioLocalizacaoVO.CodLocaliz = inventarioItem.Localizacao;
 
 
-                        InventarioLocalizacaoDB.InserirInventarioLocalizacao(inventarioLocalizacaoVO);
+                            InventarioLocalizacaoDB.InserirInventarioLocalizacao(inventarioLocalizacaoVO);
 
-                        var modelView = Mapper.Map<InventarioLocalizacaoVO, InventarioLocalizacaoViewModel>(inventarioLocalizacaoVO);
+                            var modelView = Mapper.Map<InventarioLocalizacaoVO, InventarioLocalizacaoViewModel>(inventarioLocalizacaoVO);
 
-                        Items.Add(modelView);
+                            Items.Add(modelView);
+                        }
                     }
                 }
-
+                */
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
@@ -286,7 +301,7 @@ namespace CollectorQi.Views
             return true;
         }
 
-        private void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void cvLeituraEtiqueta_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cvLeituraEtiqueta.SelectedItem == null)
                 return;
@@ -295,8 +310,30 @@ namespace CollectorQi.Views
 
             if (current != null)
             {
-               // Criar();
-                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, _lstInventarioItemVO.FindAll(p => p.CodLocaliz == current.CodLocaliz)));
+                // Criar();
+
+                /*
+                var lstInventarioItem = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventarioVO.InventarioId, current.CodLocaliz);
+
+                List<InventarioLocalizacaoVO> lstInventarioLocalizacaoVO = new List<InventarioLocalizacaoVO>();
+                _lstInventarioItemVO = new List<InventarioItemVO>();
+
+                foreach (var inventarioItem in lstInventarioItem.param.Resultparam)
+                {
+                    InventarioItemVO inventarioItemVO = new InventarioItemVO();
+                    inventarioItemVO.InventarioId = inventarioItem.IdInventario;
+                    inventarioItemVO.CodLocaliz = inventarioItem.Localizacao;
+                    inventarioItemVO.CodLote = inventarioItem.Lote;
+                    // CodRefer = inventarioItem.Cod
+                    inventarioItemVO.ItCodigo = inventarioItem.CodItem;
+
+                    InventarioItemDB.InserirInventarioItem(inventarioItemVO);
+
+                    _lstInventarioItemVO.Add(inventarioItemVO);
+                }
+                */
+
+                Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, current.CodLocaliz));
             }
 
             cvLeituraEtiqueta.SelectedItem = null;
@@ -320,18 +357,27 @@ namespace CollectorQi.Views
 
                 if (current != null)
                 {
-                    Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, _lstInventarioItemVO.FindAll(p => p.CodLocaliz == current.CodLocaliz)));
+                    Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, SearchCodLocaliz.Text));
                 }
             }
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var pageProgress = new ProgressBarPopUp("Carregando...");
-            var page = new InventarioPrintPopUp();
-            await PopupNavigation.Instance.PushAsync(page);
-            //Thread.Sleep(1000);
-            await pageProgress.OnClose();
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new InventarioPrintPopUp(_inventarioVO.CodDepos, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                //Thread.Sleep(1000);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
         }
 
     }

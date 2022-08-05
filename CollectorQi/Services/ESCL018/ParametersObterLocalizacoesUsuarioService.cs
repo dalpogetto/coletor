@@ -10,23 +10,23 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public static class ParametersFichasUsuarioService
+    public static class ParametersObterLocalizacaoUsuarioService
     {
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterLocalizacoesUsuario";
 
         // Metodo ObterParametros Totvs
-        public static async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsync(int pInventarioId, string pLocalizacao)
+        public static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsync(int pInventarioId)
         {
 
             ResultInventarioItemJson parametros = null;
 
             try
             {
-                FichasUsuarioSend requestParam = new FichasUsuarioSend() { IdInventario = pInventarioId , Localizacao = pLocalizacao};
+                FichasUsuarioSend requestParam = new FichasUsuarioSend() { IdInventario = pInventarioId };
 
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 
@@ -81,14 +81,18 @@ namespace CollectorQi.Services.ESCL018
 
         public class ResultConteudoJson
         {
-            [JsonProperty("FichasUsuario")]
-            public List<FichasUsuario> Resultparam { get; set; }
+            [JsonProperty("ListaLocalizacoes")]
+            public List<ResultLocalizacao> Resultparam { get; set; }
+        }
+
+        public class ResultLocalizacao
+        {
+            public string Localizacao { get; set; }
         }
 
         public class FichasUsuarioSend
         {
             public int IdInventario { get; set; }
-            public string Localizacao { get; set; }
           /*  public string Lote { get; set; }
             public string CodEstabel { get; set; }
             public string Localizacao { get; set; }

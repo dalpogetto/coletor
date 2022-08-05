@@ -22,6 +22,16 @@ namespace CollectorQi.Views
 
             _codDepos = pCodDepos;
             _codLocaliz = pCodLocaliz;
+
+            if (pCodDepos != null)
+            {
+                txtCodDeposito.Text = pCodDepos;
+            }
+
+            if (pCodLocaliz != null)
+            {
+                txtLocalizacao.Text = pCodLocaliz;
+            }
         }
 
         protected override bool OnBackButtonPressed()

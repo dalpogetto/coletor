@@ -25,11 +25,11 @@ namespace CollectorQi.Services.ESCL018
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
 
         // Metodo ObterParametros Totvs
-        public static async Task<ResultInventarioItemJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam)
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam)
         {
 
 
-            ResultInventarioItemJson parametros = null;
+            ResultSendInventarioReturnJson parametros = null;
             try
             {
                 RequestInventarioBarraJson requestJson = new RequestInventarioBarraJson() { Param = requestParam };
@@ -55,7 +55,21 @@ namespace CollectorQi.Services.ESCL018
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultInventarioItemJson>(responseData);
+
+                        if (responseData.Contains("Error"))
+                        {
+                            parametros = JsonConvert.DeserializeObject<ResultSendInventarioReturnJson>(responseData);
+                        }
+                        else
+                        {
+                            var parametroSuccess = JsonConvert.DeserializeObject<ResultSendInventarioSuccessJson>(responseData);
+
+                            parametros = new ResultSendInventarioReturnJson()
+                            {
+                                Retorno = parametroSuccess.Retorno
+                            };
+                        }
+
                     }
                     else
                     {
@@ -66,6 +80,7 @@ namespace CollectorQi.Services.ESCL018
             catch (Exception e)
             {
                 System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
             return parametros;
@@ -83,15 +98,31 @@ namespace CollectorQi.Services.ESCL018
             public ESCL.InventarioItemBarra Param { get; set; }
         }
 
-        public class ResultInventarioJson
+      
+        public class ResultSendInventarioSuccessJson
+        {
+            public string Retorno { get; set; }
+        }
+
+
+        public class ResultSendInventarioReturnJson
         {
             [JsonProperty("Conteudo")]
-            public ParametrosLimparLeituraResult Resultparam { get; set; }
+
+            public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
+
+            public string Retorno { get; set; }
+        }
+
+        public class ResultSendInventarioErrorJson
+        {
+            public string ErrorDescription { get; set; }
+            public string ErrorHelp { get; set; }
         }
 
         public class ParametrosLimparLeituraResult
-        {
-            public string LimparLeitura { get; set; }
+        { 
+            public string Error { get; set; }
         }
     }
 }

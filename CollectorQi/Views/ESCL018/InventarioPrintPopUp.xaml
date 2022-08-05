@@ -19,9 +19,47 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0">
+                        <CollectionView x:Name="CvPrint" SelectionChanged="CvPrint_SelectionChanged"  SelectionMode="Single" HeightRequest="230" Grid.Row="0" Margin="0,0,0,0">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,5" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25"/>
+                                                </Grid.RowDefinitions>
+
+                                                <StackLayout Spacing="0" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                                    <Grid HorizontalOptions="FillAndExpand">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="30" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                    <!--    <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold" FontSize="Small" />
+                                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" /> -->
+                                                        <Image Source="{Binding Image}"  HeightRequest="100" Grid.Column="0"/>
+                                                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" Grid.Column="1"></Label>
+                                                    </Grid>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <!--
                     <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
 
                         <Frame VerticalOptions="Start" HasShadow="true" Margin="0,0,0,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
@@ -47,7 +85,7 @@
                                 </ListView> 
                             </Grid>
                         </Frame>
-                    </StackLayout>
+                    </StackLayout> -->
                 </Grid>
             </Grid> 
         </StackLayout>

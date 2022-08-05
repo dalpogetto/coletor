@@ -27,6 +27,11 @@ namespace CollectorQi.Views
             txtCodEstabelecimento.Text = SecurityAuxiliar.GetCodEstabel();
             txtDescEstabelecimento.Text = SecurityAuxiliar.GetDescEstabel();
 
+            if (pCodDepos != null)
+            {
+                txtCodDeposito.Text = pCodDepos;
+            }
+
             _codDepos = pCodDepos;
         }
         protected override bool OnBackButtonPressed()

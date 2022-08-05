@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 //using Android.Graphics;
 
@@ -51,6 +52,13 @@ namespace CollectorQi.Views
                 edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
                 edtCodDeposito.Text = _inventarioVO.CodDepos;
                 edtCodigoBarras.Text = inventarioItem.CodigoBarras;
+                edtLote.Text = inventarioItem.CodLote;
+
+                if (String.IsNullOrEmpty(inventarioItem.CodLote)) ;
+                {
+                    FrameLote.IsVisible = false;
+                }
+                
                 //edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");
                 //localizacao = _localizacao;
 
@@ -94,6 +102,18 @@ namespace CollectorQi.Views
             edtDtValiLote.Text = pDtValiLote;
         }
 
+        protected async override void OnAppearing()
+        {
+            await Task.Run(async () =>
+            { 
+                await Task.Delay(100);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    txtQuantidade.Focus();
+                });
+            });
+        }
+
         public void SetResultDigita(Action<VO.InventarioItemVO, bool> dp)
         {
             ResultAction = dp;
@@ -105,18 +125,47 @@ namespace CollectorQi.Views
            
         }
 
+        void BtnLimpar_Clicked(object sender, EventArgs e)
+        {
+            txtQuantidade.Text = string.Empty;
+            edtCodigoBarras.Text = string.Empty;
+
+        }
         protected override bool OnBackButtonPressed()
         {            
             PopupNavigation.Instance.PopAsync();
             return true;
         }
 
+        private void BtnQuantidadeSum1_Clicked(object sender, EventArgs e)
+        {
+            SumButton(txtQuantidade, 1);
+        }
+        private void BtnQuantidadeSum10_Clicked(object sender, EventArgs e)
+        {
+            SumButton(txtQuantidade, 10);
+        }
+        private void BtnQuantidadeSum100_Clicked(object sender, EventArgs e)
+        {
+            SumButton(txtQuantidade, 100);
+        }
+
+        private void SumButton(CustomEntry entry, int value)
+        {
+            if (String.IsNullOrEmpty(entry.Text)) { entry.Text = "0"; }
+
+            entry.Text = (int.Parse(entry.Text) + value).ToString();
+        }
+
+
+
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
+            BtnEfetivar.IsEnabled = false;
             if (string.IsNullOrEmpty(txtQuantidade.Text))
             {
                 await DisplayAlert("Erro!", "Informe a quantidade do produto disponivel para a contagem do inventário", "Cancelar");
-                return; 
+                return;
             }
 
 
@@ -128,13 +177,14 @@ namespace CollectorQi.Views
 
             var result = await DisplayAlert("Confirmação!", $"Deseja concluír a digitação com a quantidade de {txtQuantidade.Text} produto?", "Sim", "Não");
 
-            if (result.ToString() == "True")
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+            try
             {
-                try {
-                    var pageProgress = new ProgressBarPopUp("Carregando...");
-
+                if (result.ToString() == "True")
+                {
                     if (!string.IsNullOrEmpty(txtQuantidade.Text))
                     {
+                        /*
                         var inventario = new InventarioItem()
                         {
                             IdInventario = _inventarioVO.InventarioId,
@@ -149,42 +199,75 @@ namespace CollectorQi.Views
 
 
                         };
+                        */
 
                         var inventarioBarra = new InventarioItemBarra()
                         {
                             IdInventario = _inventarioVO.InventarioId,
-                            Lote = _inventarioItemVO.CodLote,
-                            Localizacao = _inventarioItemVO.CodLocaliz,
-                            CodItem = _inventarioItemVO.ItCodigo,
-                            CodDepos = _inventarioVO.CodDepos,
+                            Lote = _inventarioItemVO.CodLote.Trim(),
+                            Localizacao = _inventarioItemVO.CodLocaliz.Trim(),
+                            CodItem = _inventarioItemVO.ItCodigo.Trim(),
+                            CodDepos = _inventarioVO.CodDepos.Trim(),
                             Quantidade = int.Parse(txtQuantidade.Text),
                             CodEmp = "1",
                             Contagem = 1,
-                            CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                            CodigoBarras = _inventarioItemVO.CodigoBarras
+                            CodEstabel = SecurityAuxiliar.GetCodEstabel().Trim(),
+                            CodigoBarras = edtCodigoBarras.Text.Trim()
 
 
                         };
 
-                        var t = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra);
+                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra);
 
-                        var _inventarioItem = await ParametersGravarFichasUsuarioService.SendGravarFichasUsuarioAsync(inventario);
+                        if (resultService != null && resultService.Retorno != null)
+                        {
+                            if (resultService.Retorno == "OK")
+                            {
+                                //       var _inventarioItem = await ParametersGravarFichasUsuarioService.SendGravarFichasUsuarioAsync(inventario);
 
-                        pageProgress = new ProgressBarPopUp(_inventarioItem.paramConteudo.Ok);
-                        //Thread.Sleep(2000);
+                                //     pageProgress = new ProgressBarPopUp(_inventarioItem.paramConteudo.Ok);
+                                //Thread.Sleep(2000);
 
-                        _actDeleteRow(_inventarioItemVO);
+                                _actDeleteRow(_inventarioItemVO);
 
-                        await pageProgress.OnClose();
-                        OnBackButtonPressed();
-                    }   
-                }
-                
-                    catch (Exception ex) {
-                    throw ex;
+                                await pageProgress.OnClose();
+                                OnBackButtonPressed();
+                            }
+                            else
+                            {
+
+                                
+                                if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
+                                {
+
+                                    await DisplayAlert("Erro!", resultService.Resultparam[0].ErrorDescription + " - " + resultService.Resultparam[0].ErrorHelp, "Cancelar");
+                                }
+                                else 
+                                {
+                                    await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
+                                }
+                                // await DisplayAlert("Erro!", resultService.Retorno, "Cancelar");
+                            }
                         }
-            finally { }
-        }
+                        else
+                        {
+                            await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
+                        }
+                        //
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            }
+            finally
+            {
+                BtnEfetivar.IsEnabled = true;
+                await pageProgress.OnClose();
+            }
+
+
             /*else
                 pageProgress = new ProgressBarPopUp("Digite uma quantidade !"); */
 

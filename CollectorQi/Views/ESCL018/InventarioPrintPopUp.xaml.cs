@@ -19,11 +19,19 @@ namespace CollectorQi.Views
 {
     public partial class InventarioPrintPopUp : PopupPage
     {
-        public InventarioPrintPopUp()        
+        private string _codDepos { get; set; }
+        private string _codLocaliz { get; set; }
+
+        
+
+        public InventarioPrintPopUp(string pCodDepos, string pCodLocaliz)        
         {
             try
             {
                 InitializeComponent();
+
+                _codDepos = pCodDepos;
+                _codLocaliz = pCodLocaliz;
 
                 string[] imagem = new string[] { "product.png", "forklift.png", "repair.png" };
                 string[] titulo = new string[] {  "Item", "Localização", "Reparo"};
@@ -37,8 +45,8 @@ namespace CollectorQi.Views
                     menuItemDetails.Add(menuItemDetail);
                 }
 
-                listView.ItemsSource = menuItemDetails;
-                listView.ItemSelected += OnSelection;
+                CvPrint.ItemsSource = menuItemDetails;
+              //  listView.SelectedItem += OnSelection;
 
             }
             catch (Exception ex)
@@ -78,6 +86,7 @@ namespace CollectorQi.Views
 
         async void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
+            /*
             try
             {
                 if (e.SelectedItem == null)
@@ -92,14 +101,14 @@ namespace CollectorQi.Views
                 {
                     case "Item":
 
-                        var pageItem = new InventarioPrintItem();
+                        var pageItem = new InventarioPrintItem(_codDepos);
                         await PopupNavigation.Instance.PushAsync(pageItem);
 
                         break;
 
                     case "Localização":
 
-                        var pageLocalizacao = new InventarioPrintLocalizacao();
+                        var pageLocalizacao = new InventarioPrintLocalizacao(_codDepos, _codLocaliz);
                         await PopupNavigation.Instance.PushAsync(pageLocalizacao);
 
                         break;
@@ -122,6 +131,57 @@ namespace CollectorQi.Views
             {
                 ((ListView)sender).SelectedItem = null;
                 listView.IsEnabled = true;
+            } */
+        }
+
+        private async void CvPrint_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (CvPrint.SelectedItem == null)
+                return;
+
+            var menuItemDetail = (CvPrint.SelectedItem as MenuItemDetail);
+
+            if (menuItemDetail != null)
+            {
+                try
+                {
+
+                    switch (menuItemDetail.Name)
+                    {
+                        case "Item":
+
+                            var pageItem = new InventarioPrintItem(_codDepos);
+                            await PopupNavigation.Instance.PushAsync(pageItem);
+
+                            break;
+
+                        case "Localização":
+
+                            var pageLocalizacao = new InventarioPrintLocalizacao(_codDepos, _codLocaliz);
+                            await PopupNavigation.Instance.PushAsync(pageLocalizacao);
+
+                            break;
+
+
+                        case "Reparo":
+
+                            var pageReparo = new InventarioPrintReparo();
+                            await PopupNavigation.Instance.PushAsync(pageReparo);
+
+                            break;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Erro!", ex.Message, "CANCELAR");
+                }
+                finally
+                {
+                    CvPrint.SelectedItem = null;
+                    CvPrint.IsEnabled = true;
+                }
             }
         }
 

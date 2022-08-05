@@ -35,33 +35,33 @@
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
-                                <Label x:Name="lblInventario" Text="Inventário" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Micro" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
+                                <Label x:Name="lblInventario" Text="Inventário" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Small" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
                                     Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Micro" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Small" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
                                     Grid.ColumnSpan="4" />
-                                <local:CustomEntryText x:Name="edtCodDeposito" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Codigo Deposito..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
+                                <local:CustomEntryText x:Name="edtCodDeposito" IsReadOnly="true" FontSize="Small" MaxLength="30" Keyboard="Default" Placeholder="Codigo Deposito..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"
                                     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtDtSaldo" IsReadOnly="true" FontSize="Micro" MaxLength="30" Keyboard="Default" Placeholder="Data Saldo..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
+                                <local:CustomEntryText x:Name="edtDtSaldo" IsReadOnly="true" FontSize="Small" MaxLength="30" Keyboard="Default" Placeholder="Data Saldo..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="2"
                                     Grid.ColumnSpan="2" />
                             </Grid>
                         </Frame>
                     </StackLayout>
                  
                       <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,0" CornerRadius="5" x:Name="FrameLote" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
                     
-                                <Label x:Name="lblLote" Text="Lote" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <Label x:Name="lblLote" Text="Lote" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
                     
-                                <local:CustomEntryText x:Name="edtLote" IsReadOnly="true" FontSize="Micro" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Lote/Série..."  VerticalOptions="Center"
+                                <local:CustomEntryText x:Name="edtLote" IsReadOnly="true" FontSize="Small" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Lote/Série..."  VerticalOptions="Center"
                                         HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
                                 
-                                <local:CustomEntryText x:Name="edtDtValiLote" IsReadOnly="true" FontSize="Micro" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Data Validade Lote..." VerticalOptions="Center" 
+                                <local:CustomEntryText x:Name="edtDtValiLote" IsReadOnly="true" FontSize="Small" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Data Validade Lote..." VerticalOptions="Center" 
                                             HorizontalOptions="Fill" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" />
                             
                                 </Grid>
@@ -77,9 +77,9 @@
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
 
-                                <Label x:Name="lblCodigoBarras" Text="Codigo de Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <Label x:Name="lblCodigoBarras" Text="Codigo de Barras" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
 
-                                <local:CustomEntryText x:Name="edtCodigoBarras" IsReadOnly="false" FontSize="Micro" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Codigo de Barras"  VerticalOptions="Center"
+                                <local:CustomEntryText x:Name="edtCodigoBarras" IsReadOnly="false" FontSize="Small" MaxLength="300" WidthRequest="300" Keyboard="Default" Placeholder="Codigo de Barras"  VerticalOptions="Center"
                                         HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
 
 
@@ -94,13 +94,24 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
-                    
-                                <Label x:Name="lblQtdInventario" Text="Quantidade Inventário" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label x:Name="lblQtdInventario" Text="Quantidade Inventário" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
 
                               <!-- Correção BUG Android (Samsung Não pega "," e "." no teclado númerico) -->
                     
-                                <local:CustomEntry IsNumeric="True" x:Name="txtQuantidade" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
-                                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+                                <local:CustomEntry IsNumeric="True" x:Name="txtQuantidade" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
+
+                                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="CenterAndExpand">
+                                    <Button CornerRadius="80" Text="+1"   Clicked="BtnQuantidadeSum1_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+10"  Clicked="BtnQuantidadeSum10_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+100" Clicked="BtnQuantidadeSum100_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                </StackLayout>
+                                
                             </Grid>
                         </Frame>
                     </StackLayout>
@@ -115,7 +126,7 @@
                     
                  </Grid.RowDefinitions>
                     <Button x:Name="BtnEfetivar" 
-                            FontSize="Small" 
+                            FontSize="Medium" 
                             VerticalOptions="FillAndExpand" 
                             HorizontalOptions="FillAndExpand" 
                             Image="efetivarMini.png" 
@@ -126,11 +137,11 @@
                             Grid.Row="0" 
                             Grid.Column="0" 
                             Text="Confirmar" />
-                    <!--<Button x:Name="BtnCancelar"  FontSize="Small" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
+                    <!--<Button x:Name="BtnCancelar"  FontSize="Medium" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
                         Clicked="OnClick_Cancelar" Grid.Row="1" Text="Cancelar (digitação inventário)" />-->
 
-                    <Button x:Name="BtnVoltar"  FontSize="Small" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  TextColor="White" BorderRadius="16"
-                        Clicked="BtnVoltar_Clicked" Grid.Row="1" Text="Voltar" /> 
+                    <Button x:Name="BtnLimpar"  FontSize="Medium" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="{StaticResource NavigationPrimary}"  TextColor="White" BorderRadius="16"
+                        Clicked="BtnLimpar_Clicked" Grid.Row="1" Text="Limpar" /> 
                      
                 </Grid>
             </Grid>

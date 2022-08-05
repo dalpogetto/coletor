@@ -25,8 +25,8 @@
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <StackLayout Spacing="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
 
 
                                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
@@ -66,7 +66,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Image Source="{Binding Image}" Grid.Row="0" WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
-                                        <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Small"  HorizontalOptions="Center"/>
+                                        <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Micro"  HorizontalOptions="Center"/>
                                     </Grid>
 
                                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
