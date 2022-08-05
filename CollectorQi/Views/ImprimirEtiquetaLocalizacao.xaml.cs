@@ -49,6 +49,7 @@ namespace CollectorQi.Views
 
         async void OnClick_Imprimir(object sender, EventArgs e)
         {
+            /*
             var param = new ParametersImprimirEtiquetaService();
 
             var impressaoLocalizacao = new ImpressaoLocalizacao()
@@ -68,7 +69,8 @@ namespace CollectorQi.Views
             Thread.Sleep(2000);
             await pageProgress.OnClose();
 
-            OnBackButtonPressed();            
+            OnBackButtonPressed();      
+            */
         }
 
         private void BtnVoltar_Clicked(object sender, EventArgs e)

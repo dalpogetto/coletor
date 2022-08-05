@@ -20,6 +20,7 @@ using System.Globalization;
 using Plugin.Connectivity;
 using CollectorQi.Services.ESCL018;
 using ESCL = CollectorQi.Models.ESCL018;
+using Rg.Plugins.Popup.Services;
 
 namespace CollectorQi.Views
 {
@@ -193,6 +194,24 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
 
             return true;
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new InventarioPrintPopUp();
+                await PopupNavigation.Instance.PushAsync(page);
+                //Thread.Sleep(1000);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
         }
     }
 

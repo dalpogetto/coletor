@@ -21,6 +21,13 @@ namespace CollectorQi.Resources
                 return Estabelecimento.Trim();            
         }
 
+        public static string GetDescEstabel()
+        {
+            if (Estabelecimento.IndexOf('(') > 0)
+                return Estabelecimento.Remove(0, Estabelecimento.IndexOf('(')).Replace("(","").Replace(")","").Trim();
+            else
+                return string.Empty;
+        }
         public static string GetUsuarioNetwork()
         {
             return CodUsuario + "@" + "DIEBOLD_MASTER";

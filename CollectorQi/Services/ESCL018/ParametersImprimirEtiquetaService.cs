@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using CollectorQi.Resources;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,31 +13,42 @@ namespace CollectorQi.Services.ESCL018
 {
     public class ParametersImprimirEtiquetaService
     {
-        ResultImpressaoJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
-        private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
+        //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ImprimirEtiqueta";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultImpressaoJson> SendImpressaoAsync(ESCL.ImpressaoItem impressaoItem, ESCL.ImpressaoLocalizacao impressaoLocalizacao, ESCL.ImpressaoReparo impressaoReparo, int opcaoImpressao)
+        public async static Task<ResultImpressaoReturnJson> SendImpressaoAsync(ESCL.ImpressaoItem impressaoItem, ESCL.ImpressaoLocalizacao impressaoLocalizacao, ESCL.ImpressaoReparo impressaoReparo, int opcaoImpressao)
         {
+
+            ResultImpressaoReturnJson parametros = null;
+
             try
             {
-                RequestInventarioJson requestJson = new RequestInventarioJson() { Param = impressaoItem };
-                
+                RequestInventarioJson requestJson = new RequestInventarioJson() {
+                    OpcaoImpressao = opcaoImpressao.ToString(),
+                    Item = impressaoItem ,
+                    Localizacao = impressaoLocalizacao,
+                    Reparo = impressaoReparo
+                };
+
+                RequestImpressaoSendJson requestJsonSend = new RequestImpressaoSendJson()
+                {
+                    Impressao = requestJson
+                };
+
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
 
-                // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-                var json = JsonConvert.SerializeObject(requestJson);
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+               
+                var json = JsonConvert.SerializeObject(requestJsonSend);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
@@ -48,7 +62,22 @@ namespace CollectorQi.Services.ESCL018
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultImpressaoJson>(responseData);
+
+                        if (responseData.Contains("Error"))
+                        {
+                            parametros = JsonConvert.DeserializeObject<ResultImpressaoReturnJson>(responseData);
+                        }
+                        else
+                        {
+                            var parametroSuccess = JsonConvert.DeserializeObject<ResultImpressaoSuccessJson>(responseData);
+
+                            parametros = new ResultImpressaoReturnJson()
+                            {
+                                Retorno = parametroSuccess.Retorno
+                            };
+                        }
+
+                        System.Diagnostics.Debug.Write(parametros);
                     }
                     else                    
                         System.Diagnostics.Debug.Write(result);                    
@@ -56,7 +85,7 @@ namespace CollectorQi.Services.ESCL018
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
             return parametros;
@@ -64,22 +93,47 @@ namespace CollectorQi.Services.ESCL018
 
         public class RequestInventarioJson
         {
-            [JsonProperty("Impressao")]
-            public ESCL.ImpressaoItem Param { get; set; }
-            public int OpcaoImpressao { get; set; }            
+            [JsonProperty("Item")]
+            public ESCL.ImpressaoItem Item { get; set; }
+            [JsonProperty("Localizacao")]
+            public ESCL.ImpressaoLocalizacao Localizacao { get; set; }
+            [JsonProperty("Reparo")]
+            public ESCL.ImpressaoReparo Reparo { get; set; }
+            public string OpcaoImpressao { get; set; }            
         }
 
-        public class ResultImpressaoJson
+        public class RequestImpressaoSendJson
+        {
+            public RequestInventarioJson Impressao { get; set; }
+        }
+        public class ResultImpressaoReturnJson
         {
             [JsonProperty("Conteudo")]
-            public ParametrosImpressaoResult Resultparam { get; set; }
+
+            public List<ParametrosImpressaoResultError> Resultparam { get; set; }
+
+            public string Retorno { get; set; }
         }
 
+        public class ResultImpressaoSuccessJson
+        {
+            public string Retorno { get; set; }
+        }
+
+        /*
         public class ParametrosImpressaoResult
         {
-            public string OK { get; set; }
+            public string Retorno { get; set; }
+            [JsonProperty("")]
+            public List<ParametrosImpressaoResultError> erro { get; set; }
         }
-               
+        */
+
+        public class ParametrosImpressaoResultError
+        {
+            public string ErrorDescription { get; set; }
+        }
+
 
         //public class ParametrosItemImpressaoResult
         //{  

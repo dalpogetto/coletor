@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\ESCL028\" />
-    <Folder Include="Services\ESCL018\" />
     <Folder Include="ViewsOld\" />
     <Folder Include="Views\Batch\" />
     <Folder Include="Models\Notification\" />
@@ -107,6 +106,21 @@
     </Compile>
     <Compile Update="Views\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintItem.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintLocalizacao.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintLocalizacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintReparo.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintReparo.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintPopUp.xaml.cs">
+      <DependentUpon>InventarioPrintPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ESCL018\InventarioListaLocalizacaoPage.xaml.cs">
       <DependentUpon>InventarioListaLocalizacaoPage.xaml</DependentUpon>
@@ -144,6 +158,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Views\ConferenciaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintLocalizacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintReparo.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FisicaDepositoPage.xaml">

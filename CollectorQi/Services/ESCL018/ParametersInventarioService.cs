@@ -31,8 +31,8 @@ namespace CollectorQi.Services.ESCL018
             try
             {
                 ESCL.Parametros requestParam = new ESCL.Parametros() { CodEstabel = SecurityAuxiliar.GetCodEstabel()
-                
-                
+
+
                 };
 
                 RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };

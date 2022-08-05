@@ -324,5 +324,15 @@ namespace CollectorQi.Views
                 }
             }
         }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+            var page = new InventarioPrintPopUp();
+            await PopupNavigation.Instance.PushAsync(page);
+            //Thread.Sleep(1000);
+            await pageProgress.OnClose();
+        }
+
     }
 }

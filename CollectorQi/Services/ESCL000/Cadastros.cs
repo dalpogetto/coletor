@@ -6,6 +6,7 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using CollectorQi.Models;
+using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -19,6 +20,7 @@ namespace CollectorQi.Services.ESCL000
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         private const string URI_OBTER_EMITENTE = "/api/integracao/coletores/v1/escl000api/ObterEmitente";
+        private const string URI_OBTER_ITEM = "/api/integracao/coletores/v1/escl000api/ObterItem";
 
         // Metodo Finalizar Conferencia - Totvs
         public static async Task<string> ObterEmitente(string user, string password, string codEmitente)
@@ -52,7 +54,7 @@ namespace CollectorQi.Services.ESCL000
                     string responseData = await result.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.Write(result);
 
-                    var resultConvert = JsonConvert.DeserializeObject<ResultJson>(responseData);
+                    var resultConvert = JsonConvert.DeserializeObject<ResultJsonEmitente>(responseData);
 
 
                     return resultConvert.nome;
@@ -78,12 +80,74 @@ namespace CollectorQi.Services.ESCL000
             return "NOK";
         }
 
-        public class ResultJson
+        public static async Task<string> ObterItem(string pItCodigo)
+        {
+            try
+            {
+
+                var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+
+                client.BaseAddress = new Uri(URI);
+
+                // Substituir por user e password
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                //var json = JsonConvert.SerializeObject(requestJson);
+
+                /*
+                using (var content = new StringContent(null, Encoding.UTF8, "application/json"))
+                { */
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_OBTER_ITEM + "?CodItem=" + pItCodigo.ToString())
+                {
+                    //Content = content
+                };
+
+                var result = await client.SendAsync(req);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    string responseData = await result.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.Write(result);
+
+                    var resultConvert = JsonConvert.DeserializeObject<ResultJsonItem>(responseData);
+
+
+                    return resultConvert.DescItem;
+
+
+
+                    /*string responseData = await result.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.Write(result);
+
+                        var resultConvert = JsonConvert.DeserializeObject<EndConferenceResultV2>(responseData);
+
+                        System.Diagnostics.Debug.Write(resultConvert);
+                    */
+                    return "OK";
+                }
+                // }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Write(e);
+            }
+
+            return "";
+        }
+
+        public class ResultJsonEmitente
         {
             public string codEmitente { get; set; }
             public string nomeAbrev { get; set; }
-
             public string nome { get; set; }
+        }
+
+        public class ResultJsonItem
+        {
+            public string CodItem { get; set; }
+            public string DescItem { get; set; }
         }
 
         #region Metodos utilizados para finalizar conferencia

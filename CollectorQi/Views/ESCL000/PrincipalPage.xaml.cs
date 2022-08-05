@@ -113,7 +113,7 @@ namespace CollectorQi.Views
 
                         if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
-                            lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
+                            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
                             frameEstab.IsVisible = true;
                         }
                         else
@@ -238,19 +238,16 @@ namespace CollectorQi.Views
                     if (action != "Cancelar" && action != null)
                     {
                         SecurityAuxiliar.Estabelecimento = action;
-                        //
-
                         lblCodEstabel.Text = action;
                         frameEstab.IsVisible = true;
 
-                        return SecurityAuxiliar.Estabelecimento;
+                        return SecurityAuxiliar.Estabelecimento; 
                     }
                     else
                     {
                         SecurityAuxiliar.Estabelecimento = String.Empty;
                         lblCodEstabel.Text = String.Empty;
-                        //   frameEstab.IsVisible             = false;
-
+                        frameEstab.IsVisible             = false;
                     }
                 }
             }

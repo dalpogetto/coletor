@@ -81,9 +81,7 @@ namespace CollectorQi.Views
 
             cvInventarioItem.BindingContext = this;
 
-         //   this.Title = "Busca Item";
-
-
+            this.Title = "Digitação de Item";
 
         }
 
@@ -598,6 +596,15 @@ namespace CollectorQi.Views
                 Items.Remove(current);
                 OnPropertyChanged("Items");
             }
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+            var page = new InventarioPrintPopUp();
+            await PopupNavigation.Instance.PushAsync(page);
+            //Thread.Sleep(1000);
+            await pageProgress.OnClose();
         }
     }
 

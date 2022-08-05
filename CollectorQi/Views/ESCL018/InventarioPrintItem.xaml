@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 x:Class="CollectorQi.Views.InventarioPrintItem" 
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+                 xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
+    </pages:PopupPage.Animation>
+    
+    <StackLayout BackgroundColor="#fff" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10, 10" Spacing="3">
+        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <!--<Grid BackgroundColor="#4E4E4E" Opacity="1">-->
+            <Grid BackgroundColor="#fff" Opacity="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="130" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5,0,5,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+     
+                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblEstabelecimento" Text="Estabelecimento" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="txtCodEstabelecimento" Unfocused="txtCodEstabelecimento_Unfocused" Placeholder="Código do Estabelecimento..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+
+                                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">
+                                    <Button x:Name="BtnBuscaEstab" Clicked="BtnBuscaEstab_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
+                                </StackLayout>
+                                
+                                <local:CustomEntryText x:Name="txtDescEstabelecimento" IsReadOnly="True" Placeholder="Nome do Estabelecimento..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+
+                    <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label x:Name="lblDeposito" Text="Depósito" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="txtCodDeposito" Unfocused="txtCodEstabelecimento_Unfocused" Placeholder="Código do Depósito..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+
+                    <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label x:Name="lblItem" Text="Item" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="txtItCodigo" Unfocused="txtItCodigo_Unfocused" Placeholder="Código do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+
+                                <!--
+                                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">
+                                    <Button x:Name="BtnBuscaItem" Clicked="BtnBuscaItem_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
+                                </StackLayout> -->
+
+                                <local:CustomEntryText x:Name="txtDescItem" IsReadOnly="true" Placeholder="Nome do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    
+                    <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label x:Name="lblEtiqItem" Text="Etiqueta Item" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="txtEtiqItem" Text="" FontSize="Small" Placeholder="Etiqueta Item..." Keyboard="Numeric" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+
+                                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="CenterAndExpand">
+                                    <Button CornerRadius="80" Text="+1"   Clicked="BtnEtiqItemSum1_Clicked" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+10"  Clicked="BtnEtiqItemSum10_Clicked" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+100" Clicked="BtnEtiqItemSum100_Clicked" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                </StackLayout>
+                                
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+
+                    <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label x:Name="lblQtdeEtiqueta" Text="Qt. Item ou Cont" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="txtQtdeEtiqueta"  Text="" FontSize="Small" Keyboard="Numeric" Placeholder="Quantidade Item ou Contagem" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+
+                                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="CenterAndExpand">
+                                    <Button CornerRadius="80" Text="+1"   Clicked="BtnQtdeEtiquetaSum1_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+10"  Clicked="BtnQtdeEtiquetaSum10_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                    <Button CornerRadius="80" Text="+100" Clicked="BtnQtdeEtiquetaSum100_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                </Grid>
+                
+                <Grid Margin="15,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    
+                        </Grid.RowDefinitions>
+                        <Button x:Name="BtnImprimir" 
+                                FontSize="Small" 
+                                VerticalOptions="FillAndExpand" 
+                                HorizontalOptions="FillAndExpand" 
+                                Image="efetivarMini.png" 
+                                BackgroundColor="{StaticResource NavigationPrimary}" 
+                                TextColor="White" 
+                                BorderRadius="16"
+                                Clicked="OnClick_Imprimir" 
+                                Grid.Row="0" 
+                                Grid.Column="0" 
+                                Text="Imprimir" />
+
+                        <Button x:Name="BtnLimpar" 
+                                    FontSize="Small" 
+                                    VerticalOptions="FillAndExpand" 
+                                    HorizontalOptions="FillAndExpand" 
+                                    Image="closeMini.png" 
+                                    BackgroundColor="{StaticResource NavigationPrimary}" 
+                                    TextColor="White" 
+                                    BorderRadius="16"
+                                    Clicked="BtnLimpar_Clicked"
+                                    Grid.Row="1" 
+                                    Grid.Column="0" 
+                                    Text="Limpar" />
+
+                    </Grid>
+            </Grid>
+        </ScrollView>
+    </StackLayout>
+</pages:PopupPage>

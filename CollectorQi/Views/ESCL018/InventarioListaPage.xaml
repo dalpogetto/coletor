@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Inventário" x:Class="CollectorQi.Views.InventarioListaPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <!--<StackLayout BackgroundColor="#4E4E4E">-->
         <StackLayout BackgroundColor="#fff">
@@ -47,9 +51,9 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Depósito: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="2" Text="{Binding DescDepos}"  LineBreakMode="TailTruncation"  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="End" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Depósito: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="2" Text="{Binding DescDepos}"  LineBreakMode="TailTruncation"  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="End" FontSize="Small" />
 
                                     </Grid>
 
@@ -62,7 +66,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Image Source="{Binding Image}" Grid.Row="0" WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
-                                        <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Micro"  HorizontalOptions="Center"/>
+                                        <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Small"  HorizontalOptions="Center"/>
                                     </Grid>
 
                                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
@@ -74,8 +78,8 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
                                     </Grid>
                                     
                                     <!--
