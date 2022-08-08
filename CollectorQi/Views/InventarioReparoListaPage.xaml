@@ -70,7 +70,7 @@
                     <RowDefinition Height="Auto"/>
                  </Grid.RowDefinitions>
                 <Button x:Name="BtnIniciarReparoInventario" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                          Grid.Row="0" Grid.Column="0" Text="Iniciar Reparo Inventário" TextColor="White" />
+                    Clicked="BtnIniciarReparoInventario_Clicked" Grid.Row="0" Grid.Column="0" Text="Iniciar Reparo Inventário" TextColor="White" />
              
             </Grid>
         </StackLayout>

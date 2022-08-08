@@ -121,11 +121,17 @@
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
       <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
       <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoDepositoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoDepositoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">
       <DependentUpon>NotaFiscalFinalizarItemConferenciaListaPage.xaml</DependentUpon>
