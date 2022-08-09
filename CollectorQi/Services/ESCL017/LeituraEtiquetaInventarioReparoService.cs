@@ -21,13 +21,12 @@ namespace CollectorQi.Services.ESCL017
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl017api/LeituraEtiqueta";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioJson> SendParametersAsync()
+        public async Task<ResultInventarioJson> SendParametersAsync(ParametrosInventarioReparo parametrosReparo, LeituraEtiquetaInventarioReparo leituraReparo)
         {
             try
             {
                 //ParametrosNotaFiscal requestParam = new ParametrosNotaFiscal() { CodEstabel = "126" };
-                //RequestInventarioJson requestJson = new RequestInventarioJson() { Param = parametrosInventarioReparo };
-                RequestInventarioReparoJson requestJson = new RequestInventarioReparoJson();
+                RequestInventarioReparoJson requestJson = new RequestInventarioReparoJson() { ParametrosReparo = parametrosReparo, LeituraReparo = leituraReparo };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
@@ -68,19 +67,23 @@ namespace CollectorQi.Services.ESCL017
 
         public class RequestInventarioReparoJson
         {
-            
+            [JsonProperty("Parametros")]
+            public ParametrosInventarioReparo ParametrosReparo { get; set; }
+            [JsonProperty("ListaReparos")]
+            public LeituraEtiquetaInventarioReparo LeituraReparo { get; set; }
         }
 
         public class ResultInventarioJson
         {
             [JsonProperty("Conteudo")]
-            public LeituraEtiquetaInventarioReparoJson Param { get; set; }            
+            public LeituraEtiquetaInventarioReparoJson Param { get; set; }
+            public string Retorno { get; set; }
         }
 
         public class LeituraEtiquetaInventarioReparoJson
         {
             [JsonProperty("ListaReparos")]
             public List<LeituraEtiquetaInventarioReparo> Resultparam { get; set; }
-        }        
+        }
     }
 }

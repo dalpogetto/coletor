@@ -27,8 +27,7 @@ namespace CollectorQi.Services.ESCL017
             try
             {
                 //ParametrosNotaFiscal requestParam = new ParametrosNotaFiscal() { CodEstabel = "126" };
-                //RequestInventarioJson requestJson = new RequestInventarioJson() { Param = parametrosInventarioReparo };
-                RequestInventarioJson requestJson = new RequestInventarioJson();
+                RequestInventarioJson requestJson = new RequestInventarioJson() { Param = parametrosInventarioReparo };          
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
@@ -65,7 +64,7 @@ namespace CollectorQi.Services.ESCL017
             }
 
             return parametros;
-        }
+        }        
 
         public class RequestInventarioJson
         {

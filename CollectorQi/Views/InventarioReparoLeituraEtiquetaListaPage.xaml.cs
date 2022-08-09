@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
+using CollectorQi.Services.ESCL017;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,27 +14,24 @@ namespace CollectorQi.Views
     public partial class InventarioReparoLeituraEtiquetaListaPage : ContentPage, INotifyPropertyChanged
     {  
         public ObservableCollection<InventarioReparoLeituraEtiquetaViewModel> ObsInventarioReparoLeituraEtiqueta { get; set; }
-        //public List<NotaFiscalVO> ListNotaFiscalVO { get; set; }
         public List<LeituraEtiquetaInventarioReparo> ListaLeituraEtiquetaInventarioReparo { get; set; }
-        public List<DepositosInventarioReparo> ListaDepositosInventarioReparo { get; set; }
+        public ParametrosInventarioReparo parametrosInventarioReparo { get; set; }
 
-        //public InventarioReparoDepositoListaPage(List<NotaFiscalVO> listNotaFiscalVO, List<ListaDocumentosNotaFiscal> listaDocumentosNotaFiscal)
-        public InventarioReparoLeituraEtiquetaListaPage(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo, List<DepositosInventarioReparo> listaDepositosInventarioReparo)
+        public InventarioReparoLeituraEtiquetaListaPage(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo,
+            ParametrosInventarioReparo _parametrosInventarioReparo)
         {
             InitializeComponent();
 
+            lblCodEstabel.Text = "Estab: " + SecurityAuxiliar.GetCodEstabel() + "  Técnico: " + _parametrosInventarioReparo.CodEstabel +
+                "  Depós: " + _parametrosInventarioReparo.CodDepos + "  Dt Inventário: " + _parametrosInventarioReparo.DtInventario;
+
             ListaLeituraEtiquetaInventarioReparo = new List<LeituraEtiquetaInventarioReparo>();
             ListaLeituraEtiquetaInventarioReparo = listaLeituraEtiquetaInventarioReparo;
-            ListaDepositosInventarioReparo = new List<DepositosInventarioReparo>();
-            ListaDepositosInventarioReparo = listaDepositosInventarioReparo;
 
-            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();
+            parametrosInventarioReparo = new ParametrosInventarioReparo();
+            parametrosInventarioReparo = _parametrosInventarioReparo;
 
-            //foreach (var item in ListNotaFiscalVO)
-            //{
-            //    lblCodEstabel.Text = "Estabelecimento: " + item.CodEstabel;
-            //    Conferidos = item.Conferido;
-            //}
+            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();          
 
             if (listaLeituraEtiquetaInventarioReparo != null)
             {
@@ -44,19 +43,43 @@ namespace CollectorQi.Views
             }
 
             cvInventarioReparoLeituraEtiqueta.BindingContext = this;
-        }     
+        }
 
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(ListaDepositosInventarioReparo));
+            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage("", null));
 
             return true;
-        }       
+        }
 
         private void BtnVoltarLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
         {
             OnBackButtonPressed();
+        }
+
+        async void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
+        {
+            var leituraReparo = new LeituraEtiquetaInventarioReparo() { CodBarras = "" };
+
+            var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
+            var listaLeituraEtiqueta =  await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
+            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();
+
+            foreach (var item in listaLeituraEtiqueta.Param.Resultparam)
+            {
+                string[] msg = item.Mensagem.Split(':');
+
+                if (msg[0] == "ERRO")
+                    Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaManual(listaLeituraEtiqueta.Param.Resultparam, parametrosInventarioReparo));
+                else
+                    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
+
+                var modelView = Mapper.Map<LeituraEtiquetaInventarioReparo, InventarioReparoLeituraEtiquetaViewModel>(item);
+                ObsInventarioReparoLeituraEtiqueta.Add(modelView);
+            }
+
+            cvInventarioReparoLeituraEtiqueta.BindingContext = this;
         }
     }
 

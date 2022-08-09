@@ -13,7 +13,7 @@
                 </Grid>
             </Frame>
 
-            <CollectionView x:Name="cvInventarioReparoDeposito" ItemsSource="{Binding ObsInventarioReparoDeposito}" SelectionMode="Single" Margin="10,0,10,0">
+            <CollectionView x:Name="cvInventarioReparoDeposito" ItemsSource="{Binding ObsInventarioReparoDeposito}" SelectionChanged="cvInventarioReparoDeposito_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
                     <StackLayout>
                         <Label Text="Nenhuma nota fiscal em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
@@ -66,31 +66,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
-            <!--<Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>               
-
-                <Button x:Name="BtnVoltarNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                         Clicked="BtnVoltarNotaFiscal_Clicked" Grid.Row="3" Grid.Column="0" Text="Voltar" TextColor="White" />
-
-            </Grid>-->
-
-            <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Button x:Name="BtnApuracaoitens" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                    Clicked="BtnApuracaoItens_Clicked" Grid.Row="0" Grid.Column="0" Text="Apuração dos itens" TextColor="White" />
-
-                <Button x:Name="BtnVoltarNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                    Clicked="BtnVoltarNotaFiscal_Clicked" Grid.Row="1" Grid.Column="0" Text="Voltar" TextColor="White" />
-
-            </Grid>
 
         </StackLayout>
     </ContentPage.Content>

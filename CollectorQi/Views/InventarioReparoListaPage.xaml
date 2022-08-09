@@ -9,7 +9,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
           
-                    <!--<Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />-->
+                    <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
                 </Grid>
             </Frame>
 
@@ -17,11 +17,11 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
 
-                    <Label x:Name="lblTecnico" Text="Tecnico" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry IsNumeric="True" x:Name="txtTecnico" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Técnico..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <Label x:Name="lblTecnico" Text="Técnico" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtTecnico" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Técnico..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -30,11 +30,11 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblSenha" Text="Senha" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry IsNumeric="True" x:Name="txtSenha" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Senha..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtSenha" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Senha..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -43,12 +43,12 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
-
-                    <Label x:Name="lblDeposito" Text="Deposito" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry IsNumeric="True" x:Name="txtDeposito" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Depósito..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
-                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <Label x:Name="lblDeposito" Text="Depósito" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtDeposito" IsEnabled="False" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <Button x:Name="BtnBuscaDeposito"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" Clicked="BtnBuscaDeposito_Clicked" />
                 </Grid>
             </Frame>
 
@@ -56,11 +56,11 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblData" Text="Data" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry IsNumeric="True" x:Name="txtData" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Data..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtData" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Data..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>

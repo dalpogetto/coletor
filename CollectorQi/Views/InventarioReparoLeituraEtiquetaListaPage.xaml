@@ -27,31 +27,36 @@
                                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="80"/>
                                     </Grid.ColumnDefinitions>  
                                     
                                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Produto: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodProduto}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Micro" />
-
-                                        <Label Grid.Row="1" Grid.Column="0" Text="Localização:" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Localiza}" FontSize="Micro" />
                                         
-                                        <Label Grid.Row="2" Grid.Column="0" Text="Número RR:" FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding NumRR}" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodProduto}" FontSize="Micro" />
 
+                                        <Label Grid.Row="0" Grid.Column="2" Text="Codigo: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="3" Text="{Binding CodProduto}" FontSize="Micro" />
+
+                                        <Label Grid.Row="0" Grid.Column="4" Text="Local: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="5" Text="{Binding Localiza}" FontSize="Micro" />
+                                        
+                                        <Label Grid.Row="1" Grid.Column="0" Text="Núm RR: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding NumRR}" FontSize="Micro"/>
+
+                                        <Label Grid.Row="1" Grid.Column="2" Text="Digito: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="1" Grid.Column="3" Text="{Binding Digito}" FontSize="Micro"/>
+
+                                        <Label Grid.Row="1" Grid.Column="4" Text="Filial: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="1" Grid.Column="5" Text="{Binding CodFilial}" FontSize="Micro"/>
                                     </Grid> 
                                     
                                 </Grid>
@@ -68,8 +73,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+                <Button x:Name="BtnLeituraEtiqueta" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                    Clicked="BtnLeituraEtiqueta_Clicked" Grid.Row="0" Grid.Column="0" Text="Leitura Etiqueta" TextColor="White" />
+
                 <Button x:Name="BtnVoltarLeituraEtiqueta" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                    Clicked="BtnVoltarLeituraEtiqueta_Clicked" Grid.Row="0" Grid.Column="0" Text="Voltar" TextColor="White" /> 
+                    Clicked="BtnVoltarLeituraEtiqueta_Clicked" Grid.Row="1" Grid.Column="0" Text="Voltar" TextColor="White" />
             </Grid>
 
         </StackLayout>

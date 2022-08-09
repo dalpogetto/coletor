@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
 using CollectorQi.Services.ESCL017;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,20 +14,18 @@ namespace CollectorQi.Views
     public partial class InventarioReparoDepositoListaPage : ContentPage, INotifyPropertyChanged
     {  
         public ObservableCollection<DepositosInventarioReparoViewModel> ObsInventarioReparoDeposito { get; set; }
-        List<DepositosInventarioReparo> ListaDepositosInventarioReparo;
+        public List<DepositosInventarioReparo> ListaDepositosInventarioReparo { get; set; }
+        public ParametrosInventarioReparo ParametrosInventarioReparo { get; set; }
 
-        public InventarioReparoDepositoListaPage(List<DepositosInventarioReparo> listaDepositosInventarioReparo)
+        public InventarioReparoDepositoListaPage(List<DepositosInventarioReparo> listaDepositosInventarioReparo, ParametrosInventarioReparo parametrosInventarioReparo)
         {
             InitializeComponent();
             ObsInventarioReparoDeposito = new ObservableCollection<DepositosInventarioReparoViewModel>();
             ListaDepositosInventarioReparo = new List<DepositosInventarioReparo>();
             ListaDepositosInventarioReparo = listaDepositosInventarioReparo;
+            ParametrosInventarioReparo = parametrosInventarioReparo;
 
-            //foreach (var item in ListNotaFiscalVO)
-            //{
-            //    lblCodEstabel.Text = "Estabelecimento: " + item.CodEstabel;
-            //    Conferidos = item.Conferido;
-            //}
+            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.GetCodEstabel();
 
             if (listaDepositosInventarioReparo != null)
             {
@@ -38,43 +37,16 @@ namespace CollectorQi.Views
             }
 
             cvInventarioReparoDeposito.BindingContext = this;
-        }     
+        }  
 
-        protected override bool OnBackButtonPressed()
+        private void cvInventarioReparoDeposito_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage());
+            if (cvInventarioReparoDeposito.SelectedItem == null)
+                return;
 
-            return true;
-        }
+            var current = (cvInventarioReparoDeposito.SelectedItem as DepositosInventarioReparo);
 
-        private void BtnVoltarNotaFiscal_Clicked(object sender, System.EventArgs e)
-        {
-            OnBackButtonPressed();
-        }
-
-        async void BtnApuracaoItens_Clicked(object sender, System.EventArgs e)
-        {
-            var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
-
-            var leituraEtiquetaInventarioReparo = new LeituraEtiquetaInventarioReparo()
-            {
-               
-            };
-
-            var LeituraEtiqueta = await pLeituraEtiqueta.SendParametersAsync();
-
-            //if (parametrosRetorno.Retorno == "OK")
-            //{
-            //    var dInventario = new DepositoInventarioReparoService();
-            //    var dInventarioRetorno = await dInventario.SendParametersAsync();
-
-            //    Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(dInventarioRetorno.Param.Resultparam));
-            //}
-            //else
-            //    await DisplayAlert("", "Erro no retorno do envio !!!", "OK");
-
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(LeituraEtiqueta.Param.Resultparam, ListaDepositosInventarioReparo));
+            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(current.Nome, ParametrosInventarioReparo));
         }
     }
 
