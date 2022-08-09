@@ -226,30 +226,20 @@ namespace CollectorQi.Views
                     // CodRefer = inventarioItem.Cod
                     inventarioItemVO.ItCodigo = inventarioItem.CodItem;
 
-                    /*
-                    InventarioItemDB.InserirInventarioItem(inventarioItemVO);
-                    
-                    _lstInventarioItemVO.Add(inventarioItemVO);  */
-
-
                     var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(inventarioItemVO);
 
                     Items.Add(modelView);
                 }
 
-                //cvInventarioItem.BindingContext = this;
-
                 _ItemsUnfiltered = Items;
 
-
-                //Items = _ItemsUnfiltered;
-
                 OnPropertyChanged("Items");
+
+                SearchBarItCodigo.Focus();
 
             }
             catch (Exception ex)
             {
-
                 System.Diagnostics.Debug.Write(ex);
                 //await DisplayAlert("Erro!", ex.Message, "Cancelar");
             }
@@ -305,25 +295,6 @@ namespace CollectorQi.Views
             Thread.Sleep(1000);
             await pageProgress.OnClose();
 
-
-            //BtnBuscaItem.IsEnabled = false;
-            //try
-            //{
-            //    var customScanPage = new ZXingScannerPage();
-
-            //    customScanPage.SetResultAction(VerifyProd);
-
-            //    await Navigation.PushModalAsync(customScanPage);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayAlert("Erro!", ex.Message, "OK");
-            //}
-            //finally
-            //{
-            //    BtnBuscaItem.IsEnabled = true;
-            //}
         }
 
         private async void VerifyProd(string strQr)
@@ -411,7 +382,6 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            // Application.Current.MainPage = new NavigationPage(new LeituraEtiquetaLocaliza(new InventarioVO()));
 
             // Criar();
             Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(_inventario));
@@ -429,7 +399,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(1200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,
@@ -532,8 +502,9 @@ namespace CollectorQi.Views
 
                     current.CodigoBarras = SearchBarItCodigo.Text.Replace(";","[");
                     var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, current);
+                    page._actDeleteRow = DeleteRowInventarioItem;
                     await PopupNavigation.Instance.PushAsync(page);
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                     await pageProgress.OnClose();
 
                     cvInventarioItem.SelectedItem = null;
@@ -580,11 +551,10 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp("Carregando...");
 
             var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, current);
-            await PopupNavigation.Instance.PushAsync(page);
-            Thread.Sleep(1000);
-            await pageProgress.OnClose();
-
             page._actDeleteRow = DeleteRowInventarioItem;
+            await PopupNavigation.Instance.PushAsync(page);
+            //Thread.Sleep(1000);
+            await pageProgress.OnClose();
 
             cvInventarioItem.SelectedItem = null;
         }

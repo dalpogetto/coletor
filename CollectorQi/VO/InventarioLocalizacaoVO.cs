@@ -13,6 +13,7 @@ namespace CollectorQi.VO
         private int     inventarioId = 0;
         private string  codLocaliz = "";
         private InventarioVO inventario;
+        private string totalFichas;
 
 
         [AutoIncrement, PrimaryKey]
@@ -24,6 +25,8 @@ namespace CollectorQi.VO
 
         [Indexed(Name = "uInventarioItemIndex", Order = 2, Unique = true)]
         public string CodLocaliz { get => codLocaliz; set => codLocaliz = value; }
+
+        public string TotalFichas { get => totalFichas; set => totalFichas = value; }
 
 
         [Ignore]

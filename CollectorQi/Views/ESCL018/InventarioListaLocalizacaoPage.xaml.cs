@@ -151,6 +151,7 @@ namespace CollectorQi.Views
 
             try
             {
+               
 
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
@@ -162,6 +163,7 @@ namespace CollectorQi.Views
                 {
                     InventarioLocalizacaoVO inventarioLocalizacaoVO = new InventarioLocalizacaoVO();
                     inventarioLocalizacaoVO.CodLocaliz = localizacao.Localizacao;
+                    inventarioLocalizacaoVO.TotalFichas = localizacao.TotalFichas;
 
                  //   InventarioLocalizacaoDB.InserirInventarioLocalizacao(inventarioLocalizacaoVO);
 
@@ -169,6 +171,15 @@ namespace CollectorQi.Views
 
                     Items.Add(modelView);
                 }
+
+               /* await Task.Run(async () =>
+                {
+                    await Task.Delay(100);
+                    Device.BeginInvokeOnMainThread(async () =>
+                    { */
+                        SearchCodLocaliz.Focus();
+                /*    });
+                }); */
                 /*
                 foreach (var localizacao in lstLocalizacoes.param.Resultparam)
                 {
@@ -233,7 +244,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(1200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,

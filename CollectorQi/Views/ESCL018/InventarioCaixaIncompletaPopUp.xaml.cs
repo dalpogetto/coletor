@@ -161,7 +161,6 @@ namespace CollectorQi.Views
 
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
-            BtnEfetivar.IsEnabled = false;
             if (string.IsNullOrEmpty(txtQuantidade.Text))
             {
                 await DisplayAlert("Erro!", "Informe a quantidade do produto disponivel para a contagem do inventário", "Cancelar");
@@ -180,6 +179,8 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp("Carregando...");
             try
             {
+
+                BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
                     if (!string.IsNullOrEmpty(txtQuantidade.Text))
@@ -208,7 +209,7 @@ namespace CollectorQi.Views
                             Localizacao = _inventarioItemVO.CodLocaliz.Trim(),
                             CodItem = _inventarioItemVO.ItCodigo.Trim(),
                             CodDepos = _inventarioVO.CodDepos.Trim(),
-                            Quantidade = int.Parse(txtQuantidade.Text),
+                            QuantidadeDigitada = int.Parse(txtQuantidade.Text),
                             CodEmp = "1",
                             Contagem = 1,
                             CodEstabel = SecurityAuxiliar.GetCodEstabel().Trim(),
