@@ -46,9 +46,9 @@ namespace CollectorQi.Views
 
             if (parametrosRetorno.Retorno == "OK")
             {
-                var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
-                var leituraEtiquetaRetorno = await pLeituraEtiqueta.SendParametersAsync(null, null);
-                Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(leituraEtiquetaRetorno.Param.Resultparam, parametrosIR));
+                //var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
+                //var leituraEtiquetaRetorno = await pLeituraEtiqueta.SendParametersAsync(null, null);
+                Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(null, parametrosIR));
             }
             else
                 await DisplayAlert("", "Erro no retorno do envio !!!", "OK");

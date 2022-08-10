@@ -16,7 +16,6 @@ namespace CollectorQi.Views
         public ObservableCollection<InventarioReparoLeituraEtiquetaViewModel> ObsInventarioReparoLeituraEtiqueta { get; set; }
         public List<LeituraEtiquetaInventarioReparo> ListaLeituraEtiquetaInventarioReparo { get; set; }
         public ParametrosInventarioReparo parametrosInventarioReparo { get; set; }
-
         public InventarioReparoLeituraEtiquetaListaPage(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo,
             ParametrosInventarioReparo _parametrosInventarioReparo)
         {
@@ -31,7 +30,7 @@ namespace CollectorQi.Views
             parametrosInventarioReparo = new ParametrosInventarioReparo();
             parametrosInventarioReparo = _parametrosInventarioReparo;
 
-            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();          
+            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();
 
             if (listaLeituraEtiquetaInventarioReparo != null)
             {
@@ -63,20 +62,21 @@ namespace CollectorQi.Views
             var leituraReparo = new LeituraEtiquetaInventarioReparo() { CodBarras = "" };
 
             var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
-            var listaLeituraEtiqueta =  await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
-            ObsInventarioReparoLeituraEtiqueta = new ObservableCollection<InventarioReparoLeituraEtiquetaViewModel>();
+            var listaLeituraEtiqueta =  await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);           
 
             foreach (var item in listaLeituraEtiqueta.Param.Resultparam)
             {
                 string[] msg = item.Mensagem.Split(':');
 
                 if (msg[0] == "ERRO")
-                    Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaManual(listaLeituraEtiqueta.Param.Resultparam, parametrosInventarioReparo));
+                    Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaManual(ListaLeituraEtiquetaInventarioReparo, parametrosInventarioReparo));
                 else
+                {
                     _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
 
-                var modelView = Mapper.Map<LeituraEtiquetaInventarioReparo, InventarioReparoLeituraEtiquetaViewModel>(item);
-                ObsInventarioReparoLeituraEtiqueta.Add(modelView);
+                    var modelView = Mapper.Map<LeituraEtiquetaInventarioReparo, InventarioReparoLeituraEtiquetaViewModel>(item);
+                    ObsInventarioReparoLeituraEtiqueta.Add(modelView);
+                }
             }
 
             cvInventarioReparoLeituraEtiqueta.BindingContext = this;

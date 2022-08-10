@@ -13,7 +13,7 @@ namespace CollectorQi.Views
     {
         public List<LeituraEtiquetaInventarioReparo> ListaLeituraEtiquetaInventarioReparo { get; set; }
         public ParametrosInventarioReparo parametrosInventarioReparo { get; set; }
-        public InventarioReparoLeituraEtiquetaManual(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo,ParametrosInventarioReparo _parametrosInventarioReparo)
+        public InventarioReparoLeituraEtiquetaManual(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo, ParametrosInventarioReparo _parametrosInventarioReparo)
         {
             InitializeComponent();
 
@@ -51,7 +51,13 @@ namespace CollectorQi.Views
             var leituraEtiqueta = await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
 
             if (leituraEtiqueta.Retorno == "OK")
-            {   
+            {
+                if (ListaLeituraEtiquetaInventarioReparo == null)               
+                    ListaLeituraEtiquetaInventarioReparo = new List<LeituraEtiquetaInventarioReparo>();   
+                
+                foreach (var item in leituraEtiqueta.Param.Resultparam)
+                    ListaLeituraEtiquetaInventarioReparo.Add(item);
+
                 _ = DisplayAlert("", "Leitura de etiqueta efetuada com sucesso !!!", "OK");
                 Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(ListaLeituraEtiquetaInventarioReparo, parametrosInventarioReparo));
             }
