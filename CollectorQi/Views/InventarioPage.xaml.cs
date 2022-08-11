@@ -82,7 +82,7 @@ namespace CollectorQi.Views
                     break;
 
                 case "Inventário de Reparos":
-                    Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage("", null));
+                    Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(null));
                     break;                
             }
         }

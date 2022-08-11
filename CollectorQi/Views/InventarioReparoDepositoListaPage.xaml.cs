@@ -45,8 +45,9 @@ namespace CollectorQi.Views
                 return;
 
             var current = (cvInventarioReparoDeposito.SelectedItem as DepositosInventarioReparo);
+            ParametrosInventarioReparo.CodDepos = current.Nome;
 
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(current.Nome, ParametrosInventarioReparo));
+            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(ParametrosInventarioReparo));
         }
     }
 

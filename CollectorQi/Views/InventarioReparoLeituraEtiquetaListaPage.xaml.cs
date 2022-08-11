@@ -47,7 +47,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage("", null));
+            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(null));
 
             return true;
         }
@@ -62,14 +62,19 @@ namespace CollectorQi.Views
             var leituraReparo = new LeituraEtiquetaInventarioReparo() { CodBarras = "" };
 
             var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
-            var listaLeituraEtiqueta =  await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);           
+            var listaLeituraEtiqueta =  await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
 
             foreach (var item in listaLeituraEtiqueta.Param.Resultparam)
             {
-                string[] msg = item.Mensagem.Split(':');
+                if (listaLeituraEtiqueta.Retorno == "ERRO")
+                {
+                    ListaLeituraEtiquetaInventarioReparo = new List<LeituraEtiquetaInventarioReparo>();
 
-                if (msg[0] == "ERRO")
+                    foreach (var itemObs in ObsInventarioReparoLeituraEtiqueta)                    
+                        ListaLeituraEtiquetaInventarioReparo.Add(itemObs);                    
+
                     Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaManual(ListaLeituraEtiquetaInventarioReparo, parametrosInventarioReparo));
+                }
                 else
                 {
                     _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");

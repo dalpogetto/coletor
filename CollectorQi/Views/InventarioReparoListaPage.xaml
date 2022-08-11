@@ -21,7 +21,7 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblTecnico" Text="Técnico" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtTecnico" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Técnico..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtTecnico" IsNumeric="True" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Técnico..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -34,7 +34,7 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblSenha" Text="Senha" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtSenha" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Senha..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtSenha" FontSize="Micro" IsPassword="True" MaxLength="300" WidthRequest="300" Placeholder="Senha..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -60,7 +60,7 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblData" Text="Data" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtData" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Data..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtData" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="dd/MM/yyyy" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>

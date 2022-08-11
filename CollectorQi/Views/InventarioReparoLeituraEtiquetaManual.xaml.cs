@@ -36,33 +36,38 @@ namespace CollectorQi.Views
 
         async void BtnEtiquetaManualConfirmar_Clicked(object sender, System.EventArgs e)
         {
-            var leituraReparo = new LeituraEtiquetaInventarioReparo();
-
-            leituraReparo.CodEstabel = parametrosInventarioReparo.CodEstabel;
-            leituraReparo.CodFilial = txtFilial.Text;
-
-            if(!string.IsNullOrEmpty(txtNumeroRR.Text))
-                leituraReparo.NumRR = int.Parse(txtNumeroRR.Text);
-
-            if (!string.IsNullOrEmpty(txtDigito.Text))
-                leituraReparo.Digito = int.Parse(txtDigito.Text);
-
-            var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
-            var leituraEtiqueta = await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
-
-            if (leituraEtiqueta.Retorno == "OK")
-            {
-                if (ListaLeituraEtiquetaInventarioReparo == null)               
-                    ListaLeituraEtiquetaInventarioReparo = new List<LeituraEtiquetaInventarioReparo>();   
-                
-                foreach (var item in leituraEtiqueta.Param.Resultparam)
-                    ListaLeituraEtiquetaInventarioReparo.Add(item);
-
-                _ = DisplayAlert("", "Leitura de etiqueta efetuada com sucesso !!!", "OK");
-                Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(ListaLeituraEtiquetaInventarioReparo, parametrosInventarioReparo));
-            }
+            if (string.IsNullOrEmpty(txtFilial.Text) || string.IsNullOrEmpty(txtNumeroRR.Text) || string.IsNullOrEmpty(txtDigito.Text))
+                await DisplayAlert("", "Todos os campos são obrigatórios !", "OK");
             else
-                _ = DisplayAlert("", "Erro ao realizar a leitura da etiqueta !!!", "OK");
+            {
+                var leituraReparo = new LeituraEtiquetaInventarioReparo();
+
+                leituraReparo.CodEstabel = parametrosInventarioReparo.CodEstabel;
+                leituraReparo.CodFilial = txtFilial.Text;
+
+                if (!string.IsNullOrEmpty(txtNumeroRR.Text))
+                    leituraReparo.NumRR = int.Parse(txtNumeroRR.Text);
+
+                if (!string.IsNullOrEmpty(txtDigito.Text))
+                    leituraReparo.Digito = int.Parse(txtDigito.Text);
+
+                var pLeituraEtiqueta = new LeituraEtiquetaInventarioReparoService();
+                var leituraEtiqueta = await pLeituraEtiqueta.SendParametersAsync(parametrosInventarioReparo, leituraReparo);
+
+                if (leituraEtiqueta.Retorno == "OK")
+                {
+                    if (ListaLeituraEtiquetaInventarioReparo == null)
+                        ListaLeituraEtiquetaInventarioReparo = new List<LeituraEtiquetaInventarioReparo>();
+
+                    foreach (var item in leituraEtiqueta.Param.Resultparam)
+                        ListaLeituraEtiquetaInventarioReparo.Add(item);
+
+                    _ = DisplayAlert("", "Leitura de etiqueta manual efetuada com sucesso !!!", "OK");
+                    Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(ListaLeituraEtiquetaInventarioReparo, parametrosInventarioReparo));
+                }
+                else
+                    _ = DisplayAlert("", "Erro ao realizar a leitura da etiqueta manual !!!", "OK");
+            }
         }
     }
 }
