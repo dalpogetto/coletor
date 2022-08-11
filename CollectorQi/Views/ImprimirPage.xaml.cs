@@ -15,7 +15,7 @@ namespace CollectorQi.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ImprimirPage : ContentPage, INotifyPropertyChanged
     {
-        public ObservableCollection<InventarioViewModel> ObsInventario { get; }       
+        public ObservableCollection<InventarioFisicoViewModel> ObsInventario { get; }       
         public string localizacaoRetorno { get; set; }
         private InventarioVO _inventario;
         public string localizacao;  

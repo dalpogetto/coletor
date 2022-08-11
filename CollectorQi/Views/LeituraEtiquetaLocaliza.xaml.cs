@@ -62,7 +62,7 @@ namespace CollectorQi.Views
         }
 
         private ObservableCollection<FichasUsuarioVO> _Items;
-        public ObservableCollection<InventarioViewModel> ObsInventario { get; }
+        public ObservableCollection<InventarioFisicoViewModel> ObsInventario { get; }
         public InventarioVO pInventarioVO { get; set; }
         public string localizacaoRetorno { get; set; }
 
