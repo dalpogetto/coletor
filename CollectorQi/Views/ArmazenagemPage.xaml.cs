@@ -1,4 +1,7 @@
-﻿using CollectorQi.Resources;
+﻿using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
+using CollectorQi.Services.ESCL017;
+using CollectorQi.Services.ESCL021;
 using CollectorQi.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +43,7 @@ namespace CollectorQi.Views
                 listView.ItemSelected += OnSelection;
             }
         }
-        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        async void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
@@ -54,7 +57,11 @@ namespace CollectorQi.Views
                case "GuardaMateriais":
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Guarda de Materiais";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Guarda de Materiais" });             
+
+                    var dDeposito = new DepositosGuardaMaterialService();
+                    var dDepositoRetorno = await dDeposito.SendGuardaMaterialAsync();
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(dDepositoRetorno.Param.ParamResult));
+
                     break;
 
                 case "MovimentoEstoque":

@@ -121,6 +121,12 @@
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoItemListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoItemListaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
       <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
     </Compile>
