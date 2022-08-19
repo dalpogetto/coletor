@@ -106,11 +106,17 @@
     <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisConfirmacaoLeituraItem.xaml.cs">
+      <DependentUpon>GuardaMateriaisConfirmacaoLeituraItem.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ImprimirEtiquetaReparo.xaml.cs">
       <DependentUpon>ImprimirEtiquetaReparo.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirEtiquetaLocalizacao.xaml.cs">
       <DependentUpon>ImprimirEtiquetaLocalizacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GuardaMateriaisTipoMovimento.xaml.cs">
+      <DependentUpon>GuardaMateriaisTipoMovimento.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirPage.xaml.cs">
       <DependentUpon>ImprimirPage.xaml</DependentUpon>

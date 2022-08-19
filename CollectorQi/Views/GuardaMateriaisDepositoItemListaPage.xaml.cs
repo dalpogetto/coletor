@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using CollectorQi.Models.ESCL017;
 using CollectorQi.Models.ESCL021;
 using CollectorQi.Resources;
-using CollectorQi.Services.ESCL017;
 using CollectorQi.Services.ESCL021;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,12 +15,15 @@ namespace CollectorQi.Views
     {  
         public ObservableCollection<DepositosGuardaMaterialItemViewModel> ObsGuardaMateriaisDepositoItem { get; set; }
         public List<DepositosGuardaMaterialItem> ListaDepositosGuardaMaterialItem { get; set; }
-        //public ParametrosInventarioReparo parametrosInventarioReparo { get; set; }
-        //public GuardaMateriaisDepositoItemListaPage(List<LeituraEtiquetaInventarioReparo> listaLeituraEtiquetaInventarioReparo,
-        //    ParametrosInventarioReparo _parametrosInventarioReparo)
-        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem)
+        public string Local { get; set; }
+        public string CodDepos { get; set; }
+        public string TipoMovimento { get; set; }
+        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, string tipoMovimento)
         {
             InitializeComponent();
+
+            CodDepos = codDepos;
+            BtnTipoMovimento.Text = "Depósito: " + codDepos + "   /   Localização: " + local + "   /   Tipo Movimento: " + tipoMovimento;
 
             //lblCodEstabel.Text = "Estab: " + SecurityAuxiliar.GetCodEstabel() + "  Técnico: " + _parametrosInventarioReparo.CodEstabel +
             //    "  Depós: " + _parametrosInventarioReparo.CodDepos + "  Dt Inventário: " + _parametrosInventarioReparo.DtInventario;
@@ -34,9 +35,11 @@ namespace CollectorQi.Views
 
             ListaDepositosGuardaMaterialItem = new List<DepositosGuardaMaterialItem>();
             ObsGuardaMateriaisDepositoItem = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
+            Local = local;
+            TipoMovimento = tipoMovimento;
 
             if (listaDepositosGuardaMaterialItem != null)
-            {  
+            {
                 foreach (var item in listaDepositosGuardaMaterialItem)
                 {
                     var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
@@ -62,15 +65,36 @@ namespace CollectorQi.Views
 
         async void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
         {
+            string codigoBarras = "";
+            //int transacao, semSaldo = 0;
+
+            ////Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(codigoBarras));
+
+            //if (TipoMovimento == "Entrada")           
+            //    transacao = 1;            
+            //else           
+            //    transacao = 0;            
+
             var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
-            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaAsync();
+
+            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
+            {
+                CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                CodDepos = CodDepos,
+                CodLocaliza = Local,
+                //Transacao = transacao,
+                //SemSaldo = semSaldo,
+                CodigoBarras = codigoBarras
+            };           
+
+            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
 
             foreach (var item in dDepositoItemRetorno.Param.ParamResult)
             {
                 if (dDepositoItemRetorno.Retorno == "ERRO")
                     _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
                 else
-                {  
+                {
                     var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
                     ObsGuardaMateriaisDepositoItem.Add(modelView);
 
@@ -80,6 +104,11 @@ namespace CollectorQi.Views
 
             cvGuardaMateriaisDepositoItem.BindingContext = this;
         }
+
+        protected void BtnTipoMovimento_Clicked(object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(Local, CodDepos));
+        }       
     }
 
     public class DepositosGuardaMaterialItemViewModel : DepositosGuardaMaterialItem

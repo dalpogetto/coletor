@@ -36,7 +36,7 @@ namespace CollectorQi.Views
             }
 
             cvDepositosGuardaMaterial.BindingContext = this;
-        }  
+        }
 
         async void cvDepositosGuardaMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -45,9 +45,23 @@ namespace CollectorQi.Views
 
             var current = (cvDepositosGuardaMaterial.SelectedItem as DepositosGuardaMaterial);
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(null));
+            var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
+            var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial() 
+                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = "" };
+
+            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);           
+
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(dDepositoItemRetorno.Result.Local, current.CodDepos));
         }
-    }
+
+        protected override bool OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+            Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+
+            return true;
+        }
+    }    
 
     public class GuardaMateriaisDepositoViewModel : DepositosGuardaMaterial
     {
