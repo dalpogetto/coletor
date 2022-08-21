@@ -6,10 +6,10 @@
             <Button x:Name="BtnTipoMovimento" Margin="10,10,10,10" BorderColor="#A5C3FA" FontSize="Small"  MinimumHeightRequest="70" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
                     Grid.Row="0" Grid.Column="0" TextColor="#515151" />
 
-            <CollectionView x:Name="cvGuardaMateriaisDepositoItem" ItemsSource="{Binding ObsGuardaMateriaisDepositoItem}" SelectionMode="Single" Margin="10,0,10,0">
+            <CollectionView x:Name="cvGuardaMateriaisConfirmacaoLeituraItem" ItemsSource="{Binding ObsGuardaMateriaisConfirmacaoLeituraItem}" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
                     <StackLayout>
-                        <Label Text="Nenhuma Guarda Materiais Deposito Item" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                        <Label Text="Nenhuma Confirmacão Leitura Item" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
                     </StackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
@@ -33,11 +33,11 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoItem}" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Etiqueta: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoBarras}" FontSize="Micro" />
 
-                                        <Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SaldoInfo}" FontSize="Micro" />
+                                        <!--<Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Micro" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SaldoInfo}" FontSize="Micro" />-->
                                     </Grid> 
                                     
                                 </Grid>

@@ -51,7 +51,7 @@ namespace CollectorQi.Views
 
             var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);           
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(dDepositoItemRetorno.Result.Local, current.CodDepos));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(null, dDepositoItemRetorno.Result.Local, current.CodDepos));
         }
 
         protected override bool OnBackButtonPressed()

@@ -17,26 +17,22 @@ namespace CollectorQi.Views
         public List<DepositosGuardaMaterialItem> ListaDepositosGuardaMaterialItem { get; set; }
         public string Local { get; set; }
         public string CodDepos { get; set; }
-        public string TipoMovimento { get; set; }
-        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, string tipoMovimento)
+        public int? TipoMovimento { get; set; }
+        public int? SemSaldo { get; set; }
+
+        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento)
         {
             InitializeComponent();
 
-            CodDepos = codDepos;
-            BtnTipoMovimento.Text = "Depósito: " + codDepos + "   /   Localização: " + local + "   /   Tipo Movimento: " + tipoMovimento;
+            if (tipoMovimento == 1)
+                BtnTipoMovimento.Text = "Depósito: " + codDepos + "   /   Localização: " + local + "   /   Tipo Movimento: Entrada";
+            else
+                BtnTipoMovimento.Text = "Depósito: " + codDepos + "   /   Localização: " + local + "   /   Tipo Movimento: Saída";
 
-            //lblCodEstabel.Text = "Estab: " + SecurityAuxiliar.GetCodEstabel() + "  Técnico: " + _parametrosInventarioReparo.CodEstabel +
-            //    "  Depós: " + _parametrosInventarioReparo.CodDepos + "  Dt Inventário: " + _parametrosInventarioReparo.DtInventario;
-
-            //ListaLeituraEtiquetaInventarioReparo = listaLeituraEtiquetaInventarioReparo;
-
-            //parametrosInventarioReparo = new ParametrosInventarioReparo();
-            //parametrosInventarioReparo = _parametrosInventarioReparo;
-
-            ListaDepositosGuardaMaterialItem = new List<DepositosGuardaMaterialItem>();
             ObsGuardaMateriaisDepositoItem = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
             Local = local;
             TipoMovimento = tipoMovimento;
+            CodDepos = codDepos;
 
             if (listaDepositosGuardaMaterialItem != null)
             {
@@ -45,7 +41,14 @@ namespace CollectorQi.Views
                     var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
                     ObsGuardaMateriaisDepositoItem.Add(modelView);
                 }
+
+                ListaDepositosGuardaMaterialItem = listaDepositosGuardaMaterialItem;
             }
+            else            
+                ListaDepositosGuardaMaterialItem = new List<DepositosGuardaMaterialItem>();              
+
+            //if(ListaDepositosGuardaMaterialItem != null)
+            //    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
 
             cvGuardaMateriaisDepositoItem.BindingContext = this;
         }
@@ -63,51 +66,16 @@ namespace CollectorQi.Views
             OnBackButtonPressed();
         }
 
-        async void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
+        protected void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
         {
-            string codigoBarras = "";
-            //int transacao, semSaldo = 0;
+            string codigoBarras = "xxxx-yyyy-tttt-pppp";
 
-            ////Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(codigoBarras));
-
-            //if (TipoMovimento == "Entrada")           
-            //    transacao = 1;            
-            //else           
-            //    transacao = 0;            
-
-            var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
-
-            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
-            {
-                CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                CodDepos = CodDepos,
-                CodLocaliza = Local,
-                //Transacao = transacao,
-                //SemSaldo = semSaldo,
-                CodigoBarras = codigoBarras
-            };           
-
-            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
-
-            foreach (var item in dDepositoItemRetorno.Param.ParamResult)
-            {
-                if (dDepositoItemRetorno.Retorno == "ERRO")
-                    _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
-                else
-                {
-                    var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
-                    ObsGuardaMateriaisDepositoItem.Add(modelView);
-
-                    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
-                }
-            }
-
-            cvGuardaMateriaisDepositoItem.BindingContext = this;
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(ListaDepositosGuardaMaterialItem, Local, CodDepos, TipoMovimento, codigoBarras));
         }
 
         protected void BtnTipoMovimento_Clicked(object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(Local, CodDepos));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(ListaDepositosGuardaMaterialItem, Local, CodDepos));
         }       
     }
 
