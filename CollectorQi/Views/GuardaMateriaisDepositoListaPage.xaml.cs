@@ -45,13 +45,15 @@ namespace CollectorQi.Views
 
             var current = (cvDepositosGuardaMaterial.SelectedItem as DepositosGuardaMaterial);
 
+            string codigoBarras = "xxxx-yyyy-tttt-pppp";
+
             var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
             var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial() 
-                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = "" };
+                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = codigoBarras };
 
             var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);           
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(null, dDepositoItemRetorno.Result.Local, current.CodDepos));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(null, dDepositoItemRetorno.Result.Local, current.CodDepos, codigoBarras));
         }
 
         protected override bool OnBackButtonPressed()

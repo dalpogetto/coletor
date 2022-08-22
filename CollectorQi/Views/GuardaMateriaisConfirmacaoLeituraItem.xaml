@@ -35,11 +35,7 @@
                                         
                                         <Label Grid.Row="0" Grid.Column="0" Text="Etiqueta: " FontAttributes="Bold" FontSize="Micro" />
                                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoBarras}" FontSize="Micro" />
-
-                                        <!--<Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SaldoInfo}" FontSize="Micro" />-->
                                     </Grid> 
-                                    
                                 </Grid>
 
                             </Frame>

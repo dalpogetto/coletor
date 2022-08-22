@@ -5,6 +5,7 @@ using CollectorQi.Services.ESCL021;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -59,7 +60,7 @@ namespace CollectorQi.Views
             OnBackButtonPressed();
         }
 
-        async void BtnConfirmaLeitura_Clicked(object sender, System.EventArgs e)
+        async Task LeituraEtiqueta(int saldo)
         {
             var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
 
@@ -69,7 +70,7 @@ namespace CollectorQi.Views
                 CodDepos = CodDepos,
                 CodLocaliza = Local,
                 Transacao = TipoMovimento,
-                SemSaldo = 0,
+                SemSaldo = saldo,
                 CodigoBarras = CodigoBarras
             };
 
@@ -82,41 +83,22 @@ namespace CollectorQi.Views
                 else
                 {
                     ListaDepositosGuardaMaterialItem.Add(item);
-                    //_ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
+                    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
                 }
             }
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, TipoMovimento));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, CodigoBarras, TipoMovimento));
+
+        }
+
+        async void BtnConfirmaLeitura_Clicked(object sender, System.EventArgs e)
+        {
+            await LeituraEtiqueta(0);
         }
 
         async void BtnZerarSaldoItem_Clicked(object sender, System.EventArgs e)
         {
-            var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
-
-            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
-            {
-                CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                CodDepos = CodDepos,
-                CodLocaliza = Local,
-                Transacao = TipoMovimento,
-                SemSaldo = 1,
-                CodigoBarras = CodigoBarras
-            };
-
-            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
-
-            foreach (var item in dDepositoItemRetorno.Param.ParamResult)
-            {
-                if (dDepositoItemRetorno.Retorno == "ERRO")
-                    _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
-                else
-                {
-                    ListaDepositosGuardaMaterialItem.Add(item);
-                    //_ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
-                }
-            }
-
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, TipoMovimento));
+            await LeituraEtiqueta(1);
         }
     }
 

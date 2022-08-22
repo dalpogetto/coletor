@@ -19,8 +19,9 @@ namespace CollectorQi.Views
         public string CodDepos { get; set; }
         public int? TipoMovimento { get; set; }
         public int? SemSaldo { get; set; }
+        public string CodigoBarras { get; set; }
 
-        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento)
+        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, string codigoBarras, int? tipoMovimento)
         {
             InitializeComponent();
 
@@ -33,6 +34,7 @@ namespace CollectorQi.Views
             Local = local;
             TipoMovimento = tipoMovimento;
             CodDepos = codDepos;
+            CodigoBarras = codigoBarras;
 
             if (listaDepositosGuardaMaterialItem != null)
             {
@@ -68,14 +70,12 @@ namespace CollectorQi.Views
 
         protected void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
         {
-            string codigoBarras = "xxxx-yyyy-tttt-pppp";
-
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(ListaDepositosGuardaMaterialItem, Local, CodDepos, TipoMovimento, codigoBarras));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(ListaDepositosGuardaMaterialItem, Local, CodDepos, TipoMovimento, CodigoBarras));
         }
 
         protected void BtnTipoMovimento_Clicked(object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(ListaDepositosGuardaMaterialItem, Local, CodDepos));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(ListaDepositosGuardaMaterialItem, Local, CodDepos, CodigoBarras));
         }       
     }
 

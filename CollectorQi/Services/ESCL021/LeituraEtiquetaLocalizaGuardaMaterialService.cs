@@ -68,7 +68,6 @@ namespace CollectorQi.Services.ESCL021
         public class RequestDadosLeituraLocalizaJson
         {
             [JsonProperty("DadosLeituraLocaliza")]
-            //public RequestJson Param { get; set; }
             public DadosLeituraLocalizaGuardaMaterial Param { get; set; }
         }
 
