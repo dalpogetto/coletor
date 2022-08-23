@@ -16,9 +16,9 @@ namespace CollectorQi.Services.ESCL021
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://62fa31c73c4f110faa941620.mockapi.io";        
+        private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";        
 
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/LeituraEtiqueta";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl027api/LeituraEtiqueta";        
 
         // Metodo ObterParametros Totvs
         public async Task<ResultGuardaMaterialJson> SendLeituraEtiquetaAsync(DadosLeituraItemGuardaMaterial dadosLeituraItemGuardaMaterial)
@@ -39,7 +39,7 @@ namespace CollectorQi.Services.ESCL021
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };

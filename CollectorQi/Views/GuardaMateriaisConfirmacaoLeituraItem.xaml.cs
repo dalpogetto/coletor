@@ -15,13 +15,12 @@ namespace CollectorQi.Views
     public partial class GuardaMateriaisConfirmacaoLeituraItem : ContentPage, INotifyPropertyChanged
     {  
         public ObservableCollection<GuardaMateriaisConfirmacaoLeituraItemViewModel> ObsGuardaMateriaisConfirmacaoLeituraItem { get; set; }
-        public List<DepositosGuardaMaterialItem> ListaDepositosGuardaMaterialItem { get; set; }
         public string Local { get; set; }
         public string CodDepos { get; set; }
-        public int? TipoMovimento { get; set; }
+        public int? TipoMovimento { get; set; }      
         public string CodigoBarras { get; set; }
 
-        public GuardaMateriaisConfirmacaoLeituraItem(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento, string codigoBarras)
+        public GuardaMateriaisConfirmacaoLeituraItem(string local, string codDepos, int? tipoMovimento, string codigoBarras)
         {
             InitializeComponent();
 
@@ -30,19 +29,15 @@ namespace CollectorQi.Views
             else
                 BtnTipoMovimento.Text = "Depósito: " + codDepos + "   /   Localização: " + local + "   /   Tipo Movimento: Saída";
 
-            ListaDepositosGuardaMaterialItem = listaDepositosGuardaMaterialItem;
             ObsGuardaMateriaisConfirmacaoLeituraItem = new ObservableCollection<GuardaMateriaisConfirmacaoLeituraItemViewModel>();
             Local = local;
             CodDepos = codDepos;
             TipoMovimento = tipoMovimento;
             CodigoBarras = codigoBarras;
-
-            if (codigoBarras != "")
-            {
-                var item = new DadosLeituraLocalizaGuardaMaterial() { CodigoBarras = codigoBarras };
-                var modelView = Mapper.Map<DadosLeituraLocalizaGuardaMaterial, GuardaMateriaisConfirmacaoLeituraItemViewModel>(item);
-                ObsGuardaMateriaisConfirmacaoLeituraItem.Add(modelView);
-            }
+          
+            var item = new DadosLeituraLocalizaGuardaMaterial() { CodigoBarras = codigoBarras };
+            var modelView = Mapper.Map<DadosLeituraLocalizaGuardaMaterial, GuardaMateriaisConfirmacaoLeituraItemViewModel>(item);
+            ObsGuardaMateriaisConfirmacaoLeituraItem.Add(modelView);
 
             cvGuardaMateriaisConfirmacaoLeituraItem.BindingContext = this;
         }
@@ -58,7 +53,7 @@ namespace CollectorQi.Views
         private void BtnVoltarLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
         {
             OnBackButtonPressed();
-        }
+        }        
 
         async Task LeituraEtiqueta(int saldo)
         {
@@ -80,15 +75,14 @@ namespace CollectorQi.Views
             {
                 if (dDepositoItemRetorno.Retorno == "ERRO")
                     _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
-                else
-                {
-                    ListaDepositosGuardaMaterialItem.Add(item);
+                else                                    
                     _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
-                }
             }
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, CodigoBarras, TipoMovimento));
+            var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
+            var dRetorno = await dLeituraEtiquetaLerLocaliza.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
 
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(dRetorno.Param.ParamResult, Local, CodDepos, TipoMovimento));
         }
 
         async void BtnConfirmaLeitura_Clicked(object sender, System.EventArgs e)

@@ -10,23 +10,24 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Services.ESCL021
 {
-    public class LeituraEtiquetaLocalizaGuardaMaterialService
+    public class LeituraEtiquetaLerLocalizaGuardaMaterialService
     {
         ResultGuardaMaterialJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";        
+        private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";
 
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl027api/LeituraEtiquetaLocaliza";
+        // Utilizar no diebold esse caminho -->  "/api/integracao/coletores/v1/escl027api/LeituraEtiquetaLocaliza";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl027api/LeituraEtiqueta_LerLocaliz";        
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultGuardaMaterialJson> SendLeituraEtiquetaLocalizaAsync(DadosLeituraLocalizaGuardaMaterial dadosLeituraLocalizaGuardaMaterial)
+        public async Task<ResultGuardaMaterialJson> SendLeituraEtiquetaAsync(DadosLeituraItemGuardaMaterial dadosLeituraItemGuardaMaterial)
         {
             try
             {
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
-                RequestDadosLeituraLocalizaJson requestJson = new RequestDadosLeituraLocalizaJson() { Param = dadosLeituraLocalizaGuardaMaterial };
+                RequestDadosLeituraItemJson requestJson = new RequestDadosLeituraItemJson() { Param = dadosLeituraItemGuardaMaterial };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
@@ -65,28 +66,23 @@ namespace CollectorQi.Services.ESCL021
             return parametros;
         }
 
-        public class RequestDadosLeituraLocalizaJson
+        public class RequestDadosLeituraItemJson
         {
-            [JsonProperty("DadosLeituraLocaliza")]
-            public DadosLeituraLocalizaGuardaMaterial Param { get; set; }
-        }
-
-        public class RequestJson
-        {
-            public DadosLeituraLocalizaGuardaMaterial ParamResult { get; set; }
-        }
+            [JsonProperty("DadosLeitura")]
+            public DadosLeituraItemGuardaMaterial Param { get; set; }
+        } 
 
         public class ResultGuardaMaterialJson
         {
             [JsonProperty("Conteudo")]
-            public ResultGuardaJson Result { get; set; }
-
+            public ResultDepositosItemJson Param { get; set; }
             public string Retorno { get; set; }
         }
 
-        public class ResultGuardaJson
+        public class ResultDepositosItemJson
         {
-            public string Local { get; set; }
+            [JsonProperty("ListaItens")]
+            public List<DepositosGuardaMaterialItem> ParamResult { get; set; }
         }
     }
 }

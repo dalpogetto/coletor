@@ -51,9 +51,16 @@ namespace CollectorQi.Views
             var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial() 
                 { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = codigoBarras };
 
-            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);           
+            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);         
 
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(null, dDepositoItemRetorno.Result.Local, current.CodDepos, codigoBarras));
+            // recarrega a lista da API
+            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
+            { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodDepos = current.CodDepos, CodigoBarras = codigoBarras };
+
+            var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
+            var dRetorno = await dLeituraEtiquetaLerLocaliza.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
+
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(dRetorno.Param.ParamResult, dDepositoItemRetorno.Result.Local, current.CodDepos));
         }
 
         protected override bool OnBackButtonPressed()

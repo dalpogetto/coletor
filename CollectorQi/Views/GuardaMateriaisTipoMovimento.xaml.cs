@@ -15,16 +15,14 @@ namespace CollectorQi.Views
         public ObservableCollection<InventarioFisicoViewModel> ObsInventario { get; } 
         public string Local { get; set; }
         public string CodDepos { get; set; }
-        public string CodigoBarras { get; set; }
 
-        public GuardaMateriaisTipoMovimento(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, string codigoBarras)
+        public GuardaMateriaisTipoMovimento(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos)
         {
             InitializeComponent();
 
             ListaDepositosGuardaMaterialItem = listaDepositosGuardaMaterialItem;
             Local = local;
             CodDepos = codDepos;
-            CodigoBarras = codigoBarras;
 
             lblDescricao.Text = "Depósito / Localização: " + codDepos + " / " + local;
         }
@@ -39,12 +37,12 @@ namespace CollectorQi.Views
 
         protected void BtnEntrada_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, CodigoBarras, 1));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 1));
         }
 
         protected void BtnSaida_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, CodigoBarras, 0));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 0));
         }
     }
 }
