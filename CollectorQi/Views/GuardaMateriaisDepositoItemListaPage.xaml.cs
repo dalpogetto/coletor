@@ -5,6 +5,7 @@ using CollectorQi.Services.ESCL021;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -36,7 +37,8 @@ namespace CollectorQi.Views
 
             if (listaDepositosGuardaMaterialItem != null)
             {
-                foreach (var item in listaDepositosGuardaMaterialItem)
+                //foreach (var item in listaDepositosGuardaMaterialItem)
+                foreach (var item in listaDepositosGuardaMaterialItem.Where(x => x.SaldoInfo != 0))
                 {
                     var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
                     ObsGuardaMateriaisDepositoItem.Add(modelView);
@@ -64,7 +66,7 @@ namespace CollectorQi.Views
         }
         public string CodigoBarras()
         {
-            return "wwww-pppp-aaaa-qqqq"; ;
+            return "02[85.150.00285-7B[DESCRICAO[4[5[1[7[8[ABC"; 
         }
 
         protected void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
@@ -75,7 +77,29 @@ namespace CollectorQi.Views
         protected void BtnTipoMovimento_Clicked(object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new GuardaMateriaisTipoMovimento(ListaDepositosGuardaMaterialItem, Local, CodDepos));
-        }       
+        }
+
+        private void SwitchCell_OnChanged(object sender, ToggledEventArgs e)
+        {
+            cvGuardaMateriaisDepositoItem.BindingContext = null;
+            ObsGuardaMateriaisDepositoItem = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
+
+            var listaDepositosGuardaMaterialItem = new List<DepositosGuardaMaterialItem>();
+
+            if (((SwitchCell)sender).On)
+                listaDepositosGuardaMaterialItem.AddRange(ListaDepositosGuardaMaterialItem);
+            else
+                listaDepositosGuardaMaterialItem.AddRange(ListaDepositosGuardaMaterialItem.Where(x => x.SaldoInfo != 0));            
+
+            // Chamar a API novamente passando sem saldo 0 
+            foreach (var item in listaDepositosGuardaMaterialItem)
+            {
+                var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
+                ObsGuardaMateriaisDepositoItem.Add(modelView);
+            }           
+
+            cvGuardaMateriaisDepositoItem.BindingContext = this;
+        }
     }
 
     public class DepositosGuardaMaterialItemViewModel : DepositosGuardaMaterialItem

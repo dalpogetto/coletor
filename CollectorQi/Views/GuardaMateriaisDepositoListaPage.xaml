@@ -10,6 +10,7 @@
                     </Grid.RowDefinitions>
           
                     <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                   
                 </Grid>
             </Frame>
 

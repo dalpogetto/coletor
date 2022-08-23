@@ -45,7 +45,7 @@ namespace CollectorQi.Views
 
             var current = (cvDepositosGuardaMaterial.SelectedItem as DepositosGuardaMaterial);
 
-            string codigoBarras = "xxxx-yyyy-tttt-pppp";
+            string codigoBarras = "02[85.150.00285-7B[DESCRICAO[4[5[1[7[8[ABC";
 
             var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
             var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial() 

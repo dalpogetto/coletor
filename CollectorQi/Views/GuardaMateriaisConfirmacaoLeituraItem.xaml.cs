@@ -55,7 +55,7 @@ namespace CollectorQi.Views
             OnBackButtonPressed();
         }        
 
-        async Task LeituraEtiqueta(int saldo)
+        async Task LeituraEtiqueta(int semSaldo)
         {
             var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
 
@@ -65,7 +65,7 @@ namespace CollectorQi.Views
                 CodDepos = CodDepos,
                 CodLocaliza = Local,
                 Transacao = TipoMovimento,
-                SemSaldo = saldo,
+                SemSaldo = semSaldo,
                 CodigoBarras = CodigoBarras
             };
 
