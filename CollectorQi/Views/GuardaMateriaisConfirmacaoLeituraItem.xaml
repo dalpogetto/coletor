@@ -53,7 +53,7 @@
                 <Button x:Name="BtnConfirmaLeitura" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                      Clicked="BtnConfirmaLeitura_Clicked" Grid.Row="0" Grid.Column="0" Text="Confirmar Leitura" TextColor="White" />
 
-                <Button x:Name="BtnZerarSaldoItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                <Button x:Name="BtnZerarSaldoItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="#ff9999" BorderRadius="16"
                      Clicked="BtnZerarSaldoItem_Clicked" Grid.Row="1" Grid.Column="0" Text="Zerar Saldo Item" TextColor="White" />
             </Grid>
 
