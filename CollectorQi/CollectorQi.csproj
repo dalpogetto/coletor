@@ -106,9 +106,6 @@
     <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\GuardaMateriaisConfirmacaoLeituraItem.xaml.cs">
-      <DependentUpon>GuardaMateriaisConfirmacaoLeituraItem.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\ImprimirEtiquetaReparo.xaml.cs">
       <DependentUpon>ImprimirEtiquetaReparo.xaml</DependentUpon>
     </Compile>

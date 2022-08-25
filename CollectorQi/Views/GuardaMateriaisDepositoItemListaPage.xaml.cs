@@ -19,7 +19,7 @@ namespace CollectorQi.Views
         public string Local { get; set; }
         public string CodDepos { get; set; }
         public int? TipoMovimento { get; set; }
-        public int? SemSaldo { get; set; }
+        public int SemSaldo { get; set; }
 
         public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento)
         {
@@ -37,7 +37,7 @@ namespace CollectorQi.Views
 
             if (listaDepositosGuardaMaterialItem != null)
             {
-                //foreach (var item in listaDepositosGuardaMaterialItem)
+                // Retirar .Where(x => x.SaldoInfo != 0)
                 foreach (var item in listaDepositosGuardaMaterialItem.Where(x => x.SaldoInfo != 0))
                 {
                     var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
@@ -69,9 +69,51 @@ namespace CollectorQi.Views
             return "02[85.150.00285-7B[DESCRICAO[4[5[1[7[8[ABC"; 
         }
 
-        protected void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisConfirmacaoLeituraItem(Local, CodDepos, TipoMovimento, CodigoBarras()));
+        async void BtnLeituraEtiqueta_Clicked(object sender, System.EventArgs e)
+        {           
+            var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
+            ObsGuardaMateriaisDepositoItem = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
+            var depositosGuardaMaterialItem = new DepositosGuardaMaterialItem();
+
+            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
+            {
+                CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                CodDepos = CodDepos,
+                CodLocaliza = Local,
+                Transacao = TipoMovimento,
+                SemSaldo = SemSaldo,
+                CodigoBarras = CodigoBarras()
+            };
+
+            var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
+
+            foreach (var item in dDepositoItemRetorno.Param.ParamResult)
+            {
+                depositosGuardaMaterialItem = item;
+
+                if (dDepositoItemRetorno.Retorno == "ERRO")
+                    _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
+                else
+                    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
+            }
+
+            var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
+            var dRetorno = await dLeituraEtiquetaLerLocaliza.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);            
+
+            foreach (var item in dRetorno.Param.ParamResult)
+            {
+                var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
+
+                if (modelView.CodigoItem == depositosGuardaMaterialItem.CodigoItem)
+                {
+                    _ = DisplayAlert("", "Etiqueta já existe !", "OK");
+                    break;
+                }
+
+                ObsGuardaMateriaisDepositoItem.Add(modelView);
+            }
+
+            cvGuardaMateriaisDepositoItem.BindingContext = this;
         }
 
         protected void BtnTipoMovimento_Clicked(object sender, System.EventArgs e)
@@ -87,9 +129,16 @@ namespace CollectorQi.Views
             var listaDepositosGuardaMaterialItem = new List<DepositosGuardaMaterialItem>();
 
             if (((SwitchCell)sender).On)
+            {
                 listaDepositosGuardaMaterialItem.AddRange(ListaDepositosGuardaMaterialItem);
+                SemSaldo = 1;
+            }
             else
-                listaDepositosGuardaMaterialItem.AddRange(ListaDepositosGuardaMaterialItem.Where(x => x.SaldoInfo != 0));            
+            {
+                // // Retirar .Where(x => x.SaldoInfo != 0)
+                listaDepositosGuardaMaterialItem.AddRange(ListaDepositosGuardaMaterialItem.Where(x => x.SaldoInfo != 0));
+                SemSaldo = 0;
+            }
 
             // Chamar a API novamente passando sem saldo 0 
             foreach (var item in listaDepositosGuardaMaterialItem)
