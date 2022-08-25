@@ -1,5 +1,6 @@
 ﻿using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
+using CollectorQi.ViewModels.Interface;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,37 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterLocalizacoesUsuario";
 
-        // Metodo ObterParametros Totvs
-        public static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsync(int pInventarioId)
+        public static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsync(int pInventarioId, ContentPage modal)
         {
+            try
+            {
+                var localizERP = await GetObterLocalizacoesUsuarioAsyncERP(pInventarioId);
 
+                // Atualiza localizacaoInventario Backend
+
+                //CollectorQi.Resources.DataBaseHelper.InventarioLocalizacaoDB.AtualizaInventarioLocalizacao()
+
+                return localizERP;
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "Unauthorized")
+                {
+                    LoginPageInterface.ShowModalLogin(modal);
+                }
+                else
+                {
+
+                }
+            }
+            //return await GetObterLocalizacoesUsuarioAsyncERP(pInventarioId);
+
+            return null;
+        }
+
+        // Metodo ObterParametros Totvs
+        private static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsyncERP(int pInventarioId)
+        {
             ResultInventarioItemJson parametros = null;
 
             try
@@ -31,9 +59,7 @@ namespace CollectorQi.Services.ESCL018
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                //client.BaseAddress = new Uri(URI);
-
-                // Substituir por user e password
+                
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
@@ -55,16 +81,31 @@ namespace CollectorQi.Services.ESCL018
                     }
                     else
                     {
-                        System.Diagnostics.Debug.Write(result);
+                        ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
                 }                
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
             return parametros;
+        }
+
+        public static class ErroConnectionERP
+        {
+            public static void ValidateConnection (System.Net.HttpStatusCode code)
+            {
+                if (code == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("Unauthorized");
+                }
+                else
+                {
+                    throw new Exception("ErrorConnection");
+                }
+            }
         }
 
         public class RequestInventarioItemJson

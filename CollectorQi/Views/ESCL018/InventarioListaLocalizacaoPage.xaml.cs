@@ -23,6 +23,7 @@ using ESCL = CollectorQi.Models.ESCL018;
 using CollectorQi.Models.ESCL018;
 using Rg.Plugins.Popup.Services;
 using System.Threading;
+using CollectorQi.ViewModels.Interface;
 
 namespace CollectorQi.Views
 {
@@ -63,9 +64,7 @@ namespace CollectorQi.Views
         }
 
         private ObservableCollection<InventarioLocalizacaoViewModel> _Items;
-
         private ObservableCollection<InventarioLocalizacaoViewModel> _ItemsFiltered;
-
         private ObservableCollection<InventarioLocalizacaoViewModel> _ItemsUnfiltered;
 
         private InventarioVO _inventarioVO { get; set; }
@@ -149,15 +148,15 @@ namespace CollectorQi.Views
 
             var pageProgress = new ProgressBarPopUp("Carregando Localização, aguarde...");
 
+            //LoginPageInterface.ShowModalLogin(this);
+
             try
             {
-               
-
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
                 Items = new ObservableCollection<InventarioLocalizacaoViewModel>();
 
-                var lstLocalizacoes = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.InventarioId);
+                var lstLocalizacoes = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.InventarioId, this);
 
                 foreach (var localizacao in lstLocalizacoes.param.Resultparam)
                 {
