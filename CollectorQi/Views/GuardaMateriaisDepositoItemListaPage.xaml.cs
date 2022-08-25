@@ -74,6 +74,7 @@ namespace CollectorQi.Views
             var dLeituraEtiqueta = new LeituraEtiquetaGuardaMaterialService();
             ObsGuardaMateriaisDepositoItem = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
             var depositosGuardaMaterialItem = new DepositosGuardaMaterialItem();
+            bool codigoItem = false;
 
             var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
             {
@@ -92,9 +93,11 @@ namespace CollectorQi.Views
                 depositosGuardaMaterialItem = item;
 
                 if (dDepositoItemRetorno.Retorno == "ERRO")
+                {
                     _ = DisplayAlert("", "Erro da Leitura de etiqueta !!!", "OK");
-                else
-                    _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
+                    break;
+                }
+                //else                    
             }
 
             var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
@@ -107,11 +110,15 @@ namespace CollectorQi.Views
                 if (modelView.CodigoItem == depositosGuardaMaterialItem.CodigoItem)
                 {
                     _ = DisplayAlert("", "Etiqueta já existe !", "OK");
+                    codigoItem = true;
                     break;
                 }
 
                 ObsGuardaMateriaisDepositoItem.Add(modelView);
             }
+
+            if(codigoItem == false)
+                _ = DisplayAlert("", "Leitura de etiqueta efetuado com sucesso!!!", "OK");
 
             cvGuardaMateriaisDepositoItem.BindingContext = this;
         }
