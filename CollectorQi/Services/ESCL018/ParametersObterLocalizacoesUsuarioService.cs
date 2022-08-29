@@ -142,7 +142,7 @@ namespace CollectorQi.Services.ESCL018
         public class ResultLocalizacao
         {
             public string Localizacao { get; set; }
-            public string TotalFichas { get; set; }
+            public int TotalFichas { get; set; }
         }
 
         public class FichasUsuarioSend
