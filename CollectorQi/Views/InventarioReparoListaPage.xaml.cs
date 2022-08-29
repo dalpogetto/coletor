@@ -85,7 +85,7 @@ namespace CollectorQi.Views
             var dInventario = new DepositoInventarioReparoService();
             var dInventarioRetorno = await dInventario.SendParametersAsync();
 
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(dInventarioRetorno.Param.Resultparam, parametrosIR));            
+            Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(dInventarioRetorno.Param.Resultparam, parametrosIR, "InventarioReparo"));            
         }
     }
 }
