@@ -18,7 +18,7 @@ namespace CollectorQi.Resources.DataBaseHelper
 {
     public class DataBase
     {
-        string pasta = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        string pasta = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         string banco = "CollectorQualiIT.db";
 
         public DataBase()
@@ -61,9 +61,9 @@ namespace CollectorQi.Resources.DataBaseHelper
             {
                 string teste = Path.GetFullPath(pasta);
 
-                if (!System.IO.File.Exists(System.IO.Path.Combine(pasta, banco)) || VersionTracking.IsFirstLaunchForCurrentVersion)
+                if (!File.Exists(Path.Combine(pasta, banco)) || VersionTracking.IsFirstLaunchForCurrentVersion)
                 {     
-                    using (SQLiteConnection conexao = new SQLiteConnection(System.IO.Path.Combine(pasta, banco)))
+                    using (SQLiteConnection conexao = new SQLiteConnection(Path.Combine(pasta, banco)))
                     {
 
                         //if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) == 120)
@@ -82,6 +82,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoItemVO>();
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                             conexao.DropTable<FichasUsuarioVO>();
+                            conexao.DropTable<NotaFiscalVO>();
 
                             conexao.DropTable<BatchInventarioItemVO>();
 
@@ -96,8 +97,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("SecurityVO", conexao))
                             conexao.CreateTable<SecurityVO>();
 
-                        if (!IsTableExists("InventarioVO", conexao))
-                        {
+                        if (!IsTableExists("InventarioVO", conexao))                        
                             conexao.CreateTable<InventarioVO>();
                         }
 
@@ -145,12 +145,14 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("RequisicaoItemSaldoEstoqVO", conexao))
                             conexao.CreateTable<RequisicaoItemSaldoEstoqVO>();
 
-
                         /* Integracao BATCH  */
                         //conexao.DropTable<BatchDepositoTransfereVO>();
                         if (!IsTableExists("BatchDepositoTransfereVO", conexao))
                             conexao.CreateTable<BatchDepositoTransfereVO>();
                         //conexao.DropTable<BatchInventarioVO>();
+                        
+                        if (!IsTableExists("BatchInventarioVO", conexao))                        
+                            conexao.CreateTable<BatchInventarioVO>();                        
 
                         if (!IsTableExists("BatchInventarioItemVO", conexao))
                         {
@@ -178,6 +180,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("FichasUsuarioVO", conexao))
                             conexao.CreateTable<FichasUsuarioVO>();
 
+                        if (!IsTableExists("NotaFiscalVO", conexao))
+                            conexao.CreateTable<NotaFiscalVO>();
                     }
 
                     return true;
@@ -200,6 +204,4 @@ namespace CollectorQi.Resources.DataBaseHelper
 
         }
     }
-
-
 }

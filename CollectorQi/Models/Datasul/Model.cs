@@ -83,6 +83,22 @@ namespace CollectorQi
         public int nrTrans { get; set; } = 0;
     }
 
+    public class ModelNotaFiscal
+    {
+        public string rowId { get; set; } = String.Empty;
+        public string codEstabel { get; set; } = String.Empty;
+        public string codItem { get; set; } = String.Empty;
+        public string localizacao { get; set; } = String.Empty;
+        public string descricaoItem { get; set; } = String.Empty;
+        public string nroDocto { get; set; } = String.Empty;
+        public int numRR { get; set; } = 0;
+        public bool conferido { get; set; } = false;
+        public int relaciona { get; set; } = 0;
+        public string codFilial { get; set; } = String.Empty;
+        //public int origemNotaFiscal { get; set; } = 0;
+        //public bool notaFiscalAtivo { get; set; } = false;
+    }
+
     public class ModelInventario
     {
         public string dtSaldo { get; set; } = String.Empty;
@@ -118,8 +134,6 @@ namespace CollectorQi
         public string codRefer { get; set; } = String.Empty;
         public string itCodigo { get; set; } = String.Empty;
         public string msgErro { get; set; } = String.Empty;
-
-
     }
 
     public class ModelRequisicao

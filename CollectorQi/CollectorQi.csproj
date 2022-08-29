@@ -56,7 +56,7 @@
     <None Include="Views\FisicaPage.xaml" />
     <None Include="Views\InventarioItemPage.xaml" />
     <None Include="Views\InventarioListaItemPage.xaml" />
-    <None Include="Views\InventarioListaPage.xaml" />
+    <None Include="Views\InventarioFisicoListaPage.xaml" />
     <None Include="Views\InventarioNovoPopUp.xaml" />
     <None Include="Views\InventarioPage.xaml" />
     <None Include="Views\InventarioUpdateItemPopUp.xaml" />
@@ -79,6 +79,8 @@
     <None Include="Views\Batch\IntegracaoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\ESCL000\" />
+    <Folder Include="Views\Batch\" />
     <Folder Include="Services\ESCL028\" />
     <Folder Include="ViewsOld\" />
     <Folder Include="Models\Notification\" />
@@ -130,6 +132,9 @@
     <Compile Update="Views\ImprimirEtiquetaLocalizacao.xaml.cs">
       <DependentUpon>ImprimirEtiquetaLocalizacao.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisTipoMovimento.xaml.cs">
+      <DependentUpon>GuardaMateriaisTipoMovimento.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ImprimirPage.xaml.cs">
       <DependentUpon>ImprimirPage.xaml</DependentUpon>
     </Compile>
@@ -139,6 +144,40 @@
     <Compile Update="Views\ESCL018\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoItemListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoItemListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoLeituraEtiquetaManual.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransferenciaDepositoListaPage.xaml.cs">
+      <DependentUpon>TransferenciaDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
+      <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoDepositoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarItemConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalFinalizarConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NotaFiscalConferenciaReparosListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalConferenciaReparosListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
     <Compile Update="Views\ESCL018\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
     </Compile>

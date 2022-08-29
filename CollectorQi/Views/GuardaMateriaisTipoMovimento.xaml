@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             Title="Tipo de Movimento" 
+             x:Class="CollectorQi.Views.GuardaMateriaisTipoMovimento">
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+        <StackLayout BackgroundColor="#fff">
+            <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="lblDescricao"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                </Grid>
+            </Frame>  
+
+            <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnEntrada" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
+                         Clicked="BtnEntrada_Clicked" Grid.Row="2" Grid.Column="0" Text="Entrada" TextColor="#515151" />
+
+                <Button x:Name="BtnSaida" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
+                         Clicked="BtnSaida_Clicked" Grid.Row="3" Grid.Column="0" Text="Saída" TextColor="#515151"  />                
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

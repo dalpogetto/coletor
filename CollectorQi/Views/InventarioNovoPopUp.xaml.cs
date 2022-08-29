@@ -181,7 +181,7 @@ namespace CollectorQi.Views
 
                 await DisplayAlert("Geração inventário", tpl.Item2, "OK");
 
-                Application.Current.MainPage = new NavigationPage(new InventarioListaPage());
+                Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
 
                 await PopupNavigation.Instance.PopAsync();
 

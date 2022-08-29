@@ -487,7 +487,7 @@ namespace CollectorQi.Views
                             Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
                         }
 
-                        Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
+                        Application.Current.MainPage = new NavigationPage(new InventarioPage() { Title = menuItemDetail.Name.Trim() });                       
                         break;
 
                     case "Estabelecimento":

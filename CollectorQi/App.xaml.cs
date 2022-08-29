@@ -100,10 +100,6 @@ namespace CollectorQi
 
             // List of builds installed (1, 2)
             var buildHistory = VersionTracking.BuildHistory;
-
-
-
-
         }
 
         protected async override void OnStart()
@@ -125,15 +121,18 @@ namespace CollectorQi
                 _.CreateMap<InventarioVO, BatchInventarioItemVO>();
                 _.CreateMap<BatchInventarioItemVO, BatchInventarioViewModel>();
                 _.CreateMap<InventarioItemVO, InventarioItemViewModel>();
-                _.CreateMap<InventarioVO, InventarioViewModel>();
+                _.CreateMap<InventarioVO, InventarioFisicoViewModel>();
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
+
+                
 
                 // Nova atualizacao
                 _.CreateMap<InventarioItemVO, BatchInventarioItemVO>();
 
                 _.CreateMap<BatchInventarioItemVO, InventarioItemVO>();
 
+                _.CreateMap<NotaFiscalViewModel, NotaFiscalVO>();
                 //_.CreateMap<ESCL.Parametros, InventarioViewModel>();
                 //_.CreateMap<SaldoEstoqVO, RequisicaoSaldoEstoqViewModel>();
                 //_.CreateMap add ma s configuração.
