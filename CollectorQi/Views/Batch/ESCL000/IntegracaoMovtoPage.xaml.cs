@@ -26,9 +26,9 @@ namespace CollectorQi.Views
             else
             {
 
-                string[] imagem = new string[] { "almoxarifado.png", "inventario.png" };
-                string[] titulo = new string[] { "Transferência", "Inventario" };
-                string[] subTitulo = new string[] { "Transferência integrados com o sistema (Offline)", "Inventários integrados com o sistema" };
+                string[] imagem = new string[] { "inventario.png" };
+                string[] titulo = new string[] { "Inventario" };
+                string[] subTitulo = new string[] { "Inventários integrados com o sistema" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;

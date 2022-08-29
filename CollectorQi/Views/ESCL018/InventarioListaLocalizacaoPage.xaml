@@ -23,12 +23,12 @@
                     <SearchBar IsVisible="{Binding SearchMode}" 
                                    Placeholder="Digite a etiqueta..." 
                                    Text="{Binding SearchText}" 
-                                   x:Name="SearchCodLocaliz"   
+                                   x:Name="SearchLocalizacao"   
                                    TextChanged="Handle_TextChanged"
                                    VerticalOptions="StartAndExpand"
                                    HorizontalOptions="StartAndExpand"
                                    Margin="0,0,0,0"
-                                   FontSize="Small" Unfocused="SearchCodLocaliz_Unfocused" HeightRequest="25"/>
+                                   FontSize="Small" Unfocused="SearchLocalizacao_Unfocused" HeightRequest="25"/>
                     <!--<Entry x:Name="txtEtiqueta" Placeholder="Digite a etiqueta.." VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" FontSize="Small" WidthRequest="400"/> -->
                 </Frame>
             </StackLayout>
@@ -65,7 +65,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold" FontSize="Small" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Localizacao}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" />
                                             </Grid>
                                         </StackLayout>
 
@@ -79,7 +79,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
-                                            <Frame HeightRequest="40" WidthRequest="40" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="Start" Margin="0" Padding="0" BackgroundColor="Maroon">
+                                            <Frame HeightRequest="40" WidthRequest="40" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="Start" Margin="5" Padding="0" BackgroundColor="{StaticResource NavigationPrimary}">
                                                 <Label Text="{Binding TotalFichas}" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                             </Frame>
                                          </Grid>

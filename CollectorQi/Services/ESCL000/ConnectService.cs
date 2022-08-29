@@ -58,7 +58,7 @@ namespace CollectorQi.Services.ESCL000
             finally
             {
                 IsExecConnectColetor = false;
-            }
+            }   
         }
 
         public async static Task<string> ConnectColetorSync(string pStrUsuario, string pStrSenha, ProgressBarPopUp pProgressBarPopUp)
@@ -68,7 +68,7 @@ namespace CollectorQi.Services.ESCL000
                 
                 string strLogin = String.Empty;
 
-                var lstFilial = await CollectorQi.Services.ESCL000.CadastrosFiliais.ObterListaFiliais(pStrUsuario + "@DIEBOLD_MASTER", pStrSenha);
+                var lstFilial = await CollectorQi.Services.ESCL000.CadastrosFiliais.ObterListaFiliais(pStrUsuario, pStrSenha);
 
                 Device.BeginInvokeOnMainThread(() =>
                 {

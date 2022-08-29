@@ -22,6 +22,7 @@ using CollectorQi.Services.ESCL018;
 using ESCL = CollectorQi.Models.ESCL018;
 using CollectorQi.Models.ESCL018;
 using Rg.Plugins.Popup.Services;
+using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -94,7 +95,7 @@ namespace CollectorQi.Views
             {
                 var inventario = new Inventario()
                 {
-                    IdInventario = _inventarioVO.InventarioId,
+                    IdInventario = _inventarioVO.IdInventario,
                     CodEstabel = _inventarioVO.CodEstabel,
                     CodDepos = _inventarioVO.CodDepos,
                     CodigoBarras = txtEtiqueta.Text,

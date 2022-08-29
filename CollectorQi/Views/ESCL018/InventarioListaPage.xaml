@@ -17,7 +17,7 @@
                 </Grid>
             </Frame>
 
-            <CollectionView x:Name="cvInventario" ItemsSource="{Binding ObsInventario}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10,0,10,0">
+            <CollectionView x:Name="cvInventario" ItemsSource="{Binding ObsInventario}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10,0,10,0" >
                 <CollectionView.EmptyView>
                     <StackLayout>
                         <Label Text="Nenhum inventário em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
@@ -26,14 +26,13 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Spacing="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,0" Padding="0,0,0,0" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
 
-
-                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="10,10,10,-5">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
+                                       <!-- <RowDefinition Height="Auto" /> -->
                                        <!-- <RowDefinition Height="Auto" /> -->
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
@@ -42,7 +41,7 @@
                                     </Grid.ColumnDefinitions>
 
 
-                                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
+                                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" Padding="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
@@ -51,13 +50,14 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Depósito: " FontAttributes="Bold" FontSize="Small" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Dep.: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Small" />
                                         <Label Grid.Row="0" Grid.Column="2" Text="{Binding DescDepos}"  LineBreakMode="TailTruncation"  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" VerticalTextAlignment="End" FontSize="Small" />
 
                                     </Grid>
 
-                                    <Grid Grid.Row="0" MinimumWidthRequest="20" Grid.RowSpan="4" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                    
+                                    <Grid Grid.Row="0" MinimumWidthRequest="40" Grid.RowSpan="4" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Padding="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="*" />
@@ -67,9 +67,9 @@
                                         </Grid.ColumnDefinitions>
                                         <Image Source="{Binding Image}" Grid.Row="0" WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
                                         <Label Text="{Binding StatusInventarioString}" Grid.Row="1" FontSize="Micro"  HorizontalOptions="Center"/>
-                                    </Grid>
+                                    </Grid> 
 
-                                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" Padding="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
@@ -79,7 +79,7 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Small" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtSaldo, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
                                     </Grid>
                                     
                                     <!--
@@ -101,6 +101,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
 
             <Grid Grid.Row="0" Margin="0,0,0,5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 

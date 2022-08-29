@@ -11,6 +11,8 @@ using Xamarin.Forms.Internals;
 using Xamarin.Essentials;
 using System.IO;
 using CsvHelper;
+using CollectorQi.VO.ESCL018;
+using CollectorQi.VO.Batch.ESCL018;
 
 namespace CollectorQi.Resources.DataBaseHelper
 {
@@ -71,8 +73,8 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<ItemVO>();
                             conexao.DropTable<SecurityVO>();
                             conexao.DropTable<InventarioVO>();
-                        conexao.DropTable<InventarioLocalizacaoVO>();
-                        conexao.DropTable<InventarioItemVO>();
+                            conexao.DropTable<InventarioLocalizacaoVO>();
+                            conexao.DropTable<InventarioItemVO>();
                             conexao.DropTable<DepositoVO>();
                             conexao.DropTable<EstabelecVO>();
                             conexao.DropTable<SaldoEstoqVO>();
@@ -80,7 +82,9 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoItemVO>();
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                             conexao.DropTable<FichasUsuarioVO>();
-                        
+
+                            conexao.DropTable<BatchInventarioItemVO>();
+
                         //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))
@@ -147,9 +151,10 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("BatchDepositoTransfereVO", conexao))
                             conexao.CreateTable<BatchDepositoTransfereVO>();
                         //conexao.DropTable<BatchInventarioVO>();
-                        if (!IsTableExists("BatchInventarioVO", conexao))
+
+                        if (!IsTableExists("BatchInventarioItemVO", conexao))
                         {
-                            conexao.CreateTable<BatchInventarioVO>();
+                            conexao.CreateTable<BatchInventarioItemVO>();
                         }
                         //else
                         //{

@@ -1,5 +1,8 @@
 ﻿using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.ViewModels.Interface;
+using CollectorQi.VO.ESCL018;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -18,8 +22,59 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
 
+        public static async Task<List<InventarioItemVO>> GetObterFichasUsuarioAsync(int byInventarioId, string byLocalizacao, ContentPage modal)
+        {
+
+            List<InventarioItemVO> lstInventarioItemVO = new List<InventarioItemVO>();
+
+            try
+            {
+                var itemERP = await GetObterFichasUsuarioAsyncERP(byInventarioId, byLocalizacao);
+
+                // Atualiza localizacaoInventario Backend
+                if (itemERP != null && itemERP.param != null && itemERP.param.Resultparam != null)
+                {
+                    itemERP.param.Resultparam.ForEach(delegate (FichasUsuario row)
+                    {
+                        lstInventarioItemVO.Add(new InventarioItemVO
+                        {
+                           // InventarioItemId = row.In
+                            InventarioId = byInventarioId,
+                            Lote = row.Lote,
+                            CodEstabel = row.CodEstabel,
+                            Localizacao = row.Localizacao,
+                            CodItem = row.CodItem,
+                            Contagem = row.Contagem,
+                            Serie = row.Serie,
+                            IVL = row.IVL,
+                            CodEmp = row.CodEmp,
+                            CodDepos = row.CodDepos,
+                            Quantidade = row.Quantidade
+
+                        });
+                    });
+
+                    lstInventarioItemVO = await InventarioItemDB.AtualizaInventarioItem(byInventarioId, byLocalizacao, lstInventarioItemVO);
+
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "Unauthorized")
+                {
+                    LoginPageInterface.ShowModalLogin(modal);
+                }
+                else
+                {
+                    lstInventarioItemVO = InventarioItemDB.GetInventarioItemByInventarioLocalizacao(byInventarioId, byLocalizacao);
+                }
+            }
+
+            return lstInventarioItemVO;
+        }
+
         // Metodo ObterParametros Totvs
-        public static async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsync(int pInventarioId, string pLocalizacao)
+        private static async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsyncERP(int pInventarioId, string pLocalizacao)
         {
 
             ResultInventarioItemJson parametros = null;
@@ -55,13 +110,13 @@ namespace CollectorQi.Services.ESCL018
                     }
                     else
                     {
-                        System.Diagnostics.Debug.Write(result);
+                        ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
-                }                
+            }                
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
             return parametros;

@@ -30,7 +30,7 @@ namespace CollectorQi.Resources
         }
         public static string GetUsuarioNetwork()
         {
-            return CodUsuario + "@" + "DIEBOLD_MASTER";
+            return CodUsuario /*+ "@" + "DIEBOLD_MASTER"*/ ;
         }
     }
 }

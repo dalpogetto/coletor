@@ -9,26 +9,95 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Resources;
 using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
+using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
+using CollectorQi.ViewModels.Interface;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.VO.ESCL018;
+using CollectorQi.VO.Batch.ESCL018;
+using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
+using AutoMapper;
+using CollectorQi.Models.ESCL018;
 
 namespace CollectorQi.Services.ESCL018
 {
     public static class ParametersLeituraEtiquetaService
     {
-       // ResultInventarioJson parametros = null;
+        // ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        private const string URI = "https://brspupapl01.ad.diebold.:854";
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
 
-        // Metodo ObterParametros Totvs
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam)
+        public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
         {
 
+            var inventarioBarra = new InventarioItemBarra()
+            {
+                IdInventario = inventarioItemVO.InventarioId,
+                Lote = inventarioItemVO.Lote.Trim(),
+                Localizacao = inventarioItemVO.Localizacao.Trim(),
+                CodItem = inventarioItemVO.CodItem.Trim(),
+                CodDepos = inventarioItemVO.CodDepos.Trim(),
+                QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
+                CodEmp = "1",
+                Contagem = 1,
+                CodEstabel = inventarioItemVO.CodEstabel,
+                CodigoBarras = inventarioItemVO.CodigoBarras
 
+            };
+
+            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null);
+
+            return "Inventário Integrado com sucesso";
+
+            //return Task.Str<"Inventário Integrado com sucesso">;
+        }
+
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal)
+        {
+            ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
+
+            try
+            {
+                return await SendInventarioAsyncERP(requestParam);
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "Unauthorized")
+                {
+                    LoginPageInterface.ShowModalLogin(modal);
+                }
+                else
+                {
+
+                    try
+                    {
+                        InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.ErroIntegracao);
+                        var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
+                        await BatchInventarioItemDB.AtualizaBatchInventario(batchInventarioItem);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.Write(e);
+                    }
+                    result.Retorno = "IntegracaoBatch";
+                }
+            }
+
+            return result;
+
+           // return lstInventarioItemVO;
+        }
+
+        // Metodo ObterParametros Totvs
+        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
+        {
             ResultSendInventarioReturnJson parametros = null;
             try
             {
@@ -73,7 +142,7 @@ namespace CollectorQi.Services.ESCL018
                     }
                     else
                     {
-                        System.Diagnostics.Debug.Write(result);
+                        ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
                 }                
             }

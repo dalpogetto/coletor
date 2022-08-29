@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CollectorQi.VO.Batch;
 using SQLite;
 using Xamarin.Forms.Internals;
 using System.Linq;
 using System.Threading.Tasks;
+using CollectorQi.VO.Batch.ESCL018;
 
-namespace CollectorQi.Resources.DataBaseHelper.Batch
+namespace CollectorQi.Resources.DataBaseHelper.Batch.ESCL018
 {
-    public static class BatchInventarioDB
+    public static class BatchInventarioItemDB
     {
 
         public static bool AtualizaStatusIntegracao(int byInventarioId, eStatusIntegracao byStatusIntegracao)
@@ -18,8 +18,8 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             var dbAsync = new BaseOperations();
             try
             {
-                dbAsync.Connection.QueryAsync<BatchInventarioVO>("UPDATE BatchInventarioVO SET statusIntegracao = ? " +
-                                                                          "WHERE inventarioId    = ? ",
+                dbAsync.Connection.QueryAsync<BatchInventarioItemVO>("UPDATE BatchInventarioVO SET statusIntegracao = ? " +
+                                                                                             "WHERE inventarioId    = ? ",
                                                                           byStatusIntegracao,
                                                                           byInventarioId);
 
@@ -39,7 +39,8 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             }
         }
 
-        public async static Task<bool> InserirBatchInventario(BatchInventarioVO byBatchInventarioVO)
+        /*
+        public async static Task<bool> InserirBatchInventario(BatchInventarioItemVO byBatchInventarioVO)
         {
             var dbAsync = new BaseOperations();
             try
@@ -62,13 +63,16 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             }
         }
 
-        public static bool DeletarBatchInventario(BatchInventarioVO byBatchInventarioVO)
+        */
+        public async static Task<bool> AtualizaBatchInventario(BatchInventarioItemVO byBatchInventarioVO)
         {
             var dbAsync = new BaseOperations();
             try
             {
-                dbAsync.DeleteAsync(byBatchInventarioVO);
-               
+                await dbAsync.Connection.Table<BatchInventarioItemVO>().Where(p => p.InventarioItemId == byBatchInventarioVO.InventarioItemId).DeleteAsync();
+
+                await dbAsync.InsertAsync(byBatchInventarioVO);
+
                 return true;
             }
             catch (SQLiteException ex)
@@ -85,13 +89,36 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             }
         }
 
-        public static List<BatchInventarioVO> GetBatchInventarioByStatus(eStatusIntegracao pStatusIntegracao)
+        public static bool DeletarBatchInventario(BatchInventarioItemVO byBatchInventarioVO)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                dbAsync.DeleteAsync(byBatchInventarioVO);
+
+                return true;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+        public static List<BatchInventarioItemVO> GetBatchInventarioByStatus(eStatusIntegracao pStatusIntegracao)
         {
             var dbAsync = new BaseOperations();
 
             try
             {
-                var result = dbAsync.Connection.QueryAsync<BatchInventarioVO>("select * from BatchInventarioVO where statusIntegracao = ?", pStatusIntegracao);
+                var result = dbAsync.Connection.QueryAsync<BatchInventarioItemVO>("select * from BatchInventarioItemVO where statusIntegracao = ?", pStatusIntegracao);
 
                 return result.Result;
 
@@ -110,15 +137,16 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             }
         }
 
-        public static BatchInventarioVO GetBatchInventario(int byInventarioId)
+        public static BatchInventarioItemVO GetBatchInventario(int byInventarioId)
         {
             var dbAsync = new BaseOperations();
 
             try
             {
-                var batchInventario = dbAsync.Connection.Table<BatchInventarioVO>().Where(p => p.InventarioId == byInventarioId).FirstOrDefaultAsync().Result;
+                //    var batchInventario = dbAsync.Connection.Table<BatchInventarioVO>().Where(p => p.IdInventario == byInventarioId).FirstOrDefaultAsync().Result;
 
-                return batchInventario;
+                // return batchInventario;
+                return null;
             }
             catch (SQLiteException ex)
             {
@@ -134,14 +162,14 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
             }
         }
 
-        public static List<BatchInventarioVO> GetBatchInventario()
+        public static List<BatchInventarioItemVO> GetBatchInventario()
         {
-            List<BatchInventarioVO> result = new List<BatchInventarioVO>();
+            List<BatchInventarioItemVO> result = new List<BatchInventarioItemVO>();
             var dbAsync = new BaseOperations();
 
             try
             {
-                return dbAsync.Connection.Table<BatchInventarioVO>().ToListAsync().Result;
+                return dbAsync.Connection.Table<BatchInventarioItemVO>().ToListAsync().Result;
             }
             catch (SQLiteException ex)
             {
@@ -168,9 +196,9 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
                 int intSucesso = 0;
                 int intErro = 0;
 
-                var intAsyncPendente = dbAsync.Connection.Table<BatchInventarioVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.PendenteIntegracao);
-                var intAsyncSucesso  = dbAsync.Connection.Table<BatchInventarioVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.EnviadoIntegracao);
-                var intAsyncErro     = dbAsync.Connection.Table<BatchInventarioVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.ErroIntegracao);
+                var intAsyncPendente = dbAsync.Connection.Table<BatchInventarioItemVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.PendenteIntegracao);
+                var intAsyncSucesso = dbAsync.Connection.Table<BatchInventarioItemVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.EnviadoIntegracao);
+                var intAsyncErro = dbAsync.Connection.Table<BatchInventarioItemVO>().CountAsync(p => p.StatusIntegracao == eStatusIntegracao.ErroIntegracao);
 
 
                 if (intAsyncPendente != null)
@@ -182,7 +210,7 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
                 if (intAsyncErro != null)
                     intErro = intAsyncErro.Result;
 
-                var tpl = Tuple.Create<int, int, int>(intPendente, intSucesso, intErro);
+                var tpl = Tuple.Create(intPendente, intSucesso, intErro);
 
                 return tpl;
             }
@@ -199,5 +227,5 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch
                 //dbAsync.Connection.CloseAsync();
             }
         }
-    } 
+    }
 }

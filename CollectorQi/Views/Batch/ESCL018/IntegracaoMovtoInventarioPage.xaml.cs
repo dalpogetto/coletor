@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using CollectorQi.VO.Batch;
-using CollectorQi.Resources.DataBaseHelper.Batch;
 using AutoMapper;
 using Plugin.Connectivity;
+using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
+using CollectorQi.VO.Batch.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -26,13 +26,13 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            var lstBatch = BatchInventarioDB.GetBatchInventario();
+            var lstBatch = BatchInventarioItemDB.GetBatchInventario();
 
             ObsBatchInventario = new ObservableCollection<BatchInventarioViewModel>();
 
             for (int i = 0; i < lstBatch.Count; i++)
             {
-                var modelView = Mapper.Map<BatchInventarioVO, BatchInventarioViewModel>(lstBatch[i]);
+                var modelView = Mapper.Map<BatchInventarioItemVO, BatchInventarioViewModel>(lstBatch[i]);
 
                 ObsBatchInventario.Add(modelView);
             }
@@ -50,7 +50,7 @@ namespace CollectorQi.Views
 
         public void AtualizaStatusIntegracao()
         {
-            var tplCount = BatchInventarioDB.GetBatchInventarioCount();
+            var tplCount = BatchInventarioItemDB.GetBatchInventarioCount();
 
             lblIntegracaoPendente.Text = tplCount.Item1.ToString();
             lblIntegracaoSucesso.Text = tplCount.Item2.ToString();
@@ -97,32 +97,32 @@ namespace CollectorQi.Views
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                var lstBatchInventario = BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao);
+                var lstBatchInventario = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao);
 
                 if (lstBatchInventario == null)
-                    lstBatchInventario = new List<BatchInventarioVO>();
+                    lstBatchInventario = new List<BatchInventarioItemVO>();
 
-                lstBatchInventario.AddRange(BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao));
+                lstBatchInventario.AddRange(BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao));
 
-                for (int i = 0; i < lstBatchInventario.Count; i++)
-                {
-
-                    var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventario[i]);
-
-                }
-
-                var lstBatch = BatchInventarioDB.GetBatchInventario();
-
-                ObsBatchInventario.Clear();
-
-                for (int i = 0; i < lstBatch.Count; i++)
-                {
-                    var modelView = Mapper.Map<BatchInventarioVO, BatchInventarioViewModel>(lstBatch[i]);
-
-                    ObsBatchInventario.Add(modelView);
-                }
-
-                AtualizaStatusIntegracao();
+             //  for (int i = 0; i < lstBatchInventario.Count; i++)
+             //  {
+             //
+             //      var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventario[i]);
+             //
+             //  }
+             //
+             //  var lstBatch = BatchInventarioDB.GetBatchInventario();
+             //
+             //  ObsBatchInventario.Clear();
+             //
+             //  for (int i = 0; i < lstBatch.Count; i++)
+             //  {
+             //      var modelView = Mapper.Map<BatchInventarioVO, BatchInventarioViewModel>(lstBatch[i]);
+             //
+             //      ObsBatchInventario.Add(modelView);
+             //  }
+             //
+             //  AtualizaStatusIntegracao();
 
             }
             catch (Exception ex)
@@ -138,7 +138,7 @@ namespace CollectorQi.Views
 
     }
 
-    public class BatchInventarioViewModel : BatchInventarioVO
+    public class BatchInventarioViewModel : BatchInventarioItemVO
     {
         public string Image
         {

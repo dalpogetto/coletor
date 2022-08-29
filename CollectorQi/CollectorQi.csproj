@@ -81,7 +81,6 @@
   <ItemGroup>
     <Folder Include="Services\ESCL028\" />
     <Folder Include="ViewsOld\" />
-    <Folder Include="Views\Batch\" />
     <Folder Include="Models\Notification\" />
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,8 @@ using CollectorQi.Resources.DataBaseHelper;
 using Rg.Plugins.Popup.Services;
 using CollectorQi.Resources;
 using ESCL = CollectorQi.Models.ESCL018;
+using CollectorQi.VO.ESCL018;
+using CollectorQi.VO.Batch.ESCL018;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CollectorQi
@@ -120,17 +122,23 @@ namespace CollectorQi
             return _ =>
             {
                 _.CreateMap<BatchDepositoTransfereVO, BatchDepositoTransfereViewModel>();
-                _.CreateMap<InventarioVO, BatchInventarioVO>();
-                _.CreateMap<BatchInventarioVO, BatchInventarioViewModel>();
+                _.CreateMap<InventarioVO, BatchInventarioItemVO>();
+                _.CreateMap<BatchInventarioItemVO, BatchInventarioViewModel>();
                 _.CreateMap<InventarioItemVO, InventarioItemViewModel>();
                 _.CreateMap<InventarioVO, InventarioViewModel>();
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
+
+                // Nova atualizacao
+                _.CreateMap<InventarioItemVO, BatchInventarioItemVO>();
+
+                _.CreateMap<BatchInventarioItemVO, InventarioItemVO>();
+
                 //_.CreateMap<ESCL.Parametros, InventarioViewModel>();
                 //_.CreateMap<SaldoEstoqVO, RequisicaoSaldoEstoqViewModel>();
                 //_.CreateMap add ma s configuração.
 
-             //   var modelView = Mapper.Map<RequisicaoItemViewModel, RequisicaoItemVO>(_currentClick);
+                //   var modelView = Mapper.Map<RequisicaoItemViewModel, RequisicaoItemVO>(_currentClick);
 
             };
         }

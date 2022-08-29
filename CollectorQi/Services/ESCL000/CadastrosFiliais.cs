@@ -48,7 +48,7 @@ namespace CollectorQi.Services.ESCL000
                 }
                 else if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    throw new Exception("Senha Invalida");
+                    throw new Exception("Unauthorized");
                 }
             }
             catch (Exception e)

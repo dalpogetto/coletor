@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-
-using CollectorQi.Resources.DataBaseHelper.Batch;
 using System.Collections.ObjectModel;
 using CollectorQi.Models.Datasul;
+using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -27,10 +26,10 @@ namespace CollectorQi.Views
                 edtSituaocaInventario.Text  = pBatchInventarioViewModel.StatusIntegracaoString;
                 imgSituacaoInventario.Source = pBatchInventarioViewModel.Image;
 
-                edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel       + " (" + pBatchInventarioViewModel.__estabelec__.Nome.Trim() + ")" ;
-                edtCodDepos.Text        = pBatchInventarioViewModel.CodDepos         + " (" + pBatchInventarioViewModel.__deposito__.Nome.Trim() + ")";
-                edtDtInventario.Text = pBatchInventarioViewModel.DtInventario.ToString("dd/MM/yy");   
-                edtContagem.Text        = pBatchInventarioViewModel.Contagem.ToString();    
+            //    edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel       + " (" + pBatchInventarioViewModel.__estabelec__.Nome.Trim() + ")" ;
+             //   edtCodDepos.Text        = pBatchInventarioViewModel.CodDepos         + " (" + pBatchInventarioViewModel.__deposito__.Nome.Trim() + ")";
+             //  edtDtInventario.Text = pBatchInventarioViewModel.DtInventario.ToString("dd/MM/yy");   
+             //  edtContagem.Text        = pBatchInventarioViewModel.Contagem.ToString();    
                 edtErro.Text            = pBatchInventarioViewModel.MsgIntegracao;
 
                 _batchInventarioViewModel = pBatchInventarioViewModel;
@@ -50,12 +49,12 @@ namespace CollectorQi.Views
                     if (action.ToString() == "True")
                     {
                         // Status atualizado (confirma se nao foi enviado por backend)
-                        var bt = BatchInventarioDB.GetBatchInventario(_batchInventarioViewModel.InventarioId);
+                     //   var bt = BatchInventarioDB.GetBatchInventario(_batchInventarioViewModel.IdInventario);
 
 
                     /*    if (bt.StatusIntegracao != eStatusIntegracao.EnviadoIntegracao)
                         {  */
-                            IntegracaoOnlineBatch.CancelaInventarioMobile(_batchInventarioViewModel.InventarioId);
+                      //      IntegracaoOnlineBatch.CancelaInventarioMobile(_batchInventarioViewModel.IdInventario);
 
                             _obsBatchInventarioModel.Remove(_batchInventarioViewModel);
 

@@ -1,6 +1,8 @@
 ﻿using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.ViewModels.Interface;
+using CollectorQi.VO.ESCL018;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,17 +21,29 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterLocalizacoesUsuario";
 
-        public static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsync(int pInventarioId, ContentPage modal)
+        public static async Task<List<InventarioLocalizacaoVO>> GetObterLocalizacoesUsuarioAsync(int byInventarioId, ContentPage modal)
         {
+
+            List<InventarioLocalizacaoVO> lstLocalizacaoVO = new List<InventarioLocalizacaoVO>();
+
             try
             {
-                var localizERP = await GetObterLocalizacoesUsuarioAsyncERP(pInventarioId);
+
+                var localizERP = await GetObterLocalizacoesUsuarioAsyncERP(byInventarioId);
 
                 // Atualiza localizacaoInventario Backend
+                if (localizERP != null && localizERP.param != null && localizERP.param.Resultparam != null) { 
 
-                //CollectorQi.Resources.DataBaseHelper.InventarioLocalizacaoDB.AtualizaInventarioLocalizacao()
+                    localizERP.param.Resultparam.ForEach(delegate (ResultLocalizacao row)
+                    {
+                        lstLocalizacaoVO.Add(new InventarioLocalizacaoVO {  InventarioId = byInventarioId,
+                                                                            Localizacao = row.Localizacao,
+                                                                            TotalFichas = row.TotalFichas });
+                    });
 
-                return localizERP;
+                    InventarioLocalizacaoDB.AtualizaInventarioLocalizacao(byInventarioId, lstLocalizacaoVO);
+
+                }
             }
             catch (Exception e)
             {
@@ -39,22 +53,21 @@ namespace CollectorQi.Services.ESCL018
                 }
                 else
                 {
-
+                    lstLocalizacaoVO = InventarioLocalizacaoDB.GetInventarioLocalizacaoByInventario(byInventarioId);
                 }
             }
-            //return await GetObterLocalizacoesUsuarioAsyncERP(pInventarioId);
 
-            return null;
+            return lstLocalizacaoVO;
         }
 
         // Metodo ObterParametros Totvs
-        private static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsyncERP(int pInventarioId)
+        private static async Task<ResultInventarioItemJson> GetObterLocalizacoesUsuarioAsyncERP(int byInventarioId)
         {
             ResultInventarioItemJson parametros = null;
 
             try
             {
-                FichasUsuarioSend requestParam = new FichasUsuarioSend() { IdInventario = pInventarioId };
+                FichasUsuarioSend requestParam = new FichasUsuarioSend() { IdInventario = byInventarioId };
 
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 

@@ -1,7 +1,7 @@
 ﻿using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
-using CollectorQi.VO;
+using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -43,7 +43,7 @@ namespace CollectorQi.Views
             {
                 var inventario = new Inventario()
                 {
-                    IdInventario = _inventario.InventarioId,
+                 //   IdInventario = _inventario.InventarioId,
                     CodEstabel = _inventario.CodEstabel,
                     CodDepos = _inventario.CodDepos //,
                     //CodigoBarras = txtEtiqueta.Text

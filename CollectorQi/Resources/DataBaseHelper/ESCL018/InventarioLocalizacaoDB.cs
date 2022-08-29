@@ -1,28 +1,45 @@
-﻿using CollectorQi.VO;
-using SQLite;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms.Internals;
 using System.Linq;
 using System.Threading.Tasks;
+using CollectorQi.VO.ESCL018;
 
-namespace CollectorQi.Resources.DataBaseHelper
+namespace CollectorQi.Resources.DataBaseHelper.ESCL018
 {
     public static class InventarioLocalizacaoDB
     {
-        public static List<InventarioLocalizacaoVO> GetInventarioLocalizacaoByInventario(int inventarioById)
+
+        public async static void AtualizaInventarioLocalizacao(int byInventarioId , List<InventarioLocalizacaoVO> byLstInventarioLocalizacao)
         {
-            List<InventarioLocalizacaoVO> lstInventarioLocalizacao = new List<InventarioLocalizacaoVO>();
             var dbAsync = new BaseOperations();
             try
             {
-                //lstInventarioLocalizacao = dbAsync.Connection.QueryAsync<InventarioLocalizacaoVO>("SELECT * FROM InventarioLocalizacaoVO WHERE inventarioId = ?", inventarioById).Result;
+                await dbAsync.Connection.Table<InventarioLocalizacaoVO>().DeleteAsync(p => p.InventarioId == byInventarioId);
+                await dbAsync.InsertAllAsync(byLstInventarioLocalizacao);
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
 
-               // lstInventarioLocalizacao = dbAsync.Connection.Table<InventarioLocalizacaoVO>().Where(p => p.InventarioId == inventarioById).ToListAsync().Result;
-                lstInventarioLocalizacao = dbAsync.Connection.Table<InventarioLocalizacaoVO>().ToListAsync().Result;
-                return lstInventarioLocalizacao;
-
+        public  static List<InventarioLocalizacaoVO> GetInventarioLocalizacaoByInventario(int byInventarioId)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                return dbAsync.Connection.Table<InventarioLocalizacaoVO>().Where(p => p.InventarioId == byInventarioId).ToListAsync().Result;
             }
             catch (SQLiteException ex)
             {
@@ -72,7 +89,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                                                                                                    "AND qtdDigitada"
                                                                                                     , inventarioById).Result;
 
-             
+
 
                 return lstInventarioLocalizacao;
 
@@ -203,7 +220,7 @@ namespace CollectorQi.Resources.DataBaseHelper
             var dbAsync = new BaseOperations();
             try
             {
-               
+
                 lstInventarioLocalizacao = dbAsync.Connection.QueryAsync<InventarioLocalizacaoVO>("SELECT * FROM InventarioLocalizacaoVO WHERE inventarioId = ? " +
                                                                                                    "AND itCodigo     = ? " +
                                                                                                    "AND codLote      = ? ", inventarioById, byItCodigo, byCodLote).Result;

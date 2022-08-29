@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
-using CollectorQi.Resources.DataBaseHelper;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.Services.ESCL018;
-using CollectorQi.VO;
+using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -18,73 +18,21 @@ namespace CollectorQi.Views
 {
     public partial class InventarioCaixaIncompletaPopUp : PopupPage
     {
-        public ObservableCollection<InventarioItemViewModel> Items
-        {
-            get { return _Items; }
-            set
-            {
-                _Items = value;
-                OnPropertyChanged("Items");
-            }
-        }
-
-        //private int             _inventarioId = 0;
-        private VO.InventarioVO _inventarioVO;
-        private VO.InventarioItemVO _inventarioItemVO;
-        private ObservableCollection<InventarioItemViewModel> _Items;
-        public Action<VO.InventarioItemVO,bool> ResultAction;
-        private string localizacao;
+        private int                     _inventarioId { get; set; }
+        private InventarioItemVO        _inventarioItemVO;
 
         public Action<InventarioItemVO> _actDeleteRow;
+        public Action<InventarioItemVO> _actRefreshPage;
 
-        public InventarioCaixaIncompletaPopUp(int pInventarioId, InventarioItemVO inventarioItem)        
+        public InventarioCaixaIncompletaPopUp(int pInventarioId, InventarioItemVO pInventarioItem)        
         {
             try
             {
                 InitializeComponent();
 
-                _inventarioItemVO = inventarioItem;
+                _inventarioItemVO = pInventarioItem;
+                _inventarioId     = pInventarioId;
 
-                //Items = _Items;
-                _inventarioVO = InventarioDB.GetInventario(pInventarioId).Result;
-
-                edtItCodigo.Text = inventarioItem.ItCodigo.ToString();
-                edtCodEstabelecimento.Text = _inventarioVO.CodEstabel;
-                edtCodDeposito.Text = _inventarioVO.CodDepos;
-                edtCodigoBarras.Text = inventarioItem.CodigoBarras;
-                edtLote.Text = inventarioItem.CodLote;
-
-                if (String.IsNullOrEmpty(inventarioItem.CodLote)) ;
-                {
-                    FrameLote.IsVisible = false;
-                }
-                
-                //edtDtSaldo.Text = _inventarioVO.DtInventario.ToString("dd/MM/yy");
-                //localizacao = _localizacao;
-
-
-                //if (pInventarioItemId > 0)
-                //{
-                //    _inventarioItemVO = InventarioItemDB.GetInventarioItem(pInventarioItemId);
-
-                //    if (_inventarioItemVO != null)
-                //    {
-                //        edtItCodigo.Text = _inventarioItemVO.CodRefer;
-                //        edtDescItem.Text = _inventarioItemVO.CodLocaliz;
-                //    }
-
-                //    //if (_inventarioItemVO != null)
-                //    //{
-                //    //    edtItCodigo.Text = _inventarioItemVO.ItCodigo;
-                //    //    edtDescItem.Text = _inventarioItemVO.__item__.DescItem;
-                //    //    edtUnidade.Text = _inventarioItemVO.__item__.Un;
-                //    //    edtTipoConEst.Text = _inventarioItemVO.__item__.__TipoConEst__;
-                //    //    edtLote.Text = _inventarioItemVO.CodLote;
-                //    //    edtDtValiLote.Text = _inventarioItemVO.DtUltEntr.HasValue ? _inventarioItemVO.DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty;
-                //    //    edtQuantidade.Text = _inventarioItemVO.QtdDigitada ? _inventarioItemVO.ValApurado.ToString() : String.Empty;
-                //    //    edtQuantidade.Focus();
-                //    //}
-                //}
             }
             catch (Exception ex)
             {
@@ -92,44 +40,47 @@ namespace CollectorQi.Views
             }
         }
 
-        public void SetNovoItemInventario(string pItCodigo, string pDescItem, string pUnidade, string pTipoConEst, string pLote, string pDtValiLote)
-        {
-            //edtItCodigo.Text = pItCodigo;
-            //edtDescItem.Text = pDescItem;
-            //edtUnidade.Text = pUnidade;
-            //edtTipoConEst.Text = pTipoConEst;
-            edtLote.Text = pLote;
-            edtDtValiLote.Text = pDtValiLote;
-        }
-
         protected async override void OnAppearing()
         {
+            var inventario = await InventarioDB.GetInventario(_inventarioId);
+
+            edtItCodigo.Text           = _inventarioItemVO.CodItem.ToString();
+            edtCodEstabelecimento.Text = _inventarioItemVO.CodEstabel + " - " + inventario.DescEstabel;
+            edtCodDeposito.Text        = _inventarioItemVO.CodDepos + " - " + inventario.DescDepos;
+            edtCodigoBarras.Text       = _inventarioItemVO.CodigoBarras;
+            edtLote.Text               = _inventarioItemVO.Lote;
+
+            if (_inventarioItemVO.Quantidade > 0)
+            {
+                txtQuantidade.Text = _inventarioItemVO.Quantidade.ToString();
+            }
+
+            if (String.IsNullOrEmpty(_inventarioItemVO.Lote))
+            {
+                FrameLote.IsVisible = false;
+            }
+
             await Task.Run(async () =>
             { 
                 await Task.Delay(100);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    txtQuantidade.Focus();
+                    if (String.IsNullOrEmpty(edtCodigoBarras.Text))
+                    {
+                        edtCodigoBarras.Focus();
+                    }
+                    else
+                    {
+                        txtQuantidade.Focus();
+                    }
                 });
             });
         }
-
-        public void SetResultDigita(Action<VO.InventarioItemVO, bool> dp)
-        {
-            ResultAction = dp;
-        }
-        
-        async void BtnVoltar_Clicked(object sender, EventArgs e)
-        {
-            OnBackButtonPressed();
-           
-        }
-
+       
         void BtnLimpar_Clicked(object sender, EventArgs e)
         {
             txtQuantidade.Text = string.Empty;
             edtCodigoBarras.Text = string.Empty;
-
         }
         protected override bool OnBackButtonPressed()
         {            
@@ -157,8 +108,6 @@ namespace CollectorQi.Views
             entry.Text = (int.Parse(entry.Text) + value).ToString();
         }
 
-
-
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtQuantidade.Text))
@@ -179,82 +128,65 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp("Carregando...");
             try
             {
-
                 BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
                     if (!string.IsNullOrEmpty(txtQuantidade.Text))
                     {
-                        /*
-                        var inventario = new InventarioItem()
-                        {
-                            IdInventario = _inventarioVO.InventarioId,
-                            Lote = _inventarioItemVO.CodLote,
-                            Localizacao = _inventarioItemVO.CodLocaliz,
-                            CodItem = _inventarioItemVO.ItCodigo,
-                            CodDepos = _inventarioVO.CodDepos,
-                            Quantidade = int.Parse(txtQuantidade.Text),
-                            CodEmp = "1",
-                            Contagem = 1,
-                            CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-
-
-                        };
-                        */
 
                         var inventarioBarra = new InventarioItemBarra()
                         {
-                            IdInventario = _inventarioVO.InventarioId,
-                            Lote = _inventarioItemVO.CodLote.Trim(),
-                            Localizacao = _inventarioItemVO.CodLocaliz.Trim(),
-                            CodItem = _inventarioItemVO.ItCodigo.Trim(),
-                            CodDepos = _inventarioVO.CodDepos.Trim(),
+                            IdInventario       = _inventarioItemVO.InventarioId,
+                            Lote               = _inventarioItemVO.Lote.Trim(),
+                            Localizacao        = _inventarioItemVO.Localizacao.Trim(),
+                            CodItem            = _inventarioItemVO.CodItem.Trim(),
+                            CodDepos           = _inventarioItemVO.CodDepos.Trim(),
                             QuantidadeDigitada = int.Parse(txtQuantidade.Text),
-                            CodEmp = "1",
-                            Contagem = 1,
-                            CodEstabel = SecurityAuxiliar.GetCodEstabel().Trim(),
-                            CodigoBarras = edtCodigoBarras.Text.Trim()
-
-
+                            CodEmp             = "1",
+                            Contagem           = _inventarioItemVO.Contagem,
+                            CodEstabel         = _inventarioItemVO.CodEstabel,
+                            CodigoBarras       = edtCodigoBarras.Text.Trim()
                         };
 
-                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra);
+                        _inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
+                        _inventarioItemVO.CodigoBarras = edtCodigoBarras.Text;
+
+                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
 
                         if (resultService != null && resultService.Retorno != null)
                         {
                             if (resultService.Retorno == "OK")
                             {
-                                //       var _inventarioItem = await ParametersGravarFichasUsuarioService.SendGravarFichasUsuarioAsync(inventario);
-
-                                //     pageProgress = new ProgressBarPopUp(_inventarioItem.paramConteudo.Ok);
-                                //Thread.Sleep(2000);
-
                                 _actDeleteRow(_inventarioItemVO);
 
                                 await pageProgress.OnClose();
                                 OnBackButtonPressed();
                             }
-                            else
+                            else if (resultService.Retorno == "IntegracaoBatch")
                             {
-
+                                await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
                                 
+                                _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
+                                _actRefreshPage(_inventarioItemVO);
+
+                                await pageProgress.OnClose();
+                                OnBackButtonPressed();
+                            }
+                            else {
                                 if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
                                 {
-
                                     await DisplayAlert("Erro!", resultService.Resultparam[0].ErrorDescription + " - " + resultService.Resultparam[0].ErrorHelp, "Cancelar");
                                 }
                                 else 
                                 {
                                     await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
                                 }
-                                // await DisplayAlert("Erro!", resultService.Retorno, "Cancelar");
                             }
                         }
                         else
                         {
                             await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
                         }
-                        //
                     }
                 }
             }
@@ -267,58 +199,6 @@ namespace CollectorQi.Views
                 BtnEfetivar.IsEnabled = true;
                 await pageProgress.OnClose();
             }
-
-
-            /*else
-                pageProgress = new ProgressBarPopUp("Digite uma quantidade !"); */
-
-
-            //if (String.IsNullOrEmpty(edtQuantidade.Text))
-            //{
-            //    await DisplayAlert("Erro!", "Quantidade digitada inválida", "Cancelar");
-
-            //    edtQuantidade.Focus();
-
-            //    return;
-            //}
-
-            //var param = new ParametersItemLeituraEtiquetaService();
-
-            //var inventario = new Inventario()
-            //{
-            //    IdInventario = _inventarioVO
-            //    .InventarioId,
-            //    CodEstabel = _inventarioVO.CodEstabel,
-            //    CodDepos = _inventarioVO.CodDepos,
-            //    Localizacao = localizacao,
-            //    Lote = "",
-            //    QuantidadeDigitada = int.Parse(edtQuantidade.Text),
-            //    CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-            //};
-
-            //var _inventarioItem = await param.SendInventarioAsync(inventario);
-
-            //var filtroReturn = Items.FirstOrDefault(x => x.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem);
-            //filtroReturn.Quantidade += int.Parse(edtQuantidade.Text);
-
-            //foreach (var item in Items)
-            //{
-            //    if (item.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem)
-            //    {
-            //        Items.Remove(item);
-            //        break;
-            //    }
-            //}
-
-            //var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(filtroReturn);
-            //Items.Add(modelView);
-
-            ////await PopupNavigation.Instance.PushAsync(new ProgressBarPopUp("Carregando..."));
-            //var pageProgress = new ProgressBarPopUp("Carregando... !");
-            //Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO));
-            //await pageProgress.OnClose();  
-
-            //OnBackButtonPressed();                       
         }
     }
 }

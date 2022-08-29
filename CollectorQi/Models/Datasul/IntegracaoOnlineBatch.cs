@@ -4,9 +4,10 @@ using Plugin.Connectivity;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.VO.Batch;
-using CollectorQi.VO;
 using AutoMapper;
 using System.Threading.Tasks;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Models.Datasul
 {
@@ -128,7 +129,7 @@ namespace CollectorQi.Models.Datasul
             }
         }
 
-        public static Tuple<TipoIntegracao, string> InventarioNovo(VO.InventarioVO pInventarioVO)
+        public static Tuple<TipoIntegracao, string> InventarioNovo(InventarioVO pInventarioVO)
         {
             try
             {
@@ -145,7 +146,7 @@ namespace CollectorQi.Models.Datasul
 
                 //InventarioDB db = new InventarioDB();
 
-                InventarioDB.InserirInventario(pInventarioVO);
+                //InventarioDB.InserirInventario(pInventarioVO);
 
                 return Tuple.Create<TipoIntegracao, string>(TipoIntegracao.IntegracaoBatch, "Inventário criado com sucesso");
 
@@ -197,11 +198,11 @@ namespace CollectorQi.Models.Datasul
             {
                 //InventarioDB invDb = new InventarioDB();
 
-                var inventario = InventarioDB.EfetivaInventarioMobile(pInventarioId, eStatusInventario.IniciadoMobile);
+               // var inventario = InventarioDB.EfetivaInventarioMobile(pInventarioId, eStatusInventario.IniciadoMobile);
 
-                var batchInventario = Mapper.Map<InventarioVO, BatchInventarioVO>(inventario);
-
-                BatchInventarioDB.DeletarBatchInventario(batchInventario);
+               //var batchInventario = Mapper.Map<InventarioVO, BatchInventarioVO>(inventario);
+               //
+               //BatchInventarioDB.DeletarBatchInventario(batchInventario);
 
             }
             catch (Exception ex)
@@ -215,38 +216,39 @@ namespace CollectorQi.Models.Datasul
             List<ModelInventario> lstModelInventario = new List<ModelInventario>();
 
             /* Integracao Online */
-            var lstInventarioItemAsync = InventarioItemDB.GetInventarioItemByInventario(pInventarioVO.InventarioId);
+            //   var lstInventarioItemAsync = InventarioItemDB.GetInventarioItemByInventario(pInventarioVO.IdInventario);
+            //
+            //   var lstInventarioItem = lstInventarioItemAsync.FindAll(p => p.QtdDigitada);
+            //
+            //   for (int iItem = 0; iItem < lstInventarioItem.Count; iItem++)
+            //   {
+            //       lstModelInventario.Add(new ModelInventario
+            //       {
+            //         //  dtSaldo = pInventarioVO.DtInventario.ToString("dd/MM/yyyy"),
+            //           itCodigo = lstInventarioItem[iItem].ItCodigo,
+            //           codEstabel = pInventarioVO.CodEstabel,
+            //           codDepos = pInventarioVO.CodDepos,
+            //           codLocaliz = lstInventarioItem[iItem].CodLocaliz,
+            //           lote = lstInventarioItem[iItem].CodLote,
+            //           dtUltSaida = "",
+            //           dtUltEntr = lstInventarioItem[iItem].DtUltEntr.HasValue ? lstInventarioItem[iItem].DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty,
+            //           situacao = "",
+            //           nrFicha = lstInventarioItem[iItem].NrFicha,
+            //           valApurado = lstInventarioItem[iItem].ValApurado,
+            //           codRefer = lstInventarioItem[iItem].CodRefer,
+            //           //NumContagem = pInventarioVO.Contagem
+            //       }); 
+            //   }
+            //
+            //   var result = ConnectService.SetInventario(lstModelInventario);
+            //
+            //   if (result.Item1 == TipoIntegracao.IntegracaoOnline)
+            //   {
+            //       BatchInventarioDB.AtualizaStatusIntegracao(pInventarioVO.IdInventario, eStatusIntegracao.EnviadoIntegracao);
+            //   }
 
-            var lstInventarioItem = lstInventarioItemAsync.FindAll(p => p.QtdDigitada);
-
-            for (int iItem = 0; iItem < lstInventarioItem.Count; iItem++)
-            {
-                lstModelInventario.Add(new ModelInventario
-                {
-                    dtSaldo = pInventarioVO.DtInventario.ToString("dd/MM/yyyy"),
-                    itCodigo = lstInventarioItem[iItem].ItCodigo,
-                    codEstabel = pInventarioVO.CodEstabel,
-                    codDepos = pInventarioVO.CodDepos,
-                    codLocaliz = lstInventarioItem[iItem].CodLocaliz,
-                    lote = lstInventarioItem[iItem].CodLote,
-                    dtUltSaida = "",
-                    dtUltEntr = lstInventarioItem[iItem].DtUltEntr.HasValue ? lstInventarioItem[iItem].DtUltEntr.Value.ToString("dd/MM/yyyy") : String.Empty,
-                    situacao = "",
-                    nrFicha = lstInventarioItem[iItem].NrFicha,
-                    valApurado = lstInventarioItem[iItem].ValApurado,
-                    codRefer = lstInventarioItem[iItem].CodRefer,
-                    NumContagem = pInventarioVO.Contagem
-                }); 
-            }
-
-            var result = ConnectService.SetInventario(lstModelInventario);
-
-            if (result.Item1 == TipoIntegracao.IntegracaoOnline)
-            {
-                BatchInventarioDB.AtualizaStatusIntegracao(pInventarioVO.InventarioId, eStatusIntegracao.EnviadoIntegracao);
-            }
-
-            return result;
+            //  return result;
+            return null;
         }
 
         public static Tuple<TipoIntegracao,string> EfetivaInventarioMobile(int pInventarioId)
@@ -254,28 +256,28 @@ namespace CollectorQi.Models.Datasul
             try
             {
 
-                if (InventarioItemDB.GetInventarioItemDigitadoByInventarioId(pInventarioId).Count <= 0)
-                    throw new Exception("Inventário não pode ser efetivado, não foi informado nenhuma quantidade para os itens relacionados ao inventário");
+             //   if (InventarioItemDB.GetInventarioItemDigitadoByInventarioId(pInventarioId).Count <= 0)
+             //       throw new Exception("Inventário não pode ser efetivado, não foi informado nenhuma quantidade para os itens relacionados ao inventário");
 
 
-                var inventario = InventarioDB.EfetivaInventarioMobile(pInventarioId, eStatusInventario.EncerradoMobile);
+               // var inventario = InventarioDB.EfetivaInventarioMobile(pInventarioId, eStatusInventario.EncerradoMobile);
        
-                var batchInventario = Mapper.Map<InventarioVO, BatchInventarioVO>(inventario);
-
-                batchInventario.DtEfetivacao     = DateTime.Now;
-                batchInventario.DtIntegracao     = DateTime.Now;
-                batchInventario.StatusIntegracao = eStatusIntegracao.PendenteIntegracao;
-
-                var blnOk = BatchInventarioDB.InserirBatchInventario(batchInventario);
-
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    return IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(inventario);
-                }
-                else
-                {
-                    return Tuple.Create<TipoIntegracao, string>(TipoIntegracao.IntegracaoBatch, "Inventário efetivado, mas não integrado com o sistema. Dispositivo não conectado a internet.");
-                }
+              // var batchInventario = Mapper.Map<InventarioVO, BatchInventarioVO>(inventario);
+              //
+              // batchInventario.DtEfetivacao     = DateTime.Now;
+              // batchInventario.DtIntegracao     = DateTime.Now;
+              // batchInventario.StatusIntegracao = eStatusIntegracao.PendenteIntegracao;
+              //
+              // var blnOk = BatchInventarioDB.InserirBatchInventario(batchInventario);
+              //
+              // if (CrossConnectivity.Current.IsConnected)
+              // {
+              //     return IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(inventario);
+              // }
+              // else
+              // {
+                   return Tuple.Create<TipoIntegracao, string>(TipoIntegracao.IntegracaoBatch, "Inventário efetivado, mas não integrado com o sistema. Dispositivo não conectado a internet.");
+              // }
             }
             catch (Exception ex)
             {

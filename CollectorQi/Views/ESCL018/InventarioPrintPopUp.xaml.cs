@@ -4,7 +4,7 @@ using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.ViewModels;
-using CollectorQi.VO;
+using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -65,7 +65,7 @@ namespace CollectorQi.Views
         //    edtDtValiLote.Text = pDtValiLote;
         }
 
-        public void SetResultDigita(Action<VO.InventarioItemVO, bool> dp)
+        public void SetResultDigita(Action<InventarioItemVO, bool> dp)
         {
         }
         

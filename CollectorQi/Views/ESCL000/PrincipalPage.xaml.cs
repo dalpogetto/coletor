@@ -2,6 +2,7 @@
 using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
+using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using CollectorQi.ViewModels;
 using CollectorQi.VO;
 using Plugin.Connectivity;
@@ -59,13 +60,13 @@ namespace CollectorQi.Views
                     footerVersion.Text = "v" + VersionTracking.CurrentVersion;
 
                     /* Valida integração de cadastros */
-                    if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
-                    {
-                        lblMensagemErro.Text = "Atenção! Ultima integração efetuada dia (" + security.DtUltIntegracao.Date.ToString("dd/MM/yyyy") + ") acesse a internet pelo dispositivo para efetuar a integração e continuar usando o sistema.";
-                    }
+                   //if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
+                   //{
+                   //    lblMensagemErro.Text = "Atenção! Ultima integração efetuada dia (" + security.DtUltIntegracao.Date.ToString("dd/MM/yyyy") + ") acesse a internet pelo dispositivo para efetuar a integração e continuar usando o sistema.";
+                   //}
 
-                    ErroIntegracaoTransferencia();
-                    ErroIntegracaoInventario();
+                    //ErroIntegracaoTransferencia();
+                    //ErroIntegracaoInventario();
 
                     //string[] imagem = new string[] { "almoxarifado.png", "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
                     //string[] titulo = new string[] { "Almoxarifado", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" };
@@ -113,7 +114,7 @@ namespace CollectorQi.Views
 
                         if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
-                            lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
+                            lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
                             frameEstab.IsVisible = true;
                         }
                         else
@@ -127,7 +128,6 @@ namespace CollectorQi.Views
                     {
                         lblCodEstabel.Text = "Escolha o Estabelecimento";
                     }
-                    
                 }
             }
             catch (Exception ex)
@@ -141,10 +141,10 @@ namespace CollectorQi.Views
             /* Valida integração inventario */
             DateTime dtLastIntegracaoInventario = DateTime.MaxValue;
 
-            var lstBatchInventarioErro = BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao).
+            var lstBatchInventarioErro = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao).
                 OrderByDescending(p => p.DtIntegracao).ToList();
 
-            var lstBatchInventarioPend = BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao).
+            var lstBatchInventarioPend = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao).
                 OrderByDescending(p => p.DtIntegracao).ToList();
 
             if (lstBatchInventarioErro != null && lstBatchInventarioErro.Count > 0)

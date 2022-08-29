@@ -1,9 +1,7 @@
 ﻿using CollectorQi.Models;
 using CollectorQi.ViewModels;
-using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Resources;
-using CollectorQi.VO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +19,8 @@ using Plugin.Connectivity;
 using CollectorQi.Services.ESCL018;
 using ESCL = CollectorQi.Models.ESCL018;
 using Rg.Plugins.Popup.Services;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Views
 {
@@ -29,24 +29,24 @@ namespace CollectorQi.Views
     {
         #region Property
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-        //protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        //{
-        //    if (EqualityComparer<T>.Default.Equals(storage, value))
-        //    {
-        //        return false;
-        //    }
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(storage, value))
+            {
+                return false;
+            }
 
-        //    storage = value;
-        //    OnPropertyChanged(propertyName);
-        //    return true;
-        //}
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
 
         #endregion
 
@@ -56,15 +56,11 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            cvInventario.BindingContext = this;
-        }
+            lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
 
-        async Task Parametros()
-        { 
-        
-            /*
-      
-            */
+            cvInventario.BindingContext = this;
+
+            
         }
 
         public async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -72,21 +68,59 @@ namespace CollectorQi.Views
             if (cvInventario.SelectedItem == null)
                 return;
 
-            var current = (cvInventario.SelectedItem as VO.InventarioVO);
+            var current = (cvInventario.SelectedItem as InventarioVO);
 
             if (current != null)
             {
-                await Parametros();
-
                 Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(current));
             }
 
             cvInventario.SelectedItem = null;
         }
 
+        private async void CarregaListView()
+        {
+            // var parametersInventario = new ParametersInventarioService();
+            //var lstInventario = await ParametersInventarioService.SendParametersAsync();
+            var pageProgress = new ProgressBarPopUp("Carregando Inventário, aguarde...");
+
+            try
+            {
+                ObsInventario.Clear();
+
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                //var lstInventario = new ObservableCollection<InventarioLocalizacaoViewModel>();
+
+                //var lstLocalizacoesVO = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.InventarioId, this);
+                var lstInventario = await ParametersInventarioService.SendParametersAsync(this);
+
+                foreach (var row in lstInventario)
+                {
+                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(row);
+
+                    ObsInventario.Add(modelView);
+                }
+
+                OnPropertyChanged("ObsInventario");
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            }
+            finally
+            {
+                await pageProgress.OnClose();
+            }
+
+        }
+
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)
         {
-            var current = (cvInventario.SelectedItem as VO.InventarioVO);
+            CarregaListView();
+           /*
+            var current = (cvInventario.SelectedItem as InventarioVO);
 
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -144,11 +178,18 @@ namespace CollectorQi.Views
                 BtnCarregaInventario.IsEnabled = true;
                 await pageProgress.OnClose();
             }
+           */
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            ObsInventario = new ObservableCollection<InventarioViewModel>();
+
+            CarregaListView();
+
+            /*
 
             var pageProgress = new ProgressBarPopUp("Carregando inventário, aguarde...");
 
@@ -185,6 +226,7 @@ namespace CollectorQi.Views
             }
 
             OnPropertyChanged("ObsInventario");
+            */
         }
 
 
@@ -205,13 +247,17 @@ namespace CollectorQi.Views
                 var pageProgress = new ProgressBarPopUp("Carregando...");
                 var page = new InventarioPrintPopUp(null,null);
                 await PopupNavigation.Instance.PushAsync(page);
-                //Thread.Sleep(1000);
                 await pageProgress.OnClose();
             }
             finally
             {
                 ToolBarPrint.IsEnabled = true;
             }
+        }
+
+        private void cvInventario_ScrollToRequested(object sender, ScrollToRequestEventArgs e)
+        {
+            System.Diagnostics.Debug.Write(sender);
         }
     }
 
@@ -245,6 +291,6 @@ namespace CollectorQi.Views
             {
                 return csAuxiliar.GetDescription(StatusInventario);
             }
-        }
+        } 
     }
 }

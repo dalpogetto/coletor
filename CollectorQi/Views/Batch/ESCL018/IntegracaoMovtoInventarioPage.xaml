@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Integração Inventário" x:Class="CollectorQi.Views.IntegracaoMovtoInventarioPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Integração Inventário" x:Class="CollectorQi.Views.IntegracaoMovtoInventarioPage" BackgroundImage="pageBackground.png">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#4E4E4E" IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="10, 10" Spacing="3">
+        <StackLayout IsClippedToBounds="True" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="10, 10" Spacing="3">
             <StackLayout>
                 
                 <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
@@ -58,7 +58,9 @@
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
+
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             
                                             <Grid Grid.Row="0" MinimumWidthRequest="20" Grid.RowSpan="4" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
@@ -110,9 +112,20 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Data Saldo:" FontAttributes="Bold"   FontSize="Micro"/>
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtInventario ,  StringFormat='{0:dd/MM/yyyy}'}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtSaldo ,  StringFormat='{0:dd/MM/yyyy}'}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro" />
                                             </Grid>
-                                            <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="FillAndExpand">
+                                        <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="FillAndExpand">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Item:" FontAttributes="Bold"   FontSize="Micro" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodItem}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro"/>
+                                        </Grid>
+                                        <Grid Grid.Row="4" Grid.Column="0" HorizontalOptions="FillAndExpand">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
