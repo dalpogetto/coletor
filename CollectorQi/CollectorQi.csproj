@@ -112,6 +112,9 @@
     <Compile Update="Views\ImprimirEtiquetaLocalizacao.xaml.cs">
       <DependentUpon>ImprimirEtiquetaLocalizacao.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisTipoMovimento.xaml.cs">
+      <DependentUpon>GuardaMateriaisTipoMovimento.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ImprimirPage.xaml.cs">
       <DependentUpon>ImprimirPage.xaml</DependentUpon>
     </Compile>
@@ -121,11 +124,20 @@
     <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GuardaMateriaisDepositoItemListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoItemListaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
       <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InventarioReparoLeituraEtiquetaManual.xaml.cs">
       <DependentUpon>InventarioReparoLeituraEtiquetaManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransferenciaDepositoListaPage.xaml.cs">
+      <DependentUpon>TransferenciaDepositoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
       <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>

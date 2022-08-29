@@ -16,14 +16,16 @@ namespace CollectorQi.Views
         public ObservableCollection<DepositosInventarioReparoViewModel> ObsInventarioReparoDeposito { get; set; }
         public List<DepositosInventarioReparo> ListaDepositosInventarioReparo { get; set; }
         public ParametrosInventarioReparo ParametrosInventarioReparo { get; set; }
+        string Tela;
 
-        public InventarioReparoDepositoListaPage(List<DepositosInventarioReparo> listaDepositosInventarioReparo, ParametrosInventarioReparo parametrosInventarioReparo)
+        public InventarioReparoDepositoListaPage(List<DepositosInventarioReparo> listaDepositosInventarioReparo, ParametrosInventarioReparo parametrosInventarioReparo, string tela)
         {
             InitializeComponent();
             ObsInventarioReparoDeposito = new ObservableCollection<DepositosInventarioReparoViewModel>();
             ListaDepositosInventarioReparo = new List<DepositosInventarioReparo>();
             ListaDepositosInventarioReparo = listaDepositosInventarioReparo;
             ParametrosInventarioReparo = parametrosInventarioReparo;
+            Tela = tela;
 
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.GetCodEstabel();
 
@@ -47,7 +49,10 @@ namespace CollectorQi.Views
             var current = (cvInventarioReparoDeposito.SelectedItem as DepositosInventarioReparo);
             ParametrosInventarioReparo.CodDepos = current.Nome;
 
-            Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(ParametrosInventarioReparo));
+            if(Tela == "TransferenciaDeposito")
+                Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoListaPage(ParametrosInventarioReparo));
+            else if (Tela == "InventarioReparo")
+                Application.Current.MainPage = new NavigationPage(new InventarioReparoListaPage(ParametrosInventarioReparo));
         }
     }
 

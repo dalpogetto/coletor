@@ -1,4 +1,7 @@
-﻿using CollectorQi.Resources;
+﻿using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
+using CollectorQi.Services.ESCL017;
+using CollectorQi.Services.ESCL021;
 using CollectorQi.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +26,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "security.png", "security.png", "security.png" };
-                string[] titulo = new string[] { "GuardaMateriais", "MovimentoEstoque", "MovimentoReparos" };
-                string[] subTitulo = new string[] { "Guarda de Materiais", "Movimento de Estoque", "Movimento de Reparos" };  
+                string[] imagem = new string[] { "security.png", "security.png"};
+                string[] titulo = new string[] { "GuardaMateriais", "TransferenciaDeposito" };
+                string[] subTitulo = new string[] { "Guarda de Materiais", "Transferência de Depósito" };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -40,7 +43,7 @@ namespace CollectorQi.Views
                 listView.ItemSelected += OnSelection;
             }
         }
-        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        async void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
@@ -54,21 +57,25 @@ namespace CollectorQi.Views
                case "GuardaMateriais":
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Guarda de Materiais";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Guarda de Materiais" });             
+
+                    var dDeposito = new DepositosGuardaMaterialService();
+                    var dDepositoRetorno = await dDeposito.SendGuardaMaterialAsync();
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(dDepositoRetorno.Param.ParamResult));
+
                     break;
 
-                case "MovimentoEstoque":
+                case "TransferenciaDeposito":
                     ConferenciaPage.MenuId = 2;
-                    ConferenciaPage.MenuDesc = "Movimento de Estoque";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Estoque" });
+                    ConferenciaPage.MenuDesc = "Transferência de Depósito";
+                    Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoListaPage(null) { Title = "Transferência de Depósito" });
                     break;
 
 
-                case "MovimentoReparos":
-                    ConferenciaPage.MenuId = 3;
-                    ConferenciaPage.MenuDesc = "Movimento de Reparos";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
-                    break;
+                //case "MovimentoReparos":
+                //    ConferenciaPage.MenuId = 3;
+                //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
+                //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
+                //    break;
             }
 
             ((ListView)sender).SelectedItem = null;
