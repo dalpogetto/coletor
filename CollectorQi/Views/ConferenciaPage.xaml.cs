@@ -36,8 +36,6 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-
-
             if (SecurityAuxiliar.Autenticado == false)
             {
                 DisplayAlert("Autenticação", "Sinto muito!!! Precisa estar autenticado na página de controle", "OK");
@@ -54,10 +52,10 @@ namespace CollectorQi.Views
                 {
                     Volta = false;
                     Limpar(false);
-                    if (RecebimentoPage.Item_VO != null)
-                    {
-                        Fill(RecebimentoPage.Item_VO);
-                    }
+                    //if (RecebimentoPage.Item_VO != null)
+                    //{
+                    //    Fill(RecebimentoPage.Item_VO);
+                    //}
                 }
             }
 
@@ -471,23 +469,23 @@ namespace CollectorQi.Views
         }
     }
 
-    public class DecimalConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new Exception(value.ToString());
-            if (value is decimal)
-                return value.ToString();
-            return value;
-        }
+    //public class DecimalConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        throw new Exception(value.ToString());
+    //        if (value is decimal)
+    //            return value.ToString();
+    //        return value;
+    //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            decimal dec;
-            if (decimal.TryParse(value as string, out dec))
-                return dec;
-            return value;
-        }
-    }
+    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        decimal dec;
+    //        if (decimal.TryParse(value as string, out dec))
+    //            return dec;
+    //        return value;
+    //    }
+    //}
 
 }

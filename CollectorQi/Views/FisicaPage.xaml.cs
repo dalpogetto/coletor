@@ -42,10 +42,10 @@ namespace CollectorQi.Views
                 {
                     Volta = false;
                     Limpar();
-                    if (RecebimentoPage.Item_VO != null)
-                    {
-                        Fill(RecebimentoPage.Item_VO);
-                    }
+                    //if (RecebimentoPage.Item_VO != null)
+                    //{
+                    //    Fill(RecebimentoPage.Item_VO);
+                    //}
                 }
             }
         }
@@ -111,8 +111,8 @@ namespace CollectorQi.Views
         }
         void OnClick_QR(object sender, EventArgs e)
         {
-            RecebimentoPage.MenuId = MenuId;
-            RecebimentoPage.MenuDesc = MenuDesc;
+            //RecebimentoPage.MenuId = MenuId;
+            //RecebimentoPage.MenuDesc = MenuDesc;
             Application.Current.MainPage = new NavigationPage(new RecebimentoPage() { Title = "Leitor: " + MenuDesc } );
         }
 

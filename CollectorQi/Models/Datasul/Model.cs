@@ -85,19 +85,27 @@ namespace CollectorQi
 
     public class ModelInventario
     {
-        public string  dtSaldo      { get; set; } = String.Empty;
-        public string  itCodigo     { get; set; } = String.Empty;
-        public string  codEstabel   { get; set; } = String.Empty;
-        public string  codDepos     { get; set; } = String.Empty;
-        public string  codLocaliz   { get; set; } = String.Empty;
-        public string  lote         { get; set; } = String.Empty;
-        public string  dtUltSaida   { get; set; } = String.Empty;
-        public string  dtUltEntr    { get; set; } = String.Empty;
-        public string  situacao     { get; set; } = String.Empty;
-        public int     nrFicha      { get; set; } = 0;
-        public decimal? valApurado  { get; set; } = 0;
-        public string  codRefer     { get; set; } = String.Empty;
-        public int     NumContagem  { get; set; } = 0;
+        public string dtSaldo { get; set; } = String.Empty;
+        public string itCodigo { get; set; } = String.Empty;
+        public string codEstabel { get; set; } = String.Empty;
+        public string codDepos { get; set; } = String.Empty;
+        public string codLocaliz { get; set; } = String.Empty;
+        public string lote { get; set; } = String.Empty;
+        public string dtUltSaida { get; set; } = String.Empty;
+        public string dtUltEntr { get; set; } = String.Empty;
+        public string situacao { get; set; } = String.Empty;
+        public int nrFicha { get; set; } = 0;
+        public decimal? valApurado { get; set; } = 0;
+        public string codRefer { get; set; } = String.Empty;
+        public int NumContagem { get; set; } = 0;  
+        public int idInventario { get; set; } = 0;
+        public string DescEstabel { get; set; }
+        public string DescDepos { get; set; }
+
+        //public string DtSaldo { get; set; }
+        //public int? IdInventario { get; set; }
+        //public string CodEstabel { get; set; }
+        //public string CodDeposito { get; set; }
     }
 
     public class ModelInventarioErro

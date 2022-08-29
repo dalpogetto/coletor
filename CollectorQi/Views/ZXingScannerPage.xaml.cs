@@ -35,18 +35,18 @@ namespace CollectorQi.Views
                 IsScanning = false,
 
             };
-            var resultado_teste = "07;47.400.00020-7;BATERIA 12V/7,0AH C/;19765 UNICOBA INDUSTRI;0181854;04/04/2022;282596;     1/  4000;69575";
+            //var resultado_teste = "07;47.400.00020-7;BATERIA 12V/7,0AH C/;19765 UNICOBA INDUSTRI;0181854;04/04/2022;282596;     1/  4000;69575";
 
-            this.ResultAction(resultado_teste);
-            zxing.IsAnalyzing = false;
+            //this.ResultAction(resultado_teste);
+            //zxing.IsAnalyzing = false;
 
             zxing.OnScanResult += (result) =>  Device.BeginInvokeOnMainThread(async () =>
             {
                 // Stop analysis until we navigate away so we don't keep reading barcodes
                 zxing.IsAnalyzing = false;
 
-                ResultAction(resultado_teste);
-                //ResultAction(result.Text);
+                //ResultAction(resultado_teste);
+                ResultAction(result.Text);
 
                 // Navigate away
 

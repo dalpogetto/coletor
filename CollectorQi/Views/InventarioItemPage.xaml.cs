@@ -11,10 +11,12 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CollectorQi.Services.ESCL018;
+using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InventarioItemPage : ContentPage
 	{
         private static InventarioVO inventario;
@@ -42,18 +44,18 @@ namespace CollectorQi.Views
             {
                 if (Inventario != null)
                 {
-                    lblData.Text = String.Format("{0:dd/MM/yyyy}", inventario.DtInventario);
+                    //lblData.Text = String.Format("{0:dd/MM/yyyy}", inventario.DtInventario);
                     lblDeposito.Text = inventario.CodDepos;
-                    lblContagem.Text = inventario.Contagem.ToString();
+                    //lblContagem.Text = inventario.Contagem.ToString();
                 }
 
                 if (Volta)
                 {
                     Volta = false;
-                    if (RecebimentoPage.Item_VO != null)
-                    {
-                        Fill(RecebimentoPage.Item_VO);
-                    }
+                    //if (RecebimentoPage.Item_VO != null)
+                    //{
+                    //    Fill(RecebimentoPage.Item_VO);
+                    //}
                 }
                 else
                 {
@@ -66,8 +68,8 @@ namespace CollectorQi.Views
         void OnClick_QR(object sender, EventArgs e)
         {
             DisplayAlert("Sim", "Antes Clicar QR", "OK");
-            RecebimentoPage.MenuId = MenuId;
-            RecebimentoPage.MenuDesc = MenuDesc;
+            //RecebimentoPage.MenuId = MenuId;
+            //RecebimentoPage.MenuDesc = MenuDesc;
             Application.Current.MainPage = new NavigationPage(new RecebimentoPage() { Title = "Leitor Teste 123: " + MenuDesc });
             edtLote.Focus();
         }
@@ -94,11 +96,12 @@ namespace CollectorQi.Views
         void Limpar_Clicked(object sender, System.EventArgs e)
         {
             Limpar();
-        }
+        }        
 
         void BtnAdicionarItem_Clicked(object sender, System.EventArgs e)
         {
-            //await DisplayAlert("Teste", "Adicionando Item", "Cancel");
+            //await DisplayAlert("Teste", "Adicionando Item", "Cancel");          
+
             MenuItemDetail menuItemDetail;
 
             List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
@@ -161,7 +164,7 @@ namespace CollectorQi.Views
                 DisplayAlert("Atenção!!!", "O campo QUANTIDADE precisa ser maior que zero", "OK");
                 edtQuantidade.Focus();
             }
-            else if (Inventario.InventarioId > 0)
+            else if (Inventario.IdInventario > 0)
             {
                 DisplayAlert("Atenção!!!", "O INVENTÁRIO precisa existir", "OK");
                 edtQuantidade.Focus();
@@ -169,7 +172,7 @@ namespace CollectorQi.Views
             else
             {
                 InventarioItemVO inventarioItem = new InventarioItemVO();
-                inventarioItem.InventarioId = Inventario.InventarioId;
+                inventarioItem.InventarioId = Inventario.IdInventario;
          //       inventarioItem.ItemId = Item_VO.ItemId;
            /*     inventarioItem.CodigoItem = edtItCodigo.Text.Trim();
                 inventarioItem.Lote = edtLote.Text.Trim().ToUpper();

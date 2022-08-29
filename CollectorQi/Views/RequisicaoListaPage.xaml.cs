@@ -135,9 +135,9 @@ namespace CollectorQi.Views
                 {
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                    var tplLstRequisicaoERP = Models.Controller.GetRequisicao();
+                    var tplLstRequisicaoERP = Models.ConnectService.GetRequisicao();
 
-                    await Models.Controller.CriaRequisicao(tplLstRequisicaoERP.Item1, tplLstRequisicaoERP.Item2, tplLstRequisicaoERP.Item3); 
+                    await Models.ConnectService.CriaRequisicao(tplLstRequisicaoERP.Item1, tplLstRequisicaoERP.Item2, tplLstRequisicaoERP.Item3); 
 
                     var lstRequisicaoAsync = await RequisicaoDB.GetRequisicao(_isDevolucao);
 

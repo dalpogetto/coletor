@@ -11,7 +11,7 @@ namespace CollectorQi.Resources.DataBaseHelper
 
     public static class EstabelecDB
     {       
-        public  static EstabelecVO GetEstabelec(string byCodEstabel)
+        public static EstabelecVO GetEstabelec(string byCodEstabel)
         {
             var dbAsync = new BaseOperations();
             try

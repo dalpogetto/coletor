@@ -67,18 +67,19 @@ namespace CollectorQi.VO.Batch
         public eStatusIntegracao StatusIntegracao { get => statusIntegracao; set => statusIntegracao = value; }
 
         [Ignore]
-        public EstabelecVO __estabelec__
+        public  EstabelecVO __estabelec__
         {
             get
             {
                 if (estabelec == null)
                 {
-                    //estabelec = EstabelecDB.GetEstabelec(CodEstabel);
                     estabelec = EstabelecDB.GetEstabelec(CodEstabel);
+                    //estabelec = await EstabelecDB.GetEstabelec(CodEstabel);
                 }
                 return estabelec;
             }
-        }
+        } 
+        
 
         [Ignore]
         public DepositoVO __depositoSaida__

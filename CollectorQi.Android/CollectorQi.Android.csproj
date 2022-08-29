@@ -49,6 +49,10 @@
     <EnableProguard>true</EnableProguard>
     <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.v4</AndroidLinkSkip>
     <AndroidSupportedAbis>x86_64;x86;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugErro|AnyCPU' ">
     <DebugType>
@@ -109,6 +113,7 @@
     <Compile Include="EmptyClass.cs" />
     <Compile Include="ILogImplemention.cs" />
     <Compile Include="WebService\CallProcedureWithToken.cs" />
+    <Compile Include="WebService\Certificate.cs" />
     <Compile Include="WebService\UserLogin.cs" />
     <Compile Include="Web References\santacolomba_dts.totvscloud.com.br\Reference.cs">
       <DependentUpon>Reference.map</DependentUpon>
@@ -176,7 +181,7 @@
     <AndroidResource Include="Resources\drawable\security.png" />
     <AndroidResource Include="Resources\drawable\voltar.png" />
     <AndroidResource Include="Resources\drawable\zoomMini.png" />
-    <AndroidResource Include="Resources\layout\Layout.axml" />
+    <AndroidResource Include="Resources\layout\Layout1.axml" />
     <AndroidResource Include="Resources\drawable\splash_background.xml" />
     <AndroidResource Include="Resources\mipmap-hdpi\iconsca.png" />
     <AndroidResource Include="Resources\mipmap-mdpi\iconsca.png" />
@@ -191,7 +196,6 @@
     <AndroidResource Include="Resources\drawable\entry_icon_password.png" />
     <AndroidResource Include="Resources\drawable\icon_help.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CollectorQi\CollectorQi.csproj">
       <Project>{0F0AA78D-0274-4FEA-82DA-9A7F514F6087}</Project>
@@ -318,5 +322,37 @@
       <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logoDN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\pageBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logoProjeto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\voltarMini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\deleteMini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\forklift.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\repair.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -1,114 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             Title=""
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Title="Recebimento"
+             BackgroundImage="pageBackground.png"
              x:Class="CollectorQi.Views.RecebimentoPage">
     <ContentPage.Content>
-       <Grid BackgroundColor="#4E4E4E" Opacity="1">
+        <!--<Grid BackgroundColor="#4E4E4E" Opacity="1"> BackgroundImage="pageBackground.png"-->
+        <Grid>            
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Margin="5,0,5,0" 
-                  HorizontalOptions="Fill" 
-                  VerticalOptions="Fill" 
-                  Grid.Row="0">
-                <Entry x:Name="codigo" 
-                       MaxLength="40"  
-                       WidthRequest="150"
-                       BackgroundColor="#eeeeeee"
-                       Placeholder="Digitar o Código do Produto" 
-                       PlaceholderColor="#aaaaaa" 
-                       FontSize="Small" 
-                       Grid.Row="0" 
-                       HorizontalOptions="Fill"
-                       VerticalOptions="Fill"
-                       ReturnType="Send"  
-                       Completed="EntryCodigo_Completed" />
-                <Entry x:Name="descricao" 
-                       MaxLength="200" 
-                       WidthRequest="300"
-                       BackgroundColor="#eeeeeee"
-                       IsEnabled="False" 
-                       Placeholder="Descrição do Produto" 
-                       PlaceholderColor="#aaaaaa" 
-                       HorizontalOptions="Fill"
-                       VerticalOptions="Fill"
-                       FontSize="Small"
-                       Grid.Row="1"  />
-            </Grid>
-            <Grid Margin="5,0,5,0" 
-                  HorizontalOptions="Center" 
-                  VerticalOptions="Start" 
-                  Grid.Row="1">
-                     <Label 
-                    Text="Ativar a câmera frontal" 
-                    Opacity="0.6" 
-                    FontSize="Small"
-                    TextColor="{StaticResource NavigationPrimary}" 
-                    HorizontalTextAlignment="Center" 
-                    VerticalOptions="End" 
-                    HorizontalOptions="Start"
-                    Grid.Row="0" Grid.Column="0"  />
-                <Switch x:Name="switchCameraFrontal" 
-                        IsToggled="False" 
-                        OnColor="{StaticResource NavigationPrimary}" 
-                        Opacity="1.0" 
-                        HorizontalOptions="Start" 
-                        VerticalOptions="Start" 
-                        Grid.Row="0" Grid.Column="1" />
-                <Label Text="Ativar flash" 
-                       Opacity="0.6" 
-                       FontSize="Small" 
-                       TextColor="{StaticResource NavigationPrimary}" HorizontalTextAlignment="Center" 
-                       VerticalOptions="End" 
-                       HorizontalOptions="Start"
-                       Grid.Row="2" Grid.Column="0"  />
-                <Switch x:Name="switchFlash"  
-                        OnColor="{StaticResource NavigationPrimary}" 
-                        IsToggled="False" 
-                        Opacity="1.0" 
-                        HorizontalOptions="Start" 
-                        VerticalOptions="Start" 
-                        Grid.Row="2" Grid.Column="1" />
-            </Grid>
-            <Grid Margin="20,20,20,20" 
-                  HorizontalOptions="Center" 
-                  VerticalOptions="Start" 
-                  Grid.Row="2">
-                       <Button x:Name="BtnQR" 
-                        android:Button.UseDefaultPadding="true"
-                        android:Button.UseDefaultShadow="true" 
-                        Padding="18" 
-                        Text="Ler" 
-                        FontSize="Small"
-                        Image="cameraMini.png" 
-                        BackgroundColor="{StaticResource NavigationPrimary}" 
-                        TextColor="White" 
-                        HorizontalOptions="Center"
-                        BorderRadius="16"   
-                        VerticalOptions="Center" 
-                        Clicked="OpenScanner_Clicked" 
-                        Grid.Column="0" Grid.Row="0"/>
-    
-                <Button x:Name="BtnVoltar" 
-                        android:Button.UseDefaultPadding="true"
-                        android:Button.UseDefaultShadow="true" 
-                        Padding="18" 
-                        Text="Sair" 
-                        FontSize="Small"
-                        Image="sairMini.png" 
-                        BackgroundColor="{StaticResource NavigationPrimary}" 
-                        TextColor="White" 
-                        HorizontalOptions="Center"
-                        BorderRadius="16"   
-                        VerticalOptions="Center" 
-                        Clicked="Voltar_Clicked" 
-                        Grid.Column="1" Grid.Row="0"/>
-                
-                
+            <Grid Grid.Row="0" Margin="10,0,10,0"  VerticalOptions="StartAndExpand">
+                <ListView x:Name="listView" SeparatorColor="White"  Grid.Row="0" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell Text="{Binding Name}" 
+                                       Detail="{Binding SubTitle}" 
+                                       ImageSource="{Binding Image}" 
+                                       TextColor="White" 
+                                       DetailColor="#aaaaaa"                                      
+                                       CommandParameter="{Binding .}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </Grid>
     </ContentPage.Content>
