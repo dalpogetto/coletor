@@ -1,4 +1,8 @@
 ﻿using CollectorQi.Models.ESCL018;
+using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.ViewModels.Interface;
+using CollectorQi.VO.ESCL018;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,24 +10,78 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public class ParametersFichasUsuarioService
+    public static class ParametersFichasUsuarioService
     {
-        ResultInventarioItemJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
 
-        // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsync()
+        public static async Task<List<InventarioItemVO>> GetObterFichasUsuarioAsync(int byInventarioId, string byLocalizacao, ContentPage modal)
         {
+
+            List<InventarioItemVO> lstInventarioItemVO = new List<InventarioItemVO>();
+
             try
             {
-                FichasUsuario requestParam = new FichasUsuario() { IdInventario = 796 };
+                var itemERP = await GetObterFichasUsuarioAsyncERP(byInventarioId, byLocalizacao);
+
+                // Atualiza localizacaoInventario Backend
+                if (itemERP != null && itemERP.param != null && itemERP.param.Resultparam != null)
+                {
+                    itemERP.param.Resultparam.ForEach(delegate (FichasUsuario row)
+                    {
+                        lstInventarioItemVO.Add(new InventarioItemVO
+                        {
+                           // InventarioItemId = row.In
+                            InventarioId = byInventarioId,
+                            Lote = row.Lote,
+                            CodEstabel = row.CodEstabel,
+                            Localizacao = row.Localizacao,
+                            CodItem = row.CodItem,
+                            Contagem = row.Contagem,
+                            Serie = row.Serie,
+                            IVL = row.IVL,
+                            CodEmp = row.CodEmp,
+                            CodDepos = row.CodDepos,
+                            Quantidade = row.Quantidade
+
+                        });
+                    });
+
+                    lstInventarioItemVO = await InventarioItemDB.AtualizaInventarioItem(byInventarioId, byLocalizacao, lstInventarioItemVO);
+
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "Unauthorized")
+                {
+                    LoginPageInterface.ShowModalLogin(modal);
+                }
+                else
+                {
+                    lstInventarioItemVO = InventarioItemDB.GetInventarioItemByInventarioLocalizacao(byInventarioId, byLocalizacao);
+                }
+            }
+
+            return lstInventarioItemVO;
+        }
+
+        // Metodo ObterParametros Totvs
+        private static async Task<ResultInventarioItemJson> GetObterFichasUsuarioAsyncERP(int pInventarioId, string pLocalizacao)
+        {
+
+            ResultInventarioItemJson parametros = null;
+
+            try
+            {
+                FichasUsuarioSend requestParam = new FichasUsuarioSend() { IdInventario = pInventarioId , Localizacao = pLocalizacao};
 
                 RequestInventarioItemJson requestJson = new RequestInventarioItemJson() { Param = requestParam };
                 
@@ -31,8 +89,8 @@ namespace CollectorQi.Services.ESCL018
                 //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
@@ -52,13 +110,13 @@ namespace CollectorQi.Services.ESCL018
                     }
                     else
                     {
-                        System.Diagnostics.Debug.Write(result);
+                        ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
-                }                
+            }                
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
             return parametros;
@@ -67,7 +125,7 @@ namespace CollectorQi.Services.ESCL018
         public class RequestInventarioItemJson
         {
             [JsonProperty("Inventario")]
-            public FichasUsuario Param { get; set; }
+            public FichasUsuarioSend Param { get; set; }
         }
 
         public class ResultInventarioItemJson
@@ -82,10 +140,11 @@ namespace CollectorQi.Services.ESCL018
             public List<FichasUsuario> Resultparam { get; set; }
         }
 
-        public class FichasUsuarioResult
+        public class FichasUsuarioSend
         {
             public int IdInventario { get; set; }
-            public string Lote { get; set; }
+            public string Localizacao { get; set; }
+          /*  public string Lote { get; set; }
             public string CodEstabel { get; set; }
             public string Localizacao { get; set; }
             public string CodItem { get; set; }
@@ -94,7 +153,7 @@ namespace CollectorQi.Services.ESCL018
             public int IVL { get; set; }
             public string CodEmp { get; set; }
             public string CodDepos { get; set; }
-            public int Quantidade { get; set; }
+            public decimal Quantidade { get; set; } */
         }   
     }
 }

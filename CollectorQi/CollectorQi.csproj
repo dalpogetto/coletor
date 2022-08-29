@@ -81,6 +81,8 @@
   <ItemGroup>
     <Folder Include="Services\ESCL000\" />
     <Folder Include="Views\Batch\" />
+    <Folder Include="Services\ESCL028\" />
+    <Folder Include="ViewsOld\" />
     <Folder Include="Models\Notification\" />
   </ItemGroup>
   <ItemGroup>
@@ -97,14 +99,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\ConferenciaFisicaParametrosPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ConferenciaFisicaConfirmarPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaConfirmarPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaConfirmarPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ConferenciaFisicaReparosPage.xaml.cs">
+    <Compile Update="Views\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintItem.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintLocalizacao.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintLocalizacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintReparo.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>InventarioPrintReparo.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioPrintPopUp.xaml.cs">
+      <DependentUpon>InventarioPrintPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL018\InventarioListaLocalizacaoPage.xaml.cs">
+      <DependentUpon>InventarioListaLocalizacaoPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirEtiquetaReparo.xaml.cs">
       <DependentUpon>ImprimirEtiquetaReparo.xaml</DependentUpon>
@@ -121,7 +141,7 @@
     <Compile Update="Views\ImprimirEtiquetaItem.xaml.cs">
       <DependentUpon>ImprimirEtiquetaItem.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioCaixaIncompletaPopUp.xaml.cs">
+    <Compile Update="Views\ESCL018\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\GuardaMateriaisDepositoListaPage.xaml.cs">
@@ -158,6 +178,7 @@
       <DependentUpon>NotaFiscalConferenciaReparosListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\LeituraEtiquetaLocaliza.xaml.cs">
+    <Compile Update="Views\ESCL018\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\RecebimentoPage.xaml.cs">
@@ -175,6 +196,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Views\ConferenciaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintLocalizacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ESCL018\InventarioPrintReparo.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FisicaDepositoPage.xaml">

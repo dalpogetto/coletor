@@ -1,7 +1,7 @@
 ﻿using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
-using CollectorQi.VO;
+using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -20,12 +20,12 @@ namespace CollectorQi.Views
         private InventarioVO _inventario;
         public string localizacao;  
 
-        public ImprimirPage(InventarioVO pInventarioVO, string _localizacao)
+        public ImprimirPage(InventarioVO pInventarioVO)
         {
             InitializeComponent();
 
             _inventario = pInventarioVO;
-            localizacao = _localizacao;
+           // localizacao = _localizacao;
             //lblCodEstabel.Text = SecurityAuxiliar.GetCodEstabel();
 
             ////_ = InventarioItemDB.DeletarInventarioByInventarioId(inventarioVO.InventarioId);
@@ -43,7 +43,7 @@ namespace CollectorQi.Views
             {
                 var inventario = new Inventario()
                 {
-                    IdInventario = _inventario.InventarioId,
+                 //   IdInventario = _inventario.InventarioId,
                     CodEstabel = _inventario.CodEstabel,
                     CodDepos = _inventario.CodDepos //,
                     //CodigoBarras = txtEtiqueta.Text
@@ -100,7 +100,7 @@ namespace CollectorQi.Views
 
         public void BtnVoltar_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventario));
+           // Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventario));
         }
     }
 }

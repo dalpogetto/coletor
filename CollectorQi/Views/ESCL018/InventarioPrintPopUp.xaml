@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 x:Class="CollectorQi.Views.InventarioPrintPopUp" 
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+                 xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
+    </pages:PopupPage.Animation>
+    <Frame CornerRadius="5"  IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center" Padding="0,0" Margin="20,20" >
+    <StackLayout BackgroundColor="#fff">
+            
+            <Grid BackgroundColor="#fff" Opacity="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <CollectionView x:Name="CvPrint" SelectionChanged="CvPrint_SelectionChanged"  SelectionMode="Single" HeightRequest="230" Grid.Row="0" Margin="0,0,0,0">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                        <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,5" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="25"/>
+                                                </Grid.RowDefinitions>
+
+                                                <StackLayout Spacing="0" Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                                    <Grid HorizontalOptions="FillAndExpand">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="30" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                    <!--    <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold" FontSize="Small" />
+                                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodLocaliz}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" /> -->
+                                                        <Image Source="{Binding Image}"  HeightRequest="100" Grid.Column="0"/>
+                                                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" Grid.Column="1"></Label>
+                                                    </Grid>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <!--
+                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+
+                        <Frame VerticalOptions="Start" HasShadow="true" Margin="0,0,0,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid  Margin="0,0,0,0" VerticalOptions="Start">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                                <ListView x:Name="listView" VerticalOptions="Center"  SelectionMode="Single" Grid.Row="0" HeightRequest="150" SeparatorColor="#A5C3FA"  >
+                                    <ListView.ItemTemplate>
+                                        
+                                        <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Spacing="5" Orientation="Horizontal"  Margin="5,5,5,5">
+                                                <Image Source="{Binding Image}" Margin="0,0,10,0" HeightRequest="100" />
+                                                <StackLayout>
+                                                     <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"></Label>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ViewCell>
+                                        
+                                    </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView> 
+                            </Grid>
+                        </Frame>
+                    </StackLayout> -->
+                </Grid>
+            </Grid> 
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

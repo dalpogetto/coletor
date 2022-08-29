@@ -171,12 +171,12 @@ namespace CollectorQi.Views
             {
                
 
-                var tpl = Models.Datasul.IntegracaoOnlineBatch.InventarioNovo(new VO.InventarioVO
+                var tpl = Models.Datasul.IntegracaoOnlineBatch.InventarioNovo(new VO.ESCL018.InventarioVO
                 {
                     CodEstabel = SecurityAuxiliar.GetCodEstabel(),
                     CodDepos = edtDeposito.Text,
-                    DtInventario = selDtInventario.Date,
-                    Contagem = int.Parse(edtContagem.Text)
+                    //DtInventario = selDtInventario.Date,
+                    //Contagem = int.Parse(edtContagem.Text)
                 });
 
                 await DisplayAlert("Geração inventário", tpl.Item2, "OK");

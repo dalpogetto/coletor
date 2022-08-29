@@ -2,7 +2,7 @@
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
-using CollectorQi.VO;
+using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -16,10 +16,10 @@ namespace CollectorQi.Views
 {
     public partial class ImprimirEtiquetaLocalizacao : PopupPage
     {
-        private VO.InventarioVO _inventarioVO;
-        private VO.InventarioItemVO _inventarioItemVO;
+        private InventarioVO _inventarioVO;
+        private InventarioItemVO _inventarioItemVO;
         private ObservableCollection<InventarioItemViewModel> _Items;
-        public Action<VO.InventarioItemVO,bool> ResultAction;
+        public Action<InventarioItemVO, bool> ResultAction;
         private string localizacao;
 
         public ImprimirEtiquetaLocalizacao(InventarioVO pInventarioVO, string localizacao)        
@@ -49,6 +49,7 @@ namespace CollectorQi.Views
 
         async void OnClick_Imprimir(object sender, EventArgs e)
         {
+            /*
             var param = new ParametersImprimirEtiquetaService();
 
             var impressaoLocalizacao = new ImpressaoLocalizacao()
@@ -68,7 +69,8 @@ namespace CollectorQi.Views
             Thread.Sleep(2000);
             await pageProgress.OnClose();
 
-            OnBackButtonPressed();            
+            OnBackButtonPressed();      
+            */
         }
 
         private void BtnVoltar_Clicked(object sender, EventArgs e)

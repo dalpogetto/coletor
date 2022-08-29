@@ -7,38 +7,98 @@ using ESCL = CollectorQi.Models.ESCL018;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using CollectorQi.Resources;
+using CollectorQi.VO.ESCL018;
+using CollectorQi.ViewModels.Interface;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public class ParametersInventarioService
+    public static class ParametersInventarioService
     {
         //private IEnumerable<Parametros> parametros;
 
-        ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
-        private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
+        //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/EnviarParametros";
 
-        // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioJson> SendParametersAsync()
+
+        public static async Task<List<InventarioVO>> SendParametersAsync(ContentPage modal)
         {
+
+            List<InventarioVO> lstInventarioVO = new List<InventarioVO>();
+
             try
             {
-                ESCL.Parametros requestParam = new ESCL.Parametros() { CodEstabel = "101" };
+                var inventarioERP = await SendParametersAsyncERP();
+
+                // Atualiza localizacaoInventario Backend
+                if (inventarioERP != null && inventarioERP.param != null && inventarioERP.param.Resultparam != null)
+                {
+                    
+                    inventarioERP.param.Resultparam.ForEach(delegate (ESCL.Parametros row)
+                    {
+                        DateTime dtSaldoRow = DateTime.MinValue;
+
+                        if (!String.IsNullOrEmpty(row.DtSaldo))
+                            dtSaldoRow = new DateTime(int.Parse(row.DtSaldo.Substring(6, 2)),
+                                                        int.Parse(row.DtSaldo.Substring(3, 2)),
+                                                        int.Parse(row.DtSaldo.Substring(0, 2)));
+
+
+                        lstInventarioVO.Add(new InventarioVO
+                        {
+                            IdInventario = row.IdInventario,
+                            CodEstabel = row.CodEstabel,
+                            CodDepos = row.CodDeposito,
+                            DescEstabel = row.DescEstabel,
+                            DescDepos = row.DescDepos,
+                            DtSaldo = dtSaldoRow
+                            
+                        });
+                    }); 
+
+                    InventarioDB.AtualizaInventarioByCodEstabel(SecurityAuxiliar.GetCodEstabel(), lstInventarioVO);
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "Unauthorized")
+                {
+                    LoginPageInterface.ShowModalLogin(modal);
+                }
+                else
+                {
+                    lstInventarioVO = InventarioDB.GetInventarioByCodEstabel(SecurityAuxiliar.GetCodEstabel());
+                }
+            }
+
+            return lstInventarioVO;
+        }
+
+        // Metodo ObterParametros Totvs
+        private static async Task<ResultInventarioJson> SendParametersAsyncERP()
+        {
+            ResultInventarioJson parametros = null;
+
+            try
+            {
+                ESCL.Parametros requestParam = new ESCL.Parametros() { CodEstabel = SecurityAuxiliar.GetCodEstabel() };
 
                 RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };
-                
+
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
@@ -55,19 +115,21 @@ namespace CollectorQi.Services.ESCL018
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
                         parametros = JsonConvert.DeserializeObject<ResultInventarioJson>(responseData);
+
+                        System.Diagnostics.Debug.Write(parametros);
                     }
                     else
                     {
-                        System.Diagnostics.Debug.Write(result);
+                        ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
-                }                
+                }
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write(e);
+                throw e;
             }
 
-            return parametros;
+                return parametros;
         }      
 
         public class RequestInventarioJson
@@ -90,8 +152,8 @@ namespace CollectorQi.Services.ESCL018
 
         public class ParametrosInventarioResult
         {
-            public string DtSaldo { get; set; }
             public int IdInventario { get; set; }
+            public string DtSaldo { get; set; }
             public string CodEstabel { get; set; }
             public string DescEstabel { get; set; }
             public string CodDeposito { get; set; }

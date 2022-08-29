@@ -9,6 +9,22 @@ using System.Reflection;
 
 namespace CollectorQi
 {
+    public enum eStatusInventarioItem
+    {
+        [Description("Não Iniciado")]
+        NaoIniciado = 1,
+        [Description("Erro Integração")]
+        ErroIntegracao = 2,
+    }
+    public enum eStatusConnection
+    {
+        [Description("Online")]
+        Online = 1,
+        [Description("Offline")]
+        Offline = 2,
+        [Description("Unauthorized")]
+        Unauthorized = 3
+    }
 
     public enum eStatusInventario
     {

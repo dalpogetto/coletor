@@ -22,9 +22,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "fisica.png", "fisica.png" };
-                string[] titulo = new string[] { "ConferenciaFisicaReparos", "AtualizacaoEntrada" };
-                string[] subTitulo = new string[] { "Conferência Física de Reparos", "Atualização de NF de Entrada" };  
+                string[] imagem = new string[] { "fisica.png" /* , "fisica.png"  */ };
+                string[] titulo = new string[] { "ConferenciaFisicaReparos" /* , "AtualizacaoEntrada" */  };
+                string[] subTitulo = new string[] { "Conferência Física de Reparos" /* , "Atualização de NF de Entrada" */ };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;

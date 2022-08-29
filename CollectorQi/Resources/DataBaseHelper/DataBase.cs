@@ -11,6 +11,8 @@ using Xamarin.Forms.Internals;
 using Xamarin.Essentials;
 using System.IO;
 using CsvHelper;
+using CollectorQi.VO.ESCL018;
+using CollectorQi.VO.Batch.ESCL018;
 
 namespace CollectorQi.Resources.DataBaseHelper
 {
@@ -71,6 +73,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<ItemVO>();
                             conexao.DropTable<SecurityVO>();
                             conexao.DropTable<InventarioVO>();
+                            conexao.DropTable<InventarioLocalizacaoVO>();
                             conexao.DropTable<InventarioItemVO>();
                             conexao.DropTable<DepositoVO>();
                             conexao.DropTable<EstabelecVO>();
@@ -80,6 +83,9 @@ namespace CollectorQi.Resources.DataBaseHelper
                             conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                             conexao.DropTable<FichasUsuarioVO>();
                             conexao.DropTable<NotaFiscalVO>();
+
+                            conexao.DropTable<BatchInventarioItemVO>();
+
                         //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))
@@ -93,6 +99,30 @@ namespace CollectorQi.Resources.DataBaseHelper
 
                         if (!IsTableExists("InventarioVO", conexao))                        
                             conexao.CreateTable<InventarioVO>();
+                        }
+
+                        if (!IsTableExists("InventarioLocalizacaoVO", conexao))
+                        {
+                            conexao.CreateTable<InventarioLocalizacaoVO>();
+                        }
+                        //else
+                        //{
+                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
+                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
+                        //    {
+                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
+                        //        cmd.CommandText = "ALTER TABLE InventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
+                        //        try
+                        //        {
+                        //            cmd.ExecuteNonQuery();
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            /* Se já existir o campo, desconsidera */
+                        //            System.Diagnostics.Debug.Write(ex);
+                        //        }
+                        //    }
+                        //}
 
                         if (!IsTableExists("InventarioItemVO", conexao))
                             conexao.CreateTable<InventarioItemVO>();
@@ -120,8 +150,32 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("BatchDepositoTransfereVO", conexao))
                             conexao.CreateTable<BatchDepositoTransfereVO>();
                         //conexao.DropTable<BatchInventarioVO>();
+                        
                         if (!IsTableExists("BatchInventarioVO", conexao))                        
                             conexao.CreateTable<BatchInventarioVO>();                        
+
+                        if (!IsTableExists("BatchInventarioItemVO", conexao))
+                        {
+                            conexao.CreateTable<BatchInventarioItemVO>();
+                        }
+                        //else
+                        //{
+                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
+                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
+                        //    {
+                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
+                        //        cmd.CommandText = "ALTER TABLE BatchInventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
+                        //        try
+                        //        {
+                        //            cmd.ExecuteNonQuery();
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            /* Se já existir o campo, desconsidera */
+                        //            System.Diagnostics.Debug.Write(ex);
+                        //        }
+                        //    }
+                        //}
 
                         if (!IsTableExists("FichasUsuarioVO", conexao))
                             conexao.CreateTable<FichasUsuarioVO>();

@@ -15,11 +15,13 @@ using System.Threading;
 using System.Globalization;
 using Xamarin.Forms;
 using CollectorQi.Models.ESCL028;
+using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Models
 {
 
-    public static class Controller
+    public static class ConnectService
     {
         private static string ProgramName                     = "qip/qi0001.p";
         private static string ProgramNameCollector            = "qip/qi0004.p";
@@ -290,11 +292,11 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttEstabelec")
                     {
-                        Controller.CriaEstabelecimento(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelEstabelec>>());
+                        ConnectService.CriaEstabelecimento(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelEstabelec>>());
                     }
                     else if (jsonTempTable[i].name == "ttDeposito")
                     {
-                        Controller.CriaDeposito(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelDeposito>>());
+                        ConnectService.CriaDeposito(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelDeposito>>());
                     }
                     else if (jsonTempTable[i].name == "ttItem")
                     {
@@ -305,7 +307,7 @@ namespace CollectorQi.Models
                                 pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados (Item)...");
                         });
 
-                        await Controller.CriaItem(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelItem>>());
+                        await ConnectService.CriaItem(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelItem>>());
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
@@ -316,7 +318,7 @@ namespace CollectorQi.Models
                                 pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados (Saldo Estoque)...");
                         });
 
-                         await Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                         await ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -681,7 +683,7 @@ namespace CollectorQi.Models
 
                     await SaldoEstoqDB.AtualizarSaldoEstoq(lstSaldoEstoqVO);
                     if (lstDepositoTransfere.Count > 0)
-                        Controller.MovtoEstoqMobile(true, lstDepositoTransfere, lstDeposConsidera);
+                        ConnectService.MovtoEstoqMobile(true, lstDepositoTransfere, lstDeposConsidera);
                 }
 
                 return true;
@@ -999,7 +1001,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -1304,105 +1306,107 @@ namespace CollectorQi.Models
 
         public async static Task<bool> CriaInventario(List<ModelInventario> inventario)
         {
-            try
-            {
-                List<VO.InventarioVO> lstInventarioVO = new List<VO.InventarioVO>();
-                    
-                if (inventario != null)
-                {
-                    for (int i = 0; i < inventario.Count; i++)
-                    {
-                        try
-                        {
-                            List<VO.InventarioItemVO> lstInventarioItemVO = new List<VO.InventarioItemVO>();
+            // try
+            // {
+            //     List<InventarioVO> lstInventarioVO = new List<InventarioVO>();
+            //         
+            //     if (inventario != null)
+            //     {
+            //         for (int i = 0; i < inventario.Count; i++)
+            //         {
+            //             try
+            //             {
+            //                 List<InventarioItemVO> lstInventarioItemVO = new List<InventarioItemVO>();
+            //
+            //                 DateTime? dtUltEntr = null;
+            //
+            //                 if (!String.IsNullOrEmpty(inventario[i].dtUltEntr))
+            //                     dtUltEntr = new DateTime(int.Parse(inventario[i].dtUltEntr.Substring(6, 4)),
+            //                                                  int.Parse(inventario[i].dtUltEntr.Substring(3, 2)),
+            //                                                  int.Parse(inventario[i].dtUltEntr.Substring(0, 2)));
+            //
+            //                 DateTime dtSaldoInventario = DateTime.MinValue;
+            //
+            //                 //if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
+            //                 //    dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 4)),
+            //                 //                                     int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
+            //                 //                                     int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
+            //
+            //
+            //                 //string teste = inventario[i].dtSaldo.Substring(0, 2) + inventario[i].dtSaldo.Substring(3, 2) + inventario[i].dtSaldo.Substring(6, 2);
+            //
+            //                 if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
+            //                     dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 2)),
+            //                                                      int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
+            //                                                      int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
+            //
+            //
+            //                 var inventarioVO = new VO.ESCL018.InventarioVO
+            //                 {
+            //                     CodEstabel = inventario[i].codEstabel,
+            //                     CodDepos = inventario[i].codDepos,
+            //                     DtInventario = dtSaldoInventario,
+            //                     Contagem = inventario[i].NumContagem,                                
+            //                     inventarioAtivo = true,
+            //                     InventarioId  = inventario[i].idInventario,
+            //                     DescEstabel = inventario[i].DescEstabel,
+            //                     DescDepos = inventario[i].DescDepos
+            //                 };
+            //
+            //                 lstInventarioVO.Add(inventarioVO);
+            //                 int idInventario = await InventarioDB.AtualizaInventarioGetId(inventarioVO);
+            //
+            //                 var inventarioItemVO = new VO.ESCL018.InventarioItemVO
+            //                 {
+            //                     InventarioId   = idInventario,
+            //                     CodLocaliz     = inventario[i].codLocaliz,
+            //                     CodLote        = inventario[i].lote,
+            //                     CodRefer       = inventario[i].codRefer,
+            //                     ItCodigo       = inventario[i].itCodigo,
+            //                     NrFicha        = inventario[i].nrFicha,
+            //                     ValApurado     = inventario[i].valApurado??0,
+            //                     DtUltEntr      = dtUltEntr
+            //                 };
+            //
+            //                 lstInventarioItemVO.Add(inventarioItemVO);
+            //
+            //                 await InventarioItemDB.AtualizarInventarioItem(lstInventarioItemVO);
+            //             }
+            //             catch (Exception ex)
+            //             {
+            //                 throw new Exception("(CriaInventario) - " + ex.Message);
+            //             }
+            //         }
+            //
+            //         var lstInventarioAtual = InventarioDB.GetInventario();
+            //
+            //         for (int i = 0; i < lstInventarioAtual.Count; i++)
+            //         {
+            //             var inventarioAtual = lstInventarioVO.Find(
+            //                 InventarioModel => InventarioModel.DtInventario == lstInventarioAtual[i].DtInventario &&
+            //                                    InventarioModel.CodDepos        == lstInventarioAtual[i].CodDepos &&
+            //                                    InventarioModel.CodEstabel      == lstInventarioAtual[i].CodEstabel //&&
+            //                                    //InventarioModel.Contagem        == lstInventarioAtual[i].Contagem
+            //                                    );
+            //
+            //             if (inventarioAtual == null)
+            //             {
+            //                 await InventarioDB.DesativaInventarioVO(lstInventarioAtual[i]);
+            //                 //await InventarioDB.DeletarInventario(lstInventarioAtual[i]);
+            //
+            //                 //await InventarioItemDB.DeletarInventarioByInventarioId(lstInventarioAtual[i].InventarioId);
+            //             }
+            //         }
+            //     }
+            //
+            //     return true;
+            // }
+            // catch (Exception ex)
+            // {
+            //     throw ex;
+            // }
 
-                            DateTime? dtUltEntr = null;
-
-                            if (!String.IsNullOrEmpty(inventario[i].dtUltEntr))
-                                dtUltEntr = new DateTime(int.Parse(inventario[i].dtUltEntr.Substring(6, 4)),
-                                                             int.Parse(inventario[i].dtUltEntr.Substring(3, 2)),
-                                                             int.Parse(inventario[i].dtUltEntr.Substring(0, 2)));
-
-                            DateTime dtSaldoInventario = DateTime.MinValue;
-
-                            //if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
-                            //    dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 4)),
-                            //                                     int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
-                            //                                     int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
-
-
-                            //string teste = inventario[i].dtSaldo.Substring(0, 2) + inventario[i].dtSaldo.Substring(3, 2) + inventario[i].dtSaldo.Substring(6, 2);
-
-                            if (!String.IsNullOrEmpty(inventario[i].dtSaldo))
-                                dtSaldoInventario = new DateTime(int.Parse(inventario[i].dtSaldo.Substring(6, 2)),
-                                                                 int.Parse(inventario[i].dtSaldo.Substring(3, 2)),
-                                                                 int.Parse(inventario[i].dtSaldo.Substring(0, 2)));
-
-
-                            var inventarioVO = new VO.InventarioVO
-                            {
-                                CodEstabel = inventario[i].codEstabel,
-                                CodDepos = inventario[i].codDepos,
-                                DtInventario = dtSaldoInventario,
-                                Contagem = inventario[i].NumContagem,                                
-                                inventarioAtivo = true,
-                                InventarioId  = inventario[i].idInventario,
-                                DescEstabel = inventario[i].DescEstabel,
-                                DescDepos = inventario[i].DescDepos
-                            };
-
-                            lstInventarioVO.Add(inventarioVO);
-                            int idInventario = await InventarioDB.AtualizaInventarioGetId(inventarioVO);
-
-                            var inventarioItemVO = new VO.InventarioItemVO
-                            {
-                                InventarioId   = idInventario,
-                                CodLocaliz     = inventario[i].codLocaliz,
-                                CodLote        = inventario[i].lote,
-                                CodRefer       = inventario[i].codRefer,
-                                ItCodigo       = inventario[i].itCodigo,
-                                NrFicha        = inventario[i].nrFicha,
-                                ValApurado     = inventario[i].valApurado??0,
-                                DtUltEntr      = dtUltEntr
-                            };
-
-                            lstInventarioItemVO.Add(inventarioItemVO);
-
-                            await InventarioItemDB.AtualizarInventarioItem(lstInventarioItemVO);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("(CriaInventario) - " + ex.Message);
-                        }
-                    }
-
-                    var lstInventarioAtual = InventarioDB.GetInventario();
-
-                    for (int i = 0; i < lstInventarioAtual.Count; i++)
-                    {
-                        var inventarioAtual = lstInventarioVO.Find(
-                            InventarioModel => InventarioModel.DtInventario == lstInventarioAtual[i].DtInventario &&
-                                               InventarioModel.CodDepos        == lstInventarioAtual[i].CodDepos &&
-                                               InventarioModel.CodEstabel      == lstInventarioAtual[i].CodEstabel //&&
-                                               //InventarioModel.Contagem        == lstInventarioAtual[i].Contagem
-                                               );
-
-                        if (inventarioAtual == null)
-                        {
-                            await InventarioDB.DesativaInventarioVO(lstInventarioAtual[i]);
-                            //await InventarioDB.DeletarInventario(lstInventarioAtual[i]);
-
-                            //await InventarioItemDB.DeletarInventarioByInventarioId(lstInventarioAtual[i].InventarioId);
-                        }
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return true;
         }
 
         public static bool CriaNotaFiscal(List<ModelNotaFiscal> notaFiscal)
@@ -1939,7 +1943,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 
@@ -2228,7 +2232,7 @@ namespace CollectorQi.Models
                     }
                     else if (jsonTempTable[i].name == "ttSaldoEstoq")
                     {
-                        Controller.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
+                        ConnectService.CriaSaldoEstoq(JsonConvert.DeserializeObject<TempTableValues>(jsonTempTable[i].value).records.ToObject<List<ModelSaldoEstoq>>());
                     }
                 }
 

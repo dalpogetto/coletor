@@ -4,11 +4,12 @@ using Matcha.BackgroundService;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.VO.Batch;
-using Plugin.LocalNotifications; 
+using Plugin.LocalNotifications;
 using Plugin.Connectivity;
 using CollectorQi.Resources;
 using CollectorQi.Models;
-
+using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
+using CollectorQi.Services.ESCL018;
 
 namespace CollectorQi.Services
 {
@@ -32,37 +33,37 @@ namespace CollectorQi.Services
                 App.CallNotification.callNotification(eTpNotificacao.Transferencia, "transferencia");
                 App.CallNotification.callNotification(eTpNotificacao.Inventario, "inventario"); */
 
-                if (SecurityAuxiliar.Autenticado)
-                {
+               // if (SecurityAuxiliar.Autenticado)
+               // {
 
                     /* Transferencia */
                     #region Transferencia 
 
-                    try
-                    {
-                        /* Status Integracao pendente (Transferencia) */
-                        var lstBatchDepositoTransferePend = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.PendenteIntegracao);
-
-                        if (lstBatchDepositoTransferePend.Count > 0)
-                        {
-                            var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.DepositoTransfereOffiline(lstBatchDepositoTransferePend);
-
-                            App.CallNotification.callNotification(eTpNotificacao.Transferencia, tplRetorno.Item2.ToString());
-
-                        }
-
-                        var lstBatchDepositoTransfereErro = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.ErroIntegracao);
-
-                        // Integração com erro nao envia notificaçãoo
-                        if (lstBatchDepositoTransfereErro.Count > 0)
-                        {
-                            var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.DepositoTransfereOffiline(lstBatchDepositoTransfereErro);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        App.CallNotification.callNotification(eTpNotificacao.Transferencia, ex.Message, true);
-                    }
+                //    try
+                //    {
+                //        /* Status Integracao pendente (Transferencia) */
+                //        var lstBatchDepositoTransferePend = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.PendenteIntegracao);
+                //
+                //        if (lstBatchDepositoTransferePend.Count > 0)
+                //        {
+                //            var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.DepositoTransfereOffiline(lstBatchDepositoTransferePend);
+                //
+                //            App.CallNotification.callNotification(eTpNotificacao.Transferencia, tplRetorno.Item2.ToString());
+                //
+                //        }
+                //
+                //        var lstBatchDepositoTransfereErro = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.ErroIntegracao);
+                //
+                //        // Integração com erro nao envia notificaçãoo
+                //        if (lstBatchDepositoTransfereErro.Count > 0)
+                //        {
+                //            var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.DepositoTransfereOffiline(lstBatchDepositoTransfereErro);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        App.CallNotification.callNotification(eTpNotificacao.Transferencia, ex.Message, true);
+                //    }
 
                     #endregion
 
@@ -71,29 +72,37 @@ namespace CollectorQi.Services
                     try
                     {
                         /* Status Integracao pendente  */
-                        var lstBatchInventarioPend = BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao);
+                       var lstBatchInventarioPend = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao);
+                   
+                       if (lstBatchInventarioPend.Count > 0)
+                       {
+                           for (int i = 0; i < lstBatchInventarioPend.Count; i++)
+                           {
+                            //var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioPend[i]);
 
-                        if (lstBatchInventarioPend.Count > 0)
-                        {
-                            for (int i = 0; i < lstBatchInventarioPend.Count; i++)
-                            {
-                                var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioPend[i]);
+                            SecurityAuxiliar.CodUsuario = "a.alvessouzasilva@DIEBOLD_MASTER";
+                            SecurityAuxiliar.CodSenha = "D!ebold2023";
 
-                                App.CallNotification.callNotification(eTpNotificacao.Inventario, tplRetorno.Item2.ToString());
-                            }
-                        }
-
-                        var lstBatchInventarioErro = BatchInventarioDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao);
-
-                        // Integração com erro nao envia notificaçãoo
-                        if (lstBatchInventarioErro.Count > 0)
-                        {
-                            for (int i = 0; i < lstBatchInventarioPend.Count; i++)
-                            {
-
-                                var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioErro[i]);
-                            }
-                        }
+                            var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioBatchAsync(lstBatchInventarioPend[i]);
+                   
+                               App.CallNotification.callNotification(eTpNotificacao.Inventario, tplRetorno);
+                           }
+                       }
+                   
+                       /*
+                       var lstBatchInventarioErro = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao);
+                   
+                       // Integração com erro nao envia notificaçãoo
+                       if (lstBatchInventarioErro.Count > 0)
+                       {
+                           for (int i = 0; i < lstBatchInventarioPend.Count; i++)
+                           {
+                   
+                               //var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioErro[i]);
+                               var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioAsync(null, lstBatchInventarioPend[i], 0, null);
+                           }
+                       }
+                       */
 
                     }
                     catch (Exception ex)
@@ -104,7 +113,7 @@ namespace CollectorQi.Services
                     #endregion
 
                 }
-            }
+           // }
             return true;
 
 
@@ -129,7 +138,7 @@ namespace CollectorQi.Services
                     if (SecurityAuxiliar.Autenticado)
                     {
                         /* Integracao de cadastro */
-                        var result = await Models.Controller.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha);
+                        var result = await Models.ConnectService.ConectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha);
 
                         if (result == "OK")
                         {

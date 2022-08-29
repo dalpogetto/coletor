@@ -52,7 +52,7 @@ namespace CollectorQi.Services.ESCL002
                         string responseData = await result.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.Write(result);
 
-                        var resultConvert = JsonConvert.DeserializeObject<EndConferenceResult>(responseData);
+                        var resultConvert = JsonConvert.DeserializeObject<EndConferenceResultV2>(responseData);
 
                         System.Diagnostics.Debug.Write(resultConvert);
                     }
@@ -109,6 +109,11 @@ namespace CollectorQi.Services.ESCL002
 
         }
 
+        public class EndConferenceResultV2
+        {
+            public EndConferenceResult Conteudo { get; set; }
+            public string Retorno { get; set; }
+        }
         public class EndConferenceResult
         {
             [JsonProperty("DocumentoGerado")]
