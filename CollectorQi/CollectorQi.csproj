@@ -56,7 +56,7 @@
     <None Include="Views\FisicaPage.xaml" />
     <None Include="Views\InventarioItemPage.xaml" />
     <None Include="Views\InventarioListaItemPage.xaml" />
-    <None Include="Views\InventarioListaPage.xaml" />
+    <None Include="Views\InventarioFisicoListaPage.xaml" />
     <None Include="Views\InventarioNovoPopUp.xaml" />
     <None Include="Views\InventarioPage.xaml" />
     <None Include="Views\InventarioUpdateItemPopUp.xaml" />
@@ -79,6 +79,7 @@
     <None Include="Views\Batch\IntegracaoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\ESCL000\" />
     <Folder Include="Services\ESCL028\" />
     <Folder Include="ViewsOld\" />
     <Folder Include="Models\Notification\" />
@@ -97,31 +98,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoItemListaPagePopUp.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoItemListaPagePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriasDepositoLocalizPopUp.xaml.cs">
+      <DependentUpon>GuardaMateriasDepositoLocalizPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL002\ConferenciaFisicaConfirmarPage.xaml.cs">
+    <Compile Update="Views\Recebimento\ESCL002\ConferenciaFisicaConfirmarPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaConfirmarPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
+    <Compile Update="Views\Recebimento\ESCL002\ConferenciaFisicaReparosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaReparosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioPrintItem.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioPrintItem.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>InventarioPrintItem.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioPrintLocalizacao.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioPrintLocalizacao.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>InventarioPrintLocalizacao.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioPrintReparo.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioPrintReparo.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>InventarioPrintReparo.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioPrintPopUp.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioPrintPopUp.xaml.cs">
       <DependentUpon>InventarioPrintPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioListaLocalizacaoPage.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioListaLocalizacaoPage.xaml.cs">
       <DependentUpon>InventarioListaLocalizacaoPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirEtiquetaReparo.xaml.cs">
@@ -130,22 +137,61 @@
     <Compile Update="Views\ImprimirEtiquetaLocalizacao.xaml.cs">
       <DependentUpon>ImprimirEtiquetaLocalizacao.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisTipoMovimento.xaml.cs">
+      <DependentUpon>GuardaMateriaisTipoMovimento.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ImprimirPage.xaml.cs">
       <DependentUpon>ImprimirPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ImprimirEtiquetaItem.xaml.cs">
       <DependentUpon>ImprimirEtiquetaItem.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\InventarioCaixaIncompletaPopUp.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL018\InventarioCaixaIncompletaPopUp.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ESCL018\LeituraEtiquetaLocaliza.xaml.cs">
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoItemListaPage.xaml.cs">
+      <DependentUpon>GuardaMateriaisDepositoItemListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoLeituraEtiquetaManual.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL028\NotaFiscalConferenciaReparosListaPopUp.xaml.cs">
+      <DependentUpon>NotaFiscalConferenciaReparosListaPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransferenciaDepositoListaPage.xaml.cs">
+      <DependentUpon>TransferenciaDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
+      <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventarioReparoDepositoListaPage.xaml.cs">
+      <DependentUpon>InventarioReparoDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL028\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarItemConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL028\NotaFiscalFinalizarConferenciaListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalFinalizarConferenciaListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL028\NotaFiscalConferenciaReparosListaPage.xaml.cs">
+      <DependentUpon>NotaFiscalConferenciaReparosListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Inventario\ESCL018\LeituraEtiquetaLocaliza.xaml.cs">
       <DependentUpon>LeituraEtiquetaLocaliza.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\RecebimentoPage.xaml.cs">
+    <Compile Update="Views\Recebimento\RecebimentoPage.xaml.cs">
       <DependentUpon>RecebimentoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ArmazenagemPage.xaml.cs">
+    <Compile Update="Views\Armazenagem\ArmazenagemPage.xaml.cs">
       <DependentUpon>ArmazenagemPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ConferenciaPage.xaml.cs">
@@ -159,20 +205,23 @@
     <EmbeddedResource Update="Views\ConferenciaPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ESCL018\InventarioPrintItem.xaml">
+    <EmbeddedResource Update="Views\Inventario\ESCL018\InventarioPrintItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ESCL018\InventarioPrintLocalizacao.xaml">
+    <EmbeddedResource Update="Views\Inventario\ESCL018\InventarioPrintLocalizacao.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ESCL018\InventarioPrintReparo.xaml">
+    <EmbeddedResource Update="Views\Inventario\ESCL018\InventarioPrintReparo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FisicaDepositoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\InventarioFisicoListaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@
                             <ImageCell Text="{Binding Name}" 
                                        Detail="{Binding SubTitle}" 
                                        ImageSource="{Binding Image}" 
-                                       TextColor="White" 
+                                       TextColor="Black" 
                                        DetailColor="#aaaaaa"                                      
                                        CommandParameter="{Binding .}"/>
                         </DataTemplate>

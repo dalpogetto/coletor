@@ -34,8 +34,8 @@ namespace CollectorQi.Views
         {
             try
             {
-                var security =  await SecurityDB.GetSecurityAsync();
-                
+                var security = await SecurityDB.GetSecurityAsync();
+
                 if (security != null && security.Autenticado)
                 {
                     SecurityAuxiliar.Autenticado = true;
@@ -60,10 +60,10 @@ namespace CollectorQi.Views
                     footerVersion.Text = "v" + VersionTracking.CurrentVersion;
 
                     /* Valida integração de cadastros */
-                   //if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
-                   //{
-                   //    lblMensagemErro.Text = "Atenção! Ultima integração efetuada dia (" + security.DtUltIntegracao.Date.ToString("dd/MM/yyyy") + ") acesse a internet pelo dispositivo para efetuar a integração e continuar usando o sistema.";
-                   //}
+                    //if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
+                    //{
+                    //    lblMensagemErro.Text = "Atenção! Ultima integração efetuada dia (" + security.DtUltIntegracao.Date.ToString("dd/MM/yyyy") + ") acesse a internet pelo dispositivo para efetuar a integração e continuar usando o sistema.";
+                    //}
 
                     //ErroIntegracaoTransferencia();
                     //ErroIntegracaoInventario();
@@ -76,10 +76,10 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { /* "security.png"  , */ /* "fisica.png", */ "inventario.png", "expedicao.png", "logoTotvs.png", "logout.png" };
-                    string[] titulo = new string[] { /* "Armazenagem"   , */ /* "Recebimento",*/  "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" }; 
+                    string[] imagem = new string[] { "armazenagem.png", "conferencia.png", "inventario.png", "estabelecimento.png", "integration.png", "logout.png" };
+                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" };
 
-                    string[] subTitulo = new string[] {/*  "Armazenagem", */ /* "Conferência Física", */ "Inventário", "Escolher o estabelecimento", "Última Integração",
+                    string[] subTitulo = new string[] { "Armazenagens em Depósito", "Conferência Física, Recebimento e Reparos", "Inventário Físico e Reparos", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
@@ -181,7 +181,7 @@ namespace CollectorQi.Views
             var lstBatchTransferenciaErro = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.ErroIntegracao).OrderByDescending
                 (p => p.DtTransferencia).ToList();
             var lstBatchTransferenciaPend = BatchDepositoTransfereDB.GetBatchDepositoTransfereByStatus(eStatusIntegracao.PendenteIntegracao).OrderByDescending
-                (p => p.DtTransferencia).ToList();  
+                (p => p.DtTransferencia).ToList();
 
             if (lstBatchTransferenciaErro != null && lstBatchTransferenciaErro.Count > 0)
             {
@@ -192,7 +192,7 @@ namespace CollectorQi.Views
             if (lstBatchTransferenciaPend != null && lstBatchTransferenciaPend.Count > 0)
             {
                 if (lstBatchTransferenciaPend[0].DtTransferencia < dtLastIntegracaoTransf)
-                        dtLastIntegracaoTransf = lstBatchTransferenciaPend[0].DtTransferencia;
+                    dtLastIntegracaoTransf = lstBatchTransferenciaPend[0].DtTransferencia;
 
             }
 
@@ -241,17 +241,17 @@ namespace CollectorQi.Views
                         lblCodEstabel.Text = action;
                         frameEstab.IsVisible = true;
 
-                        return SecurityAuxiliar.Estabelecimento; 
+                        return SecurityAuxiliar.Estabelecimento;
                     }
                     else
                     {
                         SecurityAuxiliar.Estabelecimento = String.Empty;
                         lblCodEstabel.Text = String.Empty;
-                        frameEstab.IsVisible             = false;
+                        frameEstab.IsVisible = false;
                     }
                 }
             }
-            else;
+            else
                 await DisplayAlert("Erro!", "Nenhum estabelecimento encontrado.", "Cancelar");
 
             return String.Empty;
@@ -388,8 +388,7 @@ namespace CollectorQi.Views
             }
         }
 
-
-        async void OnSelection (object sender, SelectedItemChangedEventArgs e)
+        async void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
             try
             {
@@ -412,13 +411,14 @@ namespace CollectorQi.Views
                             await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
                             return;
                         }
-                        
+
                         if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
                             var strEstab = await SelectEstab();
                             if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
                                 return;
                         }
+
 
                         // Victor Alves - 08/01/2020 - Busca inventarios ativos, se tiver inventario ativo, não entra na tela
                         //var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).ToList();
@@ -446,6 +446,14 @@ namespace CollectorQi.Views
                             await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
                             return;
                         }
+
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        {
+                            var strEstab = await SelectEstab();
+                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                                return;
+                        }
+
 
                         //if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         //{
@@ -481,13 +489,15 @@ namespace CollectorQi.Views
                                 return;
                         }
 
-                        if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
-                        {
-                            RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
-                            Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
-                        }
+                        //  if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //  {
+                        //      RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        //      Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+                        //  }
 
-                        Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
+                        //  Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
+
+                        Application.Current.MainPage = new NavigationPage(new InventarioPage() { Title = menuItemDetail.Name.Trim() });
                         break;
 
                     case "Estabelecimento":

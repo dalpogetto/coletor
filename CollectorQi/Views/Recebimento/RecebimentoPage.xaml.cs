@@ -8,12 +8,11 @@ using Xamarin.Forms.Xaml;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ArmazenagemPage : ContentPage
+    public partial class RecebimentoPage : ContentPage
     {
         private static int inicialPage = 0;
         public static int InicialPage { get => inicialPage; set => inicialPage = value; }
-
-        public ArmazenagemPage()
+        public RecebimentoPage()
         {
             InitializeComponent();
             if (SecurityAuxiliar.Autenticado == false)
@@ -23,9 +22,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "security.png", "security.png", "security.png" };
-                string[] titulo = new string[] { "GuardaMateriais", "MovimentoEstoque", "MovimentoReparos" };
-                string[] subTitulo = new string[] { "Guarda de Materiais", "Movimento de Estoque", "Movimento de Reparos" };  
+                string[] imagem = new string[] { "conferenciaFisica.png", "notaEntrada.png" };
+                string[] titulo = new string[] { "Confêrencia Física", "Atualização de Entrada" };
+                string[] subTitulo = new string[] { "Conferência Física de Reparos (ESCL002)", "Atualização de NF de Entrada (ESCL028)" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -51,23 +50,16 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-               case "GuardaMateriais":
+                case "Confêrencia Física":
                     ConferenciaPage.MenuId = 1;
-                    ConferenciaPage.MenuDesc = "Guarda de Materiais";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Guarda de Materiais" });             
+                    ConferenciaPage.MenuDesc = "Conferência Física de Reparos";
+                    Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });
                     break;
 
-                case "MovimentoEstoque":
+                case "Atualização de Entrada":
                     ConferenciaPage.MenuId = 2;
-                    ConferenciaPage.MenuDesc = "Movimento de Estoque";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Estoque" });
-                    break;
-
-
-                case "MovimentoReparos":
-                    ConferenciaPage.MenuId = 3;
-                    ConferenciaPage.MenuDesc = "Movimento de Reparos";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
+                    ConferenciaPage.MenuDesc = "Atualizacao Nota Fiscal de Entrada";
+                    Application.Current.MainPage = new NavigationPage(new NotaFiscalConferenciaReparosListaPage() { Title = "Nota Fiscal" });
                     break;
             }
 

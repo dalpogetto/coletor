@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:CollectorQi" Title="Inventário Reparo" x:Class="CollectorQi.Views.TransferenciaDepositoListaPage">
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+        <StackLayout BackgroundColor="#fff">
+            <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+          
+                    <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                </Grid>
+            </Frame>
+
+            <Frame HasShadow="true" Margin="10,0,10,5" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblDepositoSaida" Text="Depósito de Saída" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtDepositoSaida" IsEnabled="False" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <Button x:Name="BtnBuscaDepositoSaida"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" Clicked="BtnBuscaDepositoSaida_Clicked" />
+                </Grid>
+            </Frame>
+
+            <Frame HasShadow="true" Margin="10,0,10,5" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblDepositoEntrada" Text="Depósito de Entrada" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtDepositoEntrada" IsEnabled="False" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <Button x:Name="BtnBuscaDepositoEntrada"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" Clicked="BtnBuscaDepositoEntrada_Clicked" />
+                </Grid>
+            </Frame>
+
+            <Frame HasShadow="true" Margin="10,0,10,5" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblLocalizacaoSaida" Text="Localização de Saída" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtLocalizacaoSaida" IsEnabled="False" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <Button x:Name="BtnBuscaLocalizacaoSaida"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" />
+                </Grid>
+            </Frame>
+
+            <Frame HasShadow="true" Margin="10,0,10,5" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lblLocalizacaoEntrada" Text="Localização de Entrada" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+                    <local:CustomEntry x:Name="txtLocalizacaoEntrada" IsEnabled="False" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="" VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <Button x:Name="BtnBuscaLocalizacaoEntrada"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" />
+                </Grid>
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Nota Fiscal" x:Class="CollectorQi.Views.NotaFiscalConferenciaReparosListaPage">
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+        <StackLayout BackgroundColor="#fff">
+            <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+          
+                    <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                </Grid>
+            </Frame>
+
+            <CollectionView x:Name="cvNotaFiscal" ItemsSource="{Binding ObsNotaFiscal}" SelectionMode="Single" Margin="10,0,10,0" SelectionChanged="OnCollectionViewSelectionChanged">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label Text="Nenhuma nota fiscal em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                          <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB" Padding="0">
+
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                              <!--      <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" /> -->
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>                                
+                                
+                                <Grid Grid.Row="0" HorizontalOptions="FillAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Small" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodItem}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Small" />
+                                </Grid>
+                                
+                                <Grid Grid.Row="0" MinimumWidthRequest="20" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding Image}" Grid.Row="0" WidthRequest="30"  HorizontalOptions="Center" VerticalOptions="Start"/>
+                                    <Label Text="{Binding StatusNotaFiscalString}" Grid.Row="1" FontSize="Small"  HorizontalOptions="Center"/>
+                                </Grid> 
+                                    
+                                <!--
+                                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Descrição: " FontAttributes="Bold" FontSize="Small" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding DescricaoItem, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
+                                </Grid> -->
+
+                                <!--
+                                <Grid Grid.Row="3" HorizontalOptions="FillAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Doc.:" FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding NroDocto}" FontSize="Small" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="4" HorizontalOptions="FillAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="RR:" FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding NumRR}" FontSize="Small" />
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="5" HorizontalOptions="FillAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Local:" FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Localizacao}" FontSize="Small" />
+                                    </Grid>
+
+                                        -->
+                                <!--
+                                    <Grid Grid.Row="2" HorizontalOptions="StartAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Doc.:" FontAttributes="Bold" FontSize="Small" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding NroDocto}" FontSize="Small" />
+                                    
+                                    <Label Grid.Row="1" Grid.Column="2" Text="RR:" FontAttributes="Bold" FontSize="Small" />
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding NumRR}" FontSize="Small" />
+                                    
+                                    <Label Grid.Row="2" Grid.Column="4" Text="Local:" FontAttributes="Bold" FontSize="Small" />
+                                    <Label Grid.Row="2" Grid.Column="5" Text="{Binding Localizacao}" FontSize="Small" />
+                                    </Grid>
+                                -->
+                                </Grid>                        
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <!--
+            <Grid Grid.Row="0" Margin="0,0,0,5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+              
+                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                 </Grid.RowDefinitions>
+                <Button x:Name="BtnCarregaNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="OnClick_CarregaNotaFiscal" Grid.Row="0" Grid.Column="0" Text="Carrega Nota Fiscal em andamento" TextColor="White" />
+             
+            </Grid>
+            -->
+            
+            <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnScan" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="BtnScan_Clicked" Grid.Row="0" Grid.Column="0" Text="Buscar Etiqueta" TextColor="White" />
+           <!--     <Button x:Name="BtnAtualizarNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="BtnAtualizarNotaFiscal_Clicked" Grid.Row="1" Grid.Column="0" Text="Atualizar Nota Fiscal" TextColor="White" />
+                -->
+                
+                <Button x:Name="BtnCarregaNotaFiscal" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="OnClick_CarregaNotaFiscal" Grid.Row="2" Grid.Column="0" Text="Carrega Nota Fiscal em andamento" TextColor="White" />
+               
+            </Grid>            
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

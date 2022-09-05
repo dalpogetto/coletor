@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             Title="Recebimento"
+             Title="Inventário"
              BackgroundImage="pageBackground.png"
-             x:Class="CollectorQi.Views.RecebimentoPage">
+             x:Class="CollectorQi.Views.InventarioPage">
     <ContentPage.Content>
-        <!--<Grid BackgroundColor="#4E4E4E" Opacity="1"> BackgroundImage="pageBackground.png"-->
-        <Grid>            
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="10,0,10,0"  VerticalOptions="StartAndExpand">
-                <ListView x:Name="listView" SeparatorColor="White"  Grid.Row="0" >
+        
+            <Grid Grid.Row="0" Margin="20,5,20,0" VerticalOptions="Start">
+                <ListView x:Name = "listView" VerticalOptions="Start"  SeparatorColor="White"  >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ImageCell Text="{Binding Name}" 
                                        Detail="{Binding SubTitle}" 
                                        ImageSource="{Binding Image}" 
-                                       TextColor="White" 
-                                       DetailColor="#aaaaaa"                                      
+                                       TextColor="Black" DetailColor="{StaticResource NavigationPrimary}"                                    
                                        CommandParameter="{Binding .}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>

@@ -1,4 +1,7 @@
-﻿using CollectorQi.Resources;
+﻿using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
+using CollectorQi.Services.ESCL017;
+using CollectorQi.Services.ESCL021;
 using CollectorQi.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RecebimentoPage : ContentPage
+    public partial class ArmazenagemPage : ContentPage
     {
         private static int inicialPage = 0;
         public static int InicialPage { get => inicialPage; set => inicialPage = value; }
-        public RecebimentoPage()
+
+        public ArmazenagemPage()
         {
             InitializeComponent();
             if (SecurityAuxiliar.Autenticado == false)
@@ -22,9 +26,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "fisica.png" /* , "fisica.png"  */ };
-                string[] titulo = new string[] { "ConferenciaFisicaReparos" /* , "AtualizacaoEntrada" */  };
-                string[] subTitulo = new string[] { "Conferência Física de Reparos" /* , "Atualização de NF de Entrada" */ };  
+                string[] imagem = new string[] { "guardaMaterias.png", "transferenciaDeposito.png" };
+                string[] titulo = new string[] { "Guarda de Materiais", "Transferência de Depósito" };
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito ()" };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -39,7 +43,7 @@ namespace CollectorQi.Views
                 listView.ItemSelected += OnSelection;
             }
         }
-        void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        async void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
@@ -50,17 +54,26 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-               case "ConferenciaFisicaReparos":
+               case "Guarda de Materiais":
                     ConferenciaPage.MenuId = 1;
-                    ConferenciaPage.MenuDesc = "Conferência Física de Reparos";
-                    Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });  
+                    ConferenciaPage.MenuDesc = "Guarda de Materiais";
+
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
+
                     break;
 
-                case "AtualizacaoEntrada":
+                case "Transferência de Depósito":
                     ConferenciaPage.MenuId = 2;
-                    ConferenciaPage.MenuDesc = "Atualização de NF de Entrada";
-                    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Estoque" });
-                    break;               
+                    ConferenciaPage.MenuDesc = "Transferência de Depósito";
+                    Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoListaPage(null) { Title = "Transferência de Depósito" });
+                    break;
+
+
+                //case "MovimentoReparos":
+                //    ConferenciaPage.MenuId = 3;
+                //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
+                //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
+                //    break;
             }
 
             ((ListView)sender).SelectedItem = null;

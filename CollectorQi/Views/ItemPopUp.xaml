@@ -48,13 +48,13 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                              
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding itCodigo} " FontAttributes="Bold"  FontSize="Micro"/>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding itCodigo}" FontAttributes="Bold"  FontSize="Micro"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding descItem}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Micro"/>
                             
                        
-                        </Grid>
-                             </Frame>   
-                            </StackLayout>
+                                </Grid>
+                        </Frame>   
+                      </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

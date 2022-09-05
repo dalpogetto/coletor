@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Menu principal" BackgroundImage="pageBackground.png" x:Class="CollectorQi.Views.PrincipalPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Menu principal" BackgroundImage="pageBackground.png"  x:Class="CollectorQi.Views.PrincipalPage">
     <ContentPage.Content>
 
         <!--<StackLayout BackgroundColor="#4E4E4E" Opacity="1" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">-->
@@ -16,10 +16,10 @@
             </Grid>            
             
             <Grid  Margin="15,5,15,0" VerticalOptions="StartAndExpand">
-                <ListView x:Name="listView" VerticalOptions="Start" SeparatorColor="White" SelectionMode="Single" >
+                <ListView x:Name="listView" VerticalOptions="Start" SeparatorColor="Transparent" SelectionMode="Single" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ImageCell Text="{Binding Name}" Detail="{Binding SubTitle}" ImageSource="{Binding Image}" TextColor="White" DetailColor="#aaaaaa" CommandParameter="{Binding .}" />
+                            <ImageCell Text="{Binding Name}" Detail="{Binding SubTitle}" ImageSource="{Binding Image}" TextColor="Black" DetailColor="{StaticResource NavigationPrimary}" CommandParameter="{Binding .}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -59,7 +59,7 @@
             
             <Grid  Margin="20,0,20,2" VerticalOptions="End"  HeightRequest="30" MinimumHeightRequest="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="200" />
                     <!--  <ColumnDefinition Width="50" /> -->
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>

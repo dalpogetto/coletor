@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Guarda Materiais Deposito Item" x:Class="CollectorQi.Views.GuardaMateriaisDepositoItemListaPage">
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->       
+
+        <StackLayout BackgroundColor="#fff">
+            
+            <Button x:Name="BtnTipoMovimento" Margin="10,10,10,10" BorderColor="#A5C3FA" FontSize="Small"  MinimumHeightRequest="70" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
+                    Grid.Row="0" Grid.Column="0" TextColor="#515151" />
+
+            <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
+                <TableView HeightRequest="50" >
+                    <TableRoot >
+                        <TableSection >
+                            <SwitchCell Text="Sem Saldo" OnChanged="SwitchCell_OnChanged"></SwitchCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
+
+            <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
+                <TableView HeightRequest="50">
+                    <TableRoot>
+                        <TableSection>
+                            <SwitchCell x:Name="SwtEntradaSaida" Text="Entrada" OnChanged="SwitchCellEntradaSaida_OnChanged"></SwitchCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
+
+            <CollectionView x:Name="cvGuardaMateriaisDepositoItem" ItemsSource="{Binding ObsGuardaMateriaisDepositoItem}" SelectionMode="Single" Margin="10,0,10,0">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label Text="Nenhuma Guarda Materiais Deposito Item" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                          <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>  
+                                    
+                                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoItem}" FontSize="Small" />
+
+                                        <Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding StrSaldo}" FontSize="Small" />
+                                    </Grid> 
+                                    
+                                </Grid>
+
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Margin="10,5,10,5" Grid.Row="4"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnEfetivarItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                    Clicked="BtnEfetivarItem_Clicked" Grid.Row="0" Grid.Column="0" Text="Efetivar Item" TextColor="White" />
+            </Grid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
