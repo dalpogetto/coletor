@@ -78,7 +78,7 @@ namespace CollectorQi.Views
                     logon = await Services.ESCL000.ConnectService.ConnectColetorAsync (usuario.Text, senha.Text, page);
                     
                 }
-                catch (Exception ex)
+                  catch (Exception ex)
                 {
                     await DisplayAlert("Erro!", ex.Message, "Cancelar");
                     logon = "Erro";

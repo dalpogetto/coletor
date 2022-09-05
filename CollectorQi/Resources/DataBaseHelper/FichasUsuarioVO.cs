@@ -2,7 +2,6 @@
 
 namespace CollectorQi.VO
 {
-    /*
     public class FichasUsuarioVO
     {
         //private int     inventarioItemId = 0;
@@ -13,5 +12,5 @@ namespace CollectorQi.VO
 
         [Indexed(Name = "uFichasUsuarioIndex", Order = 1, Unique = true)]
         public string Localizacao { get => localizacao; set => localizacao = value; }         
-    } */
+    }
 }

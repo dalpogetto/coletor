@@ -1,4 +1,5 @@
 ﻿using CollectorQi.Models.ESCL021;
+using CollectorQi.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,22 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Services.ESCL021
 {
-    public class DepositosGuardaMaterialService
+    public static class DepositosGuardaMaterialService
     {
-        ResultGuardaMaterialJson parametros = null;
+        
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
-        private const string URI = "https://62fa31c73c4f110faa941620.mockapi.io";        
+        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        //private const string URI = "https://62fa31c73c4f110faa941620.mockapi.io";        
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/ObterDepositosUsuarioPorTransacao";
 
         // Metodo ObterParametros Totvs
         //public async Task<ResultGuardaMaterialJson> SendFinalizarConferenciaAsync(ESCL.FinalizarConferenciaNotaFiscal finalizarConferenciaNotaFiscal)
-        public async Task<ResultGuardaMaterialJson> SendGuardaMaterialAsync()
+        public static async Task<ResultGuardaMaterialJson> SendGuardaMaterialAsync()
         {
+            ResultGuardaMaterialJson parametros = null;
+
             try
             {
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
@@ -34,19 +37,21 @@ namespace CollectorQi.Services.ESCL021
                 client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
-                using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
-                {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
-                    {
-                        Content = content
-                    };
+                // using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
+                //{
+                // HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS + "?codEstabel=101&tipoTransacao=1")
+                // {
+                //     Content = content
+                // };
 
-                    var result = await client.SendAsync(req);
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_SEND_PARAMETERS + "?codEstabel=101&tipoTransacao=1");
+
+                var result = await client.SendAsync(req);
 
                     if (result.IsSuccessStatusCode)
                     {
@@ -57,7 +62,7 @@ namespace CollectorQi.Services.ESCL021
                     {
                         Debug.Write(result);
                     }
-                }
+             //   }
             }
             catch (Exception e)
             {

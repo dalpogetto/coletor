@@ -62,31 +62,28 @@ namespace CollectorQi.Resources.DataBaseHelper
                 string teste = Path.GetFullPath(pasta);
 
                 if (!File.Exists(Path.Combine(pasta, banco)) || VersionTracking.IsFirstLaunchForCurrentVersion)
-                {     
+                {
                     using (SQLiteConnection conexao = new SQLiteConnection(Path.Combine(pasta, banco)))
                     {
 
-                        //if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) == 120)
-                        //{
-                            /* Se for ambiente (1.2.0), limpa o banco de dados */
-                            conexao.DropTable<UsuarioVO>();
-                            conexao.DropTable<ItemVO>();
-                            conexao.DropTable<SecurityVO>();
-                            conexao.DropTable<InventarioVO>();
-                            conexao.DropTable<InventarioLocalizacaoVO>();
-                            conexao.DropTable<InventarioItemVO>();
-                            conexao.DropTable<DepositoVO>();
-                            conexao.DropTable<EstabelecVO>();
-                            conexao.DropTable<SaldoEstoqVO>();
-                            conexao.DropTable<RequisicaoVO>();
-                            conexao.DropTable<RequisicaoItemVO>();
-                            conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
-                            conexao.DropTable<FichasUsuarioVO>();
-                            conexao.DropTable<NotaFiscalVO>();
+                        /* Se for ambiente (1.2.0), limpa o banco de dados */
+                        conexao.DropTable<UsuarioVO>();
+                        conexao.DropTable<ItemVO>();
+                        conexao.DropTable<SecurityVO>();
+                        conexao.DropTable<InventarioVO>();
+                        conexao.DropTable<InventarioLocalizacaoVO>();
+                        conexao.DropTable<InventarioItemVO>();
+                        conexao.DropTable<DepositoVO>();
+                        conexao.DropTable<EstabelecVO>();
+                        conexao.DropTable<SaldoEstoqVO>();
+                        conexao.DropTable<RequisicaoVO>();
+                        conexao.DropTable<RequisicaoItemVO>();
+                        conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
+                        conexao.DropTable<FichasUsuarioVO>();
+                        conexao.DropTable<NotaFiscalVO>();
 
-                            conexao.DropTable<BatchInventarioItemVO>();
+                        conexao.DropTable<BatchInventarioItemVO>();
 
-                        //}                                                                       
 
                         if (!IsTableExists("UsuarioVO", conexao))
                             conexao.CreateTable<UsuarioVO>();
@@ -97,32 +94,13 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("SecurityVO", conexao))
                             conexao.CreateTable<SecurityVO>();
 
-                        if (!IsTableExists("InventarioVO", conexao))                        
+                        if (!IsTableExists("InventarioVO", conexao))
                             conexao.CreateTable<InventarioVO>();
-                        }
 
                         if (!IsTableExists("InventarioLocalizacaoVO", conexao))
                         {
                             conexao.CreateTable<InventarioLocalizacaoVO>();
                         }
-                        //else
-                        //{
-                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
-                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
-                        //    {
-                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
-                        //        cmd.CommandText = "ALTER TABLE InventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
-                        //        try
-                        //        {
-                        //            cmd.ExecuteNonQuery();
-                        //        }
-                        //        catch (Exception ex)
-                        //        {
-                        //            /* Se já existir o campo, desconsidera */
-                        //            System.Diagnostics.Debug.Write(ex);
-                        //        }
-                        //    }
-                        //}
 
                         if (!IsTableExists("InventarioItemVO", conexao))
                             conexao.CreateTable<InventarioItemVO>();
@@ -150,32 +128,11 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("BatchDepositoTransfereVO", conexao))
                             conexao.CreateTable<BatchDepositoTransfereVO>();
                         //conexao.DropTable<BatchInventarioVO>();
-                        
-                        if (!IsTableExists("BatchInventarioVO", conexao))                        
-                            conexao.CreateTable<BatchInventarioVO>();                        
 
                         if (!IsTableExists("BatchInventarioItemVO", conexao))
                         {
                             conexao.CreateTable<BatchInventarioItemVO>();
                         }
-                        //else
-                        //{
-                        //    /* Victor Alves - 13/11/2019 se for maior que a versao 1.2.0, adiciona o campo de inventarioAtivo */
-                        //    if (int.Parse(VersionTracking.CurrentVersion.Replace(".", "").Replace("(p)", "")) >= 120)
-                        //    {
-                        //        SQLiteCommand cmd = new SQLiteCommand(conexao);
-                        //        cmd.CommandText = "ALTER TABLE BatchInventarioVO ADD COLUMN InventarioAtivo boolean NOT NULL default 0";
-                        //        try
-                        //        {
-                        //            cmd.ExecuteNonQuery();
-                        //        }
-                        //        catch (Exception ex)
-                        //        {
-                        //            /* Se já existir o campo, desconsidera */
-                        //            System.Diagnostics.Debug.Write(ex);
-                        //        }
-                        //    }
-                        //}
 
                         if (!IsTableExists("FichasUsuarioVO", conexao))
                             conexao.CreateTable<FichasUsuarioVO>();
@@ -183,8 +140,6 @@ namespace CollectorQi.Resources.DataBaseHelper
                         if (!IsTableExists("NotaFiscalVO", conexao))
                             conexao.CreateTable<NotaFiscalVO>();
                     }
-
-                    return true;
                 }
 
                 return true;   

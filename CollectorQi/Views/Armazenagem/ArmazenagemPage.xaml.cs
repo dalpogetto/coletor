@@ -26,9 +26,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "security.png", "security.png"};
-                string[] titulo = new string[] { "GuardaMateriais", "TransferenciaDeposito" };
-                string[] subTitulo = new string[] { "Guarda de Materiais", "Transferência de Depósito" };  
+                string[] imagem = new string[] { "guardaMaterias.png", "transferenciaDeposito.png" };
+                string[] titulo = new string[] { "Guarda de Materiais", "Transferência de Depósito" };
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito ()" };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -54,17 +54,15 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-               case "GuardaMateriais":
+               case "Guarda de Materiais":
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Guarda de Materiais";
 
-                    var dDeposito = new DepositosGuardaMaterialService();
-                    var dDepositoRetorno = await dDeposito.SendGuardaMaterialAsync();
-                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(dDepositoRetorno.Param.ParamResult));
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
 
                     break;
 
-                case "TransferenciaDeposito":
+                case "Transferência de Depósito":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Transferência de Depósito";
                     Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoListaPage(null) { Title = "Transferência de Depósito" });

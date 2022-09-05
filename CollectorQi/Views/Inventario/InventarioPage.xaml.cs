@@ -21,17 +21,17 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "inventario.png", "inventario.png" };
+                string[] imagem = new string[] { "inventario.png", "repair.png" };
                 string[] titulo = new string[] { "Inventário Físico", "Inventário de Reparos" };
-                //string[] subTitulo = new string[] { "Processo já desenvolvido anteriormente", "Processo proposto nesse documento" };
+                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário de Reparos (ESCL017)" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
 
                 for (int i = 0; i < titulo.Count(); i++)
                 {
-                    //menuItemDetail = new MenuItemDetail { MenuItemDatailId = i + 1, Name = titulo[i], SubTitle = subTitulo[i] , Image = imagem[i] };
-                    menuItemDetail = new MenuItemDetail { MenuItemDatailId = i + 1, Name = titulo[i], Image = imagem[i] };
+                    menuItemDetail = new MenuItemDetail { MenuItemDatailId = i + 1, Name = titulo[i], SubTitle = subTitulo[i] , Image = imagem[i] };
+                    //menuItemDetail = new MenuItemDetail { MenuItemDatailId = i + 1, Name = titulo[i], Image = imagem[i] };
 
                     menuItemDetails.Add(menuItemDetail);
                 }
@@ -61,7 +61,8 @@ namespace CollectorQi.Views
             switch (menuItemDetail.Name)
             {
                 case "Inventário Físico":
-                    Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
+                    //Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
+                    Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
                     break;
 
                 case "Inventário de Reparos":

@@ -6,7 +6,7 @@
         <StackLayout BackgroundColor="#fff">
             
             <Button x:Name="BtnTipoMovimento" Margin="10,10,10,10" BorderColor="#A5C3FA" FontSize="Small"  MinimumHeightRequest="70" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
-                    Grid.Row="0" Grid.Column="0" Clicked="BtnTipoMovimento_Clicked" TextColor="#515151" />
+                    Grid.Row="0" Grid.Column="0" TextColor="#515151" />
 
             <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
                 <TableView HeightRequest="50" >
@@ -16,7 +16,17 @@
                         </TableSection>
                     </TableRoot>
                 </TableView>
-            </StackLayout>                  
+            </StackLayout>
+
+            <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
+                <TableView HeightRequest="50">
+                    <TableRoot>
+                        <TableSection>
+                            <SwitchCell x:Name="SwtEntradaSaida" Text="Entrada" OnChanged="SwitchCellEntradaSaida_OnChanged"></SwitchCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
 
             <CollectionView x:Name="cvGuardaMateriaisDepositoItem" ItemsSource="{Binding ObsGuardaMateriaisDepositoItem}" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
@@ -45,11 +55,11 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoItem}" FontSize="Micro" />
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodigoItem}" FontSize="Small" />
 
-                                        <Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SaldoInfo}" FontSize="Micro" />
+                                        <Label Grid.Row="1" Grid.Column="0" Text="Saldo: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding StrSaldo}" FontSize="Small" />
                                     </Grid> 
                                     
                                 </Grid>
@@ -66,8 +76,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="BtnLeituraEtiqueta" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                    Clicked="BtnLeituraEtiqueta_Clicked" Grid.Row="0" Grid.Column="0" Text="Leitura Etiqueta" TextColor="White" />
+                <Button x:Name="BtnEfetivarItem" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                    Clicked="BtnEfetivarItem_Clicked" Grid.Row="0" Grid.Column="0" Text="Efetivar Item" TextColor="White" />
             </Grid>
 
         </StackLayout>

@@ -22,9 +22,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "fisica.png" /* , "fisica.png"  */ };
-                string[] titulo = new string[] { "ConferenciaFisicaReparos" /* , "AtualizacaoEntrada" */  };
-                string[] subTitulo = new string[] { "Conferência Física de Reparos" /* , "Atualização de NF de Entrada" */ };  
+                string[] imagem = new string[] { "conferenciaFisica.png", "notaEntrada.png" };
+                string[] titulo = new string[] { "Confêrencia Física", "Atualização de Entrada" };
+                string[] subTitulo = new string[] { "Conferência Física de Reparos (ESCL002)", "Atualização de NF de Entrada (ESCL028)" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -50,17 +50,17 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-               case "ConferenciaFisicaReparos":
+                case "Confêrencia Física":
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Conferência Física de Reparos";
-                    Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });  
+                    Application.Current.MainPage = new NavigationPage(new ConferenciaFisicaParametrosPage() { Title = "Conferência Física de Reparos" });
                     break;
 
-                case "AtualizacaoEntrada":
+                case "Atualização de Entrada":
                     ConferenciaPage.MenuId = 2;
-                    ConferenciaPage.MenuDesc = "Atualização de NF de Entrada";
+                    ConferenciaPage.MenuDesc = "Atualizacao Nota Fiscal de Entrada";
                     Application.Current.MainPage = new NavigationPage(new NotaFiscalConferenciaReparosListaPage() { Title = "Nota Fiscal" });
-                    break;               
+                    break;
             }
 
             ((ListView)sender).SelectedItem = null;

@@ -59,8 +59,6 @@ namespace CollectorQi.Views
             lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
 
             cvInventario.BindingContext = this;
-
-            
         }
 
         public async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)

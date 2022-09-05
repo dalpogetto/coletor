@@ -1,4 +1,5 @@
 ﻿using CollectorQi.Models.ESCL021;
+using CollectorQi.VO.ESCL018;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +31,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(null));
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
 
             return true;
         }
@@ -43,6 +44,39 @@ namespace CollectorQi.Views
         protected void BtnSaida_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 0));
+        }
+    }
+
+    public class InventarioFisicoViewModel : InventarioVO
+    {
+        public string Image
+        {
+            get
+            {
+                if (this.StatusInventario == eStatusInventario.NaoIniciado)
+                {
+                    return "intPendenteMed.png";
+                }
+                else if (this.StatusInventario == eStatusInventario.IniciadoMobile)
+                {
+                    return "intSucessoMed.png";
+
+                }
+                else if (this.StatusInventario == eStatusInventario.EncerradoMobile)
+                {
+                    return "intErroMed.png";
+                }
+
+                return "";
+            }
+        }
+
+        public string StatusInventarioString
+        {
+            get
+            {
+                return csAuxiliar.GetDescription(StatusInventario);
+            }
         }
     }
 }
