@@ -17,7 +17,7 @@ namespace CollectorQi.Services.ESCL002
         private IEnumerable<Parametros> parametros;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
         private const string URI_END_CONFERENCE = "/api/integracao/coletores/v1/escl002api/FinalizarConferencia";
 
         // Metodo Finalizar Conferencia - Totvs
