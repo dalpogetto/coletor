@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="6" package="com.collector.qualiit.collectorqi" android:versionName="1.0.5(t)" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="26" android:targetSdkVersion="28" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="8" package="com.collector.qualiit.collectorqi" android:versionName="1.0.8(t)" android:installLocation="internalOnly">
+	<uses-sdk android:minSdkVersion="30" android:targetSdkVersion="28" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.INTERNET" />

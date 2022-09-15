@@ -16,7 +16,7 @@ namespace CollectorQi.Services.ESCL017
         ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        //private const string URI = "https://brspupapl01.ad.diebold.com:8143";
         private const string URI = "https://62e1257efa99731d75cf5269.mockapi.io";
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl017api/EnviarParametros";        

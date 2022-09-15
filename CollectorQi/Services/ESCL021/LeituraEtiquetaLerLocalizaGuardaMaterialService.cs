@@ -16,7 +16,7 @@ namespace CollectorQi.Services.ESCL021
         
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8543";
+        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
         //private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";
 
         // Utilizar no diebold esse caminho -->  "/api/integracao/coletores/v1/escl027api/LeituraEtiquetaLocaliza";
