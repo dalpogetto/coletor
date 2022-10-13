@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -18,7 +19,7 @@ namespace CollectorQi.Services.ESCL018
     {
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/ObterFichasUsuario";
 
@@ -29,6 +30,7 @@ namespace CollectorQi.Services.ESCL018
 
             try
             {
+                // api
                 var itemERP = await GetObterFichasUsuarioAsyncERP(byInventarioId, byLocalizacao);
 
                 // Atualiza localizacaoInventario Backend

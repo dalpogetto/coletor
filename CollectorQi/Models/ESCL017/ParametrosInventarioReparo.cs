@@ -9,5 +9,7 @@ namespace CollectorQi.Models.ESCL017
         public string Senha { get; set; }
         public string CodDepos { get; set; }
         public string DtInventario { get; set; }
+
+
     }
 }

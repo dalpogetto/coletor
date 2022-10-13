@@ -26,9 +26,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "guardaMaterias.png", "transferenciaDeposito.png" };
-                string[] titulo = new string[] { "Guarda de Materiais", "Transferência de Depósito" };
-                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito ()" };  
+                string[] imagem = new string[] { "guardaMaterias.png"              , "transferenciaDeposito.png"          , "movto_repair3.png"                   , "print.png" };
+                string[] titulo = new string[] { "Guarda de Materiais"             , "Transferência de Depósito"          , "Movimentação de Reparo"              , "Impressão de Etiquetas de Identificação"};
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"    , "Impressão (ESCL010/ESCL013/ESCL020)" , };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -65,15 +65,29 @@ namespace CollectorQi.Views
                 case "Transferência de Depósito":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Transferência de Depósito";
-                    Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoListaPage(null) { Title = "Transferência de Depósito" });
+                    Application.Current.MainPage = new NavigationPage(new TransferenciaDepositoPage(null) { Title = "Transferência de Depósito" });
                     break;
 
 
-                //case "MovimentoReparos":
-                //    ConferenciaPage.MenuId = 3;
-                //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
-                //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
-                //    break;
+                case "Movimentação de Reparo":
+                    ConferenciaPage.MenuId = 2;
+                    ConferenciaPage.MenuDesc = "Movimentação de Reparo";
+                    Application.Current.MainPage = new NavigationPage(new ArmazenagemMovimentoReparoPage(null) { Title = "Movimentação de Reparo" });
+                    break;
+
+
+                case "Impressão de Etiquetas de Identificação":
+                    ConferenciaPage.MenuId = 2;
+                    ConferenciaPage.MenuDesc = "Impressão de Etiquetas";
+                    Application.Current.MainPage = new NavigationPage(new ArmazenagemImprimirPage() { Title = "Impressão de Etiqueta" });
+                    break;
+
+
+                    //case "MovimentoReparos":
+                    //    ConferenciaPage.MenuId = 3;
+                    //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
+                    //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
+                    //    break;
             }
 
             ((ListView)sender).SelectedItem = null;

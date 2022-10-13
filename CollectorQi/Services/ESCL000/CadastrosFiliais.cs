@@ -15,7 +15,7 @@ namespace CollectorQi.Services.ESCL000
     public static class CadastrosFiliais
     {
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         private const string URI_CADASTRO_FILIAIS = "/api/integracao/coletores/v1/escl000api/ObterListaFiliais";
 
         // Metodo Finalizar Conferencia - Totvs

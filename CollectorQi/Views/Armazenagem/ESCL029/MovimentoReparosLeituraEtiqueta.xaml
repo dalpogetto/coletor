@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" Title="Leitura da Etiqueta de Reparo" x:Class="CollectorQi.Views.MovimentoReparosLeituraEtiqueta" xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <ContentPage.Content>
+
+        <ScrollView Orientation="Vertical" VerticalOptions="Start">
+            <Grid BackgroundColor="#fff" Opacity="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="130" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="5,0,5,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <!--<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" /> -->
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame0" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" />
+                                <Label x:Name="lblDep"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" />
+                                <Label x:Name="lblTec"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1" />
+                                <Label x:Name="lblDescOpcao"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" />
+
+                                <!--<Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" />
+                                + "Dep: " + parametros.Deposito + "Tec.: " + parametros.CodTecnico + " " + parametros.DescOpcao-->
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblScan" Text="Scan" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtScan" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Scan..." Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7"/>
+                                <Button x:Name="BtnScan" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                 Clicked="BtnScan_Clicked" Grid.Row="1" Grid.Column="7" />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Label x:Name="lblFilial" Text="Filial" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
+
+                                <local:CustomEntryText x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Filial..." Grid.Row="1"     Grid.Column="0"     Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtRR" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..." Grid.Row="1"   Grid.Column="2"     Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtDigito" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Dígito..." Grid.Row="1"   Grid.Column="4"     Grid.ColumnSpan="2" />
+
+                                <Button x:Name="BtnLeitura" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="efetivarMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                Clicked="BtnLeitura_Clicked" Grid.Row="1" Grid.Column="6" />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtItem" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Item..." Grid.Row="1" Grid.Column="0"  />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblDescricao" Text="Descrição" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtDescricao" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Descrição..." Grid.Row="1" Grid.Column="0"  />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame5" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblLocal" Text="Local" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtLocal" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Local..." Grid.Row="1" Grid.Column="0"  />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame6" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblMsg" Text="Mensagem" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtMsg" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Mensagem..." Grid.Row="1" Grid.Column="0"  />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+
+                </Grid>
+
+                <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="BtnEfetivar"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
+                    Clicked="BtnEfetivar_Clicked" Grid.Row="0" Text="Efetivar Reparos" />
+
+                    <Button x:Name="BtnLimpar"   FontSize="Small"     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="closeMini.png"    BackgroundColor="#ff9999" TextColor="White" BorderRadius="16"
+                    Clicked="BtnLimpar_Clicked"  Grid.Row="1"   Text="Limpar" />
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

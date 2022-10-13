@@ -79,7 +79,6 @@
     <None Include="Views\Batch\IntegracaoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\ESCL000\" />
     <Folder Include="Services\ESCL028\" />
     <Folder Include="ViewsOld\" />
     <Folder Include="Models\Notification\" />
@@ -98,11 +97,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Armazenagem\ESCL010\ArmazenagemImprimirFilial.xaml.cs">
+      <DependentUpon>ArmazenagemImprimirFilial.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL010\ArmazenagemImprimirPage.xaml.cs">
+      <DependentUpon>ArmazenagemImprimirPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL021\DepositosUsuarioPorTransacaoListaPage.xaml.cs">
+      <DependentUpon>DepositosUsuarioPorTransacaoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL021\TransferenciaDepositoPage.xaml.cs">
+      <DependentUpon>TransferenciaDepositoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\MovimentoReparosOpcoesTransferenciaPage.xaml.cs">
+      <DependentUpon>MovimentoReparosOpcoesTransferenciaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\MovimentoReparosLeituraEtiqueta.xaml.cs">
+      <DependentUpon>MovimentoReparosLeituraEtiqueta.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\ArmazenagemMovimentoReparoPage.xaml.cs">
+      <DependentUpon>ArmazenagemMovimentoReparoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoItemListaPagePopUp.xaml.cs">
       <DependentUpon>GuardaMateriaisDepositoItemListaPagePopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriasDepositoLocalizPopUp.xaml.cs">
       <DependentUpon>GuardaMateriasDepositoLocalizPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL000\DepositoPopUp.xaml.cs">
+      <DependentUpon>DepositoPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Recebimento\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using CollectorQi.Models.ESCL017;
+using CollectorQi.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL017
 {
@@ -15,8 +17,8 @@ namespace CollectorQi.Services.ESCL017
         ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8143";
-        private const string URI = "https://62e1257efa99731d75cf5269.mockapi.io";
+        private static string URI = ServiceCommon.SystemUrl;
+        //private const string URI = "https://62e1257efa99731d75cf5269.mockapi.io";
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl017api/ObterDepositosInventario";
 
@@ -32,17 +34,21 @@ namespace CollectorQi.Services.ESCL017
                 RequestInventarioReparoJson requestJson = new RequestInventarioReparoJson();
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
                 //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
                 //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Diagnostics;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL028
 {
@@ -16,8 +17,8 @@ namespace CollectorQi.Services.ESCL028
         ResultNotaFiscalJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        //private const string URI = "https://brspupapl01.ad.diebold.com:8143";
-        private const string URI = "https://62d19f93d4eb6c69e7e10a56.mockapi.io";        
+        private static string URI = ServiceCommon.SystemUrl;
+        //private const string URI = "https://62d19f93d4eb6c69e7e10a56.mockapi.io";        
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/ValidarReparos";
 

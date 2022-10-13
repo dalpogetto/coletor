@@ -8,13 +8,14 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Resources;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
     public static class ParametersGravarFichasUsuarioService
     {
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 

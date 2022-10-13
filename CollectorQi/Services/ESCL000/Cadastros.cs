@@ -18,7 +18,7 @@ namespace CollectorQi.Services.ESCL000
         //private IEnumerable<Parametros> parametros;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         private const string URI_OBTER_EMITENTE = "/api/integracao/coletores/v1/escl000api/ObterEmitente";
         private const string URI_OBTER_ITEM = "/api/integracao/coletores/v1/escl000api/ObterItem";
 

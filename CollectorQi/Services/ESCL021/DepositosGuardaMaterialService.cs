@@ -8,15 +8,16 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL021
 {
     public static class DepositosGuardaMaterialService
     {
-        
+
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI = "https://62fa31c73c4f110faa941620.mockapi.io";        
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/ObterDepositosUsuarioPorTransacao";
