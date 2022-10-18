@@ -5,6 +5,11 @@
              Title="Armazenagem"
              BackgroundImage="pageBackground.png"
              x:Class="CollectorQi.Views.ArmazenagemPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

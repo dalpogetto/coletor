@@ -10,7 +10,7 @@ namespace CollectorQi.Services.ESCL000
         {
             get
             {
-                return "https://brspupapl01.ad.diebold.com:8543";
+                return "https://brspupapl01.ad.diebold.com:8143";
             }
         }
     }

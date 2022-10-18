@@ -2,6 +2,7 @@
 using CollectorQi.Models.ESCL027;
 using CollectorQi.Resources;
 using CollectorQi.Services.ESCL021;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -29,6 +30,9 @@ namespace CollectorQi.Views
 
         public ParametrosDepositosGuardaMaterial ParametrosDepositosGuardaMaterial;
         public bool LocalizacaoStatus { get; set; } = true;
+
+        string _codDeposSaidaHidden;
+        string _codDeposEntradaHidden;
 
         public TransferenciaDepositoPage(ParametrosDepositosGuardaMaterial parametrosDepositosGuardaMaterial)
         {
@@ -82,71 +86,82 @@ namespace CollectorQi.Views
 
         async Task DepositoSaida(string tipoTransferencia)
         {
-            var parametrosDepositosGuardaMaterialLocal = new ParametrosDepositosGuardaMaterial();
-
-            if (ParametrosDepositosGuardaMaterial == null)
-                ParametrosDepositosGuardaMaterial = new ParametrosDepositosGuardaMaterial();
-
-            parametrosDepositosGuardaMaterialLocal = ParametrosDepositosGuardaMaterial;
-            parametrosDepositosGuardaMaterialLocal.TipoTransferencia = tipoTransferencia;
-
-            await BuscaDeposito(parametrosDepositosGuardaMaterialLocal);
+            //var parametrosDepositosGuardaMaterialLocal = new ParametrosDepositosGuardaMaterial();
+            //
+            //if (ParametrosDepositosGuardaMaterial == null)
+            //    ParametrosDepositosGuardaMaterial = new ParametrosDepositosGuardaMaterial();
+            //
+            //parametrosDepositosGuardaMaterialLocal = ParametrosDepositosGuardaMaterial;
+            //parametrosDepositosGuardaMaterialLocal.TipoTransferencia = tipoTransferencia;
+            //
+            //await BuscaDeposito(parametrosDepositosGuardaMaterialLocal);
         }
 
         async void OnClick_DepositoSaida(object sender, EventArgs e)
         {
-            await DepositoSaida("2");
+            await BuscaDeposito("Saida");
         }
 
         async void OnClick_DepositoEntrada(object sender, EventArgs e)
         {
-            await DepositoSaida("1");
+            await BuscaDeposito("Entrada");
+        }
+        public void SetDepos (string pCodDepos, string pTipoTransacao, bool depLab)
+        {
+            if (pTipoTransacao == "Entrada")
+            {
+                _codDeposEntradaHidden = pCodDepos;
+
+                if (depLab)
+                {
+                    frmLocalizacaoEntrada.IsVisible = true;
+                }
+                else
+                {
+                    frmLocalizacaoEntrada.IsVisible = false;
+                }
+            }
+            else
+            {
+                _codDeposSaidaHidden = pCodDepos;
+
+                if (depLab)
+                {
+                    frmLocalizacaoSaida.IsVisible = true;
+                }
+                else
+                {
+                    frmLocalizacaoSaida.IsVisible = false;
+                }
+            }
         }
 
-        async Task BuscaDeposito(ParametrosDepositosGuardaMaterial parametrosDepositosGuardaMaterial)
+        async Task BuscaDeposito(string pTipoTransacao)
         {
-            // var dGuardaMaterial = new DepositosGuardaMaterialService();
-
-            //var lstInventario = await ParametersInventarioService.SendParametersAsync();
-            var pageProgress = new ProgressBarPopUp("Carregando Depósitos, aguarde...");
-
-            // ObsDepositosGuardaMaterial.Clear();
+            BtnDepositoEntrada.IsEnabled = false;
+            BtnDepositoSaida.IsEnabled = false;
 
             try
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+                var edtCustomText = pTipoTransacao == "Entrada" ? edtDepositoEntrada : edtDepositoSaida;
 
-                var dGuardaMaterialRetorno = await DepositosGuardaMaterialService.SendGuardaMaterialAsync( /* parametrosDepositosGuardaMaterial.TipoTransferencia*/ );
+                var page = new DepositosUsuarioPorTransacaoListaPopUp(edtCustomText, pTipoTransacao);
 
-                foreach (var item in dGuardaMaterialRetorno.Param.ParamResult)
-                {
-                    if (!item.DepLab)
-                        parametrosDepositosGuardaMaterial.LocalizacaoStatus = false;
-                }
+                page._setDepos = SetDepos;
 
-                parametrosDepositosGuardaMaterial.LocalizacaoSaida = edtLocalizacaoSaida.Text;
-                parametrosDepositosGuardaMaterial.LocalizacaoEntrada = edtLocalizacaoEntrada.Text;
-                parametrosDepositosGuardaMaterial.CodItem = edtItCodigo.Text;
-                parametrosDepositosGuardaMaterial.DescItem = edtDescItem.Text;
-                parametrosDepositosGuardaMaterial.Un = edtUnidade.Text;
-                parametrosDepositosGuardaMaterial.Conta = edtTipoConta.Text;
-                parametrosDepositosGuardaMaterial.NF = edtNroDocto.Text;
-                parametrosDepositosGuardaMaterial.Serie = edtSerie.Text;
-                parametrosDepositosGuardaMaterial.Lote = edtLote.Text;
-             //   parametrosDepositosGuardaMaterial.Saldo = edtSaldo.Text;
-                parametrosDepositosGuardaMaterial.Quantidade = edtQuantidade.Text;
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
 
-                Application.Current.MainPage = new NavigationPage(new DepositosUsuarioPorTransacaoListaPage(dGuardaMaterialRetorno.Param.ParamResult, parametrosDepositosGuardaMaterial));
             }
-            
-            catch (Exception ex)
+            catch (Exception)
             {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
+
             }
             finally
             {
-                await pageProgress.OnClose();
+                BtnDepositoEntrada.IsEnabled = true;
+                BtnDepositoSaida.IsEnabled = true;
             }
+
         }
 
         async void BtnLocalizacaoSaida_Clicked(object sender, EventArgs e)
@@ -272,21 +287,21 @@ namespace CollectorQi.Views
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                if (LocalizacaoStatus != false)
-                {
-                    if (String.IsNullOrWhiteSpace(edtLocalizacaoSaida.Text))
-                    {
-                        edtLocalizacaoSaida.Focus();
-                        await DisplayAlert("", "Localização Saída não encontrada", "OK");
-                        return;
-                    }
-                    else if (String.IsNullOrWhiteSpace(edtLocalizacaoEntrada.Text))
-                    {
-                        edtLocalizacaoEntrada.Focus();
-                        await DisplayAlert("", "Localização Entrada não encontrada", "OK");
-                        return;
-                    }
-                }
+                //if (LocalizacaoStatus != false)
+                //{
+                //    if (String.IsNullOrWhiteSpace(edtLocalizacaoSaida.Text))
+                //    {
+                //        edtLocalizacaoSaida.Focus();
+                //        await DisplayAlert("", "Localização Saída não encontrada", "OK");
+                //        return;
+                //    }
+                //    else if (String.IsNullOrWhiteSpace(edtLocalizacaoEntrada.Text))
+                //    {
+                //        edtLocalizacaoEntrada.Focus();
+                //        await DisplayAlert("", "Localização Entrada não encontrada", "OK");
+                //        return;
+                //    }
+                //}
 
                 if (String.IsNullOrWhiteSpace(edtDepositoSaida.Text))
                 {
@@ -315,14 +330,14 @@ namespace CollectorQi.Views
                     var dadosLeituraDadosItemTransferenciaDeposito = new DadosLeituraDadosItemTransferenciaDeposito()
                     {
                         CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                        CodDeposOrigem = edtDepositoSaida.Text,
-                        CodDeposDest = edtDepositoEntrada.Text,
-                        CodLocalizaOrigem = edtLocalizacaoSaida.Text,
-                        CodLocalizaDest = edtLocalizacaoEntrada.Text,
-                        NF = edtNroDocto.Text,
-                        Serie = edtSerie.Text,
-                        CodItem = edtItCodigo.Text,
-                        Lote = edtLote.Text,
+                        CodDeposOrigem = _codDeposSaidaHidden,
+                        CodDeposDest = _codDeposEntradaHidden,
+                        CodLocalizaOrigem = edtLocalizacaoSaida.Text ?? String.Empty,
+                        CodLocalizaDest = edtLocalizacaoEntrada.Text ?? String.Empty,
+                        NF = edtNroDocto.Text ?? String.Empty,
+                        Serie = edtSerie.Text ?? String.Empty,
+                        CodItem = edtItCodigo.Text ?? String.Empty,
+                        Lote = edtLote.Text ?? String.Empty,
                         Quantidade = int.Parse(edtQuantidade.Text)
                     };
 
@@ -338,7 +353,7 @@ namespace CollectorQi.Views
                     }
                     else
                     {
-                        if (efetivarTransferenciaRetorno.Resultparam != null && efetivarTransferenciaRetorno.Resultparam.Count > 0)
+                        if (efetivarTransferenciaRetorno != null && efetivarTransferenciaRetorno.Resultparam != null && efetivarTransferenciaRetorno.Resultparam.Count > 0)
                         {
                             await DisplayAlert("Erro!", efetivarTransferenciaRetorno.Resultparam[0].ErrorHelp, "Cancelar");
                         }
@@ -556,6 +571,23 @@ namespace CollectorQi.Views
             return true;
         }
 
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
+        }
+
         //void edtItCodigo_Unfocused(object sender, Xamarin.Forms.FocusEventArgs e)
         //{
         //    //string strTipoConEst = String.Empty;
@@ -598,7 +630,9 @@ namespace CollectorQi.Views
         //void Handle_Completed(object sender, System.EventArgs e)
         //{
         //    //edtItCodigo.Unfocus();
-        //}       
+        //}
+        //
+
     }
 
     //public class DecimalConverter : IValueConverter

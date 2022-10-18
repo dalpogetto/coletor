@@ -112,6 +112,7 @@
     <Compile Include="CustomEntryRenderer.cs" />
     <Compile Include="EmptyClass.cs" />
     <Compile Include="ILogImplemention.cs" />
+    <Compile Include="ServiceImei.cs" />
     <Compile Include="WebService\CallProcedureWithToken.cs" />
     <Compile Include="WebService\Certificate.cs" />
     <Compile Include="WebService\UserLogin.cs" />
@@ -374,6 +375,8 @@
     <AndroidResource Include="Resources\drawable\notaEntrada.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\keyboard.png" />
+    <AndroidResource Include="Resources\drawable\keyboardMini.png" />
     <Content Include="Resources\drawable\movto_repair.png" />
     <AndroidResource Include="Resources\drawable\movto_repair2.png" />
     <AndroidResource Include="Resources\drawable\movto_repair3.png" />

@@ -77,9 +77,18 @@ namespace CollectorQi.Services.ESCL000
                         pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados...");
                 });
 
-                CriaEstabelecimento(lstFilial);
+                if (lstFilial != null && lstFilial.Count > 0)
+                {
+
+                    CriaEstabelecimento(lstFilial);
+                }
+                else
+                {
+                    throw new Exception("Usuário sem acesso a nenhuma filial!");
+                }
 
                 return "OK";
+
 
             }
             catch (Exception ex)

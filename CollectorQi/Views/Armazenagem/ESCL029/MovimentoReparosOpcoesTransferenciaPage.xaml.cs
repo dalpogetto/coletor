@@ -2,6 +2,8 @@
 using CollectorQi.Models.ESCL017;
 using CollectorQi.Models.ESCL029;
 using CollectorQi.Resources;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
@@ -53,6 +55,23 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new ArmazenagemMovimentoReparoPage(null));
 
             return true;
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
         }
 
         public class OpcoesTransferenciaMovimentoReparoViewModel : OpcoesTransferenciaMovimentoReparo

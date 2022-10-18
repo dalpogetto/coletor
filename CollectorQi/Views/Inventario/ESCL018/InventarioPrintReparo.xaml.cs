@@ -53,12 +53,12 @@ namespace CollectorQi.Views
                         return;
                     }
 
-                    if (String.IsNullOrEmpty(txtItCodigo.Text))
-                    {
-                        await DisplayAlert("Erro!", "Informe o item para impressão!", "Cancelar");
-                        txtItCodigo.Focus();
-                        return;
-                    }
+                //   if (String.IsNullOrEmpty(txtItCodigo.Text))
+                //   {
+                //       await DisplayAlert("Erro!", "Informe o item para impressão!", "Cancelar");
+                //       txtItCodigo.Focus();
+                //       return;
+                //   }
 
                     if (String.IsNullOrEmpty(txtNumRR.Text))
                     {

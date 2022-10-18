@@ -4,7 +4,7 @@ namespace CollectorQi.Models.ESCL021
 {
     public class DadosLeituraDadosItemTransferenciaDeposito
     {
-        public string CodEstabel { get; set; }
+        public string CodEstabel { get; set; }               
         public string CodItem { get; set; }
         public int Saldo { get; set; }
         public string CodigoBarras { get; set; }

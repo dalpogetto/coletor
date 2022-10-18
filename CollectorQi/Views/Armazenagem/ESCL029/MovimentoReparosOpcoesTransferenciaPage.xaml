@@ -4,6 +4,10 @@
     <!--<ScrollView Orientation="Vertical" VerticalOptions="Start">
     </ScrollView>-->
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
 
         <StackLayout BackgroundColor="#fff">

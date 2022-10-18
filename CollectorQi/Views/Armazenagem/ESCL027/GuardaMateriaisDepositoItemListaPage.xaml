@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Guarda Materiais Deposito Item" x:Class="CollectorQi.Views.GuardaMateriaisDepositoItemListaPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <!--<StackLayout BackgroundColor="#4E4E4E">-->       
 
@@ -8,17 +11,17 @@
             <Button x:Name="BtnTipoMovimento" Margin="10,10,10,10" BorderColor="#A5C3FA" FontSize="Small"  MinimumHeightRequest="70" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
                     Grid.Row="0" Grid.Column="0" TextColor="#515151" />
 
-            <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
+            <StackLayout Margin="10,3,10,3" Orientation="Horizontal">
                 <TableView HeightRequest="50" >
                     <TableRoot >
                         <TableSection >
-                            <SwitchCell Text="Sem Saldo" OnChanged="SwitchCell_OnChanged"></SwitchCell>
+                            <SwitchCell x:Name="SwtSaldo" Text="Sem Saldo" OnChanged="SwitchCell_OnChanged"></SwitchCell>
                         </TableSection>
                     </TableRoot>
                 </TableView>
             </StackLayout>
 
-            <StackLayout Margin="10,5,10,5" Orientation="Horizontal">
+            <StackLayout Margin="10,3,10,3" Orientation="Horizontal">
                 <TableView HeightRequest="50">
                     <TableRoot>
                         <TableSection>
@@ -28,7 +31,18 @@
                 </TableView>
             </StackLayout>
 
-            <CollectionView x:Name="cvGuardaMateriaisDepositoItem" ItemsSource="{Binding ObsGuardaMateriaisDepositoItem}" SelectionMode="Single" Margin="10,0,10,0">
+
+            <StackLayout Margin="10,3,10,3" Orientation="Horizontal">
+                <TableView HeightRequest="50">
+                    <TableRoot>
+                        <TableSection>
+                            <SwitchCell x:Name="SwtQuantidade" Text="Informar Quantidade" OnChanged="SwitchCellQuantidade_OnChanged"></SwitchCell>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
+
+            <CollectionView x:Name="cvGuardaMateriaisDepositoItem" ItemsSource="{Binding ObsGuardaMateriaisDepositoItem}" SelectionChanged="cvGuardaMateriaisDepositoItem_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
                     <StackLayout>
                         <Label Text="Nenhuma Guarda Materiais Deposito Item" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />

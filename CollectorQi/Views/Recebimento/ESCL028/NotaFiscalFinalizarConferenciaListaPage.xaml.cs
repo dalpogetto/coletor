@@ -55,18 +55,18 @@ namespace CollectorQi.Views
 
         async void BtnFinalizarNotaFiscal_Clicked(object sender, EventArgs e)
         {
-            var parametersNotaFiscalFinalizar = new FinalizarConferenciaNotaFiscalService();
-            var finalizarConferenciaNotaFiscal = new FinalizarConferenciaNotaFiscal();
-            var lstNotaFiscalFinalizar = await parametersNotaFiscalFinalizar.SendFinalizarConferenciaAsync(finalizarConferenciaNotaFiscal);
-
-            ObsCabecalhoNotaFiscal = new ObservableCollection<NotaFiscalCabecalhoViewModel>();            
-
-            if (lstNotaFiscalFinalizar.Retorno == "OK")            
-                await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
-            else
-                await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");         
-
-            cvCabecalhoNotaFiscal.BindingContext = this;
+            //var parametersNotaFiscalFinalizar = new FinalizarConferenciaNotaFiscalService();
+            //var finalizarConferenciaNotaFiscal = new FinalizarConferenciaNotaFiscal();
+            //var lstNotaFiscalFinalizar = await parametersNotaFiscalFinalizar.SendFinalizarConferenciaAsync(finalizarConferenciaNotaFiscal);
+            //
+            //ObsCabecalhoNotaFiscal = new ObservableCollection<NotaFiscalCabecalhoViewModel>();            
+            //
+            //if (lstNotaFiscalFinalizar.Retorno == "OK")            
+            //    await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
+            //else
+            //    await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");         
+            //
+            //cvCabecalhoNotaFiscal.BindingContext = this;
         }
 
         private void BtnVoltarNotaFiscal_Clicked(object sender, EventArgs e)

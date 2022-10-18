@@ -34,7 +34,7 @@ namespace CollectorQi.Services.ESCL021
                 RequestDadosLeituraItemJson requestJson = new RequestDadosLeituraItemJson() { Param = dadosLeituraDadosItemTransferenciaDeposito };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
@@ -65,7 +65,7 @@ namespace CollectorQi.Services.ESCL021
                     {
                         Debug.Write(result);
                     } */
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
@@ -98,7 +98,7 @@ namespace CollectorQi.Services.ESCL021
             }
             catch (Exception e)
             {
-                Debug.Write(e);
+                throw e;
             }
 
             return parametros;

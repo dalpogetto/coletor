@@ -16,6 +16,7 @@ using Xamarin.Forms.Xaml;
 using CollectorQi.Models;
 using System.Runtime.CompilerServices;
 using Rg.Plugins.Popup.Services;
+using ESCL = CollectorQi.Models.ESCL028;
 
 namespace CollectorQi.Views
 {
@@ -59,18 +60,18 @@ namespace CollectorQi.Views
             listNotaFiscalVO = new List<NotaFiscalVO>();
 
             //var lstNotaFiscal = NotaFiscalDB.GetNotaFiscalAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.RowId).ToList();
-           // var lstNotaFiscal = listNotaFiscalVO = NotaFiscalDB.GetNotaFiscalByEstab("126").OrderBy(p => p.RowId).ToList();
+            // var lstNotaFiscal = listNotaFiscalVO = NotaFiscalDB.GetNotaFiscalByEstab("126").OrderBy(p => p.RowId).ToList();
 
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
 
-          //  for (int i = 0; i < lstNotaFiscal.Count(); i++)
-          //  { 
-          //      var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(lstNotaFiscal[i]);
-          //   //   lblCodEstabel.Text = "Estabelecimento: " + lstNotaFiscal[i].CodEstabel;
-          //      Estabelecimento = lstNotaFiscal[i].CodEstabel;
-          //
-          //      ObsNotaFiscal.Add(modelView);
-          //  }
+            //  for (int i = 0; i < lstNotaFiscal.Count(); i++)
+            //  { 
+            //      var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(lstNotaFiscal[i]);
+            //   //   lblCodEstabel.Text = "Estabelecimento: " + lstNotaFiscal[i].CodEstabel;
+            //      Estabelecimento = lstNotaFiscal[i].CodEstabel;
+            //
+            //      ObsNotaFiscal.Add(modelView);
+            //  }
 
             cvNotaFiscal.BindingContext = this;
         }
@@ -103,54 +104,60 @@ namespace CollectorQi.Views
 
                 var lstNotaFiscal = await ParametersNotaFiscalService.SendParametersAsync(SecurityAuxiliar.GetCodEstabel());
 
-                foreach (var item in lstNotaFiscal.param.Resultparam)
+
+                if (lstNotaFiscal != null && lstNotaFiscal.param != null && lstNotaFiscal.param.Resultparam != null)
                 {
-                    var notaFiscal = new ModelNotaFiscal();
-                    notaFiscal.rowId = item.RowId;
-                    notaFiscal.codEstabel = item.CodEstabel;
-                    notaFiscal.codItem = item.CodItem;
-                    notaFiscal.localizacao = item.Localizacao;
-                    string[] descricaoItem = item.DescricaoItem.Split(' ');
 
-                    foreach (string descricao in descricaoItem)
+                    foreach (var item in lstNotaFiscal.param.Resultparam)
                     {
-                        if (descricao != "")
-                            notaFiscal.descricaoItem += descricao + " ";
+                        var notaFiscal = new ModelNotaFiscal();
+                        notaFiscal.rowId = item.RowId;
+                        notaFiscal.codEstabel = item.CodEstabel;
+                        notaFiscal.codItem = item.CodItem;
+                        notaFiscal.localizacao = item.Localizacao;
+                        string[] descricaoItem = item.DescricaoItem.Split(' ');
+
+                        foreach (string descricao in descricaoItem)
+                        {
+                            if (descricao != "")
+                                notaFiscal.descricaoItem += descricao + " ";
+                        }
+
+                        notaFiscal.descricaoItem = notaFiscal.descricaoItem.TrimEnd();
+                        notaFiscal.nroDocto = item.NroDocto;
+                        notaFiscal.numRR = item.NumRR;
+                        notaFiscal.conferido = item.Conferido;
+                        notaFiscal.relaciona = item.Relaciona;
+                        notaFiscal.codFilial = item.CodFilial;
+                        listNotaFiscal.Add(notaFiscal);
+
+                        var notaFiscalVO = new NotaFiscalVO();
+                        notaFiscalVO.RowId = item.RowId;
+                        notaFiscalVO.CodEstabel = item.CodEstabel;
+                        notaFiscalVO.CodItem = item.CodItem;
+                        notaFiscalVO.Localizacao = item.Localizacao;
+                        string[] descricaoItems = item.DescricaoItem.Split(' ');
+
+                        foreach (string descricao in descricaoItems)
+                        {
+                            if (descricao != "")
+                                notaFiscalVO.DescricaoItem += descricao + " ";
+                        }
+
+                        notaFiscalVO.DescricaoItem = notaFiscalVO.DescricaoItem.TrimEnd();
+                        notaFiscalVO.NroDocto = item.NroDocto;
+                        notaFiscalVO.NumRR = item.NumRR;
+                        notaFiscalVO.Conferido = item.Conferido;
+                        notaFiscalVO.Relaciona = item.Relaciona;
+                        notaFiscalVO.CodFilial = item.CodFilial;
+
+                        var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(notaFiscalVO);
+                        ObsNotaFiscal.Add(modelView);
+                        //    lblCodEstabel.Text = "Estabelecimento: " + notaFiscalVO.CodEstabel;
                     }
-
-                    notaFiscal.descricaoItem = notaFiscal.descricaoItem.TrimEnd();
-                    notaFiscal.nroDocto = item.NroDocto;
-                    notaFiscal.numRR = item.NumRR;
-                    notaFiscal.conferido = item.Conferido;
-                    notaFiscal.relaciona = item.Relaciona;
-                    notaFiscal.codFilial = item.CodFilial;
-                    listNotaFiscal.Add(notaFiscal);
-
-                    var notaFiscalVO = new NotaFiscalVO();
-                    notaFiscalVO.RowId = item.RowId;
-                    notaFiscalVO.CodEstabel = item.CodEstabel;
-                    notaFiscalVO.CodItem = item.CodItem;
-                    notaFiscalVO.Localizacao = item.Localizacao;
-                    string[] descricaoItems = item.DescricaoItem.Split(' ');
-
-                    foreach (string descricao in descricaoItems)
-                    {
-                        if (descricao != "")
-                            notaFiscalVO.DescricaoItem += descricao + " ";
-                    }
-
-                    notaFiscalVO.DescricaoItem = notaFiscalVO.DescricaoItem.TrimEnd();
-                    notaFiscalVO.NroDocto = item.NroDocto;
-                    notaFiscalVO.NumRR = item.NumRR;
-                    notaFiscalVO.Conferido = item.Conferido;
-                    notaFiscalVO.Relaciona = item.Relaciona;
-                    notaFiscalVO.CodFilial = item.CodFilial;
-
-                    var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(notaFiscalVO);
-                    ObsNotaFiscal.Add(modelView);
-                //    lblCodEstabel.Text = "Estabelecimento: " + notaFiscalVO.CodEstabel;
                 }
 
+                /*
                 ConnectService.CriaNotaFiscal(listNotaFiscal);
 
                 for (int i = 0; i < lstNotaFiscal.param.ListaDocumentos.Count(); i++)
@@ -177,6 +184,7 @@ namespace CollectorQi.Views
 
                     listaDocumentosNotaFiscal.Add(documentosNotaFiscal);
                 }
+                */
 
                 OnPropertyChanged("ObsNotaFiscal");
 
@@ -266,7 +274,7 @@ namespace CollectorQi.Views
                 //cvGuardaMateriaisDepositoItem.IsEnabled = false;
 
                 var page = new NotaFiscalConferenciaReparosListaPopUp();
-                //page._confirmaItem = CodigoBarras;
+                page._confirmaItemEtiqueta = CodigoBarras;
                 await PopupNavigation.Instance.PushAsync(page);
             }
             catch (Exception ex)
@@ -304,6 +312,18 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarConferenciaListaPage(listNotaFiscalVO, listaDocumentosNotaFiscal));
         } */
 
+        public async void CodigoBarras(string pCodBarras)
+        {
+            var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
+            {
+                CodBarras = pCodBarras
+            });
+
+            System.Diagnostics.Debug.Write(dRetornoNota);
+
+            await DisplayAlert("", pCodBarras, "OK");
+        }
+
         public async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cvNotaFiscal.SelectedItem == null)
@@ -311,13 +331,125 @@ namespace CollectorQi.Views
 
             var current = (cvNotaFiscal.SelectedItem as NotaFiscalViewModel);
 
-            if (current != null)
+            //BtnEfetivarItem.IsEnabled = false;
+            try
             {
-                //Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(current));
-                Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarConferenciaListaPage(listNotaFiscalVO, listaDocumentosNotaFiscal));
-            }
+                cvNotaFiscal.SelectedItem = null;
+                cvNotaFiscal.IsEnabled = false;
+                //cvGuardaMateriaisDepositoItem.IsEnabled = false;
 
-            cvNotaFiscal.SelectedItem = null;
+                var page = new NotaFiscalConferenciaReparosDetPopUp(current.CodItem, current.DescricaoItem, current.NroDocto, current.NumRR, current.Conferido, current.Relaciona, current.CodFilial);
+
+                page._actConfirmaConferencia = CodigoBarras;
+
+                await PopupNavigation.Instance.PushAsync(page);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro!", ex.Message, "OK");
+            }
+            finally
+            {
+                cvNotaFiscal.IsEnabled = true;
+                //BtnEfetivarItem.IsEnabled = true;
+            }
+        }
+
+        private async void BtnFinalizaConferencia_Clicked(object sender, EventArgs e)
+        {
+            BtnFinalizaConferencia.IsEnabled = false;
+            try
+            {
+                var lstNotaConferencia = new CollectorQi.Services.ESCL028.FinalizarConferenciaNotaFiscalService.RequestNotaFiscalJson();
+
+                //lstNotaConferencia.
+                lstNotaConferencia.Parametros = new FinalizarConferenciaNotaFiscalService.Param();
+
+                lstNotaConferencia.Parametros.CodEstabel = SecurityAuxiliar.GetCodEstabel();
+
+
+                lstNotaConferencia.ListaReparosConferidos = new List<FinalizarConferenciaReparosConferidos>();
+                lstNotaConferencia.ListaConferenciaDocumentos = new List<FinalizarConferenciaDocumentos>();
+
+
+                foreach (var item in ObsNotaFiscal)
+                {
+                   /* if (!item.Conferido)
+                    {
+                        continue;
+                    }
+                   */
+
+
+
+                    lstNotaConferencia.ListaReparosConferidos.Add(new FinalizarConferenciaReparosConferidos { RowId = item.RowId });
+
+
+                    lstNotaConferencia.ListaConferenciaDocumentos.Add(new FinalizarConferenciaDocumentos {
+                    
+                        Docto = item.NroDocto,
+                        CodEstabel = item.CodEstabel
+                    
+                    });
+
+
+                    //lstNotaConferencia.
+                }
+
+                //var parametersNotaFiscalFinalizar = new FinalizarConferenciaNotaFiscalService();
+                //var finalizarConferenciaNotaFiscal = new FinalizarConferenciaNotaFiscal();
+                var parametrosRetorno = await FinalizarConferenciaNotaFiscalService.SendFinalizarConferenciaAsync(lstNotaConferencia);
+
+
+                if (parametrosRetorno.Retorno == "OK")
+                {
+                    await DisplayAlert("Sucesso", "Conferencia efetuada com sucesso", "OK");
+                    //Application.Current.MainPage = new NavigationPage(new InventarioReparoLeituraEtiquetaListaPage(parametrosIR));
+                }
+                else
+                {
+                    if (parametrosRetorno.Resultparam != null && parametrosRetorno.Resultparam.Count > 0)
+                    {
+                        await DisplayAlert("ERRO!", parametrosRetorno.Resultparam[0].ErrorDescription, "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("ERRO!", "Erro no retorno do envio !", "OK");
+                    }
+                }
+
+                // var parametersNotaFiscalFinalizar = new FinalizarConferenciaNotaFiscalService();
+                // var finalizarConferenciaNotaFiscal = new FinalizarConferenciaNotaFiscal();
+                // var lstNotaFiscalFinalizar = await parametersNotaFiscalFinalizar.SendFinalizarConferenciaAsync(finalizarConferenciaNotaFiscal);
+                //
+                // ObsCabecalhoNotaFiscal = new ObservableCollection<NotaFiscalCabecalhoViewModel>();
+                //
+                // if (lstNotaFiscalFinalizar.Retorno == "OK")
+                //     await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
+                // else
+                //     await DisplayAlert("", lstNotaFiscalFinalizar.Param.Mensagem, "OK");
+                //
+                // cvCabecalhoNotaFiscal.BindingContext = this;
+                //
+
+
+                //  //  if (current != null)
+                //  //  {
+                //  //Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(current));
+                //  Application.Current.MainPage = new NavigationPage(new NotaFiscalFinalizarConferenciaListaPage(listNotaFiscalVO, listaDocumentosNotaFiscal));
+                ////  }
+                //
+                ////  cvNotaFiscal.SelectedItem = null;
+                // }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERRO!", ex.Message, "OK");
+            }
+            finally
+            {
+                BtnFinalizaConferencia.IsEnabled = true;
+            }
         }
     }
 

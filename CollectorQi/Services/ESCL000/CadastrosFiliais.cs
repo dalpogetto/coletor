@@ -44,7 +44,20 @@ namespace CollectorQi.Services.ESCL000
 
                     var resultResponse = JsonConvert.DeserializeObject<ResultFiliais>(responseData);
 
-                    filiais = resultResponse.items;
+                    if (resultResponse != null && resultResponse.items != null)
+                    {
+                        filiais = resultResponse.items;
+                    }
+
+                    
+                 //  filiais.Add(new Models.ESCL000.Filial
+                 //  {
+                 //      CodFilial = "101",
+                 //      Nome = "PRODIEBOLD",
+                 //      CodEstabel = "101"
+                 //  });
+                    
+
                 }
                 else if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {

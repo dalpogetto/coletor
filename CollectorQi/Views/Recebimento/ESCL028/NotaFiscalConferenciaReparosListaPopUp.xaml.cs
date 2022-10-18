@@ -21,7 +21,7 @@ namespace CollectorQi.Views
 {
     public partial class NotaFiscalConferenciaReparosListaPopUp : PopupPage
     {
-        public Action<String, DepositosGuardaMaterial> _confirmaLocalizacao { get; set; }
+        public Action<String> _confirmaItemEtiqueta { get; set; }
         private DepositosGuardaMaterial _depositosGuardaMaterial { get; set; }
 
         public NotaFiscalConferenciaReparosListaPopUp()        
@@ -71,7 +71,7 @@ namespace CollectorQi.Views
             {
                 BtnEfetivar.IsEnabled = false;
 
-               // _confirmaLocalizacao(/* edtLocalizacao.Text, _depositosGuardaMaterial */);
+                _confirmaItemEtiqueta(edtCodigoBarras.Text);
                 PopupNavigation.Instance.PopAsync();
             }
             finally

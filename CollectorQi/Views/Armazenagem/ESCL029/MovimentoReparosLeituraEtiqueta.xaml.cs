@@ -2,6 +2,8 @@
 using CollectorQi.Models.ESCL029;
 using CollectorQi.Resources;
 using CollectorQi.Services.ESCL029;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -122,5 +124,23 @@ namespace CollectorQi.Views
                 await DisplayAlert("", efetivarEtiquetaRetorno.ParamConteudo.ParamOK[0].Mensagem, "OK");
             }
         }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
+        }
+
     }
 }

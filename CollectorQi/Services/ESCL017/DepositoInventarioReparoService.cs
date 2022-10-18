@@ -12,9 +12,8 @@ using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL017
 {
-    public class DepositoInventarioReparoService
+    public static class DepositoInventarioReparoService
     {
-        ResultInventarioJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private static string URI = ServiceCommon.SystemUrl;
@@ -23,8 +22,11 @@ namespace CollectorQi.Services.ESCL017
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl017api/ObterDepositosInventario";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultInventarioJson> SendParametersAsync()
+        public static async Task<ResultInventarioJson> SendParametersAsync()
         {
+
+            ResultInventarioJson parametros = null;
+
             try
             {
                 //ParametrosNotaFiscal requestParam = new ParametrosNotaFiscal() { CodEstabel = "126" };
@@ -43,14 +45,15 @@ namespace CollectorQi.Services.ESCL017
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_SEND_PARAMETERS)
                     {
-                        Content = content
+                        //Content = "{}"
                     };
 
                     var result = await client.SendAsync(req);

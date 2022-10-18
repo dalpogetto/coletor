@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -11,6 +10,9 @@ using Android.Content;
 using Xamarin.Forms;
 using Android.Support.V4.App;
 using CollectorQi.Views;
+using Android.Nfc;
+using Android.Support.Design.Widget;
+using Android.Util;
 
 namespace CollectorQi.Droid
 {

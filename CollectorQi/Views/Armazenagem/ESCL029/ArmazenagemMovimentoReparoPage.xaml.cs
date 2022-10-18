@@ -149,8 +149,8 @@ namespace CollectorQi.Views
                             {
                                 ParametrosInventarioReparo = new ParametrosInventarioReparo();
 
-                                ParametrosInventarioReparo.CodDepos = "DET";
-                                ParametrosInventarioReparo.CodTecnico = 4122;
+                          //      ParametrosInventarioReparo.CodDepos = "DET";
+                          //      ParametrosInventarioReparo.CodTecnico = 4122;
 
                             }
                             Application.Current.MainPage = new NavigationPage(new MovimentoReparosOpcoesTransferenciaPage(oOpcoesTransferencia.ResultConteudo.ResultParam, ParametrosInventarioReparo));
@@ -190,6 +190,23 @@ namespace CollectorQi.Views
             {
                 BtnAcessar.IsEnabled = true;
                 await pageProgress.OnClose();
+            }
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
             }
         }
     }

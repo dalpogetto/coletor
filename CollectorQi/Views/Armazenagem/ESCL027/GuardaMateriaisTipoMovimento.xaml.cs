@@ -1,5 +1,6 @@
 ﻿using CollectorQi.Models.ESCL021;
 using CollectorQi.VO.ESCL018;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,6 +45,23 @@ namespace CollectorQi.Views
         protected void BtnSaida_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 0));
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
         }
     }
 

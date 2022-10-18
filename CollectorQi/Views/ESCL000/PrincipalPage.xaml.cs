@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CollectorQi.Services;
 
 
 namespace CollectorQi.Views
@@ -34,9 +35,13 @@ namespace CollectorQi.Views
         {
             try
             {
+                var versaoSistema = new ValidaVersaoSistema();
+                var existeNovaVersao = await versaoSistema.ExisteNovaVersao();
+
+
                 var security = await SecurityDB.GetSecurityAsync();
 
-                if (security != null && security.Autenticado)
+                if (security != null && security.Autenticado && !existeNovaVersao)
                 {
                     SecurityAuxiliar.Autenticado = true;
                     SecurityAuxiliar.CodUsuario = security.CodUsuario;
@@ -46,7 +51,7 @@ namespace CollectorQi.Views
                 // Victor Alves - Verifica ultima atualizacao Banco
                 await SecurityDB.AtualizarSecurityIntegracao();
 
-                if (security != null)
+                if (security != null && !existeNovaVersao)
                 {
 
                     if (CrossConnectivity.Current.IsConnected)

@@ -9,12 +9,12 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Diagnostics;
 using CollectorQi.Services.ESCL000;
+using CollectorQi.Resources;
 
 namespace CollectorQi.Services.ESCL028
 {
-    public class ValidarReparosNotaFiscalService
+    public static class ValidarReparosNotaFiscalService
     {
-        ResultNotaFiscalJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private static string URI = ServiceCommon.SystemUrl;
@@ -23,28 +23,32 @@ namespace CollectorQi.Services.ESCL028
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/ValidarReparos";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal)
+        public static async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal)
         {
+            ResultNotaFiscalJson parametros = null;
+
+
             try
             {
-                validarReparosNotaFiscal.CodEstabel = "126";
+
+                //validarReparosNotaFiscal.CodEstabel = "126";
 
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
 
                 RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { Param = validarReparosNotaFiscal };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };

@@ -75,7 +75,7 @@ namespace CollectorQi.Services.ESCL029
             }
             catch (Exception e)
             {
-                Debug.Write(e);
+                throw e;
             }
 
             return parametros;

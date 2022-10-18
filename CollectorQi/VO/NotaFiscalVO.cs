@@ -13,7 +13,8 @@ namespace CollectorQi.VO
         private int     numRR = 0;
         private bool    conferido;
         private int     relaciona;
-        private string  codFilial = "";       
+        private string  codFilial = "";
+        public string codigoBarras = "";
 
         //[AutoIncrement, PrimaryKey]
         [PrimaryKey]
@@ -45,5 +46,7 @@ namespace CollectorQi.VO
 
         [Indexed(Name = "uNotaFiscalIndex", Order = 9, Unique = true)]
         public string CodFilial { get => codFilial; set => codFilial = value; }  
+
+        public string CodigoBarras { get => codigoBarras; set => codigoBarras = value; }
     }
 }

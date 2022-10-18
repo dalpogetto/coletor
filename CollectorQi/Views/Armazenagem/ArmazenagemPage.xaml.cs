@@ -3,6 +3,8 @@ using CollectorQi.Resources;
 using CollectorQi.Services.ESCL017;
 using CollectorQi.Services.ESCL021;
 using CollectorQi.ViewModels;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -26,9 +28,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[] { "guardaMaterias.png"              , "transferenciaDeposito.png"          , "movto_repair3.png"                   , "print.png" };
-                string[] titulo = new string[] { "Guarda de Materiais"             , "Transferência de Depósito"          , "Movimentação de Reparo"              , "Impressão de Etiquetas de Identificação"};
-                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"    , "Impressão (ESCL010/ESCL013/ESCL020)" , };  
+                string[] imagem = new string[]    { "guardaMaterias.png"           , "transferenciaDeposito.png"          , "movto_repair3.png"                   /* , "print.png"*/  };
+                string[] titulo = new string[]    { "Guarda de Materiais"          , "Transferência de Depósito"          , "Movimentação de Reparo"              /* , "Impressão de Etiquetas de Identificação" */ };
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"    /* , "Impressão (ESCL010/ESCL013/ESCL020)" ,*/  };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -76,13 +78,14 @@ namespace CollectorQi.Views
                     break;
 
 
+                    /*
                 case "Impressão de Etiquetas de Identificação":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Impressão de Etiquetas";
                     Application.Current.MainPage = new NavigationPage(new ArmazenagemImprimirPage() { Title = "Impressão de Etiqueta" });
                     break;
 
-
+                */
                     //case "MovimentoReparos":
                     //    ConferenciaPage.MenuId = 3;
                     //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
@@ -99,6 +102,23 @@ namespace CollectorQi.Views
             Application.Current.MainPage = new NavigationPage(new PrincipalPage());
 
             return true;
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
+            }
         }
     }
 }

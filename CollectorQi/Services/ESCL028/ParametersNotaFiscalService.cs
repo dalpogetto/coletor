@@ -33,17 +33,17 @@ namespace CollectorQi.Services.ESCL028
                 RequestInventarioJson requestJson = new RequestInventarioJson() { Param = requestParam };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
