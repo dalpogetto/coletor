@@ -36,6 +36,8 @@ namespace CollectorQi.Services.ESCL000
 
                 HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS);
 
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
+
                 var result = await client.SendAsync(req);
 
                 if (result.IsSuccessStatusCode)

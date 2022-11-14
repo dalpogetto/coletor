@@ -79,7 +79,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
+                              <!--      <RowDefinition Height="40" /> -->
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -94,8 +94,10 @@
                                     <Button x:Name="BtnBuscaItem" Clicked="BtnBuscaItem_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
                                 </StackLayout> -->
 
-                                <local:CustomEntryText x:Name="txtDescItem" IsReadOnly="true" Placeholder="Nome do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
 
+                                <!--  <local:CustomEntryText x:Name="txtDescItem" IsReadOnly="true" Placeholder="Nome do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                -->
+                                
 
                             </Grid>
                         </Frame>

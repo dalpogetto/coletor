@@ -18,17 +18,22 @@ namespace CollectorQi.Views
     {
         public List<OpcoesTransferenciaMovimentoReparo> ListaOpcoesTransferenciaMovimentoReparo { get; set; }
         public string RowId { get; set; }
+        public string _descOpcao { get; set; }
+        public int _opcao { get; set; }
         public ParametrosInventarioReparo Parametros { get; set; }
 
-        public MovimentoReparosLeituraEtiqueta(List<OpcoesTransferenciaMovimentoReparo> listaOpcoesTransferenciaMovimentoReparo, ParametrosInventarioReparo parametros, string descOpcao)
+        public MovimentoReparosLeituraEtiqueta(List<OpcoesTransferenciaMovimentoReparo> listaOpcoesTransferenciaMovimentoReparo, ParametrosInventarioReparo parametros, string descOpcao, int pOpcao)
         {
             InitializeComponent();
 
             ListaOpcoesTransferenciaMovimentoReparo = listaOpcoesTransferenciaMovimentoReparo;
-            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
-            lblDep.Text = "Dep: " + parametros.CodDepos;
-            lblTec.Text = "Tec.: " + parametros.CodTecnico;
-            lblDescOpcao.Text = descOpcao;
+         //  lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
+         //  lblDep.Text = "Dep: " + parametros.CodDepos;
+         //  lblTec.Text = "Tec.: " + parametros.CodTecnico;
+         //  lblDescOpcao.Text = descOpcao;
+
+            _descOpcao = descOpcao;
+            _opcao = pOpcao;
 
             //Parametros = parametros;
             BtnEfetivar.IsEnabled = false;
@@ -48,10 +53,10 @@ namespace CollectorQi.Views
             edtFilial.Text = "";
             edtRR.Text = "";
             edtDigito.Text = "";
-            edtItem.Text = "";
-            edtDescricao.Text = "";
-            edtLocal.Text = "";
-            edtMsg.Text = "";
+        //    edtItem.Text = "";
+        //    edtDescricao.Text = "";
+        //    edtLocal.Text = "";
+        //    edtMsg.Text = "";
         }
 
         async void BtnScan_Clicked(object sender, System.EventArgs e)
@@ -107,21 +112,38 @@ namespace CollectorQi.Views
 
         async void BtnEfetivar_Clicked(object sender, System.EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(edtScan.Text) && (string.IsNullOrWhiteSpace(edtFilial.Text) || string.IsNullOrWhiteSpace(edtRR.Text) || string.IsNullOrWhiteSpace(edtDigito.Text)))
-                await DisplayAlert("", "Faça a leitura da etiqueta ou Digite uma filial, RR e dígito !", "OK");
-            else
+            try
             {
-                var efetivarEtiqueta = new EfetivarArmazenagemService();
-
-                var leituraMovimentoReparo = new LeituraMovimentoReparo()
+                if (string.IsNullOrWhiteSpace(edtScan.Text) && (string.IsNullOrWhiteSpace(edtFilial.Text) || string.IsNullOrWhiteSpace(edtRR.Text) || string.IsNullOrWhiteSpace(edtDigito.Text)))
+                    await DisplayAlert("", "Faça a leitura da etiqueta ou Digite uma filial, RR e dígito !", "OK");
+                else
                 {
-                    RowId = RowId,
-                    Opcao = 2
-                };
+                    var efetivarEtiqueta = new EfetivarArmazenagemService();
 
-                var efetivarEtiquetaRetorno = await efetivarEtiqueta.SendParametersAsync(leituraMovimentoReparo);
+                    var efetivaReparo = new EfetivaReparo()
+                    {
+                        RowId = RowId,
+                        Opcao = 1,
+                        CodTecnico = 2692,
+                        CodEstabel = SecurityAuxiliar.GetCodEstabel()
+                    };
 
-                await DisplayAlert("", efetivarEtiquetaRetorno.ParamConteudo.ParamOK[0].Mensagem, "OK");
+                    var efetivarEtiquetaRetorno = await efetivarEtiqueta.SendParametersAsync(efetivaReparo);
+
+                    if (efetivarEtiquetaRetorno != null && efetivarEtiquetaRetorno.ParamConteudo != null)
+                    {
+
+                        await DisplayAlert("", efetivarEtiquetaRetorno.ParamConteudo.ParamOK[0].Mensagem, "OK");
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERRO!", ex.Message, "OK");
+            }
+            finally
+            {
+
             }
         }
 
@@ -142,5 +164,9 @@ namespace CollectorQi.Views
             }
         }
 
+        private void SwtBarras_OnChanged(object sender, ToggledEventArgs e)
+        {
+
+        }
     }
 }

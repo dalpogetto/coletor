@@ -50,6 +50,7 @@ namespace CollectorQi.Services.ESCL018
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                
                 var json = JsonConvert.SerializeObject(requestJsonSend);
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {

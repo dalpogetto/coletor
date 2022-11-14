@@ -8,15 +8,17 @@ namespace CollectorQi.Droid
 {
     public sealed class UserLogin : IUserLogin
     {
-        santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws;
+        /* santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws;
         santacolomba_dts.totvscloud.com.br.userLogin login;
-
+        */
          public UserLogin()
          {
+            /*
             ws = new santacolomba_dts.totvscloud.com.br.WebServiceExecBO()
             {
                 Url = "https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?WSDL"
-            };
+            };*/
+
         }
 
         /*
@@ -33,12 +35,15 @@ namespace CollectorQi.Droid
 
         public string userLogin(string user)
         {
+            /*
             login = new santacolomba_dts.totvscloud.com.br.userLogin()
             {
                 arg0 = user
             };
 
-            return (ws.userLogin(login).@return);           
+            return (ws.userLogin(login).@return);   */
+
+            return string.Empty;
         }
     }
 }

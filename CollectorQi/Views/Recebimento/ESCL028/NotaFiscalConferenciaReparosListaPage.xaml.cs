@@ -319,9 +319,22 @@ namespace CollectorQi.Views
                 CodBarras = pCodBarras
             });
 
-            System.Diagnostics.Debug.Write(dRetornoNota);
+            if (dRetornoNota != null && dRetornoNota.Resultparam != null && dRetornoNota.Resultparam.Count > 0)
+            {
+                var v = dRetornoNota.Resultparam.FirstOrDefault();
 
-            await DisplayAlert("", pCodBarras, "OK");
+                if (v.Mensagem.Contains("ERRO:"))
+                {
+
+                    await DisplayAlert("ERRO!", v.Mensagem, "OK");
+                    return;
+
+                }
+
+            }
+            //System.Diagnostics.Debug.Write(dRetornoNota);
+
+          //  await DisplayAlert("", pCodBarras, "OK");
         }
 
         public async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)

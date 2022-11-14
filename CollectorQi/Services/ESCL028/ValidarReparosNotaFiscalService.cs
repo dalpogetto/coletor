@@ -35,7 +35,19 @@ namespace CollectorQi.Services.ESCL028
 
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
 
-                RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { Param = validarReparosNotaFiscal };
+
+                Param p = new Param { 
+                    CodEstabel = SecurityAuxiliar.GetCodEstabel()
+                };
+
+                List<ESCL.ValidarReparosNotaFiscal> v = new List<ESCL.ValidarReparosNotaFiscal>();
+
+
+                v.Add(validarReparosNotaFiscal);
+
+                RequestNotaFiscalJson requestJson = new RequestNotaFiscalJson() { 
+                    Parametros = p,
+                    ListaReparos = v };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 //client.BaseAddress = new Uri(URI);
@@ -58,17 +70,44 @@ namespace CollectorQi.Services.ESCL028
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
+
+                        parametros = JsonConvert.DeserializeObject<ResultNotaFiscalJson>(responseData);
+
+                        /*
+                        if (responseData.Contains("Error"))
+                        {
+                            parametros = JsonConvert.DeserializeObject<ValidaAplicativoErrorResponse>(responseData);
+                        }
+                        else
+                        {
+                            var parametrosSuccess = JsonConvert.DeserializeObject<ValidaAplicativoResponse>(responseData);
+
+                            parametros = new ValidaAplicativoErrorResponse()
+                            {
+                                Retorno = parametrosSuccess.Retorno,
+                                APKInfo = parametrosSuccess.Conteudo.APKInfo
+                            };
+                        }*/
+
+                    }
+
+
+                    /*
+                    if (result.IsSuccessStatusCode)
+                    {
+                        string responseData = await result.Content.ReadAsStringAsync();
                         parametros = JsonConvert.DeserializeObject<ResultNotaFiscalJson>(responseData);
                     }
                     else
                     {
                         Debug.Write(result);
                     }
+                    */
                 }
             }
             catch (Exception e)
             {
-                Debug.Write(e);
+                throw e;
             }
 
             return parametros;
@@ -77,10 +116,16 @@ namespace CollectorQi.Services.ESCL028
         public class RequestNotaFiscalJson
         {
             [JsonProperty("Parametros")]
-            public string CodEstabel { get; set; }
+            public Param Parametros { get; set; }
 
             [JsonProperty("ListaReparos")]
-            public ESCL.ValidarReparosNotaFiscal Param { get; set; }
+            public List<ESCL.ValidarReparosNotaFiscal> ListaReparos { get; set; }
+        }
+
+
+        public class Param
+        {
+            public string CodEstabel { get; set; }
         }
 
         public class ResultNotaFiscalJson
@@ -92,6 +137,18 @@ namespace CollectorQi.Services.ESCL028
             public List<ESCL.ListaDocumentosNotaFiscal> ListaDocumentos { get; set; }
 
             public string id { get; set; }
-        }          
+        }
+
+        public class ResultInventarioSuccessJson
+        {
+            public string Retorno { get; set; }
+        }
+
+        public class ResultSendInventarioErrorJson
+        {
+            public string ErrorDescription { get; set; }
+            public string ErrorHelp { get; set; }
+        }
+
     }
 }

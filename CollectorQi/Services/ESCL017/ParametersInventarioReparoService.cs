@@ -50,7 +50,8 @@ namespace CollectorQi.Services.ESCL017
 
                     var result = await client.SendAsync(req);
 
-                    /*  if (result.IsSuccessStatusCode)
+                    /*
+                      if (result.IsSuccessStatusCode)
                       {
                           string responseData = await result.Content.ReadAsStringAsync();
                           parametros = JsonConvert.DeserializeObject<ResultInventarioJson>(responseData);
@@ -58,7 +59,8 @@ namespace CollectorQi.Services.ESCL017
                       else
                       {
                           Debug.Write(result);
-                      } */
+                      } 
+                    */
 
 
                     if (result.IsSuccessStatusCode)
@@ -108,8 +110,6 @@ namespace CollectorQi.Services.ESCL017
         public class ResultInventarioSuccessJson
         {
             public string Retorno { get; set; }
-            
-
         }
 
         public class ResultSendInventarioErrorJson

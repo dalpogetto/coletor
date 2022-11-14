@@ -6,11 +6,29 @@
     <ContentPage.Content>
 
         <ScrollView Orientation="Vertical" VerticalOptions="Start">
+
+
+            
             <Grid BackgroundColor="#fff" Opacity="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="130" />
                 </Grid.RowDefinitions>
+
+                <!--
+
+                <StackLayout Margin="10,0,10,0" Orientation="Horizontal">
+                    <TableView HeightRequest="50">
+                        <TableRoot>
+                            <TableSection>
+                                <SwitchCell x:Name="SwtBarras" Text="Entrada" OnChanged="SwtBarras_OnChanged"></SwitchCell>
+                            </TableSection>
+                        </TableRoot>
+                    </TableView>
+                </StackLayout>
+
+
+                    -->
 
                 <Grid Grid.Row="0" Margin="5,0,5,0" HorizontalOptions="Fill" VerticalOptions="Fill">
                     <Grid.RowDefinitions>
@@ -24,6 +42,7 @@
                         <RowDefinition Height="Auto" /> -->
                     </Grid.RowDefinitions>
 
+                    <!--
                     <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame0" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
                             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
@@ -35,13 +54,12 @@
                                 <Label x:Name="lblTec"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="1" Grid.Column="1" />
                                 <Label x:Name="lblDescOpcao"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" />
 
-                                <!--<Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" />
-                                + "Dep: " + parametros.Deposito + "Tec.: " + parametros.CodTecnico + " " + parametros.DescOpcao-->
 
                             </Grid>
                         </Frame>
-                    </StackLayout>
+                    </StackLayout> -->
 
+                    
                     <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
@@ -67,18 +85,22 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
                                 <Label x:Name="lblFilial" Text="Filial" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
-                                <local:CustomEntryText x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Filial..." Grid.Row="1"     Grid.Column="0"     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtRR" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..." Grid.Row="1"   Grid.Column="2"     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtDigito" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Dígito..." Grid.Row="1"   Grid.Column="4"     Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Filial..." Grid.Row="1"     Grid.Column="0"     Grid.ColumnSpan="5" />
+                                <local:CustomEntryText x:Name="edtRR" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..." Grid.Row="2"   Grid.Column="0"     Grid.ColumnSpan="5" />
+                                <local:CustomEntryText x:Name="edtDigito" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Dígito..." Grid.Row="3"   Grid.Column="0"     Grid.ColumnSpan="5" />
 
                                 <Button x:Name="BtnLeitura" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="efetivarMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
                                 Clicked="BtnLeitura_Clicked" Grid.Row="1" Grid.Column="6" />
                             </Grid>
                         </Frame>
                     </StackLayout>
+
+                    
 
                     <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">

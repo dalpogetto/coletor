@@ -12,18 +12,20 @@ namespace CollectorQi.Services
         public async Task<bool> ExisteNovaVersao()
         {
             var novaVersao = false;
-            var readPhoneState = DependencyService
+            
+            /*var readPhoneState = DependencyService
                 .Get<IReadPhoneState>()
                 .GetPhoneIMEI();
 
             if (string.IsNullOrEmpty(readPhoneState)) return false;
+            */
 
             var modelVersao = new ValidaAplicativoRequest
             {
                 Modelo = $"{DeviceInfo.Manufacturer}-{DeviceInfo.Model}",
                 Versao = VersionTracking.CurrentVersion,
                 VersaoAndroid = DeviceInfo.Version.ToString(),
-                Imei = readPhoneState
+                Imei = "" //readPhoneState
             };
 
             var controleVersao = new ControleVersaoService();
@@ -31,29 +33,56 @@ namespace CollectorQi.Services
 
             if (resultData != null)
             {
-                var rVersao = resultData.APKInfo.FirstOrDefault();
-                if (rVersao != null)
-                {
-                    var isNewVersion = !rVersao.VersaoMobile.Equals(modelVersao.Versao);
-                    var isValida = isNewVersion && rVersao.LoginValidado;
-                    if (isValida)
-                    {
-                        var result = await DisplayAlert("Alerta",
-                            "Existe uma nova versão disponivel. Deseja atualizar agora?",
-                            "Sim", "Não");
 
-                        if (result)
+                if (resultData.Retorno != null && resultData.Retorno == "Error")
+                {
+                    throw new Exception("Versão nao cadastrada");
+                }
+                else
+                {
+                    var rVersao = resultData.APKInfo.FirstOrDefault();
+
+                    
+                    System.Diagnostics.Debug.Write(resultData);
+                    if (rVersao != null)
+                    {
+                        var isNewVersion = !rVersao.VersaoMobile.Equals(modelVersao.Versao);
+                        var isValida = isNewVersion && rVersao.LoginValidado;
+                        if (isValida)
+                        {
+                            var result = await DisplayAlert("Alerta",
+                                "Existe uma nova versão disponivel. Deseja atualizar agora?",
+                                "Sim", "Não");
+
+                            if (result)
+                            {
+                                await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
+                                novaVersao = true;
+                            }
+                        }
+
+                        if (!rVersao.LoginValidado)
                         {
                             await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
                             novaVersao = true;
                         }
-                    }
 
-                    if (!rVersao.LoginValidado)
-                    {
-                        await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
-                        novaVersao = true;
+                        if (rVersao.Versao != VersionTracking.CurrentVersion)
+                        {
+                            //var result = await DisplayAlert("Alerta",
+                            //     "Existe uma nova versão disponivel. Deseja atualizar agora?",
+                            //     "Sim", "Não");
+
+                            var result = true;
+
+                            if (result)
+                            {
+                                await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
+                                novaVersao = true;
+                            }
+                        }
                     }
+                    
                 }
             }
 

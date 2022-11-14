@@ -46,13 +46,13 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <EnableProguard>true</EnableProguard>
     <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.v4</AndroidLinkSkip>
     <AndroidSupportedAbis>x86_64;x86;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidDexTool>d8</AndroidDexTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugErro|AnyCPU' ">
     <DebugType>
@@ -74,6 +74,8 @@
     <Reference Include="Mono.Android" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Numerics" />
@@ -116,9 +118,6 @@
     <Compile Include="WebService\CallProcedureWithToken.cs" />
     <Compile Include="WebService\Certificate.cs" />
     <Compile Include="WebService\UserLogin.cs" />
-    <Compile Include="Web References\santacolomba_dts.totvscloud.com.br\Reference.cs">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="Notification\CallNotification.cs" />
     <Compile Include="Notification\NotificationFormApp.cs" />
     <Compile Include="Notification\BroadcastReceiver.cs" />
@@ -130,11 +129,6 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="WebService\Icon&#xD;" />
-    <None Include="Web References\santacolomba_dts.totvscloud.com.br\WebServiceExecBO.wsdl" />
-    <None Include="Web References\santacolomba_dts.totvscloud.com.br\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
@@ -317,7 +311,7 @@
       <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
       <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl">
+    <WebReferenceUrl Include="https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\santacolomba_dts.totvscloud.com.br</RelPath>
       <UpdateFromURL>https://santacolomba-dts-teste.totvscloud.com.br/wsexecbo/WebServiceExecBO?wsdl</UpdateFromURL>

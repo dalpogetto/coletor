@@ -13,6 +13,7 @@ using CollectorQi.Views;
 using Android.Nfc;
 using Android.Support.Design.Widget;
 using Android.Util;
+using Android.Support.V4.App;
 
 namespace CollectorQi.Droid
 {

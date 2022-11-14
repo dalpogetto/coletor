@@ -128,23 +128,24 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="45" />
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
+                              <!--      <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" /> -->
                                 </Grid.RowDefinitions>
                                 <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
                                 <local:CustomEntryText x:Name="edtItCodigo" FontSize="Small" MaxLength="40" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto..." Grid.Row="1" Grid.ColumnSpan="2" />
 
-                                <StackLayout Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
+                                <!--<StackLayout Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
                                     <Button x:Name="BtnQR" android:Button.UseDefaultPadding="true"  android:Button.UseDefaultShadow="true"        WidthRequest="70"  Image="cameraMini.png"
                                         BackgroundColor="Transparent"   Clicked="OnClick_QR" />
-                                    <!--<Button x:Name="BtnBuscaItem4" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true"  WidthRequest="70"  Image="zoomMini.png"
-                                        BackgroundColor="Transparent"  Clicked="OnClick_BuscaItem" />-->
+                                    <Button x:Name="BtnBuscaItem4" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true"  WidthRequest="70"  Image="zoomMini.png"
+                                        BackgroundColor="Transparent"  Clicked="OnClick_BuscaItem" />
                                 </StackLayout>
+                                -->
 
-                                <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição do produto..." Grid.Row="2" Grid.Column="0"     Grid.ColumnSpan="4" />
+                            <!--    <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição do produto..." Grid.Row="2" Grid.Column="0"     Grid.ColumnSpan="4" />
                                 <local:CustomEntryText x:Name="edtUnidade" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Unidade de medida..." Grid.Row="3"     Grid.Column="0"     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtTipoConta" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Conta..." Grid.Row="3"   Grid.Column="2"     Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtTipoConta" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Conta..." Grid.Row="3"   Grid.Column="2"     Grid.ColumnSpan="2" /> -->
                             </Grid>
                         </Frame>
                     </StackLayout>
@@ -178,7 +179,7 @@
 
                                 </Grid.ColumnDefinitions>
                                 <Label x:Name="lblSerie" Text="Série" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                                <local:CustomEntryText x:Name="edtSerie"  FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Sério..." Grid.Row="1" Grid.Column="0" />
+                                <local:CustomEntryText x:Name="edtSerie"  FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Série..." Grid.Row="1" Grid.Column="0" />
                             </Grid>
                         </Frame>
                     </StackLayout>

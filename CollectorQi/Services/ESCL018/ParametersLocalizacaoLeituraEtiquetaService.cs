@@ -41,6 +41,8 @@ namespace CollectorQi.Services.ESCL018
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
+
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
                     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)

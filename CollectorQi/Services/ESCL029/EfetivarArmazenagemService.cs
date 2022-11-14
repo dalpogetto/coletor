@@ -22,7 +22,7 @@ namespace CollectorQi.Services.ESCL029
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl029api/Efetivar";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultParametrosJson> SendParametersAsync(LeituraMovimentoReparo parametrosInventarioReparo)
+        public async Task<ResultParametrosJson> SendParametersAsync(EfetivaReparo parametrosInventarioReparo)
         {
             try
             {
@@ -30,17 +30,19 @@ namespace CollectorQi.Services.ESCL029
                 RequestLeituraJson requestJson = new RequestLeituraJson() { Param = parametrosInventarioReparo };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
+
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
@@ -60,7 +62,7 @@ namespace CollectorQi.Services.ESCL029
             }
             catch (Exception e)
             {
-                Debug.Write(e);
+                throw e;
             }
 
             return parametros;
@@ -68,8 +70,8 @@ namespace CollectorQi.Services.ESCL029
 
         public class RequestLeituraJson
         {
-            [JsonProperty("Parametros")]
-            public LeituraMovimentoReparo Param { get; set; }
+            [JsonProperty("Reparo")]
+            public EfetivaReparo Param { get; set; }
         }
 
         public class ResultParametrosJson

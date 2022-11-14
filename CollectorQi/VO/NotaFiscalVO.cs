@@ -10,7 +10,7 @@ namespace CollectorQi.VO
         private string  localizacao = "";
         private string  descricaoItem = "";
         private string  nroDocto = "";
-        private int     numRR = 0;
+        private decimal     numRR = 0;
         private bool    conferido;
         private int     relaciona;
         private string  codFilial = "";
@@ -36,7 +36,7 @@ namespace CollectorQi.VO
         public string NroDocto { get => nroDocto; set => nroDocto = value; }
 
         [Indexed(Name = "uNotaFiscalIndex", Order = 6, Unique = true)]
-        public int NumRR { get => numRR; set => numRR = value; }
+        public decimal NumRR { get => numRR; set => numRR = value; }
 
         [Indexed(Name = "uNotaFiscalIndex", Order = 7, Unique = true)]
         public bool Conferido { get => conferido; set => conferido = value; }

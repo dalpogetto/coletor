@@ -46,7 +46,7 @@ namespace CollectorQi.Views
             var current = (cvOpcoesTransferenciaMovimentoReparo.SelectedItem as OpcoesTransferenciaMovimentoReparo);
             
 
-            Application.Current.MainPage = new NavigationPage(new MovimentoReparosLeituraEtiqueta(ListaOpcoesTransferenciaMovimentoReparo, Parametros, current.DescOpcao));
+            Application.Current.MainPage = new NavigationPage(new MovimentoReparosLeituraEtiqueta(ListaOpcoesTransferenciaMovimentoReparo, Parametros, current.DescOpcao, 1));
         }
 
         protected override bool OnBackButtonPressed()

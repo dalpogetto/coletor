@@ -56,9 +56,9 @@ namespace CollectorQi.Views
                 edtLocalizacaoSaida.Text = parametrosDepositosGuardaMaterial.LocalizacaoSaida;
                 edtLocalizacaoEntrada.Text = parametrosDepositosGuardaMaterial.LocalizacaoEntrada;
                 edtItCodigo.Text = parametrosDepositosGuardaMaterial.CodItem;
-                edtDescItem.Text = parametrosDepositosGuardaMaterial.DescItem;
-                edtUnidade.Text = parametrosDepositosGuardaMaterial.Un;
-                edtTipoConta.Text = parametrosDepositosGuardaMaterial.Conta;
+             //   edtDescItem.Text = parametrosDepositosGuardaMaterial.DescItem;
+             //   edtUnidade.Text = parametrosDepositosGuardaMaterial.Un;
+             //   edtTipoConta.Text = parametrosDepositosGuardaMaterial.Conta;
                 edtNroDocto.Text = parametrosDepositosGuardaMaterial.NF;
                 edtSerie.Text = parametrosDepositosGuardaMaterial.Serie;
                 edtLote.Text = parametrosDepositosGuardaMaterial.Lote;
@@ -209,9 +209,9 @@ namespace CollectorQi.Views
             foreach (var item in iTemLeituraEtiquetaServiceRetorno.Param.ParamResult)
             {
                 edtItCodigo.Text = item.CodItem;
-                edtDescItem.Text = item.DescItem;
+                /* edtDescItem.Text = item.DescItem;
                 edtUnidade.Text = item.Un;
-                edtTipoConta.Text = item.Conta;
+                edtTipoConta.Text = item.Conta; */
                 edtNroDocto.Text = item.NF;
                 edtSerie.Text = item.Serie;
                 edtLote.Text = item.Lote;
@@ -281,88 +281,95 @@ namespace CollectorQi.Views
         {
             BtnEfetivar.IsEnabled = false;
 
-            var pageProgress = new ProgressBarPopUp("Efetivando inventário, aguarde...");
+            var pageProgress = new ProgressBarPopUp("Efetivando transferencia, aguarde...");
+
+            var result = await DisplayAlert("Confirmação!", $"Deseja efetivar a transferência {edtQuantidade.Text} produto?", "Sim", "Não");
 
             try
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                //if (LocalizacaoStatus != false)
-                //{
-                //    if (String.IsNullOrWhiteSpace(edtLocalizacaoSaida.Text))
-                //    {
-                //        edtLocalizacaoSaida.Focus();
-                //        await DisplayAlert("", "Localização Saída não encontrada", "OK");
-                //        return;
-                //    }
-                //    else if (String.IsNullOrWhiteSpace(edtLocalizacaoEntrada.Text))
-                //    {
-                //        edtLocalizacaoEntrada.Focus();
-                //        await DisplayAlert("", "Localização Entrada não encontrada", "OK");
-                //        return;
-                //    }
-                //}
+                if (result.ToString() == "True")
+                {
 
-                if (String.IsNullOrWhiteSpace(edtDepositoSaida.Text))
-                {
-                    edtDepositoSaida.Focus();
-                    await DisplayAlert("", "Deposito Saída não encontrada", "OK");
-                }
-                else if (String.IsNullOrWhiteSpace(edtDepositoEntrada.Text))
-                {
-                    edtDepositoEntrada.Focus();
-                    await DisplayAlert("", "Deposito Entrada não encontrada", "OK");
-                }
-                else if (String.IsNullOrWhiteSpace(edtItCodigo.Text))
-                {
-                    edtItCodigo.Focus();
-                    await DisplayAlert("", "Item não encontrado", "OK");
-                }
-                else if (String.IsNullOrWhiteSpace(edtQuantidade.Text))
-                {
-                    edtQuantidade.Focus();
-                    await DisplayAlert("", "Quantidade não encontrada", "OK");
-                }
-                else
-                {
-                    var efetivarTransferencia = new EfetivarTransferenciaDepositoService();
+                    //if (LocalizacaoStatus != false)
+                    //{
+                    //    if (String.IsNullOrWhiteSpace(edtLocalizacaoSaida.Text))
+                    //    {
+                    //        edtLocalizacaoSaida.Focus();
+                    //        await DisplayAlert("", "Localização Saída não encontrada", "OK");
+                    //        return;
+                    //    }
+                    //    else if (String.IsNullOrWhiteSpace(edtLocalizacaoEntrada.Text))
+                    //    {
+                    //        edtLocalizacaoEntrada.Focus();
+                    //        await DisplayAlert("", "Localização Entrada não encontrada", "OK");
+                    //        return;
+                    //    }
+                    //}
 
-                    var dadosLeituraDadosItemTransferenciaDeposito = new DadosLeituraDadosItemTransferenciaDeposito()
+                    if (String.IsNullOrWhiteSpace(edtDepositoSaida.Text))
                     {
-                        CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                        CodDeposOrigem = _codDeposSaidaHidden,
-                        CodDeposDest = _codDeposEntradaHidden,
-                        CodLocalizaOrigem = edtLocalizacaoSaida.Text ?? String.Empty,
-                        CodLocalizaDest = edtLocalizacaoEntrada.Text ?? String.Empty,
-                        NF = edtNroDocto.Text ?? String.Empty,
-                        Serie = edtSerie.Text ?? String.Empty,
-                        CodItem = edtItCodigo.Text ?? String.Empty,
-                        Lote = edtLote.Text ?? String.Empty,
-                        Quantidade = int.Parse(edtQuantidade.Text)
-                    };
-
-                    var efetivarTransferenciaRetorno = await efetivarTransferencia.SendTransferenciaDepositoAsync(dadosLeituraDadosItemTransferenciaDeposito);
-
-                    //await DisplayAlert("", efetivarTransferenciaRetorno.Param.OK, "OK");
-
-                    await pageProgress.OnClose();
-
-                    if (efetivarTransferenciaRetorno != null && efetivarTransferenciaRetorno.Retorno == "OK")
+                        edtDepositoSaida.Focus();
+                        await DisplayAlert("", "Deposito Saída não encontrada", "OK");
+                    }
+                    else if (String.IsNullOrWhiteSpace(edtDepositoEntrada.Text))
                     {
-                        OnBackButtonPressed();
+                        edtDepositoEntrada.Focus();
+                        await DisplayAlert("", "Deposito Entrada não encontrada", "OK");
+                    }
+                    else if (String.IsNullOrWhiteSpace(edtItCodigo.Text))
+                    {
+                        edtItCodigo.Focus();
+                        await DisplayAlert("", "Item não encontrado", "OK");
+                    }
+                    else if (String.IsNullOrWhiteSpace(edtQuantidade.Text))
+                    {
+                        edtQuantidade.Focus();
+                        await DisplayAlert("", "Quantidade não encontrada", "OK");
                     }
                     else
                     {
-                        if (efetivarTransferenciaRetorno != null && efetivarTransferenciaRetorno.Resultparam != null && efetivarTransferenciaRetorno.Resultparam.Count > 0)
+                        var efetivarTransferencia = new EfetivarTransferenciaDepositoService();
+
+                        var dadosLeituraDadosItemTransferenciaDeposito = new DadosLeituraDadosItemTransferenciaDeposito()
                         {
-                            await DisplayAlert("Erro!", efetivarTransferenciaRetorno.Resultparam[0].ErrorHelp, "Cancelar");
+                            CodEstabel        = SecurityAuxiliar.GetCodEstabel(),
+                            CodDeposOrigem    = _codDeposSaidaHidden,
+                            CodDeposDest      = _codDeposEntradaHidden,
+                            CodLocalizaOrigem = edtLocalizacaoSaida.Text ?? String.Empty,
+                            CodLocalizaDest   = edtLocalizacaoEntrada.Text ?? String.Empty,
+                            NF                = edtNroDocto.Text ?? String.Empty,
+                            Serie             = edtSerie.Text ?? String.Empty,
+                            CodItem           = edtItCodigo.Text ?? String.Empty,
+                            Lote              = edtLote.Text ?? String.Empty,
+                            Quantidade        = int.Parse(edtQuantidade.Text)
+                        };
+
+                        var efetivarTransferenciaRetorno = await efetivarTransferencia.SendTransferenciaDepositoAsync(dadosLeituraDadosItemTransferenciaDeposito);
+
+                        //await DisplayAlert("", efetivarTransferenciaRetorno.Param.OK, "OK");
+
+                        await pageProgress.OnClose();
+
+                        if (efetivarTransferenciaRetorno != null && efetivarTransferenciaRetorno.Retorno == "OK")
+                        {
+                            await DisplayAlert("Sucesso!", "Transfência efetuada com sucesso!", "OK");
+                            Limpar(false);
+                            // OnBackButtonPressed();
                         }
                         else
                         {
-                            await DisplayAlert("Erro!", "Erro ao efetivar transferencia", "Cancelar");
+                            if (efetivarTransferenciaRetorno != null && efetivarTransferenciaRetorno.Resultparam != null && efetivarTransferenciaRetorno.Resultparam.Count > 0)
+                            {
+                                await DisplayAlert("Erro!", efetivarTransferenciaRetorno.Resultparam[0].ErrorHelp, "Cancelar");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Erro!", "Erro ao efetivar transferencia", "Cancelar");
+                            }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -543,19 +550,22 @@ namespace CollectorQi.Views
 
         async void Limpar(bool pBlnQuestion)
         {
-            bool blnAlert = await DisplayAlert("Limpar Registros?", "Deseja limpar todos os campos ?", "Sim", "Não");
+            if (pBlnQuestion)
+            {
+                bool blnAlert = await DisplayAlert("Limpar Registros?", "Deseja limpar todos os campos ?", "Sim", "Não");
 
-            if (!blnAlert)
-                return;
+                if (!blnAlert)
+                    return;
+            }
 
             edtDepositoSaida.Text = "";
             edtDepositoEntrada.Text = "";
             edtLocalizacaoSaida.Text = "";
             edtLocalizacaoEntrada.Text = "";
             edtItCodigo.Text = "";
-            edtDescItem.Text = "";
-            edtUnidade.Text = "";
-            edtTipoConta.Text = "";
+        //   edtDescItem.Text = "";
+        //   edtUnidade.Text = "";
+        //   edtTipoConta.Text = "";
             edtNroDocto.Text = "";
             edtSerie.Text = "";
             edtLote.Text = "";
