@@ -44,11 +44,11 @@
                                HorizontalOptions="StartAndExpand"
                                Margin="0,0,0,0"
                                FontSize="Small"
-                               Unfocused="SearchBarItCodigo_Unfocused"/>
+                               Unfocused="SearchBarItCodigo_Unfocused" SearchButtonPressed="SearchBarItCodigo_SearchButtonPressed"  />
                 </Frame>               
 
                 <Grid Grid.Row="0">
-                    <CollectionView x:Name="cvInventarioItem" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="cvInventarioItem_SelectionChanged" Grid.Row="0" Margin="10,0,10,0">
+                    <CollectionView x:Name="cvInventarioItem" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="cvInventarioItem_SelectionChanged" Grid.Row="0" Margin="10,0,10,0" >
                         <CollectionView.EmptyView>
                             <StackLayout>
                                 <Label Text="Nenhum item no inventário" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  />

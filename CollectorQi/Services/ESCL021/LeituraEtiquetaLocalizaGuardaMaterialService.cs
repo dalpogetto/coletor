@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL021
 {
@@ -16,7 +17,7 @@ namespace CollectorQi.Services.ESCL021
         ResultGuardaMaterialJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";        
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/LeituraEtiquetaLocaliza";

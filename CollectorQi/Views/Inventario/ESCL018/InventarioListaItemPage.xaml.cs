@@ -359,13 +359,22 @@ namespace CollectorQi.Views
         {
             try
             {
+
+
+                //System.Diagnostics.Debug.Write(e);
+                bool lCodBarras = false;
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5){
+                    lCodBarras = true;
+                }
+
+
                 //await Task.Run(() => PerformSearch());
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
                 await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+                        delegate { PerformSearch(lCodBarras); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,
                         TaskContinuationOptions.OnlyOnRanToCompletion,
                         TaskScheduler.FromCurrentSynchronizationContext());
@@ -376,24 +385,42 @@ namespace CollectorQi.Views
             }
         }
 
-        async public void PerformSearch()
+        async public void PerformSearch(bool plCodBarras)
         {
             try
             {
                 //cvInventarioItem.IsEnabled = false;
+                string strCodItemBusca = string.Empty;
 
+                if (SearchBarItCodigo.Text.IndexOf(";") >= 1)
+                {
+                    var splItem = SearchBarItCodigo.Text.Split(';');
 
+                    if (splItem[0] == "03" || splItem[0] == "02")
+                    {
+                        strCodItemBusca = splItem[1].Trim();
+                    }
+                }
+                else
+                {
+                    strCodItemBusca = SearchBarItCodigo.Text.Trim();
+                }
 
-                if (string.IsNullOrWhiteSpace(SearchBarItCodigo.Text))
+                if (string.IsNullOrWhiteSpace(strCodItemBusca))
                     Items = _ItemsUnfiltered;
                 else
                 {
                     /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
                     _ItemsFiltered = new ObservableCollection<InventarioItemViewModel>(_ItemsUnfiltered.Where(i =>
-                   (i is InventarioItemViewModel && (((InventarioItemViewModel)i).CodItem.ToLower().Contains(SearchBarItCodigo.Text.ToLower())))
+                   (i is InventarioItemViewModel && (((InventarioItemViewModel)i).CodItem.ToLower().Contains(strCodItemBusca.ToLower())))
                    ));
 
                     Items = _ItemsFiltered;
+                }
+
+                if (plCodBarras)
+                {
+                    SearchBarItCodigo.Unfocus();
                 }
             }
             catch (Exception ex)
@@ -429,6 +456,8 @@ namespace CollectorQi.Views
             await pageProgress.OnClose();
         }
 
+
+
         private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
         {
             if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
@@ -444,6 +473,11 @@ namespace CollectorQi.Views
                         if (textItCodigo.Length > 1)
                         {
                             current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == textItCodigo[1]);
+
+                            if (current != null)
+                            {
+                                current.CodigoBarras = SearchBarItCodigo.Text;
+                            }
                         }
                     }
                 }
@@ -487,18 +521,33 @@ namespace CollectorQi.Views
 
         private void BtnImprimir_Clicked(object sender, EventArgs e)
         {
+
             Application.Current.MainPage = new NavigationPage(new ImprimirPage(_inventario));
         }
 
         async void cvInventarioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
+            cvInventarioItem.IsEnabled = false;
 
-            if (cvInventarioItem.SelectedItem == null)
-                return;
+            try
+            {
 
-            OpenPagePopUp(current);
+                var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
 
+                if (cvInventarioItem.SelectedItem == null)
+                    return;
+
+                OpenPagePopUp(current);
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERRO", ex.Message, "OK");
+            }
+            finally
+            {
+                cvInventarioItem.IsEnabled = true;
+            }
         }
 
         public async void RefreshRowInventarioItem(InventarioItemVO pInventarioItemVO)
@@ -535,8 +584,26 @@ namespace CollectorQi.Views
             {
                 ToolBarPrint.IsEnabled = false;
 
+                string strItCodigo = null;
+                List<string> lstItem = new List<string>();
+
+                if (_Items != null)
+                {
+                    if (_Items.Count == 1)
+                    {
+                        strItCodigo = _Items.FirstOrDefault().CodItem;
+                    }
+                    else if (_Items.Count > 1)
+                    {
+                        foreach (var item in _Items)
+                        {
+                            lstItem.Add(item.CodItem);
+                        }
+                    }
+                }
+
                 var pageProgress = new ProgressBarPopUp("Carregando...");
-                var page = new InventarioPrintPopUp(_inventario.CodDepos, _codLocaliz);
+                var page = new InventarioPrintPopUp(_inventario.CodDepos, _codLocaliz, strItCodigo, lstItem );
                 await PopupNavigation.Instance.PushAsync(page);
                 //Thread.Sleep(1000);
                 await pageProgress.OnClose();
@@ -545,6 +612,11 @@ namespace CollectorQi.Views
             {
                 ToolBarPrint.IsEnabled = true;
             }
+        }
+
+        private void SearchBarItCodigo_SearchButtonPressed(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Write(e);
         }
     }
 

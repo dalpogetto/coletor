@@ -191,10 +191,6 @@ namespace CollectorQi.Views
             }
             else
             {
-                System.Diagnostics.Debug.Write(dRetorno);
-
-              //  Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(null, Local, CodDepos, 1));
-
                 Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(dRetorno.paramRetorno,
                                                                                                            codigoBarras,
                                                                                                            current.CodDepos,1)); 
@@ -346,6 +342,23 @@ namespace CollectorQi.Views
             catch (Exception ex)
             {
                 //await DisplayAlert("Erro!", ex.Message, "Cancel");
+            }
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolBarPrint.IsEnabled = false;
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                var page = new ArmazenagemPrintPopUp(null, null);
+                await PopupNavigation.Instance.PushAsync(page);
+                await pageProgress.OnClose();
+            }
+            finally
+            {
+                ToolBarPrint.IsEnabled = true;
             }
         }
 

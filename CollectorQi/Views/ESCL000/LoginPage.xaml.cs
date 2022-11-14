@@ -6,6 +6,11 @@ using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Models;
 using System.Threading.Tasks;
 using CollectorQi.Services.ESCL002;
+using CollectorQi.Services;
+using Xamarin.Essentials;
+using System.Linq;
+using CollectorQi.Services.ESCL000;
+using System.Net;
 //using Android.Widget;
 
 namespace CollectorQi.Views
@@ -76,7 +81,15 @@ namespace CollectorQi.Views
                 try
                 {
                     logon = await Services.ESCL000.ConnectService.ConnectColetorAsync (usuario.Text, senha.Text, page);
-                    
+
+
+                    var versaoSistema = new ValidaVersaoSistema();
+                    var existeNovaVersao = await versaoSistema.ExisteNovaVersao();
+                    if (existeNovaVersao)
+                    {
+                        logon = "Erro";
+                    }
+
                 }
                   catch (Exception ex)
                 {

@@ -10,6 +10,7 @@ using CollectorQi.Models;
 using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL002
 {
@@ -20,7 +21,7 @@ namespace CollectorQi.Services.ESCL002
         ParametrosResult parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 

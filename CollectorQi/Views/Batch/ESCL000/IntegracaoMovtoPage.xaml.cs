@@ -26,9 +26,14 @@ namespace CollectorQi.Views
             else
             {
 
-                string[] imagem = new string[] { "inventario.png" };
-                string[] titulo = new string[] { "Inventario" };
-                string[] subTitulo = new string[] { "Inventários integrados com o sistema" };
+                string[] imagem = new string[] { "inventario.png"    , "repair.png"                                                            
+                                                ,"guardaMaterias.png", "transferenciaDeposito.png", "movto_repair3.png" };
+
+                string[] titulo = new string[] { "Inventário Físico"   , "Inventário de Reparos"                                               
+                                                ,"Guarda de Materiais" , "Transferência de Depósito"  , "Movimentação de Reparo"  };
+
+                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário de Reparos (ESCL017)"
+                                                   ,"Guarda de Materiais (ESCL027)"          , "Transferência de Depósito (ESCL021)"         , "Movimentação de Reparo (ESCL029)"  };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -54,15 +59,27 @@ namespace CollectorQi.Views
 
             switch (menuItemDetail.Name)
             {
-                case "Transferência":
-                    Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoTransferenciaPage()); 
-                    break;
-                case "Inventario":
+      
+                case "Inventário Físico":
                     Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoInventarioPage());
                     break;
-                case "Voltar":
-                    Application.Current.MainPage = new NavigationPage(new IntegracaoPage());
+
+                case "Inventário de Reparos":
+                    Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoInventarioPage());
                     break;
+
+                case "Guarda de Materiais":
+                    Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoInventarioPage());
+                    break;
+
+                case "Transferência de Depósito":
+                    Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoInventarioPage());
+                    break;
+
+                case "Movimentação de Reparo":
+                    Application.Current.MainPage = new NavigationPage(new IntegracaoMovtoInventarioPage());
+                    break;
+          
             }
 
             ((ListView)sender).SelectedItem = null;

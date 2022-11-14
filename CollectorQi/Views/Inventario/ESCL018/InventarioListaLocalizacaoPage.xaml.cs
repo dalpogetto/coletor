@@ -161,18 +161,25 @@ namespace CollectorQi.Views
         }
 
         private CancellationTokenSource throttleCts = new CancellationTokenSource();
-
+        private bool lCodBarras = false;
         async void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
                 System.Diagnostics.Debug.Write(e);
 
+                //System.Diagnostics.Debug.Write(e);
+                bool lCodBarras = false;
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5)
+                {
+                    lCodBarras = true;
+                }
+
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
                 await Task.Delay(TimeSpan.FromMilliseconds(1200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+                        delegate { PerformSearch(lCodBarras); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,
                         TaskContinuationOptions.OnlyOnRanToCompletion,
                         TaskScheduler.FromCurrentSynchronizationContext());
@@ -182,22 +189,43 @@ namespace CollectorQi.Views
             }
         }
 
-        async public void PerformSearch()
+        async public void PerformSearch(bool plCodBarras)
         {
             try
             {
                 //cvInventarioItem.IsEnabled = false;
 
-                if (string.IsNullOrWhiteSpace(SearchLocalizacao.Text))
+                string strCodLocalizacao = string.Empty;
+
+                if (SearchLocalizacao.Text.IndexOf(";") >= 1)
+                {
+                    var splItem = SearchLocalizacao.Text.Split(';');
+
+                    if (splItem[0] == "10")
+                    {
+                        strCodLocalizacao = splItem[1].Trim();
+                    }
+                }
+                else
+                {
+                    strCodLocalizacao = SearchLocalizacao.Text.Trim();
+                }
+
+                if (string.IsNullOrWhiteSpace(strCodLocalizacao))
                     Items = _ItemsUnfiltered;
                 else
                 {
                     /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
                     _ItemsFiltered = new ObservableCollection<InventarioLocalizacaoViewModel>(_ItemsUnfiltered.Where(i =>
-                   (i is InventarioLocalizacaoViewModel && (((InventarioLocalizacaoViewModel)i).Localizacao.ToLower().Contains(SearchLocalizacao.Text.ToLower())))
+                   (i is InventarioLocalizacaoViewModel && (((InventarioLocalizacaoViewModel)i).Localizacao.ToLower().Contains(strCodLocalizacao.ToLower())))
                    ));
 
                     Items = _ItemsFiltered;
+                }
+
+                if (plCodBarras)
+                {
+                    SearchLocalizacao.Unfocus();
                 }
             }
             catch (Exception ex)
@@ -263,18 +291,51 @@ namespace CollectorQi.Views
         {
             if (!String.IsNullOrEmpty(SearchLocalizacao.Text))
             {
-                var current = Items.FirstOrDefault(p => p.Localizacao == SearchLocalizacao.Text);
+                var current = Items.FirstOrDefault(p => p.Localizacao.ToLower() == SearchLocalizacao.Text.ToLower());
 
                 if (current == null)
                 {
-                    _ItemsUnfiltered.FirstOrDefault(p => p.Localizacao == SearchLocalizacao.Text.Replace("10;",""));
+                    string strLocalizacao = SearchLocalizacao.Text.Replace("10;", "").Trim().ToLower();
+
+                    current = _ItemsUnfiltered.FirstOrDefault(p => p.Localizacao.ToLower() == strLocalizacao);
                 }
 
                 if (current != null)
                 {
-                    Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, SearchLocalizacao.Text));
+                    Application.Current.MainPage = new NavigationPage(new InventarioListaItemPage(_inventarioVO, SearchLocalizacao.Text.Replace("10;", "").Trim()));
                 }
             }
+
+            /*
+
+            if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
+            {
+                var current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == SearchBarItCodigo.Text);
+
+                if (current == null)
+                {
+                    if (SearchBarItCodigo.Text.Contains(';'))
+                    {
+
+                        var textItCodigo = SearchBarItCodigo.Text.Split(';');
+                        if (textItCodigo.Length > 1)
+                        {
+                            current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == textItCodigo[1]);
+
+                            if (current != null)
+                            {
+                                current.CodigoBarras = SearchBarItCodigo.Text;
+                            }
+                        }
+                    }
+                }
+
+                if (current != null)
+                {
+                    OpenPagePopUp(current);
+
+                }
+            }*/
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -284,7 +345,7 @@ namespace CollectorQi.Views
                 ToolBarPrint.IsEnabled = false;
 
                 var pageProgress = new ProgressBarPopUp("Carregando...");
-                var page = new InventarioPrintPopUp(_inventarioVO.CodDepos, null);
+                var page = new InventarioPrintPopUp(_inventarioVO.CodDepos, null, null, null);
                 await PopupNavigation.Instance.PushAsync(page);
                 //Thread.Sleep(1000);
                 await pageProgress.OnClose();

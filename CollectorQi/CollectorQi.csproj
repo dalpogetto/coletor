@@ -41,7 +41,6 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
-    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.7.2" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
     <PackageReference Include="sqlite-net" Version="1.0.8" />
     <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
@@ -79,7 +78,6 @@
     <None Include="Views\Batch\IntegracaoPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\ESCL000\" />
     <Folder Include="Services\ESCL028\" />
     <Folder Include="ViewsOld\" />
     <Folder Include="Models\Notification\" />
@@ -98,11 +96,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Armazenagem\ESCL010\ArmazenagemImprimirFilial.xaml.cs">
+      <DependentUpon>ArmazenagemImprimirFilial.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL010\ArmazenagemImprimirPage.xaml.cs">
+      <DependentUpon>ArmazenagemImprimirPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL021\DepositosUsuarioPorTransacaoListaPopUp.xaml.cs">
+      <DependentUpon>DepositosUsuarioPorTransacaoListaPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL021\TransferenciaDepositoPage.xaml.cs">
+      <DependentUpon>TransferenciaDepositoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriasConfirmaQuantidadePopUp.xaml.cs">
+      <DependentUpon>GuardaMateriasConfirmaQuantidadePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\MovimentoReparosOpcoesTransferenciaPage.xaml.cs">
+      <DependentUpon>MovimentoReparosOpcoesTransferenciaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\MovimentoReparosLeituraEtiqueta.xaml.cs">
+      <DependentUpon>MovimentoReparosLeituraEtiqueta.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL029\ArmazenagemMovimentoReparoPage.xaml.cs">
+      <DependentUpon>ArmazenagemMovimentoReparoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoItemListaPagePopUp.xaml.cs">
       <DependentUpon>GuardaMateriaisDepositoItemListaPagePopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriasDepositoLocalizPopUp.xaml.cs">
       <DependentUpon>GuardaMateriasDepositoLocalizPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ArmazenagemPrintPopUp.xaml.cs">
+      <DependentUpon>ArmazenagemPrintPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ESCL000\DepositoPopUp.xaml.cs">
+      <DependentUpon>DepositoPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoListaDepositoPopUp.xaml.cs">
+      <DependentUpon>InventarioReparoListaDepositoPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoLeituraEtiquetaBarrasPopUp.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaBarrasPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Recebimento\ESCL002\ConferenciaFisicaParametrosPage.xaml.cs">
       <DependentUpon>ConferenciaFisicaParametrosPage.xaml</DependentUpon>
@@ -155,11 +189,14 @@
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriaisDepositoItemListaPage.xaml.cs">
       <DependentUpon>GuardaMateriaisDepositoItemListaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoLeituraEtiquetaListaPage.xaml.cs">
       <DependentUpon>InventarioReparoLeituraEtiquetaListaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioReparoLeituraEtiquetaManual.xaml.cs">
-      <DependentUpon>InventarioReparoLeituraEtiquetaManual.xaml</DependentUpon>
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoLeituraEtiquetaManualPopUp.xaml.cs">
+      <DependentUpon>InventarioReparoLeituraEtiquetaManualPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Recebimento\ESCL028\NotaFiscalConferenciaReparosDetPopUp.xaml.cs">
+      <DependentUpon>NotaFiscalConferenciaReparosDetPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Recebimento\ESCL028\NotaFiscalConferenciaReparosListaPopUp.xaml.cs">
       <DependentUpon>NotaFiscalConferenciaReparosListaPopUp.xaml</DependentUpon>
@@ -167,13 +204,13 @@
     <Compile Update="Views\TransferenciaDepositoListaPage.xaml.cs">
       <DependentUpon>TransferenciaDepositoListaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioReparoListaPage.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoListaPage.xaml.cs">
       <DependentUpon>InventarioReparoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InventarioFisicoListaPage.xaml.cs">
       <DependentUpon>InventarioFisicoListaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\InventarioReparoDepositoListaPage.xaml.cs">
+    <Compile Update="Views\Inventario\ESCL017\InventarioReparoDepositoListaPage.xaml.cs">
       <DependentUpon>InventarioReparoDepositoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Recebimento\ESCL028\NotaFiscalFinalizarItemConferenciaListaPage.xaml.cs">

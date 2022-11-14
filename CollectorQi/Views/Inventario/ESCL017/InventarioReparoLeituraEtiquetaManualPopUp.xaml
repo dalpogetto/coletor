@@ -1,7 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:CollectorQi" Title="Inventário Reparo Etiqueta Manual" x:Class="CollectorQi.Views.InventarioReparoLeituraEtiquetaManual">
-    <ContentPage.Content>
-        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 x:Class="CollectorQi.Views.InventarioReparoLeituraEtiquetaManualPopUp" 
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+                 xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation PositionIn="Bottom" PositionOut="Center" ScaleIn="1" ScaleOut="0.7" DurationIn="700" EasingIn="BounceOut" />
+    </pages:PopupPage.Animation>
+    <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
         <StackLayout BackgroundColor="#fff">
             <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
@@ -21,7 +30,7 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblFilial" Text="Filial" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtFilial" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Filial..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtFilial" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Filial..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -34,7 +43,7 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="lblNumeroRR" Text="Número RR" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtNumeroRR" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Número RR..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtNumeroRR" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Número RR..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand" Keyboard="Numeric"
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
                 </Grid>
             </Frame>
@@ -43,14 +52,14 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" /> 
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label x:Name="lblDigito" Text="Dígito" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <local:CustomEntry x:Name="txtDigito" FontSize="Micro" MaxLength="300" WidthRequest="300" Placeholder="Dígito..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                    <local:CustomEntry x:Name="txtDigito" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Dígito..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand" Keyboard="Numeric"
                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
                 </Grid>
-            </Frame>           
+            </Frame>
 
             <Grid Margin="10,100,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
                 <Grid.RowDefinitions>
@@ -58,11 +67,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="BtnEtiquetaManualConfirmar" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                <Button x:Name="BtnEtiquetaManualConfirmar" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                     Clicked="BtnEtiquetaManualConfirmar_Clicked" Grid.Row="0" Grid.Column="0" Text="Confirmar" TextColor="White" />
             </Grid>
 
 
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </ScrollView>
+</pages:PopupPage>

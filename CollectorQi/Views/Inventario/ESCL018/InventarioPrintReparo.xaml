@@ -37,7 +37,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Label x:Name="lblCodBarra" Text="Scan" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                                <local:CustomEntryText x:Name="txtCodBarra" Text="" Keyboard="Default" Grid.Row="1" Grid.Column="0" FontSize="Micro" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="txtCodBarra" Text="" Keyboard="Default" Grid.Row="1" Grid.Column="0" FontSize="Small" Grid.ColumnSpan="1" />
 
                             </Grid>
                         </Frame>
@@ -133,8 +133,8 @@
 
                                 <Label x:Name="lblDigito" TextColor="{StaticResource NavigationPrimary}" Text="Digito" Grid.Row="0" Grid.Column="1" FontSize="Medium" ></Label>
 
-                                <local:CustomEntryText x:Name="txtNumRR" Text="" Placeholder="Número RR..." Keyboard="Default" Grid.Row="1" Grid.Column="0" FontSize="Small"/>
-                                <local:CustomEntryText x:Name="txtDigito" Text="" Placeholder="Digito..."  Keyboard="Default" Grid.Row="1" Grid.Column="1" FontSize="Small"/>
+                                <local:CustomEntryText x:Name="txtNumRR" Text="" Placeholder="Número RR..." Keyboard="Numeric" Grid.Row="1" Grid.Column="0" FontSize="Small" />
+                                <local:CustomEntryText x:Name="txtDigito" Text="" Placeholder="Digito..."  Keyboard="Numeric" Grid.Row="1" Grid.Column="1" FontSize="Small" />
 
                             </Grid>
                         </Frame>

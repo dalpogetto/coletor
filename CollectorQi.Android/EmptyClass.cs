@@ -6,7 +6,7 @@ namespace CollectorQi.Droid
         public EmptyClass()
         {
 
-            santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws = new santacolomba_dts.totvscloud.com.br.WebServiceExecBO();
+            //santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws = new santacolomba_dts.totvscloud.com.br.WebServiceExecBO();
 
             /*santacolomba_dts.totvscloud.com.br.userLogin login = new santacolomba_dts.totvscloud.com.br.userLogin();
 

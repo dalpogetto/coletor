@@ -21,17 +21,20 @@ namespace CollectorQi.Views
     {
         private string _codDepos { get; set; }
         private string _codLocaliz { get; set; }
+        private string _itCodigo { get; set; }
 
+        private List<string> _lstItem { get; set; }
         
-
-        public InventarioPrintPopUp(string pCodDepos, string pCodLocaliz)        
+        public InventarioPrintPopUp(string pCodDepos, string pCodLocaliz, string pItCodigo, List<string> pLstItem)        
         {
             try
             {
                 InitializeComponent();
 
-                _codDepos = pCodDepos;
+                _codDepos   = pCodDepos;
                 _codLocaliz = pCodLocaliz;
+                _itCodigo   = pItCodigo;
+                _lstItem = pLstItem;
 
                 string[] imagem = new string[] { "product.png", "forklift.png", "repair.png" };
                 string[] titulo = new string[] {  "Item", "Localização", "Reparo"};
@@ -151,7 +154,39 @@ namespace CollectorQi.Views
                     {
                         case "Item":
 
-                            var pageItem = new InventarioPrintItem(_codDepos);
+                           
+                            if (_lstItem != null && _lstItem.Count > 0)
+                            {
+                                
+                                string[] arrayItem = new string[_lstItem.Count + 1];
+
+                                arrayItem[0] = "Nenhum item da lista...";
+
+                                int iCont = 0;
+                                foreach (var item in _lstItem)
+                                {
+                                    iCont++;
+                                    arrayItem[iCont] = item.ToString();
+                                }
+
+                                var action = await DisplayActionSheet("Escolha o Item?", "Cancelar", null, arrayItem);
+
+                                if (action != "Cancelar")
+                                {
+                                    if (action == "Nenhum item da lista...")
+                                    {
+                                        _itCodigo = "";
+                                    }
+                                    else
+                                    {
+                                        _itCodigo = action;
+                                    }
+                                }
+                                else
+                                    return;
+                            }
+
+                            var pageItem = new InventarioPrintItem(_codDepos, _itCodigo);
                             await PopupNavigation.Instance.PushAsync(pageItem);
 
                             break;

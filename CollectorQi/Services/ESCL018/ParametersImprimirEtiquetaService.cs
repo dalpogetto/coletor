@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using ESCL = CollectorQi.Models.ESCL018;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -15,7 +16,7 @@ namespace CollectorQi.Services.ESCL018
     {
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
@@ -43,16 +44,17 @@ namespace CollectorQi.Services.ESCL018
                 };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                
                 var json = JsonConvert.SerializeObject(requestJsonSend);
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
@@ -132,6 +134,7 @@ namespace CollectorQi.Services.ESCL018
         public class ParametrosImpressaoResultError
         {
             public string ErrorDescription { get; set; }
+            public string ErrorHelp { get; set; }
         }
 
 

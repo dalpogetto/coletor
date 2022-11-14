@@ -58,6 +58,7 @@ namespace CollectorQi.Views
 
     public class DepositosInventarioReparoViewModel : DepositosInventarioReparo
     {
+
         //public string Image
         //{
         //    get

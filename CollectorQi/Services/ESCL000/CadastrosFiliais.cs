@@ -15,7 +15,7 @@ namespace CollectorQi.Services.ESCL000
     public static class CadastrosFiliais
     {
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         private const string URI_CADASTRO_FILIAIS = "/api/integracao/coletores/v1/escl000api/ObterListaFiliais";
 
         // Metodo Finalizar Conferencia - Totvs
@@ -36,6 +36,8 @@ namespace CollectorQi.Services.ESCL000
 
                 HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS);
 
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
+
                 var result = await client.SendAsync(req);
 
                 if (result.IsSuccessStatusCode)
@@ -44,7 +46,20 @@ namespace CollectorQi.Services.ESCL000
 
                     var resultResponse = JsonConvert.DeserializeObject<ResultFiliais>(responseData);
 
-                    filiais = resultResponse.items;
+                    if (resultResponse != null && resultResponse.items != null)
+                    {
+                        filiais = resultResponse.items;
+                    }
+
+                    
+                 //  filiais.Add(new Models.ESCL000.Filial
+                 //  {
+                 //      CodFilial = "101",
+                 //      Nome = "PRODIEBOLD",
+                 //      CodEstabel = "101"
+                 //  });
+                    
+
                 }
                 else if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {

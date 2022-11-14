@@ -16,7 +16,7 @@
             <CollectionView x:Name="cvInventarioReparoLeituraEtiqueta" ItemsSource="{Binding ObsInventarioReparoLeituraEtiqueta}" SelectionMode="Single" Margin="10,0,10,0">
                 <CollectionView.EmptyView>
                     <StackLayout>
-                        <Label Text="Nenhuma nota fiscal em andamento" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                        <Label Text="Nenhum reparo efetivado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
                     </StackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
@@ -34,33 +34,47 @@
                                     
                                     <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="Auto" />
+                                            
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        
-                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodProduto}" FontSize="Micro" />
 
-                                        <Label Grid.Row="0" Grid.Column="2" Text="Codigo: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="3" Text="{Binding CodProduto}" FontSize="Micro" />
+                                        <StackLayout Orientation="Vertical">
 
-                                        <Label Grid.Row="0" Grid.Column="4" Text="Local: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="0" Grid.Column="5" Text="{Binding Localiza}" FontSize="Micro" />
-                                        
-                                        <Label Grid.Row="1" Grid.Column="0" Text="Núm RR: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding NumRR}" FontSize="Micro"/>
+                                            <StackLayout  Orientation="Horizontal" IsVisible="{Binding CodFilialIsVisible}">
+                                                <Label  Grid.Column="0" Text="Filial: " FontAttributes="Bold" FontSize="Small" />
+                                                <Label  Grid.Column="1" Text="{Binding CodFilial}" FontSize="Small"/>
+                                            </StackLayout>
 
-                                        <Label Grid.Row="1" Grid.Column="2" Text="Digito: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="3" Text="{Binding Digito}" FontSize="Micro"/>
+                                            <StackLayout  Orientation="Horizontal" IsVisible="{Binding NumRRIsVisible}">
+                                                <Label  Grid.Column="0" Text="Núm RR: " FontAttributes="Bold" FontSize="Small" />
+                                                <Label  Grid.Column="1" Text="{Binding NumRR}" FontSize="Small"/>
+                                            </StackLayout>
 
-                                        <Label Grid.Row="1" Grid.Column="4" Text="Filial: " FontAttributes="Bold" FontSize="Micro" />
-                                        <Label Grid.Row="1" Grid.Column="5" Text="{Binding CodFilial}" FontSize="Micro"/>
+                                            <StackLayout  Orientation="Horizontal" IsVisible="{Binding DigitoIsVisible}">
+                                                <Label  Grid.Column="0" Text="Digito: " FontAttributes="Bold" FontSize="Small" />
+                                                <Label  Grid.Column="1" Text="{Binding Digito}" FontSize="Small"/>
+                                            </StackLayout>
+
+                                            <StackLayout  Orientation="Horizontal" IsVisible="{Binding ItemIsVisible}">
+                                                <Label Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Small" />
+                                                <Label Grid.Column="1" Text="{Binding CodProduto}" FontSize="Small" />
+                                            </StackLayout>
+
+                                            <StackLayout  Orientation="Horizontal" IsVisible="{Binding LocalizacaoIsVisible}">
+                                                <Label Grid.Column="0" Text="Local: " FontAttributes="Bold" FontSize="Small" />
+                                                <Label Grid.Column="1" Text="{Binding Localiza}" FontSize="Small" />
+                                            </StackLayout>
+
+                                            <StackLayout Orientation="Horizontal" IsVisible="{Binding MensagemIsVisible}">
+                                                <Label Grid.Column="0" Grid.ColumnSpan="1" Text="{Binding Mensagem}" FontSize="Small"/>
+                                            </StackLayout>
+                                            
+                                        </StackLayout>
                                     </Grid> 
-                                    
                                 </Grid>
-
                             </Frame>
                         </StackLayout>
                     </DataTemplate>
@@ -76,8 +90,8 @@
                 <Button x:Name="BtnLeituraEtiqueta" android:Button.UseDefaultShadow="true" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="cameraMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                     Clicked="BtnLeituraEtiqueta_Clicked" Grid.Row="0" Grid.Column="0" Text="Leitura Etiqueta" TextColor="White" />
 
-                <Button x:Name="BtnVoltarLeituraEtiqueta" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="voltarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
-                    Clicked="BtnVoltarLeituraEtiqueta_Clicked" Grid.Row="1" Grid.Column="0" Text="Voltar" TextColor="White" />
+                <Button x:Name="BtnDigitacaoManual" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="keyboardMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                    Clicked="BtnDigitacaoManual_Click" Grid.Row="1" Grid.Column="0" Text="Digita Reparo" TextColor="White" />
             </Grid>
 
         </StackLayout>

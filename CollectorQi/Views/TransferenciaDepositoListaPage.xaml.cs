@@ -45,8 +45,8 @@ namespace CollectorQi.Views
             //parametrosIR.CodDepos = txtDeposito.Text;
             //parametrosIR.DtInventario = txtData.Text;            
 
-            var dInventario = new DepositoInventarioReparoService();
-            var dInventarioRetorno = await dInventario.SendParametersAsync();
+            //  var dInventario = new DepositoInventarioReparoService();
+            var dInventarioRetorno = await DepositoInventarioReparoService.SendParametersAsync();
 
             Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(dInventarioRetorno.Param.Resultparam, parametrosIR, "TransferenciaDeposito"));            
         }
@@ -63,8 +63,8 @@ namespace CollectorQi.Views
             //parametrosIR.CodDepos = txtDeposito.Text;
             //parametrosIR.DtInventario = txtData.Text;            
 
-            var dInventario = new DepositoInventarioReparoService();
-            var dInventarioRetorno = await dInventario.SendParametersAsync();
+            //var dInventario = new DepositoInventarioReparoService();
+            var dInventarioRetorno = await DepositoInventarioReparoService.SendParametersAsync();
 
             Application.Current.MainPage = new NavigationPage(new InventarioReparoDepositoListaPage(dInventarioRetorno.Param.Resultparam, parametrosIR, "TransferenciaDeposito"));            
         }

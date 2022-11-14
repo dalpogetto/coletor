@@ -19,8 +19,9 @@ namespace CollectorQi.Views
     public partial class InventarioPrintItem : PopupPage
     { 
         private string _codDepos { get; set; }
+        private string _itCodigo { get; set; }
         
-        public InventarioPrintItem(string pCodDepos = null)        
+        public InventarioPrintItem(string pCodDepos = null, string pItCodigo = null)        
         {    
             InitializeComponent();
 
@@ -30,6 +31,11 @@ namespace CollectorQi.Views
             if (pCodDepos != null)
             {
                 txtCodDeposito.Text = pCodDepos;
+            }
+
+            if (pItCodigo != null)
+            {
+                txtItCodigo.Text = pItCodigo;
             }
 
             _codDepos = pCodDepos;
@@ -136,7 +142,7 @@ namespace CollectorQi.Views
             txtDescEstabelecimento.Text = String.Empty;
             txtCodDeposito.Text = String.Empty;
             txtItCodigo.Text = String.Empty;
-            txtDescItem.Text = String.Empty;
+            //txtDescItem.Text = String.Empty;
             txtEtiqItem.Text = String.Empty;
             txtQtdeEtiqueta.Text = String.Empty;
         }
@@ -255,11 +261,11 @@ namespace CollectorQi.Views
 
             if (item != null)
             {
-                txtDescItem.Text = item;
+              //  txtDescItem.Text = item;
             }
             else
             {
-                txtDescItem.Text = String.Empty;
+                //txtDescItem.Text = String.Empty;
             }
         }
     }

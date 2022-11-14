@@ -6,6 +6,9 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              Title="Tipo de Movimento" 
              x:Class="CollectorQi.Views.GuardaMateriaisTipoMovimento">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <!--<StackLayout BackgroundColor="#4E4E4E">-->
         <StackLayout BackgroundColor="#fff">

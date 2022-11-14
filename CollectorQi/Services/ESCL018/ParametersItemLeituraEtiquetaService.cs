@@ -7,6 +7,7 @@ using ESCL = CollectorQi.Models.ESCL018;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -15,7 +16,7 @@ namespace CollectorQi.Services.ESCL018
         ResultInventarioItemJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
-        private const string URI = "https://brspupapl01.ad.diebold.com:8143";
+        private static string URI = ServiceCommon.SystemUrl;
         //private const string URI_GET_PARAMETERS = "/api/integracao/coletores/v1/escl002api/ObterParametros";
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
@@ -37,6 +38,8 @@ namespace CollectorQi.Services.ESCL018
                 //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
+
+                client.DefaultRequestHeaders.Add("CompanyId", "1");
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {

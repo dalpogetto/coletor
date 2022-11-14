@@ -39,7 +39,7 @@
                 <CollectionView x:Name="cvLeituraEtiqueta" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="cvLeituraEtiqueta_SelectionChanged" Grid.Row="0" Margin="10,0,10,0">
                     <CollectionView.EmptyView>
                         <StackLayout>
-                            <Label Text="Nenhum item na localização" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  />
+                            <Label Text="Nenhuma localização para realizar o inventário!" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  />
                         </StackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>

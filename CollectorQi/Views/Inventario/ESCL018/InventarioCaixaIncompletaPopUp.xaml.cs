@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -65,14 +66,7 @@ namespace CollectorQi.Views
                 await Task.Delay(100);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (String.IsNullOrEmpty(edtCodigoBarras.Text))
-                    {
-                        edtCodigoBarras.Focus();
-                    }
-                    else
-                    {
-                        txtQuantidade.Focus();
-                    }
+                    txtQuantidade.Focus();
                 });
             });
         }
@@ -116,11 +110,19 @@ namespace CollectorQi.Views
                 return;
             }
 
+            int decQuantidade = int.Parse(txtQuantidade.Text);
 
-            if (string.IsNullOrEmpty(edtCodigoBarras.Text))
+            if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
             {
                 await DisplayAlert("Erro!", "Informe o código de barras", "Cancelar");
                 return;
+            }
+            else
+            {
+                if (decQuantidade == 0)
+                {
+                    edtCodigoBarras.Text = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
+                }
             }
 
             var result = await DisplayAlert("Confirmação!", $"Deseja concluír a digitação com a quantidade de {txtQuantidade.Text} produto?", "Sim", "Não");
@@ -141,15 +143,20 @@ namespace CollectorQi.Views
                             Localizacao        = _inventarioItemVO.Localizacao.Trim(),
                             CodItem            = _inventarioItemVO.CodItem.Trim(),
                             CodDepos           = _inventarioItemVO.CodDepos.Trim(),
-                            QuantidadeDigitada = int.Parse(txtQuantidade.Text),
+                            QuantidadeDigitada = decQuantidade,
                             CodEmp             = "1",
                             Contagem           = _inventarioItemVO.Contagem,
                             CodEstabel         = _inventarioItemVO.CodEstabel,
-                            CodigoBarras       = edtCodigoBarras.Text.Trim()
+                            CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
                         };
 
                         _inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
-                        _inventarioItemVO.CodigoBarras = edtCodigoBarras.Text;
+
+                        _inventarioItemVO.CodigoBarras = CleanInput(edtCodigoBarras.Text);
+
+                        _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
+                        inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
+
 
                         var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
 
@@ -198,6 +205,22 @@ namespace CollectorQi.Views
             {
                 BtnEfetivar.IsEnabled = true;
                 await pageProgress.OnClose();
+            }
+        }
+
+        static string CleanInput(string strIn)
+        {
+            // Replace invalid characters with empty strings.
+            try
+            {
+                return Regex.Replace(strIn, @"[^0-9a-zA-Z;./-]+", "",
+                                     RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
             }
         }
     }
