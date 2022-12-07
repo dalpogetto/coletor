@@ -1,14 +1,13 @@
-﻿using System;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using CollectorQi.Models;
-using ESCL = CollectorQi.Models.ESCL018;
+﻿using CollectorQi.Services.ESCL000;
 using Newtonsoft.Json;
-using Xamarin.Forms;
+using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
+using ESCL = CollectorQi.Models.ESCL018;
+using Xamarin.Forms;
 using CollectorQi.Resources;
-using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
 using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 using CollectorQi.ViewModels.Interface;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
@@ -17,11 +16,10 @@ using CollectorQi.VO.Batch.ESCL018;
 using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using AutoMapper;
 using CollectorQi.Models.ESCL018;
-using CollectorQi.Services.ESCL000;
 
-namespace CollectorQi.Services.ESCL018
+namespace CollectorQi.Services.ESCL018B
 {
-    public static class ParametersLeituraEtiquetaService
+    public static class ParametersEfetivarContagem
     {
         // ResultInventarioJson parametros = null;
 
@@ -32,7 +30,7 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/EfetivarContagem";
 
         public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
         {
@@ -59,13 +57,22 @@ namespace CollectorQi.Services.ESCL018
             //return Task.Str<"Inventário Integrado com sucesso">;
         }
 
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal)
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO, int inventarioItemId, ContentPage modal)
         {
             ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
 
             try
             {
-                return await SendInventarioAsyncERP(requestParam);
+                var integraERP = await SendInventarioAsyncERP(requestParam);
+
+                if (integraERP.Retorno == "OK")
+                {
+                    result.Retorno = integraERP.Retorno;
+                    result.Localizacao = requestParam.Localizacao;
+                    result.Item = requestParam.CodItem;
+
+                    InventarioItemDB.DeletarInventarioByInventarioId(byInventarioItemVO);
+                }
             }
             catch (Exception e)
             {
@@ -93,11 +100,11 @@ namespace CollectorQi.Services.ESCL018
 
             return result;
 
-           // return lstInventarioItemVO;
+            // return lstInventarioItemVO;
         }
 
         // Metodo ObterParametros Totvs
-        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
+        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(InventarioItemBarra requestParam)
         {
             ResultSendInventarioReturnJson parametros = null;
             try
@@ -148,7 +155,7 @@ namespace CollectorQi.Services.ESCL018
                     {
                         ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
-                }                
+                }
             }
             catch (Exception e)
             {
@@ -157,34 +164,40 @@ namespace CollectorQi.Services.ESCL018
             }
 
             return parametros;
-        }      
+        }
 
         public class RequestInventarioJson
         {
             [JsonProperty("Inventario")]
-            public ESCL.InventarioItem Param { get; set; }
+            public InventarioItem Param { get; set; }
         }
 
         public class RequestInventarioBarraJson
         {
             [JsonProperty("Inventario")]
-            public ESCL.InventarioItemBarra Param { get; set; }
+            public InventarioItemBarra Param { get; set; }
         }
 
-      
+
         public class ResultSendInventarioSuccessJson
         {
             public string Retorno { get; set; }
         }
 
 
-        public class ResultSendInventarioReturnJson
+        public class ResultSendInventarioReturnJson : ResultEfetivaContagemSuccess
         {
             [JsonProperty("Conteudo")]
 
             public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
 
             public string Retorno { get; set; }
+        }
+
+        public class ResultEfetivaContagemSuccess
+        {
+            public string Localizacao { get; set; }
+            public string Item { get; set; }
         }
 
         public class ResultSendInventarioErrorJson
@@ -194,8 +207,9 @@ namespace CollectorQi.Services.ESCL018
         }
 
         public class ParametrosLimparLeituraResult
-        { 
+        {
             public string Error { get; set; }
         }
+
     }
 }

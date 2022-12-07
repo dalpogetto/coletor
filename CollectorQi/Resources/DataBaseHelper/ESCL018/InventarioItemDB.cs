@@ -89,6 +89,51 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
             }
         }
 
+        public static List<InventarioItemVO> GetInventarioItemByItemCx(int byInventarioId, string byCodItem)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                return dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == byInventarioId
+                && p.CodItem != byCodItem 
+                && p.StatusIntegracao == eStatusInventarioItem.IntegracaoCX).ToListAsync().Result;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+
+        public static List<InventarioItemVO> GetInventarioItemByConfirmadoCx(int byInventarioId)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                return dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == byInventarioId
+                && p.StatusIntegracao == eStatusInventarioItem.IntegracaoCX).ToListAsync().Result;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
 
         public static List<InventarioItemVO> GetInventarioItemByInventarioLocalizacao(int byInventarioId, string byLocalizacao)
         {
@@ -430,5 +475,30 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
         //           //dbAsync.Connection.CloseAsync();
         //       }
         //   }
+
+        public static bool DeletarInventarioByInventarioId(InventarioItemVO byInventarioItem)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                //await dbAsync.Connection.QueryAsync<InventarioItemVO>("delete from InventarioItemVO where inventarioId = ?", byInventarioId);
+                //dbAsync.DeleteAsync(inventarioItem);
+                dbAsync.Connection.QueryAsync<InventarioItemVO>("delete from InventarioItemVO where inventarioItemId = ? ",
+                                                                              byInventarioItem.InventarioItemId);
+                return true;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
     }
 }

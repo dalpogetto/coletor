@@ -10,7 +10,15 @@ namespace CollectorQi.Services.ESCL000
         {
             get
             {
-                return "https://brspupapl01.ad.diebold.com:8143";
+                return "https://brspupapl01.ad.diebold.com:8243";
+            }
+        }
+
+        public static string SystemAliasApp
+        {
+            get
+            {
+                return "interfcol";
             }
         }
     }

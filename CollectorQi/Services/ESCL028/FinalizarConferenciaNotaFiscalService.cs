@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using ESCL = CollectorQi.Models.ESCL028;
 using CollectorQi.Services.ESCL000;
 using System.Collections.Generic;
+using CollectorQi.Resources;
 
 namespace CollectorQi.Services.ESCL028
 {
@@ -27,18 +28,17 @@ namespace CollectorQi.Services.ESCL028
 
             try
             {
-                //finalizarConferenciaNotaFiscal.CodEstabel = "126";
-
-                //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
 
                 RequestNotaFiscalJson requestJson = finalizarConferenciaNotaFiscal;
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                //client.BaseAddress = new Uri(URI);
-
+                
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                                
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
@@ -50,7 +50,6 @@ namespace CollectorQi.Services.ESCL028
                     };
 
                     var result = await client.SendAsync(req);
-
 
                     if (result.IsSuccessStatusCode)
                     {
@@ -70,17 +69,10 @@ namespace CollectorQi.Services.ESCL028
                             };
                         }
                     }
-
-                    /*
-                    if (result.IsSuccessStatusCode)
-                    {
-                        string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultNotaFiscalRetornoJson>(responseData);
-                    }
                     else
                     {
-                        throw new Exception(result.StatusCode.ToString());
-                    }*/
+                        throw new Exception("Ocorreu um erro na na finalização!");
+                    }
                 }
             }
             catch (Exception e)

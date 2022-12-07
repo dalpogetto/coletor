@@ -1,4 +1,5 @@
-﻿using CollectorQi.Services.ESCL000;
+﻿using CollectorQi.Resources;
+using CollectorQi.Services.ESCL000;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,21 @@ namespace CollectorQi.Services
             var controleVersao = new ControleVersaoService();
             var resultData = await controleVersao.ValidaAplicativoAsync(modelVersao);
 
+            if (resultData != null && resultData.ListaEmpresas != null)
+            {
+                SecurityAuxiliar.EmpresaAll = resultData.ListaEmpresas.ToList().Where(x => x.codEmpresa != "0").ToList();
+            }
+            else
+            {
+                SecurityAuxiliar.EmpresaAll = null;
+            }
+
+            /*
+            if (resultData == null)
+            {
+                throw new Exception("401");
+            }*/
+
             if (resultData != null)
             {
 
@@ -42,7 +58,6 @@ namespace CollectorQi.Services
                 {
                     var rVersao = resultData.APKInfo.FirstOrDefault();
 
-                    
                     System.Diagnostics.Debug.Write(resultData);
                     if (rVersao != null)
                     {
@@ -82,10 +97,10 @@ namespace CollectorQi.Services
                             }
                         }
                     }
-                    
-                }
-            }
 
+                }
+
+            }
             return novaVersao;
         }
     }

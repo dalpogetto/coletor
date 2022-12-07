@@ -25,7 +25,7 @@ using CollectorQi.VO.ESCL018;
 namespace CollectorQi.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InventarioListaPage : ContentPage, INotifyPropertyChanged
+    public partial class InventarioListaPageB : ContentPage, INotifyPropertyChanged
     {
         #region Property
 
@@ -52,7 +52,7 @@ namespace CollectorQi.Views
 
         public ObservableCollection<InventarioViewModel> ObsInventario { get; set; }
 
-        public InventarioListaPage()
+        public InventarioListaPageB()
         {
             InitializeComponent();
 
@@ -70,7 +70,7 @@ namespace CollectorQi.Views
 
             if (current != null)
             {
-                Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPage(current));
+                Application.Current.MainPage = new NavigationPage(new InventarioListaLocalizacaoPageB(current));
             }
 
             cvInventario.SelectedItem = null;
@@ -158,7 +158,7 @@ namespace CollectorQi.Views
         }
     }
 
-    public class InventarioViewModel : InventarioVO
+    public class InventarioViewModelB : InventarioVO
     {
         public string Image
         {

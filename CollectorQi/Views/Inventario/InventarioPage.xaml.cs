@@ -21,9 +21,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[]    { "inventario.png"                         , "repair.png"                                  };
-                string[] titulo = new string[]    { "Inventário Físico"                      , "Inventário de Reparos"                       };
-                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário de Reparos (ESCL017)" };
+                string[] imagem = new string[]    { "inventario.png" , "inventario.png", "repair.png"                                  };
+                string[] titulo = new string[]    { "Inventário Físico" , "Inventário Físico (CX)", "Inventário de Reparos"                       };
+                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário Físico (ESCL018B)", "Contagem de Inventário de Reparos (ESCL017)" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -63,6 +63,11 @@ namespace CollectorQi.Views
                 case "Inventário Físico":
                     //Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
                     Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
+                    break;
+
+                case "Inventário Físico (CX)":
+                    //Application.Current.MainPage = new NavigationPage(new InventarioFisicoListaPage());
+                    Application.Current.MainPage = new NavigationPage(new InventarioListaPageB() { Title = menuItemDetail.Name.Trim() });
                     break;
 
                 case "Inventário de Reparos":

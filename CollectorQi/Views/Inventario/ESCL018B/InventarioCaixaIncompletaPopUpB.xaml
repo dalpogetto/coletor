@@ -3,7 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-                 x:Class="CollectorQi.Views.InventarioCaixaIncompletaPopUp" 
+                 x:Class="CollectorQi.Views.InventarioCaixaIncompletaPopUpB" 
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
                  xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
@@ -137,7 +137,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    
+                    <RowDefinition Height="Auto"/>
+
                  </Grid.RowDefinitions>
                     <Button x:Name="BtnEfetivar" 
                             FontSize="Medium" 

@@ -34,6 +34,8 @@ namespace CollectorQi.Services.ESCL021
                 //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
                 //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))

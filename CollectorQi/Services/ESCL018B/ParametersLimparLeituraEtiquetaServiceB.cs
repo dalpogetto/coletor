@@ -21,7 +21,7 @@ using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public static class ParametersLeituraEtiquetaService
+    public static class ParametersLeituraEtiquetaServiceB
     {
         // ResultInventarioJson parametros = null;
 
@@ -32,7 +32,7 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraSequencialEtiqueta";
 
         public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
         {
@@ -63,9 +63,31 @@ namespace CollectorQi.Services.ESCL018
         {
             ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
 
+
             try
             {
-                return await SendInventarioAsyncERP(requestParam);
+                // Le o banco, verifica se tem OUTRO item igual 3 e valida..
+                var getItemByCX = InventarioItemDB.GetInventarioItemByItemCx(byInventarioItemVO.InventarioId, byInventarioItemVO.CodItem);
+
+                if(getItemByCX.Count == 0)
+                {
+                    var sendInventarioERP = await SendInventarioAsyncERP(requestParam);
+
+                    if (sendInventarioERP.Retorno == "OK")
+                    {
+                        InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.IntegracaoCX);
+                    }
+
+                    result = sendInventarioERP;
+                } 
+                else
+                {
+                    var itemPendenteDeEfetivacao = getItemByCX[0];
+
+                    result.Retorno = "IntegracaoBatchErrorLeituraEtiqueta";
+                    result.Localizacao = itemPendenteDeEfetivacao.Localizacao;
+                    result.Item = itemPendenteDeEfetivacao.CodItem;
+                }
             }
             catch (Exception e)
             {
@@ -178,13 +200,19 @@ namespace CollectorQi.Services.ESCL018
         }
 
 
-        public class ResultSendInventarioReturnJson
+        public class ResultSendInventarioReturnJson : ResultSendInventariErrorSequenciaEtiqueta
         {
             [JsonProperty("Conteudo")]
 
             public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
 
             public string Retorno { get; set; }
+        }
+        
+        public class ResultSendInventariErrorSequenciaEtiqueta
+        {
+            public string Localizacao { get; set; }
+            public string Item { get; set; }
         }
 
         public class ResultSendInventarioErrorJson

@@ -57,6 +57,8 @@ namespace CollectorQi.Services.ESCL002
 
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+
                 var json = JsonConvert.SerializeObject(requestJson);
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {

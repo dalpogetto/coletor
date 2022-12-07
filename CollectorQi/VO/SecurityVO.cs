@@ -12,6 +12,7 @@ namespace CollectorQi.VO
         private string codSenha = String.Empty;
         private  bool autenticado = false;
         private  DateTime dtUltIntegracao = DateTime.MinValue;
+        private bool cxCompleta = false;
 
         [AutoIncrement, PrimaryKey]
         public  int SecurityId { get => securityId; set => securityId = value; }
@@ -25,6 +26,9 @@ namespace CollectorQi.VO
         public  bool Autenticado { get => autenticado; set => autenticado = value; }
 
         public  DateTime DtUltIntegracao { get => dtUltIntegracao; set => dtUltIntegracao = value; }
+
+        public bool CxCompleta { get => cxCompleta; set => cxCompleta = value; }
+
 
     }
 }

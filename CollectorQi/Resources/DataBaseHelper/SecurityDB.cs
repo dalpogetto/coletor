@@ -118,6 +118,41 @@ namespace CollectorQi.Resources.DataBaseHelper
             }
         }
 
+
+        public async static Task<bool> AtualizarSecurityParametros(bool pCaixaCompleta)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                var sec = await dbAsync.QueryAsync<SecurityVO>("SELECT * FROM SecurityVO", null);
+
+                var securityVO = sec.FirstOrDefault();
+
+                if (securityVO != null)
+                {
+                    securityVO.CxCompleta = pCaixaCompleta;
+
+                    //securityVO.DtUltIntegracao = new DateTime(2019, 04, 28);
+
+                    await dbAsync.UpdateAsync(securityVO);
+                }
+                return true;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+
         public async static Task<bool> DeleteSecurity()
         {
             var dbAsync = new BaseOperations();

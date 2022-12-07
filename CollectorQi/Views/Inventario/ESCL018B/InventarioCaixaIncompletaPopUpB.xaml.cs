@@ -19,7 +19,7 @@ using Xamarin.Forms;
 
 namespace CollectorQi.Views
 {
-    public partial class InventarioCaixaIncompletaPopUp : PopupPage
+    public partial class InventarioCaixaIncompletaPopUpB : PopupPage
     {
         private int                     _inventarioId { get; set; }
         private InventarioItemVO        _inventarioItemVO;
@@ -27,7 +27,7 @@ namespace CollectorQi.Views
         public Action<InventarioItemVO> _actDeleteRow;
         public Action<InventarioItemVO> _actRefreshPage;
 
-        public InventarioCaixaIncompletaPopUp(int pInventarioId, InventarioItemVO pInventarioItem)        
+        public InventarioCaixaIncompletaPopUpB(int pInventarioId, InventarioItemVO pInventarioItem)        
         {
             try
             {
@@ -178,7 +178,7 @@ namespace CollectorQi.Views
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
 
 
-                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
+                        var resultService = await ParametersLeituraEtiquetaServiceB.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
 
                         if (resultService != null && resultService.Retorno != null)
                         {
@@ -198,6 +198,10 @@ namespace CollectorQi.Views
 
                                 await pageProgress.OnClose();
                                 OnBackButtonPressed();
+                            }
+                            else if (resultService.Retorno == "IntegracaoBatchErrorLeituraEtiqueta")
+                            {
+                                await DisplayAlert("Erro!", $"{resultService.Localizacao}/{resultService.Item} está pendente de efetivação! Atualize antes de uma nova leitura!", "OK");
                             }
                             else {
                                 if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
