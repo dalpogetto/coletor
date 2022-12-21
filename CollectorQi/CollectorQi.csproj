@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ProduceAssemblyReference>true</ProduceAssemblyReference>
     <ReleaseVersion>1.5</ReleaseVersion>
   </PropertyGroup>
@@ -28,24 +28,25 @@
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="17.1.0.42" />
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="20.3.0.61" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
     <PackageReference Include="Matcha.BackgroundService" Version="1.0.5478" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
-    <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
-    <PackageReference Include="sqlite-net" Version="1.0.8" />
+    <PackageReference Include="sqlite-net" Version="1.6.292" />
     <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
-    <PackageReference Include="CsvHelper" Version="12.1.2" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" /> 
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\AboutPage.xaml" />
@@ -93,7 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v10.0\Mono.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +109,36 @@
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL021\TransferenciaDepositoPage.xaml.cs">
       <DependentUpon>TransferenciaDepositoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoItemListaPage.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoItemListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoListaPage.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoDepositoListaPage.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoItemPopUp.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoItemPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoLocalizPopUp.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoLocalizPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualDepositoListaPage.xaml.cs">
+      <DependentUpon>SaldoVirtualDepositoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualItemListaPage.xaml.cs">
+      <DependentUpon>SaldoVirtualItemListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualItemPopUp.xaml.cs">
+      <DependentUpon>SaldoVirtualItemPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualListaPage.xaml.cs">
+      <DependentUpon>SaldoVirtualListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualLocalizPopUp.xaml.cs">
+      <DependentUpon>SaldoVirtualLocalizPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL027\GuardaMateriasConfirmaQuantidadePopUp.xaml.cs">
       <DependentUpon>GuardaMateriasConfirmaQuantidadePopUp.xaml</DependentUpon>

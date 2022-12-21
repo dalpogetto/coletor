@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Models.ESCL021;
+using CollectorQi.Models.ESCL028;
 using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Services.ESCL018;
+using CollectorQi.Services.ESCL028;
 using CollectorQi.ViewModels;
 using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
@@ -21,7 +23,7 @@ namespace CollectorQi.Views
 {
     public partial class NotaFiscalConferenciaReparosListaPopUp : PopupPage
     {
-        public Action<String> _confirmaItemEtiqueta { get; set; }
+        public Action _refreshListView { get; set; }
         private DepositosGuardaMaterial _depositosGuardaMaterial { get; set; }
 
         public NotaFiscalConferenciaReparosListaPopUp()        
@@ -65,18 +67,55 @@ namespace CollectorQi.Views
             return true;
         }
 
-        void OnClick_Confirmar(object sender, EventArgs e)
+        async void OnClick_Confirmar(object sender, EventArgs e)
         {
+           var pageProgress = new ProgressBarPopUp("Efetivando Reparo, aguarde...");
+            BtnEfetivar.IsEnabled = false;
+
             try
             {
-                BtnEfetivar.IsEnabled = false;
+                if (String.IsNullOrEmpty(edtCodigoBarras.Text))
+                {
+                    await DisplayAlert("Erro Leitura da Etiqueta", "Nenhuma etiqueta efetuada a leitura, favor realizar a leitura da etiqueta para seguir com a atualização da nota fiscal.", "OK");
+                    return;
+                }
 
-                _confirmaItemEtiqueta(edtCodigoBarras.Text);
-                PopupNavigation.Instance.PopAsync();
+                string codEstabOrigem = edtCodigoBarras.Text.Substring(0, 3);
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
+                {
+                    CodBarras = edtCodigoBarras.Text
+
+                }, codEstabOrigem);
+
+                //  await pageProgress.OnClose();
+                if (dRetornoNota != null && dRetornoNota.Resultparam != null && dRetornoNota.Resultparam.Count > 0)
+                {
+                    var v = dRetornoNota.Resultparam.FirstOrDefault();
+
+                    if (v.Mensagem.Contains("ERRO:"))
+                    {
+                        await DisplayAlert("ERRO!", v.Mensagem, "OK");
+                        return;
+                    }
+                    else
+                    {
+                        await pageProgress.OnClose();
+                        OnBackButtonPressed();
+                        _refreshListView();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // await pageProgress.OnClose();
+                await DisplayAlert("ERRO", ex.Message, "OK");
             }
             finally
             {
                 BtnEfetivar.IsEnabled = true;
+                await pageProgress.OnClose();
             }
         }
     }

@@ -59,7 +59,17 @@
                         </Frame>
                     </StackLayout> -->
 
-                    
+                    <StackLayout Margin="10,0,10,0" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="5">
+                        <TableView HeightRequest="50" >
+                            <TableRoot >
+                                <TableSection >
+                                    <SwitchCell x:Name="SwtCodigoBarras" Text="Código Barras" OnChanged="SwtCodigoBarras_OnChanged"></SwitchCell>
+                                </TableSection>
+                            </TableRoot>
+                        </TableView>
+                    </StackLayout>
+
+
                     <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
@@ -72,7 +82,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Label x:Name="lblScan" Text="Scan" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                                <local:CustomEntryText x:Name="edtScan" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Scan..." Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7"/>
+                                <local:CustomEntryText x:Name="edtScan" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Scan..." Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" TextChanged="edtScan_TextChanged"/>
                                 <Button x:Name="BtnScan" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
                                  Clicked="BtnScan_Clicked" Grid.Row="1" Grid.Column="7" />
                             </Grid>
@@ -86,16 +96,28 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
-                                <Label x:Name="lblFilial" Text="Filial" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
+                                <Label x:Name="lblFilial" Text="Detalhes Reparo" FontSize="Small" Grid.ColumnSpan="5" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
-                                <local:CustomEntryText x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Filial..." Grid.Row="1"     Grid.Column="0"     Grid.ColumnSpan="5" />
-                                <local:CustomEntryText x:Name="edtRR" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..." Grid.Row="2"   Grid.Column="0"     Grid.ColumnSpan="5" />
-                                <local:CustomEntryText x:Name="edtDigito" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Dígito..." Grid.Row="3"   Grid.Column="0"     Grid.ColumnSpan="5" />
+                                <local:CustomEntry                   x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Filial..."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
 
-                                <Button x:Name="BtnLeitura" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="efetivarMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
-                                Clicked="BtnLeitura_Clicked" Grid.Row="1" Grid.Column="6" />
+                                <local:CustomEntry IsNumeric="True" x:Name="edtRR"      FontSize="Small" HorizontalOptions="Fill"   Placeholder="RR..."      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+
+                                <local:CustomEntry IsNumeric="True" x:Name="edtDigito"  FontSize="Small" HorizontalOptions="Fill"   Placeholder="Dígito..."  Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" />
+
+                                <!--
+                                <local:CustomEntryText x:Name="edtRR" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="RR..." Grid.Row="2"   Grid.Column="0"     Grid.ColumnSpan="3" />
+                                <local:CustomEntryText x:Name="edtDigito" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Dígito..." Grid.Row="2"   Grid.Column="3"     Grid.ColumnSpan="2" />
+                                -->
+                                <!--
+                                <Button x:Name="BtnLeituraDigitacao" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="efetivarMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                Clicked="BtnLeituraDigitacao_Clicked" Grid.Row="1" Grid.Column="6" />
+                                -->
+
+                                <Frame x:Name="frameBuscaReparo" IsVisible="false" Grid.Row="3" Grid.ColumnSpan="5" BackgroundColor="Transparent">
+                                    <Button x:Name="BtnLeituraDigitacao"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
+                                         Clicked="BtnLeituraDigitacao_Clicked" Grid.Row="3" Text="Busca Reparos" Grid.Column="0" Grid.ColumnSpan="5"/>
+                                </Frame>
                             </Grid>
                         </Frame>
                     </StackLayout>

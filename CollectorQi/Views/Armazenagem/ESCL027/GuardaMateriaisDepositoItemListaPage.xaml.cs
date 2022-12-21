@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -107,27 +108,79 @@ namespace CollectorQi.Views
         {
             OnBackButtonPressed();
         }
-        public async void CodigoBarras(string pCodigoBarras)
+        public async void CodigoBarras(string pCodigoBarras, bool origemPopUp, string pQuantidade)
         {
             var pageProgress = new ProgressBarPopUp("Efetivando Item, aguarde...");
 
             try
             {
+
+                // Solicitou informar a quantidade e digita a caixa 
+                if (SwtQuantidade.On && !origemPopUp)
+                {
+                    string strItCodigo = "";                    if (pCodigoBarras.Contains(";"))
+                    {
+                        strItCodigo = pCodigoBarras.Split(';')[1];
+                    }
+                    else
+                    {
+                        strItCodigo = pCodigoBarras;
+                    }
+
+                    var item = ObsGuardaMateriaisDepositoItem.FirstOrDefault(x => x.CodigoItem == strItCodigo);
+
+                    if (item != null)
+                    {
+                        await OpenPopUpQuantidade(item, pCodigoBarras);
+                        return;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Erro", "Item não encontrado", "OK");
+                    }
+                }
+                
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
                 ObsGuardaMateriaisDepositoItem  = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
                 var depositosGuardaMaterialItem = new DepositosGuardaMaterialItem();
 
+                // altera quantidade no codigo de barras
+                if (SwtQuantidade.On && pQuantidade != null)
+                {
+                    var splCodigoBarras = pCodigoBarras.Split(';');
+
+                    if (splCodigoBarras != null)
+                    {
+                        splCodigoBarras[3] = pQuantidade.ToString();
+                    }
+
+                    pCodigoBarras = "";
+                    for (int i = 0; i < splCodigoBarras.Length; i++)
+                    {
+                        if (pCodigoBarras == "")
+                        {
+                            pCodigoBarras = splCodigoBarras[i];
+                        }
+                        else
+                        {
+                            pCodigoBarras = pCodigoBarras + ';' + splCodigoBarras[i];
+                        }
+                    }
+                }
+
+
                 var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
                 {
-                    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                    CodDepos = _codDepos,
-                    CodLocaliza = _local,
-                    Transacao = _tipoMovimento,
-                    SemSaldo = SemSaldo,
-                    CodigoBarras = pCodigoBarras
+                    CodEstabel   = SecurityAuxiliar.GetCodEstabel(),
+                    CodDepos     = _codDepos,
+                    CodLocaliza  = _local,
+                    Transacao    = _tipoMovimento,
+                    SemSaldo     = SemSaldo,
+                    CodigoBarras = pCodigoBarras,
+                    
                 };
-
+            
                 var resultService = await LeituraEtiquetaGuardaMaterialService.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
 
                 if (resultService != null && resultService.Retorno != null)
@@ -150,6 +203,11 @@ namespace CollectorQi.Views
                         }
                         else
                         {
+                            if (_pagePopUp != null)
+                            {
+                               _pagePopUp.PopUpClose();
+                                // await PopupNavigation.Instance.PushAsync(_pagePopUp);
+                            }
                             _listaDepositosGuardaMaterialItem = dRetorno.paramRetorno;
                             CarregaListView();
                         }
@@ -228,13 +286,13 @@ namespace CollectorQi.Views
 
         private void SwitchCellQuantidade_OnChanged(object sender, ToggledEventArgs e)
         {
-            if (((SwitchCell)sender).On)
+            if (!((SwitchCell)sender).On)
             {
-                SwtQuantidade.Text = "Quantidade Padrão";
+                SwtQuantidade.Text = "Quantidade Caixa";
             }
             else
             {
-                SwtQuantidade.Text = "Informar Quantidade";
+                SwtQuantidade.Text = "Informar a quantidade";
             }
         }
 
@@ -327,8 +385,25 @@ namespace CollectorQi.Views
 
         private async void cvGuardaMateriaisDepositoItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            cvGuardaMateriaisDepositoItem.IsEnabled = false;
+
+            if (cvGuardaMateriaisDepositoItem.SelectedItem == null)
+                return;
+
+            cvGuardaMateriaisDepositoItem.SelectedItem = null;
+
+            var current = (cvGuardaMateriaisDepositoItem.SelectedItem as DepositosGuardaMaterialItemViewModel);
+
+            SwtQuantidade.On = true;
+
+            await OpenPopUpQuantidade(current, "");
+        }
+
+        private async Task OpenPopUpQuantidade(DepositosGuardaMaterialItemViewModel current, string pCodBarras)
+        {
             try
             {
+                /*
                 cvGuardaMateriaisDepositoItem.IsEnabled = false;
 
                 if (cvGuardaMateriaisDepositoItem.SelectedItem == null)
@@ -337,6 +412,7 @@ namespace CollectorQi.Views
                 cvGuardaMateriaisDepositoItem.SelectedItem = null;
 
                 var current = (cvGuardaMateriaisDepositoItem.SelectedItem as DepositosGuardaMaterialItemViewModel);
+                */
 
                 // Saida
                 if (current.SaldoInfo <= 0 && SwtEntradaSaida.On)
@@ -356,8 +432,9 @@ namespace CollectorQi.Views
                     tipoTransacao = "Entrada";
                 }
 
-                var page = new GuardaMateriasConfirmaQuantidadePopUp(_codDepos, _local, current.CodigoItem, tipoTransacao);
+                var page = new GuardaMateriasConfirmaQuantidadePopUp(_codDepos, _local, current.CodigoItem, tipoTransacao, pCodBarras);
                 page._actConfirmaGuardaMateriais = CodigoBarras;
+                _pagePopUp = page;
                 await PopupNavigation.Instance.PushAsync(page);
 
             }
@@ -369,9 +446,14 @@ namespace CollectorQi.Views
             {
                 cvGuardaMateriaisDepositoItem.IsEnabled = true;
             }
-
         }
+
+
+        GuardaMateriasConfirmaQuantidadePopUp _pagePopUp = null;
+
     }
+
+
 
     public class DepositosGuardaMaterialItemViewModel : DepositosGuardaMaterialItem
     {

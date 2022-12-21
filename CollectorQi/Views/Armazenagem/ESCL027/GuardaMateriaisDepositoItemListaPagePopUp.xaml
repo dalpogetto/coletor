@@ -33,7 +33,7 @@
                                 <Label x:Name="lblCodigoBarras" Text="Código de Barras" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" />
                                 
                                 <local:CustomEntryText x:Name="edtCodigoBarras" IsReadOnly="false" FontSize="Small" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Digite o Código de Barras..." Grid.Row="1"
-                                    Grid.Column="0" />
+                                    Grid.Column="0" TextChanged="edtCodigoBarras_TextChanged"/>
 
                                 <StackLayout Orientation="Horizontal" Margin="10,0,10,0" Grid.Row="3">
                                     <Button x:Name="BtnEfetivar" 

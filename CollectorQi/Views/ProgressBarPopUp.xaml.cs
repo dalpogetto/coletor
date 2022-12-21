@@ -49,7 +49,15 @@ namespace CollectorQi.Views
 
         public async Task<bool> OnClose()
         {
-            await PopupNavigation.Instance.RemovePageAsync(this);
+            try
+            {
+                if (this.IsVisible)
+                {
+                    await PopupNavigation.Instance.RemovePageAsync(this);
+                }
+            }
+            catch { 
+            }
 
             return true;
         }

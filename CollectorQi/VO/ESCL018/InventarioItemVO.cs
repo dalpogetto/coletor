@@ -21,6 +21,7 @@ namespace CollectorQi.VO.ESCL018
         private string codEmp = "";
         private string codDepos = "";
         private decimal quantidade = 0;
+        private decimal quantidadeAcum = 0;
         private string codigoBarras = "";
         private eStatusInventarioItem statusIntegracao = eStatusInventarioItem.NaoIniciado;
 
@@ -52,6 +53,9 @@ namespace CollectorQi.VO.ESCL018
         public decimal Quantidade { get => quantidade; set => quantidade = value; }
 
         public string CodigoBarras { get => codigoBarras; set => codigoBarras = value; }
+
+
+        public decimal QuantidadeAcum { get => quantidadeAcum; set => quantidadeAcum = value; }
 
         public eStatusInventarioItem StatusIntegracao { get => statusIntegracao; set => statusIntegracao = value; }
 

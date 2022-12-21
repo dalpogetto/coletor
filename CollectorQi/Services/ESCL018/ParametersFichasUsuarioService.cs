@@ -15,7 +15,7 @@ using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public static class ParametersFichasUsuarioService
+    public static class ObterLocalizPorEstabDepService
     {
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel

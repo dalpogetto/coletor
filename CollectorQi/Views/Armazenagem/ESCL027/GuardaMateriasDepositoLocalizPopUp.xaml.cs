@@ -79,5 +79,23 @@ namespace CollectorQi.Views
                 BtnEfetivar.IsEnabled = true;
             }
         }
+
+        private void edtLocalizacao_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5)
+                {
+                    BtnEfetivar.IsEnabled = false;
+
+                    _confirmaLocalizacao(edtLocalizacao.Text, _depositosGuardaMaterial);
+                    PopupNavigation.Instance.PopAsync();
+                }
+            }
+            finally
+            {
+                BtnEfetivar.IsEnabled = true;
+            }
+        }
     }
 }

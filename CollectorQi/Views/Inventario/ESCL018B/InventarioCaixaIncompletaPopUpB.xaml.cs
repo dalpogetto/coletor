@@ -50,12 +50,17 @@ namespace CollectorQi.Views
             edtItCodigo.Text           = _inventarioItemVO.CodItem.ToString();
             edtCodEstabelecimento.Text = _inventarioItemVO.CodEstabel + " - " + inventario.DescEstabel;
             edtCodDeposito.Text        = _inventarioItemVO.CodDepos + " - " + inventario.DescDepos;
-            edtCodigoBarras.Text       = _inventarioItemVO.CodigoBarras;
+            //edtCodigoBarras.Text       = _inventarioItemVO.CodigoBarras;
             edtLote.Text               = _inventarioItemVO.Lote;
 
-            if (_inventarioItemVO.Quantidade > 0)
+           // if (_inventarioItemVO.Quantidade > 0)
+           // {
+           //     txtQuantidade.Text = _inventarioItemVO.Quantidade.ToString();
+           // }
+
+            if (_inventarioItemVO.QuantidadeAcum > 0)
             {
-                txtQuantidade.Text = _inventarioItemVO.Quantidade.ToString();
+                txtQuantidadeAcumulada.Text = _inventarioItemVO.QuantidadeAcum.ToString();
             }
 
             if (String.IsNullOrEmpty(_inventarioItemVO.Lote))
@@ -124,75 +129,116 @@ namespace CollectorQi.Views
 
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtQuantidade.Text))
-            {
-                await DisplayAlert("Erro!", "Informe a quantidade do produto disponivel para a contagem do inventário", "Cancelar");
-                return;
-            }
+            await ClickButtonEfetivar(false);
+        }
 
-            int decQuantidade = int.Parse(txtQuantidade.Text);
+        private async Task ClickButtonEfetivar(bool blnCodBarras)
+        {
 
-            if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
+            if (String.IsNullOrEmpty(txtQuantidade.Text) && String.IsNullOrEmpty(edtCodigoBarras.Text) && blnCodBarras == false)
             {
-                await DisplayAlert("Erro!", "Informe o código de barras", "Cancelar");
-                return;
+                _actRefreshPage(null);
+                OnBackButtonPressed();
             }
             else
             {
-                if (decQuantidade == 0)
+
+                if (string.IsNullOrEmpty(txtQuantidade.Text))
                 {
-                    edtCodigoBarras.Text = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
+                    await DisplayAlert("Erro!", "Informe a quantidade do produto disponivel para a contagem do inventário", "Cancelar");
+                    return;
                 }
-            }
 
-            var result = await DisplayAlert("Confirmação!", $"Deseja concluír a digitação com a quantidade de {txtQuantidade.Text} produto?", "Sim", "Não");
+                int decQuantidade = int.Parse(txtQuantidade.Text);
 
-            var pageProgress = new ProgressBarPopUp("Carregando...");
-            try
-            {
-                BtnEfetivar.IsEnabled = false;
-                if (result.ToString() == "True")
+                if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
                 {
+                    await DisplayAlert("Erro!", "Informe o código de barras", "Cancelar");
+                    return;
+                }
+                else
+                {
+                    if (decQuantidade == 0)
+                    {
+
+                        textChangeZera = true;
+                        edtCodigoBarras.Text = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
+                    }
+                }
+
+                var pageProgress = new ProgressBarPopUp("Carregando...");
+                try
+                {
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                    BtnEfetivar.IsEnabled = false;
+
                     if (!string.IsNullOrEmpty(txtQuantidade.Text))
                     {
 
                         var inventarioBarra = new InventarioItemBarra()
                         {
-                            IdInventario       = _inventarioItemVO.InventarioId,
-                            Lote               = _inventarioItemVO.Lote.Trim(),
-                            Localizacao        = _inventarioItemVO.Localizacao.Trim(),
-                            CodItem            = _inventarioItemVO.CodItem.Trim(),
-                            CodDepos           = _inventarioItemVO.CodDepos.Trim(),
+                            IdInventario = _inventarioItemVO.InventarioId,
+                            Lote = _inventarioItemVO.Lote.Trim(),
+                            Localizacao = _inventarioItemVO.Localizacao.Trim(),
+                            CodItem = _inventarioItemVO.CodItem.Trim(),
+                            CodDepos = _inventarioItemVO.CodDepos.Trim(),
                             QuantidadeDigitada = decQuantidade,
-                            CodEmp             = "1",
-                            Contagem           = _inventarioItemVO.Contagem,
-                            CodEstabel         = _inventarioItemVO.CodEstabel,
-                            CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
+                            CodEmp = SecurityAuxiliar.GetCodEmpresa(),
+                            Contagem = _inventarioItemVO.Contagem,
+                            CodEstabel = _inventarioItemVO.CodEstabel,
+                            CodigoBarras = CleanInput(edtCodigoBarras.Text.Trim())
                         };
 
                         _inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
-
                         _inventarioItemVO.CodigoBarras = CleanInput(edtCodigoBarras.Text);
-
                         _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
 
+                        decimal quantidadeAcumulada = 0;
 
-                        var resultService = await ParametersLeituraEtiquetaServiceB.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
+                        if (txtQuantidadeAcumulada.Text != null)
+                        {
+                            quantidadeAcumulada += int.Parse(txtQuantidadeAcumulada.Text);
+                        }
+
+                        if (txtQuantidade.Text != null)
+                        {
+                            quantidadeAcumulada += int.Parse(txtQuantidade.Text);
+                        }
+
+                        var resultService = await ParametersLeituraEtiquetaServiceB.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0, this, quantidadeAcumulada);
 
                         if (resultService != null && resultService.Retorno != null)
                         {
                             if (resultService.Retorno == "OK")
                             {
-                                _actDeleteRow(_inventarioItemVO);
+                                _inventarioItemVO.QuantidadeAcum = quantidadeAcumulada;
+                                txtQuantidadeAcumulada.Text = _inventarioItemVO.QuantidadeAcum.ToString();
 
-                                await pageProgress.OnClose();
-                                OnBackButtonPressed();
+                                if (blnCodBarras)
+                                {
+                                    txtQuantidade.Text = string.Empty;
+                                    edtCodigoBarras.Text = string.Empty;
+
+                                    _actRefreshPage(_inventarioItemVO);
+                                  //  edtCodigoBarras.Focus();
+                                }
+                                else
+                                {
+                                    txtQuantidade.Text   = string.Empty;
+                                    edtCodigoBarras.Text = string.Empty;
+
+                                    _actDeleteRow(_inventarioItemVO);
+                                    OnBackButtonPressed();
+                                }
+
+                                edtCodigoBarras.Focus();
                             }
                             else if (resultService.Retorno == "IntegracaoBatch")
                             {
                                 await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
-                                
+
                                 _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
                                 _actRefreshPage(_inventarioItemVO);
 
@@ -201,14 +247,25 @@ namespace CollectorQi.Views
                             }
                             else if (resultService.Retorno == "IntegracaoBatchErrorLeituraEtiqueta")
                             {
+                                txtQuantidade.Text = string.Empty;
+                                edtCodigoBarras.Text = string.Empty;
+
+                                edtCodigoBarras.Focus();
+
                                 await DisplayAlert("Erro!", $"{resultService.Localizacao}/{resultService.Item} está pendente de efetivação! Atualize antes de uma nova leitura!", "OK");
                             }
-                            else {
+                            else
+                            {
+                                txtQuantidade.Text = string.Empty;
+                                edtCodigoBarras.Text = string.Empty;
+
+                                edtCodigoBarras.Focus();
+
                                 if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
                                 {
                                     await DisplayAlert("Erro!", resultService.Resultparam[0].ErrorDescription + " - " + resultService.Resultparam[0].ErrorHelp, "Cancelar");
                                 }
-                                else 
+                                else
                                 {
                                     await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
                                 }
@@ -219,16 +276,21 @@ namespace CollectorQi.Views
                             await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
                         }
                     }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
-            }
-            finally
-            {
-                BtnEfetivar.IsEnabled = true;
-                await pageProgress.OnClose();
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Erro!", ex.Message, "Cancelar");
+                }
+                finally
+                {
+                    BtnEfetivar.IsEnabled = true;
+
+                   // if (pageProgress != null && pageProgress.IsVisible)
+                   // {
+                        await pageProgress.OnClose();
+                   // }
+                }
             }
         }
 
@@ -250,9 +312,15 @@ namespace CollectorQi.Views
 
         private async void edtCodigoBarras_UnFocused(object sender, FocusEventArgs e)
         {
+            await edtCodigoBarrasEtiqueta();
+        }
+
+        bool textChangeZera = false;
+        private async Task edtCodigoBarrasEtiqueta()
+        {
             try
             {
-                if (!String.IsNullOrEmpty(edtCodigoBarras.Text))
+                if (!String.IsNullOrEmpty(edtCodigoBarras.Text) && !textChangeZera)
                 {
                     if (SwtCxCompleta.On)
                     {
@@ -264,8 +332,12 @@ namespace CollectorQi.Views
                         }
                     }
                 }
+
+                textChangeZera = false;
             }
-            catch { }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         private async void SwtCxCompleta_OnChanged(object sender, ToggledEventArgs e)
@@ -275,6 +347,36 @@ namespace CollectorQi.Views
                 await SecurityDB.AtualizarSecurityParametros(SwtCxCompleta.On);
             }
             catch { }
+        }
+
+        private async void edtCodigoBarras_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length >= 10 && !textChangeZera)
+                {
+                    var pageProgress = new ProgressBarPopUp("Carregando...");
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                    await edtCodigoBarrasEtiqueta();
+
+                    await pageProgress.OnClose();
+
+                    if (txtQuantidade.Text != null && txtQuantidade.Text.Length > 0 && txtQuantidade.Text != "0")
+                    {
+                        await ClickButtonEfetivar(true);
+                    }
+                }
+
+                textChangeZera = false;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro leitura etiqueta " + ex.Message, "OK");
+                edtCodigoBarras.Text = String.Empty;
+            }
         }
     }
 }

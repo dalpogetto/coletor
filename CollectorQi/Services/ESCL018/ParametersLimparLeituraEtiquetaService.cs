@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Resources;
-using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
+using static CollectorQi.Services.ESCL018.ObterLocalizPorEstabDepService;
 using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 using CollectorQi.ViewModels.Interface;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;

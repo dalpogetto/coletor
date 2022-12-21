@@ -31,9 +31,13 @@ namespace CollectorQi.Services.ESCL000
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS);
-                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_CADASTRO_FILIAIS);
 
+                var codEmpresa = SecurityAuxiliar.GetCodEmpresa();
+
+                client.DefaultRequestHeaders.Add("CompanyId", codEmpresa);
+
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 var result = await client.SendAsync(req);
 

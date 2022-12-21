@@ -130,7 +130,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new PrincipalPage());
+            Application.Current.MainPage = new NavigationPage(new InventarioPage());
 
             return true;
         }

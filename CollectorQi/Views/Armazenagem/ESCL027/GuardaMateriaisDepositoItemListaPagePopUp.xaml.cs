@@ -21,7 +21,7 @@ namespace CollectorQi.Views
 {
     public partial class GuardaMateriaisDepositoItemListaPagePopUp : PopupPage
     {
-        public Action<string> _confirmaItem { get; set; }
+        public Action<string, bool, string> _confirmaItem { get; set; }
 
         public GuardaMateriaisDepositoItemListaPagePopUp()        
         {
@@ -62,7 +62,26 @@ namespace CollectorQi.Views
             {
                 BtnEfetivar.IsEnabled = false;
                 await PopupNavigation.Instance.PopAsync();
-                _confirmaItem(edtCodigoBarras.Text);
+                _confirmaItem(edtCodigoBarras.Text, false, null);
+            }
+            finally
+            {
+                BtnEfetivar.IsEnabled = true;
+            }
+        }
+
+        private async void edtCodigoBarras_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 10)
+                {
+                    BtnEfetivar.IsEnabled = false;
+                    await PopupNavigation.Instance.PopAsync();
+                    _confirmaItem(edtCodigoBarras.Text, false, null);
+                }
+              
             }
             finally
             {

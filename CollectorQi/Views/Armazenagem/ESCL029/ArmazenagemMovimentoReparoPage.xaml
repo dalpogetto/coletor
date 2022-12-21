@@ -53,7 +53,8 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="lblDeposito" Text="Depósito" FontSize="Small" TextColor="{StaticResource NavigationPrimary}"  VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
                         <local:CustomEntry x:Name="txtDeposito" IsEnabled="true" FontSize="Small" MaxLength="300" WidthRequest="300"  VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Placeholder="Digite o depósito..." /> 
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Placeholder="Digite o depósito..." TextChanged="txtDeposito_TextChanged" />
+
                         <Button x:Name="BtnBuscaDeposito"  Image="cameraMini.png" HorizontalOptions="Center" BorderRadius="16" Grid.Row="1" Grid.Column="5" Clicked="BtnBuscaDeposito_Clicked" />
                     </Grid>
                 </Frame>

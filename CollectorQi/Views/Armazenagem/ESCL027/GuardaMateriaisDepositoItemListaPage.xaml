@@ -36,7 +36,7 @@
                 <TableView HeightRequest="50">
                     <TableRoot>
                         <TableSection>
-                            <SwitchCell x:Name="SwtQuantidade" Text="Informar Quantidade" OnChanged="SwitchCellQuantidade_OnChanged"></SwitchCell>
+                            <SwitchCell x:Name="SwtQuantidade" Text="Quantidade Caixa" OnChanged="SwitchCellQuantidade_OnChanged"></SwitchCell>
                         </TableSection>
                     </TableRoot>
                 </TableView>

@@ -135,7 +135,7 @@ namespace CollectorQi.Views
 
                 Items = new ObservableCollection<InventarioItemViewModel>();
 
-                var lstInventarioItemVO = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz, this);
+                var lstInventarioItemVO = await ObterLocalizPorEstabDepService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz, this);
 
                 //var lstLocalizacoesVO = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.IdInventario, this);
 
@@ -669,8 +669,17 @@ namespace CollectorQi.Views
                 }
                 else if (this.StatusIntegracao == eStatusInventarioItem.IntegracaoCX)
                 {
-                    return "Conf. (CX)";
-                } else
+                    if (this.QuantidadeAcum != null && this.QuantidadeAcum > 0)
+                    {
+
+                        return $"{this.QuantidadeAcum.ToString()} (CX)";
+                    }
+                    else
+                    {
+                        return "Cont (CX)";
+                    }
+                } 
+                else
                 {
                     return "Int. Pendente";
                 }

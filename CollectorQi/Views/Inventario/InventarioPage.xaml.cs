@@ -21,8 +21,8 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[]    { "inventario.png" , "inventario.png", "repair.png"                                  };
-                string[] titulo = new string[]    { "Inventário Físico" , "Inventário Físico (CX)", "Inventário de Reparos"                       };
+                string[] imagem = new string[]    { "inventario.png"                         , "product.png"                             , "repair.png"                                  };
+                string[] titulo = new string[]    { "Inventário Físico"                      , "Inventário Físico (CX)"                  , "Inventário de Reparos"                       };
                 string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário Físico (ESCL018B)", "Contagem de Inventário de Reparos (ESCL017)" };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();

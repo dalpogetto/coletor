@@ -1,27 +1,22 @@
-﻿using CollectorQi.Models;
-using CollectorQi.ViewModels;
-using CollectorQi.Resources.DataBaseHelper;
-using CollectorQi.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using AutoMapper;
 using CollectorQi.Models.Datasul;
-using AutoMapper;
-using System.Threading;
-using Rg.Plugins.Popup.Services;
-using CollectorQi.Services.ESCL018;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
-using CollectorQi.VO.ESCL018;
+using CollectorQi.Services.ESCL018;
 using CollectorQi.Services.ESCL018B;
+using CollectorQi.VO.ESCL018;
+using Rg.Plugins.Popup.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace CollectorQi.Views
 {
@@ -137,7 +132,7 @@ namespace CollectorQi.Views
 
                 Items = new ObservableCollection<InventarioItemViewModel>();
 
-                var lstInventarioItemVO = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz, this);
+                var lstInventarioItemVO = await ObterLocalizPorEstabDepService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz, this);
 
                 //var lstLocalizacoesVO = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.IdInventario, this);
 
@@ -507,17 +502,19 @@ namespace CollectorQi.Views
             try
             {
                 BtnEfetivarContagem.IsEnabled = false;
+
                 if (result.ToString() == "True")
                 {
-                        var lstInventarioItem = InventarioItemDB.GetInventarioItemByConfirmadoCx(_inventario.IdInventario);
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                    var lstInventarioItem = InventarioItemDB.GetInventarioItemByConfirmadoCx(_inventario.IdInventario, _codLocaliz);
                         
                     if (lstInventarioItem.Count == 0)
                     {
                        await DisplayAlert("Erro!", "Não há itens pendentes de efetivação de contagem", "Ok");
                     }
 
-
-                        var _inventarioItemVO = lstInventarioItem.First();
+                        var _inventarioItemVO = lstInventarioItem.FirstOrDefault();
 
                         var inventarioBarra = new InventarioItemBarra()
                         {
@@ -526,59 +523,71 @@ namespace CollectorQi.Views
                             Localizacao = _inventarioItemVO.Localizacao.Trim(),
                             CodItem = _inventarioItemVO.CodItem.Trim(),
                             CodDepos = _inventarioItemVO.CodDepos.Trim(),
-                            QuantidadeDigitada = int.Parse(_inventarioItemVO.Quantidade.ToString()),
+                            QuantidadeDigitada = int.Parse(_inventarioItemVO.QuantidadeAcum.ToString()),
                             CodEmp = "1",
                             Contagem = _inventarioItemVO.Contagem,
                             CodEstabel = _inventarioItemVO.CodEstabel,
                             CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras)
                         };
 
-                        //_inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
 
+
+                    //_inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
+
+                    if (_inventarioItemVO.Quantidade > 0)
+                    {
                         _inventarioItemVO.CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras);
 
                         _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
 
+                    }
+                    else
+                    {
+                        _inventarioItemVO.CodigoBarras = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
+                        _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
+                        inventarioBarra.CodigoBarras = _inventarioItemVO.CodigoBarras;
+                    }
+                        
 
-                        var resultService = await ParametersEfetivarContagem.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0, this);
+                    var resultService = await ParametersEfetivarContagem.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0, this);
 
-                        if (resultService != null && resultService.Retorno != null)
+                    if (resultService != null && resultService.Retorno != null)
+                    {
+                        if (resultService.Retorno == "OK")
                         {
-                            if (resultService.Retorno == "OK")
-                            {
 
-                                await DisplayAlert("Sucesso!", $"{resultService.Localizacao}/{resultService.Item} Efetivação concluída com sucesso !", "OK");
+                            await DisplayAlert("Sucesso!", $"{resultService.Localizacao}/{resultService.Item} Efetivação concluída com sucesso !", "OK");
 
-                                await pageProgress.OnClose();
-                                OnBackButtonPressed();
-                            }
-                            else if (resultService.Retorno == "IntegracaoBatch")
-                            {
-                                await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
+                            await pageProgress.OnClose();
+                            OnBackButtonPressed();
+                        }
+                        else if (resultService.Retorno == "IntegracaoBatch")
+                        {
+                            await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
 
-                                _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
-                                //_actRefreshPage(_inventarioItemVO);
+                            _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
+                            //_actRefreshPage(_inventarioItemVO);
 
-                                await pageProgress.OnClose();
-                                OnBackButtonPressed();
-                            }
-                            else
-                            {
-                                if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
-                                {
-                                    await DisplayAlert("Erro!", resultService.Resultparam[0].ErrorDescription + " - " + resultService.Resultparam[0].ErrorHelp, "Cancelar");
-                                }
-                                else
-                                {
-                                    await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
-                                }
-                            }
+                            await pageProgress.OnClose();
+                            OnBackButtonPressed();
                         }
                         else
                         {
-                            await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
+                            if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
+                            {
+                                await DisplayAlert("Erro!", resultService.Resultparam[0].ErrorDescription + " - " + resultService.Resultparam[0].ErrorHelp, "Cancelar");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
+                            }
                         }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Erro!", "Erro na efetivação do inventário", "Cancelar");
+                    }
                 }
             }
             catch (Exception ex)
@@ -591,9 +600,7 @@ namespace CollectorQi.Views
                 await pageProgress.OnClose();
             }
         }
-
-
-
+                
         private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
         {
             if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
@@ -645,7 +652,7 @@ namespace CollectorQi.Views
             page._actDeleteRow = DeleteRowInventarioItem;
             page._actRefreshPage = RefreshRowInventarioItem;
             await PopupNavigation.Instance.PushAsync(page);
-            await pageProgress.OnClose();
+           // await pageProgress.OnClose();
 
             cvInventarioItem.SelectedItem = null;
         }
@@ -667,7 +674,6 @@ namespace CollectorQi.Views
 
             try
             {
-
                 var current = (cvInventarioItem.SelectedItem as InventarioItemViewModel);
 
                 if (cvInventarioItem.SelectedItem == null)
@@ -688,30 +694,60 @@ namespace CollectorQi.Views
 
         public async void RefreshRowInventarioItem(InventarioItemVO pInventarioItemVO)
         {
-            var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
-
-            if (current != null)
+            if (pInventarioItemVO != null)
             {
-                Items[Items.IndexOf(current)] = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(pInventarioItemVO);
+                var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
 
-                //current =
+                if (current != null)
+                {
+                    Items[Items.IndexOf(current)] = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(pInventarioItemVO);
+
+                    //current =
+                    OnPropertyChanged("Items");
+                }
+            }
+            else
+            {
                 OnPropertyChanged("Items");
             }
         }
         public async void DeleteRowInventarioItem(InventarioItemVO pInventarioItemVO)
         {
+
+            OnPropertyChanged("Items");
+
+            var newItem = Items.FirstOrDefault(x => x.CodItem == pInventarioItemVO.CodItem && x.InventarioItemId != pInventarioItemVO.InventarioItemId);
+
+            /*
+            // Evento de atualizacao do PopUp, se existe um novo item igual abre ele da próxima leitura.
+            if (newItem != null)
+            {
+                OpenPagePopUp(newItem);
+            }
+            */
+            /*
             var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
 
             if (current != null) {
                 Items.Remove(current);
+
+                var newItem = Items.FirstOrDefault(x => x.CodItem == pInventarioItemVO.CodItem && x.InventarioItemId != pInventarioItemVO.InventarioItemId);
+
                 OnPropertyChanged("Items");
+
+                // Evento de atualizacao do PopUp, se existe um novo item igual abre ele da próxima leitura.
+                if (newItem != null)
+                {
+                    OpenPagePopUp(newItem);
+                }
             }
 
             if (Items.Count <= 0)
             {
                 await DisplayAlert("Localização Finalizada", $"Itens da localização {_codLocaliz} inventariados com sucesso", "OK");
                 OnBackButtonPressed();
-            }
+            }*/
+
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)

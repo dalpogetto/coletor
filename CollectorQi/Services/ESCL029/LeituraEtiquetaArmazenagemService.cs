@@ -13,9 +13,8 @@ using CollectorQi.Resources;
 
 namespace CollectorQi.Services.ESCL029
 {
-    public class LeituraEtiquetaArmazenagemService
+    public static class  LeituraEtiquetaArmazenagemService
     {
-        ResultConteudoJson parametros = null;
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private static string URI = ServiceCommon.SystemUrl;
@@ -24,8 +23,10 @@ namespace CollectorQi.Services.ESCL029
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl029api/LeituraEtiqueta";
 
         // Metodo ObterParametros Totvs
-        public async Task<ResultConteudoJson> SendLeituraEtiquetaAsync(ParametrosMovimentoReparo leituraMovimentoReparo)
+        public static async Task<ResultConteudoJson> SendLeituraEtiquetaAsync(ParametrosMovimentoReparo leituraMovimentoReparo)
         {
+            ResultConteudoJson parametros = null;
+
             try
             {
                 //ParametrosNotaFiscal requestParam = new ParametrosNotaFiscal() { CodEstabel = "126" };
@@ -35,7 +36,7 @@ namespace CollectorQi.Services.ESCL029
                 //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);

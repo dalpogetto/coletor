@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32228.343
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectorQi.Android", "CollectorQi.Android\CollectorQi.Android.csproj", "{54255005-CC9E-4C9C-BC55-81695C2AE4B8}"
 EndProject
@@ -39,7 +39,6 @@ Global
 		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{54255005-CC9E-4C9C-BC55-81695C2AE4B8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
-		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhone.Build.0 = Debug|iPhone
 		{32995649-3FB5-4D02-B4C4-01126EA601DE}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator

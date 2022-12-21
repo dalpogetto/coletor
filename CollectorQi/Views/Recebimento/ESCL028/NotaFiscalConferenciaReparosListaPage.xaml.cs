@@ -17,6 +17,8 @@ using CollectorQi.Models;
 using System.Runtime.CompilerServices;
 using Rg.Plugins.Popup.Services;
 using ESCL = CollectorQi.Models.ESCL028;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CollectorQi.Views
 {
@@ -59,7 +61,9 @@ namespace CollectorQi.Views
             ObsNotaFiscal = new ObservableCollection<NotaFiscalViewModel>();
             listNotaFiscalVO = new List<NotaFiscalVO>();
 
-            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
+            //lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
+
+            //SearchBar.En += (sender, e) => edtCodigoBarras_Completed(sender, e);
 
             cvNotaFiscal.BindingContext = this;
         }
@@ -136,10 +140,17 @@ namespace CollectorQi.Views
 
                         var modelView = Mapper.Map<NotaFiscalVO, NotaFiscalViewModel>(notaFiscalVO);
                         ObsNotaFiscal.Add(modelView);
+
+                        
                     }
                 }
 
                 OnPropertyChanged("ObsNotaFiscal");
+
+                if (ObsNotaFiscal != null && ObsNotaFiscal.Count > 0)
+                {
+                    SearchBarItCodigo.Focus();
+                }
 
             }
             catch (Exception ex)
@@ -154,9 +165,106 @@ namespace CollectorQi.Views
 
         }
 
+
+        private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
+        {
+
+            // await ConfirmaCodigoBarras();
+        }
+
+        private async Task ConfirmaCodigoBarras()
+        {
+            if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
+            {
+                var pageProgress = new ProgressBarPopUp("Efetivando Reparo, aguarde...");
+                // BtnEfetivar.IsEnabled = false;
+
+                try
+                {
+                    /*
+                    if (String.IsNullOrEmpty(SearchBarItCodigo.Text))
+                    {
+                        await DisplayAlert("Erro Leitura da Etiqueta", "Nenhuma etiqueta efetuada a leitura, favor realizar a leitura da etiqueta para seguir com a atualização da nota fiscal.", "OK");
+                        return;
+                    } */
+
+                    string codEstabOrigem = SearchBarItCodigo.Text.Substring(0, 3);
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                    var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
+                    {
+                        CodBarras = SearchBarItCodigo.Text
+
+                    }, codEstabOrigem);
+
+                    //  await pageProgress.OnClose();
+                    if (dRetornoNota != null && dRetornoNota.Resultparam != null && dRetornoNota.Resultparam.Count > 0)
+                    {
+                        var v = dRetornoNota.Resultparam.FirstOrDefault();
+
+                        SearchBarItCodigo.Text = "";
+
+                        if (v.Mensagem.Contains("ERRO:"))
+                        {
+                            await DisplayAlert("ERRO!", v.Mensagem, "OK");
+                            return;
+                        }
+                        else
+                        {
+                            CarregaListView();
+
+                            
+                            //  Acr.UserDialogs.UserDialogs.Instance.Toast("Efetivado código de barras com sucesso", new TimeSpan(10));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // await pageProgress.OnClose();
+                    await DisplayAlert("ERRO", ex.Message, "OK");
+                }
+                finally
+                {
+                    // BtnEfetivar.IsEnabled = true;
+                    await pageProgress.OnClose();
+                }
+
+                /*
+                var current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == SearchBarItCodigo.Text);
+
+                if (current == null)
+                {
+                    if (SearchBarItCodigo.Text.Contains(';'))
+                    {
+
+                        var textItCodigo = SearchBarItCodigo.Text.Split(';');
+                        if (textItCodigo.Length > 1)
+                        {
+                            current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == textItCodigo[1]);
+
+                            if (current != null)
+                            {
+                                current.CodigoBarras = SearchBarItCodigo.Text;
+                            }
+                        }
+                    }
+                }
+
+                if (current != null)
+                {
+                    OpenPagePopUp(current);
+
+                } */
+            }
+        }
+        private void SearchBarItCodigo_SearchButtonPressed(object sender, EventArgs e)
+        {
+            ConfirmaCodigoBarras();
+        }
+
+
         async void OnClick_CarregaNotaFiscal(object sender, EventArgs e)
         {
-            //var current = (cvNotaFiscal.SelectedItem as NotaFiscalVO);
             CarregaListView();
         }
 
@@ -165,8 +273,6 @@ namespace CollectorQi.Views
             base.OnAppearing();
 
             ObsNotaFiscal = new ObservableCollection<NotaFiscalViewModel>();
-
-            //ObsInventario = new ObservableCollection<InventarioViewModel>();
 
             CarregaListView();
         }
@@ -179,10 +285,11 @@ namespace CollectorQi.Views
             return true;
         }
 
+        /*
         async void BtnScan_Clicked(object sender, EventArgs e)
         {
 
-            //BtnEfetivarItem.IsEnabled = false;
+            BtnScan.IsEnabled = false;
             try
             {
                 if (ObsNotaFiscal == null && ObsNotaFiscal.Count <= 0)
@@ -190,10 +297,8 @@ namespace CollectorQi.Views
                     await DisplayAlert("Erro!", "Nenhuma nota fiscal relacionada para confência.", "OK");
                 }
 
-                //cvGuardaMateriaisDepositoItem.IsEnabled = false;
-
                 var page = new NotaFiscalConferenciaReparosListaPopUp();
-                page._confirmaItemEtiqueta = CodigoBarras;
+                page._refreshListView = CarregaListView;
                 await PopupNavigation.Instance.PushAsync(page);
             }
             catch (Exception ex)
@@ -202,13 +307,55 @@ namespace CollectorQi.Views
             }
             finally
             {
-                //BtnEfetivarItem.IsEnabled = true;
+                BtnScan.IsEnabled = true;
             }
+        }
+        */
 
+        private CancellationTokenSource throttleCts = new CancellationTokenSource();
+
+        async void Handle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length >= 10)
+                {
+                    await ConfirmaCodigoBarras();
+                }
+
+                /*
+
+                //System.Diagnostics.Debug.Write(e);
+                bool lCodBarras = false;
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5)
+                {
+                    lCodBarras = true;
+                }
+
+
+                //await Task.Run(() => PerformSearch());
+                //PerformSearch();
+                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  
+                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+                await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                    .ContinueWith(
+                        delegate { PerformSearch(lCodBarras); }, // Pass the changed text to the PerformSearch function
+                        CancellationToken.None,
+                        TaskContinuationOptions.OnlyOnRanToCompletion,
+                        TaskScheduler.FromCurrentSynchronizationContext());
+
+                */
+            }
+            catch (Exception ex)
+            {
+                //await DisplayAlert("Erro!", ex.Message, "Cancel");
+            }
         }
 
-        public async void CodigoBarras(string pCodBarras)
+        public async void CodigoBarras(string pCodBarras, NotaFiscalViewModel currentNF)
         {
+
             try
             {
                 if (String.IsNullOrEmpty(pCodBarras))
@@ -217,26 +364,34 @@ namespace CollectorQi.Views
                     return;
                 }
 
+                string codEstabOrigem = pCodBarras.Substring(0, 3);
+              //  await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
                 var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
                 {
                     CodBarras = pCodBarras
-                });
+                   
+                }, codEstabOrigem);
 
+              //  await pageProgress.OnClose();
                 if (dRetornoNota != null && dRetornoNota.Resultparam != null && dRetornoNota.Resultparam.Count > 0)
                 {
                     var v = dRetornoNota.Resultparam.FirstOrDefault();
 
                     if (v.Mensagem.Contains("ERRO:"))
                     {
-
                         await DisplayAlert("ERRO!", v.Mensagem, "OK");
                         return;
-
+                    }
+                    else
+                    {
+                        CarregaListView();
                     }
                 }
             }
             catch (Exception e)
             {
+               // await pageProgress.OnClose();
                 await DisplayAlert("ERRO", e.Message, "OK");
             }
         }
@@ -255,7 +410,7 @@ namespace CollectorQi.Views
                 cvNotaFiscal.IsEnabled = false;
                 //cvGuardaMateriaisDepositoItem.IsEnabled = false;
 
-                var page = new NotaFiscalConferenciaReparosDetPopUp(current.CodItem, current.DescricaoItem, current.NroDocto, current.NumRR, current.Conferido, current.Relaciona, current.CodFilial);
+                var page = new NotaFiscalConferenciaReparosDetPopUp(current.CodItem, current.DescricaoItem, current.NroDocto, current.NumRR, current.Conferido, current.Relaciona, current.CodFilial, current);
 
                 page._actConfirmaConferencia = CodigoBarras;
 
@@ -275,53 +430,76 @@ namespace CollectorQi.Views
         private async void BtnFinalizaConferencia_Clicked(object sender, EventArgs e)
         {
             BtnFinalizaConferencia.IsEnabled = false;
+
+            var pageProgress = new ProgressBarPopUp("Efetivando Documento, aguarde...");
+
             try
             {
-                var lstNotaConferencia = new CollectorQi.Services.ESCL028.FinalizarConferenciaNotaFiscalService.RequestNotaFiscalJson();
+                var result = await DisplayAlert("Confirmar Nota?", "Deseja finalizar a conferencia das notas fiscais?", "Sim", "Nao");
 
-                //lstNotaConferencia.
-                lstNotaConferencia.Parametros = new FinalizarConferenciaNotaFiscalService.Param();
-
-                lstNotaConferencia.Parametros.CodEstabel = SecurityAuxiliar.GetCodEstabel();
-
-                lstNotaConferencia.ListaReparosConferidos = new List<FinalizarConferenciaReparosConferidos>();
-                lstNotaConferencia.ListaConferenciaDocumentos = new List<FinalizarConferenciaDocumentos>();
-
-                foreach (var item in ObsNotaFiscal)
+                if (result.ToString() == "True")
                 {
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                    lstNotaConferencia.ListaReparosConferidos.Add(new FinalizarConferenciaReparosConferidos { RowId = item.RowId });
+                    var lstNotaConferencia = new CollectorQi.Services.ESCL028.FinalizarConferenciaNotaFiscalService.RequestNotaFiscalJson();
 
-                    lstNotaConferencia.ListaConferenciaDocumentos.Add(new FinalizarConferenciaDocumentos {
-                    
-                        Docto = item.NroDocto,
-                        CodEstabel = item.CodEstabel,
-                        Relaciona = item.Relaciona,
-                        
-                        
-                        // Outros pontos..
+                    //lstNotaConferencia.
+                    lstNotaConferencia.Parametros = new FinalizarConferenciaNotaFiscalService.Param();
 
-                    
-                    });
-                }
+                    lstNotaConferencia.Parametros.CodEstabel = SecurityAuxiliar.GetCodEstabel();
 
-                var parametrosRetorno = await FinalizarConferenciaNotaFiscalService.SendFinalizarConferenciaAsync(lstNotaConferencia);
+                    lstNotaConferencia.ListaReparosConferidos = new List<FinalizarConferenciaReparosConferidos>();
+                    lstNotaConferencia.ListaConferenciaDocumentos = new List<FinalizarConferenciaDocumentos>();
 
-                if (parametrosRetorno.Retorno == "OK")
-                {
-                    await DisplayAlert("Sucesso", "Conferencia efetuada com sucesso", "OK");
-                }
-                else
-                {
-                    if (parametrosRetorno.Resultparam != null && parametrosRetorno.Resultparam.Count > 0)
+                    var lstNotaFiscal = await ParametersNotaFiscalService.SendParametersAsync(SecurityAuxiliar.GetCodEstabel());
+
+                    if (lstNotaFiscal != null)
                     {
-                        await DisplayAlert("ERRO!", parametrosRetorno.Resultparam[0].ErrorDescription, "OK");
+
+                        foreach (var item in ObsNotaFiscal.Where(x => x.Conferido))
+                        {
+                            lstNotaConferencia.ListaReparosConferidos.Add(new FinalizarConferenciaReparosConferidos { RowId = item.RowId });
+
+                            var docto = lstNotaFiscal.param.ListaDocumentos.FirstOrDefault(x => x.Relaciona == item.Relaciona);
+
+                            if (docto != null && lstNotaConferencia.ListaConferenciaDocumentos.FirstOrDefault(x => x.Relaciona == item.Relaciona) == null)
+                            {
+                                lstNotaConferencia.ListaConferenciaDocumentos.Add(new FinalizarConferenciaDocumentos
+                                {
+                                    CodEmitente = docto.CodEmitente,
+                                    Docto = item.NroDocto,
+                                    CodEstabel = item.CodEstabel,
+                                    Usuario = SecurityAuxiliar.GetCodEstabel(),
+                                    Atualizar = true,
+                                    NatOperacao = docto.NatOperacao,
+                                    SerieDocto = docto.SerieDocto,
+                                    Relaciona = item.Relaciona,
+                                });
+                            }
+                        }
+                    }
+
+                    var parametrosRetorno = await FinalizarConferenciaNotaFiscalService.SendFinalizarConferenciaAsync(lstNotaConferencia);
+
+                    if (parametrosRetorno.Retorno == "OK")
+                    {
+                        await DisplayAlert("Sucesso", "Conferencia efetuada com sucesso", "OK");
+
+                        CarregaListView();
                     }
                     else
                     {
-                        await DisplayAlert("ERRO!", "Erro no retorno do envio !", "OK");
+                        if (parametrosRetorno.Resultparam != null && parametrosRetorno.Resultparam.Count > 0)
+                        {
+                            await DisplayAlert("ERRO!", parametrosRetorno.Resultparam[0].ErrorDescription + " - " + parametrosRetorno.Resultparam[0].ErrorHelp, "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("ERRO!", "Erro no retorno do envio !", "OK");
+                        }
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -329,12 +507,13 @@ namespace CollectorQi.Views
             }
             finally
             {
+                await pageProgress.OnClose();
                 BtnFinalizaConferencia.IsEnabled = true;
             }
         }
     }
 
-    public class NotaFiscalViewModel : NotaFiscalVO
+    public class NotaFiscalViewModel : NotaFiscalVO, INotifyPropertyChanged
     {
         public string Image
         {
@@ -345,6 +524,31 @@ namespace CollectorQi.Views
                 else
                     return "intPendenteMed.png";
             }
-        }      
+        }
+
+
+        #region Property
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(storage, value))
+            {
+                return false;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion
+
     }
 }

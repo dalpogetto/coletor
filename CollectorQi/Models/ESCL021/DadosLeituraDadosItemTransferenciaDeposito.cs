@@ -6,7 +6,7 @@ namespace CollectorQi.Models.ESCL021
     {
         public string CodEstabel { get; set; }               
         public string CodItem { get; set; }
-        public int Saldo { get; set; }
+        public decimal Saldo { get; set; }
         public string CodigoBarras { get; set; }
         public string NF { get; set; }
         public string Un { get; set; }
@@ -18,6 +18,6 @@ namespace CollectorQi.Models.ESCL021
         public string CodLocalizaDest { get; set; }
         public string Serie { get; set; }
         public string Lote { get; set; }
-        public int Quantidade { get; set; }
+        public decimal Quantidade { get; set; }
     }
 }

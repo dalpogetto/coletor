@@ -18,22 +18,24 @@ namespace CollectorQi.Views
 {
     public partial class NotaFiscalConferenciaReparosDetPopUp : PopupPage
     {
-        public Action<string> _actConfirmaConferencia;
+        public Action<string,NotaFiscalViewModel> _actConfirmaConferencia;
 
-        public NotaFiscalConferenciaReparosDetPopUp(string pCodItem, string pDescItem, string pNroDocto, decimal pNumRR, bool pConferido, int pRelaciona , string pCodFilial)        
+        public NotaFiscalViewModel _currentNF;
+
+        public NotaFiscalConferenciaReparosDetPopUp(string pCodItem, string pDescItem, string pNroDocto, decimal pNumRR, bool pConferido, int pRelaciona , string pCodFilial, NotaFiscalViewModel currentNF)        
         {
             try
             {
                 InitializeComponent();
 
-                edtCodItem.Text = pCodItem;
-                edtDescItem.Text = pDescItem;
+                edtCodItem.Text    = pCodItem;
+                edtDescItem.Text   = pDescItem;
+                edtNroDocto.Text   = pNroDocto;
+                edtNumRR.Text      = pNumRR.ToString();
+                edtCodFilial.Text  = pCodFilial;
 
-                edtNroDocto.Text = pNroDocto;
+                _currentNF = currentNF;
 
-                edtNumRR.Text = pNumRR.ToString();
-
-                edtCodFilial.Text = pCodFilial;
 
                 /*
                 edtDeposito.Text = pCodDepos;
@@ -105,7 +107,7 @@ namespace CollectorQi.Views
                 BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
-                    _actConfirmaConferencia(edtCodigoBarras.Text);
+                    _actConfirmaConferencia(edtCodigoBarras.Text, _currentNF);
                     await pageProgress.OnClose();
                     OnBackButtonPressed();
                 }

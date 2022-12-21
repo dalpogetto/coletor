@@ -61,7 +61,8 @@ namespace CollectorQi.Services.ESCL028
                         }
                         else
                         {
-                            var parametrosSuccess = JsonConvert.DeserializeObject<ResultNotaFiscalRetornoJson>(responseData);
+                            // Revisao de acesso
+                            var parametrosSuccess = JsonConvert.DeserializeObject<ResultNotaFiscalRetornoSucessoJson>(responseData);
 
                             parametros = new ResultNotaFiscalRetornoJson()
                             {
@@ -113,6 +114,11 @@ namespace CollectorQi.Services.ESCL028
             [JsonProperty("Conteudo")]
             public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
 
+            public string Retorno { get; set; }
+        }
+
+        public class ResultNotaFiscalRetornoSucessoJson
+        {
             public string Retorno { get; set; }
         }
 

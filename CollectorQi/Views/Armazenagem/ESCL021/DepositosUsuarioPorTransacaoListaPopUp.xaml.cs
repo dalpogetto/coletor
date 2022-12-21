@@ -144,7 +144,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
               Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,

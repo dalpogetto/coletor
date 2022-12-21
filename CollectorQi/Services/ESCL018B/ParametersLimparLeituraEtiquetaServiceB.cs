@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Resources;
-using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
+using static CollectorQi.Services.ESCL018.ObterLocalizPorEstabDepService;
 using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 using CollectorQi.ViewModels.Interface;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
@@ -52,14 +52,14 @@ namespace CollectorQi.Services.ESCL018
 
             };
 
-            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null);
+            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null, 0);
 
             return "Inventário Integrado com sucesso";
 
             //return Task.Str<"Inventário Integrado com sucesso">;
         }
 
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal)
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal, decimal quantidadeAcumulada)
         {
             ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
 
@@ -67,19 +67,20 @@ namespace CollectorQi.Services.ESCL018
             try
             {
                 // Le o banco, verifica se tem OUTRO item igual 3 e valida..
-                var getItemByCX = InventarioItemDB.GetInventarioItemByItemCx(byInventarioItemVO.InventarioId, byInventarioItemVO.CodItem);
+                //var getItemByCX = InventarioItemDB.GetInventarioItemByItemCx(byInventarioItemVO.InventarioId, byInventarioItemVO.CodItem);
 
-                if(getItemByCX.Count == 0)
-                {
+               // if(getItemByCX.Count == 0)
+               // {
                     var sendInventarioERP = await SendInventarioAsyncERP(requestParam);
 
                     if (sendInventarioERP.Retorno == "OK")
                     {
+                        byInventarioItemVO.QuantidadeAcum = quantidadeAcumulada;
                         InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.IntegracaoCX);
                     }
 
                     result = sendInventarioERP;
-                } 
+              /*  } 
                 else
                 {
                     var itemPendenteDeEfetivacao = getItemByCX[0];
@@ -87,7 +88,7 @@ namespace CollectorQi.Services.ESCL018
                     result.Retorno = "IntegracaoBatchErrorLeituraEtiqueta";
                     result.Localizacao = itemPendenteDeEfetivacao.Localizacao;
                     result.Item = itemPendenteDeEfetivacao.CodItem;
-                }
+                } */
             }
             catch (Exception e)
             {

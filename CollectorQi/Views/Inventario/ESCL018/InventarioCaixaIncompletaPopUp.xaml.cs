@@ -164,7 +164,7 @@ namespace CollectorQi.Views
                             CodItem            = _inventarioItemVO.CodItem.Trim(),
                             CodDepos           = _inventarioItemVO.CodDepos.Trim(),
                             QuantidadeDigitada = decQuantidade,
-                            CodEmp             = "1",
+                            CodEmp             = SecurityAuxiliar.GetCodEmpresa(),
                             Contagem           = _inventarioItemVO.Contagem,
                             CodEstabel         = _inventarioItemVO.CodEstabel,
                             CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())

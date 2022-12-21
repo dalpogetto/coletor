@@ -1,4 +1,5 @@
-﻿using CollectorQi.Models.ESCL017;
+﻿
+using CollectorQi.Models.ESCL017;
 using CollectorQi.Resources;
 using CollectorQi.Services.ESCL017;
 using CollectorQi.Services.ESCL029;
@@ -149,10 +150,12 @@ namespace CollectorQi.Views
                             {
                                 ParametrosInventarioReparo = new ParametrosInventarioReparo();
 
-                          //      ParametrosInventarioReparo.CodDepos = "DET";
-                          //      ParametrosInventarioReparo.CodTecnico = 4122;
+                                ParametrosInventarioReparo.CodDepos   = txtDeposito.Text;
+                                ParametrosInventarioReparo.Senha      = txtSenha.Text;
+                                ParametrosInventarioReparo.CodTecnico = int.Parse(txtTecnico.Text);
 
                             }
+
                             Application.Current.MainPage = new NavigationPage(new MovimentoReparosOpcoesTransferenciaPage(oOpcoesTransferencia.ResultConteudo.ResultParam, ParametrosInventarioReparo));
                         }
                     }
@@ -208,6 +211,11 @@ namespace CollectorQi.Views
             {
                 ToolBarPrint.IsEnabled = true;
             }
+        }
+
+        private void txtDeposito_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            (sender as Entry).Text = e.NewTextValue.ToUpperInvariant();
         }
     }
 }   

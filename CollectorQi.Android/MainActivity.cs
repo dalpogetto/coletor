@@ -59,14 +59,14 @@ namespace CollectorQi.Droid
 
             if (csAuxiliar.idNotify == null)
             {
-                Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+                Rg.Plugins.Popup.Popup.Init(this);
             }
             else
             {
 
                 Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
                 Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAllAsync();
-                Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+                Rg.Plugins.Popup.Popup.Init(this);
 
             }
 

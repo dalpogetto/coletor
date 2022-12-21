@@ -34,7 +34,7 @@ namespace CollectorQi.Services.ESCL029
                 //client.BaseAddress = new Uri(URI);
 
                 // Substituir por user e password
-                var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(requestJson);
@@ -54,11 +54,26 @@ namespace CollectorQi.Services.ESCL029
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultParametrosJson>(responseData);
+
+                        if (responseData.Contains("Error"))
+                        {
+                            parametros = JsonConvert.DeserializeObject<ResultParametrosJson>(responseData);
+                        }
+                        else
+                        {
+                            var parametroSuccess = JsonConvert.DeserializeObject<ResultSendConteudoSuccessJson>(responseData);
+
+                            parametros = new ResultParametrosJson()
+                            {
+                                Retorno = parametroSuccess.Retorno
+                            };
+                        }
+                        //string responseData = await result.Content.ReadAsStringAsync();
+                        //parametros = JsonConvert.DeserializeObject<ResultParametrosJson>(responseData);
                     }
                     else
                     {
-                        Debug.Write(result);
+                        throw new Exception(result.StatusCode.ToString());
                     }
                 }
             }
@@ -79,13 +94,24 @@ namespace CollectorQi.Services.ESCL029
         public class ResultParametrosJson
         {
             [JsonProperty("Conteudo")]
-            public ResultConteudoJson ParamConteudo { get; set; }
+            public List<ResultConteudoJson> ParamConteudo { get; set; }
+
+            public string Retorno { get; set; }
         }
 
         public class ResultConteudoJson
         {
-            [JsonProperty("OK")]
-            public List<LeituraMovimentoReparo> ParamOK { get; set; }
+            //[JsonProperty("ErrorDescription")]
+            public string ErrorDescription { get; set; }
+
+            public string ErrorHelp { get; set; }
+
+        }
+
+        public class ResultSendConteudoSuccessJson
+        {
+            public string Retorno { get; set; }
         }
     }
 }
+
