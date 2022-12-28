@@ -56,34 +56,11 @@ namespace CollectorQi.Views
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsFiltered;
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsUnfiltered;
 
-
-        /*
-        public ObservableCollection<GuardaMateriaisDepositoViewModel> ObsDepositosGuardaMaterial { get; set; }
-        public List<DepositosGuardaMaterial> ListaDepositosGuardaMaterial { get; set; }
-        public DepositosGuardaMaterial DepositosGuardaMaterial { get; set; }
-        */
-
         public GuardaMateriaisDepositoListaPage()
         {
             InitializeComponent();
-            //ObsDepositosGuardaMaterial = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
-            //ListaDepositosGuardaMaterial = new List<DepositosGuardaMaterial>();
-            //ListaDepositosGuardaMaterial = listadepositosGuardaMaterial;
-
+          
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
-
-            /*
-            if (listadepositosGuardaMaterial != null)
-            {
-                foreach (var item in listadepositosGuardaMaterial)
-                {
-                    if (item.CodDepos != "DEC")
-                        continue;
-
-                    var modelView = Mapper.Map<DepositosGuardaMaterial, GuardaMateriaisDepositoViewModel>(item);
-                    ObsDepositosGuardaMaterial.Add(modelView);
-                }
-            }*/
 
             cvDepositosGuardaMaterial.BindingContext = this;
         }
@@ -95,7 +72,6 @@ namespace CollectorQi.Views
             //ObsDepositosGuardaMaterial = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
             Items = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
 
-
             CarregaListView();
         }
 
@@ -103,8 +79,6 @@ namespace CollectorQi.Views
         {
             //var lstInventario = await ParametersInventarioService.SendParametersAsync();
             var pageProgress = new ProgressBarPopUp("Carregando Guarda de Materias, aguarde...");
-
-            // ObsDepositosGuardaMaterial.Clear();
 
             try
             {
@@ -129,6 +103,12 @@ namespace CollectorQi.Views
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
+
+                // Se tem apenas um depósito, acessa automatica
+                if (Items!= null && Items.Count == 1)
+                {
+                    cvDepositosGuardaMaterial.SelectedItem = Items[0];
+                }
 
                 /*
                 ObsInventario.Clear();

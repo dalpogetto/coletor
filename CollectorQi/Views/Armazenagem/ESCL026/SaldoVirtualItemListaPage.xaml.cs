@@ -81,7 +81,7 @@ namespace CollectorQi.Views
               
             Items = new ObservableCollection<ItemSaldoViewModel>();
 
-            CarregaListView(false);
+            CarregaListView(true) ;
         }
 
         private async void CarregaListView(bool pSemSaldo)
@@ -123,22 +123,22 @@ namespace CollectorQi.Views
             }
         }
 
-        public void RefreshAction(ItemSaldoViewModel item)
+        public void RefreshAction(string pCodItem, string pCodLocaliz, string pSaldoInfo)
         {
-            if (item != null)
+            if (pCodItem != null)
             {
-                var itemCurrent = Items.FirstOrDefault(x => x.CodigoItem == item.CodigoItem);
+                var itemCurrent = Items.FirstOrDefault(x => x.CodigoItem == pCodItem);
 
                 if (itemCurrent != null)
                 {
-                    itemCurrent.SaldoInfo = item.SaldoInfo;
+                    itemCurrent.SaldoInfo = pSaldoInfo;
                 }
 
-                var itemCurrentUn = _ItemsUnfiltered.FirstOrDefault(x => x.CodigoItem == item.CodigoItem);
+                var itemCurrentUn = _ItemsUnfiltered.FirstOrDefault(x => x.CodigoItem == pCodItem);
 
                 if (itemCurrentUn != null)
                 {
-                    itemCurrentUn.SaldoInfo = item.SaldoInfo;
+                    itemCurrentUn.SaldoInfo = pSaldoInfo;
                 }
 
                 itemCurrent.OnPropertyChanged("SaldoInfo");
@@ -158,7 +158,7 @@ namespace CollectorQi.Views
 
                 var current = (cvItem.SelectedItem as ItemSaldoViewModel);
 
-                var page = new SaldoVirtualItemPopUp(_deposito, _codLocaliz, current);
+                var page = new SaldoVirtualItemPopUp(_deposito, _codLocaliz, current.CodigoItem, current.SaldoInfo);
 
                 page._actRefresh = RefreshAction;
 
@@ -180,7 +180,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+            Application.Current.MainPage = new NavigationPage(new SaldoVirtualDepositoListaPage(_deposito));
 
             return true;
         }

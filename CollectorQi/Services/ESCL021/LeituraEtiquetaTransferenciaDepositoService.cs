@@ -70,9 +70,7 @@ namespace CollectorQi.Services.ESCL021
                                 Retorno = parametroSuccess.Retorno
                             };*/
                         }
-
                     }
-
 
                     /*
                     var result = await client.SendAsync(req);

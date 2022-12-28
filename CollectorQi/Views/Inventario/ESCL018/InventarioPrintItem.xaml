@@ -28,6 +28,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
      
+                    <!--
                     <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
@@ -49,8 +50,8 @@
                                 
                                 <local:CustomEntryText x:Name="txtDescEstabelecimento" IsReadOnly="True" Placeholder="Nome do Estabelecimento..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
                             </Grid>
-                        </Frame>
-                    </StackLayout>
+                        </Frame> 
+                    </StackLayout> -->
 
 
                     <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
@@ -66,7 +67,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label x:Name="lblDeposito" Text="Depósito" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtCodDeposito" Unfocused="txtCodEstabelecimento_Unfocused" Placeholder="Código do Depósito..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+                                <local:CustomEntryText x:Name="txtCodDeposito" Placeholder="Código do Depósito..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
 
                             </Grid>
                         </Frame>
@@ -87,7 +88,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label x:Name="lblItem" Text="Item" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtItCodigo" Unfocused="txtItCodigo_Unfocused" Placeholder="Código do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+                                <local:CustomEntryText x:Name="txtItCodigo" Unfocused="txtItCodigo_Unfocused" Placeholder="Código do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" TextChanged="txtItCodigo_TextChanged"/>
 
                                 <!--
                                 <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">

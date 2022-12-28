@@ -22,7 +22,7 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.GetCodEstabel();
+            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
             ListaOpcoesTransferenciaMovimentoReparo = listaOpcoesTransferenciaMovimentoReparo;
             ObsOpcoesTransferenciaMovimentoReparo = new ObservableCollection<OpcoesTransferenciaMovimentoReparoViewModel>();
             Parametros = parametros;

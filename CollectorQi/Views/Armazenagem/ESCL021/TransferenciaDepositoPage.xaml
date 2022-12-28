@@ -131,7 +131,7 @@
                                     <RowDefinition Height="45" />
                                 </Grid.RowDefinitions>
                                 
-                                <Label x:Name="lblItem" Text="Item / Códigod e Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.ColumnSpan="2" />
+                                <Label x:Name="lblItem" Text="Item / Código de Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.ColumnSpan="2" />
                                 <local:CustomEntryText x:Name="edtItCodigo" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto ou Código de Barras..." Grid.Row="1" Grid.ColumnSpan="2"  TextChanged="edtItCodigo_TextChanged"/>
                             </Grid>
                         </Frame>

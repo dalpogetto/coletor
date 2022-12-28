@@ -81,7 +81,7 @@ namespace CollectorQi.Views
 
             Items = new ObservableCollection<ItemViewModel>();
 
-            CarregaListView(false);
+            CarregaListView(true);
         }
 
         private async void CarregaListView(bool pSemSaldo)
@@ -155,7 +155,7 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+            Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoDepositoListaPage(_deposito));
 
             return true;
         }

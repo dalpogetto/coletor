@@ -208,5 +208,13 @@ namespace CollectorQi.Views
                 txtDescEstabelecimento.Text = String.Empty;
             }
         }
+
+        private void txtLocalizacao_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5)
+            {
+                txtLocalizacao.Text = txtLocalizacao.Text.Replace("10;", "").Trim();
+            }
+        }
     }
 }

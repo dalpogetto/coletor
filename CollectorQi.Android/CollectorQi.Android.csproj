@@ -381,6 +381,8 @@
     <AndroidResource Include="Resources\drawable\keyboard.png" />
     <AndroidResource Include="Resources\drawable\keyboardMini.png" />
     <AndroidResource Include="Resources\drawable\consulta_localizacao.png" />
+    <Content Include="entry_domain.png" />
+    <AndroidResource Include="Resources\drawable\entry_domain.png" />
     <Content Include="Resources\drawable\movto_repair.png" />
     <AndroidResource Include="Resources\drawable\movto_repair2.png" />
     <AndroidResource Include="Resources\drawable\movto_repair3.png" />
@@ -389,7 +391,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionCollectorQiAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

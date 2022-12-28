@@ -510,8 +510,13 @@ namespace CollectorQi.Views
                     return;
             }
 
-            edtDepositoSaida.Text = "";
-            edtDepositoEntrada.Text = "";
+
+            if (pBlnQuestion)
+            {
+                edtDepositoSaida.Text = "";
+                edtDepositoEntrada.Text = "";
+            }
+
             edtLocalizacaoSaida.Text = "";
             edtLocalizacaoEntrada.Text = "";
             edtItCodigo.Text = "";
@@ -556,7 +561,9 @@ namespace CollectorQi.Views
 
             try
             {
-                if (String.IsNullOrEmpty(e.OldTextValue) && edtItCodigo.Text != null && edtItCodigo.Text.Length >= 10 && edtItCodigo.Text.Substring(0, 2) == "07")
+
+                
+                if (String.IsNullOrEmpty(e.OldTextValue) && edtItCodigo.Text != null && edtItCodigo.Text.Length >= 10)
                 {
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
@@ -575,8 +582,8 @@ namespace CollectorQi.Views
                     var dadosLeituraItemTransferenciaDeposito = new DadosLeituraItemTransferenciaDeposito()
                     {
                         CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                        CodDeposOrigem = edtDepositoSaida.Text,
-                        CodLocalizaOrigem = edtLocalizacaoSaida.Text,
+                        CodDeposOrigem = _codDeposEntradaHidden,
+                        CodLocalizaOrigem = edtLocalizacaoEntrada.Text ?? String.Empty,
                         CodigoBarras = edtItCodigo.Text
                     };
 
@@ -584,6 +591,7 @@ namespace CollectorQi.Views
 
                     if (itemLeituraEtiquetaServiceRetorno != null)
                     {
+                        
                         foreach (var item in itemLeituraEtiquetaServiceRetorno.Param.ParamResult)
                         {
                             edtItCodigo.Text = item.CodItem;
@@ -593,11 +601,12 @@ namespace CollectorQi.Views
                             edtNroDocto.Text = item.NF;
                             edtSerie.Text = item.Serie;
                             edtLote.Text = item.Lote;
-                            edtSaldo.Text = item.Saldo.ToString();
-                            edtQuantidade.Text = item.Quantidade.ToString();
+                            edtSaldo.Text = Decimal.ToInt32(item.Saldo).ToString();
+                            edtQuantidade.Text = Decimal.ToInt32(item.Quantidade).ToString();
 
                         }
                     }
+
                     /*
                     await edtCodigoBarrasEtiqueta();
 

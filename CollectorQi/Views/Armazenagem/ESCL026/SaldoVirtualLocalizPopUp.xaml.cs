@@ -66,7 +66,7 @@ namespace CollectorQi.Views
             {
                 BtnEfetivar.IsEnabled = false;
 
-                _confirmaLocalizacaoItem(_codDepos, edtCodBarras.Text.Replace("10;", ""));
+                _confirmaLocalizacaoItem(_codDepos, edtCodBarras.Text);
                 PopupNavigation.Instance.PopAsync();
             }
             finally
@@ -83,7 +83,7 @@ namespace CollectorQi.Views
                 {
                     BtnEfetivar.IsEnabled = false;
 
-                    _confirmaLocalizacaoItem(_codDepos, edtCodBarras.Text.Replace("10;",""));
+                    _confirmaLocalizacaoItem(_codDepos, edtCodBarras.Text);
                     PopupNavigation.Instance.PopAsync();
                 }
             }

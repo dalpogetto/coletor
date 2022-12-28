@@ -25,8 +25,10 @@ namespace CollectorQi.Views
         {    
             InitializeComponent();
 
-            txtCodEstabelecimento.Text = SecurityAuxiliar.GetCodEstabel();
-            txtDescEstabelecimento.Text = SecurityAuxiliar.GetDescEstabel();
+            /* 
+             * txtCodEstabelecimento.Text = SecurityAuxiliar.GetCodEstabel();
+               txtDescEstabelecimento.Text = SecurityAuxiliar.GetDescEstabel();
+            */
 
             if (pCodDepos != null)
             {
@@ -56,12 +58,14 @@ namespace CollectorQi.Views
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
+                /*
                 if (String.IsNullOrEmpty(txtCodEstabelecimento.Text))
                 {
                     await DisplayAlert("Erro!", "Informe o estabelecimento de impressão!", "Cancelar");
                     txtCodEstabelecimento.Focus();
                     return;
                 }
+                */
 
                 if (String.IsNullOrEmpty(txtCodDeposito.Text))
                 {
@@ -93,11 +97,11 @@ namespace CollectorQi.Views
 
                 var impressaoItem = new ImpressaoItem()
                 {
-                    CodEstabel = txtCodEstabelecimento.Text.Trim(),
+                    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
                     CodDeposito = txtCodDeposito.Text.Trim(),
                     CodItem = txtItCodigo.Text.Trim(),
-                    Quantidade = int.Parse(txtEtiqItem.Text),
-                    QtdeEtiqueta = int.Parse(txtQtdeEtiqueta.Text),
+                    Quantidade = int.Parse(txtQtdeEtiqueta.Text),
+                    QtdeEtiqueta = int.Parse(txtEtiqItem.Text),
                 };
 
                 var result = await ParametersImprimirEtiquetaService.SendImpressaoAsync(impressaoItem, null, null,1);
@@ -138,8 +142,8 @@ namespace CollectorQi.Views
 
         private void BtnLimpar_Clicked(object sender, EventArgs e)
         {
-            txtCodEstabelecimento.Text = String.Empty;
-            txtDescEstabelecimento.Text = String.Empty;
+           //txtCodEstabelecimento.Text = String.Empty;
+           //txtDescEstabelecimento.Text = String.Empty;
             txtCodDeposito.Text = String.Empty;
             txtItCodigo.Text = String.Empty;
             //txtDescItem.Text = String.Empty;
@@ -162,8 +166,8 @@ namespace CollectorQi.Views
 
                 if (action != "Cancelar" && action != null)
                 {
-                    txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim(); 
-                    txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
+                    //txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim(); 
+                    //txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
                 }
             }
         }
@@ -182,8 +186,8 @@ namespace CollectorQi.Views
 
                 if (action != "Cancelar" && action != null)
                 {
-                    txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim();
-                    txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
+                  // txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim();
+                  // txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
                 }
             }
         }
@@ -203,8 +207,8 @@ namespace CollectorQi.Views
 
                 if (action != "Cancelar" && action != null)
                 {
-                    txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim();
-                    txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
+                  // txtCodEstabelecimento.Text = action.Remove(action.IndexOf('(')).Trim();
+                  // txtDescEstabelecimento.Text = action.Remove(0, action.IndexOf('(')).Replace("(", "").Replace(")", "").Trim();
                 }
             }
         }
@@ -241,20 +245,6 @@ namespace CollectorQi.Views
             entry.Text = (int.Parse(entry.Text) + value).ToString();
         }
 
-        private void txtCodEstabelecimento_Unfocused(object sender, FocusEventArgs e)
-        {
-            var estabelec = EstabelecDB.GetEstabelec(txtCodEstabelecimento.Text);
-
-            if (estabelec != null)
-            {
-                txtDescEstabelecimento.Text = estabelec.Nome;
-            }
-            else
-            {
-                txtDescEstabelecimento.Text = String.Empty;
-            }
-        }
-
         private async void txtItCodigo_Unfocused(object sender, FocusEventArgs e)
         {
             var item = await Cadastros.ObterItem(txtItCodigo.Text);
@@ -266,6 +256,31 @@ namespace CollectorQi.Views
             else
             {
                 //txtDescItem.Text = String.Empty;
+            }
+        }
+
+        private void txtItCodigo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 9)
+            {
+             
+                var splItem = txtItCodigo.Text.Split(';');
+                string strCodItem;
+
+                if (splItem.Length > 1)
+                {
+                    strCodItem = splItem[1];
+                }
+                else
+                {
+                    strCodItem = txtItCodigo.Text;
+                }
+
+                if (!String.IsNullOrEmpty(strCodItem))
+                {
+                    txtItCodigo.Text = strCodItem;
+                }
             }
         }
     }

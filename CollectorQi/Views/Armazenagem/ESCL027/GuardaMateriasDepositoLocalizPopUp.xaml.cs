@@ -50,7 +50,7 @@ namespace CollectorQi.Views
                 await Task.Delay(100);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    edtLocalizacao.Focus();
+                    //edtLocalizacao.Focus();
                 });
             });
         }

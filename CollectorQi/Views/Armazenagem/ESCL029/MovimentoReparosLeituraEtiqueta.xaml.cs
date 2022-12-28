@@ -41,7 +41,7 @@ namespace CollectorQi.Views
         {
             await Task.Run(async () =>
             {
-                await Task.Delay(100);
+                await Task.Delay(200);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     BtnScan.Focus();
@@ -66,12 +66,16 @@ namespace CollectorQi.Views
             _rowId = "";
             edtItem.Text = "";
             edtDescricao.Text = "";
-            edtLocal.Text = "";
-            edtMsg.Text = "";
+            edtLocalizacao.Text = "";
+       //     edtMsg.Text = "";
 
             edtFilial.Text = "";
             edtRR.Text = "";
             edtDigito.Text = "";
+
+            frameLocalizacao.IsVisible = false;
+
+            ChangeSwt();
         }
         
         private void BtnLimpar_Clicked(object sender, System.EventArgs e)
@@ -81,38 +85,54 @@ namespace CollectorQi.Views
 
         async void BtnScan_Clicked(object sender, System.EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(edtScan.Text))
-                await DisplayAlert("", "Faça a leitura da etiqueta !", "OK");
-            else
+            try
             {
-                var parametrosMovimentoReparo = new ParametrosMovimentoReparo()
-                {
-                    CodEstabel = "",
-                    Opcao = _opcao,
-                    CodBarras = edtScan.Text
-                };
+                BtnScan.IsEnabled = false;
 
-                Leitura(parametrosMovimentoReparo);
+                if (!string.IsNullOrWhiteSpace(edtScan.Text))
+                {
+                    var parametrosMovimentoReparo = new ParametrosMovimentoReparo()
+                    {
+                        CodEstabel = "",
+                        Opcao = _opcao,
+                        CodBarras = edtScan.Text
+                    };
+
+                    Leitura(parametrosMovimentoReparo);
+                }
+            }
+            finally
+            {
+                BtnScan.IsEnabled = true;
             }
         }
 
         async void BtnLeituraDigitacao_Clicked(object sender, System.EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(edtFilial.Text) && string.IsNullOrWhiteSpace(edtRR.Text) && string.IsNullOrWhiteSpace(edtDigito.Text))
-                await DisplayAlert("Erro", "Digite uma Filial, RR e Dígito !", "OK");
-            else
+            try
             {
-                var parametrosMovimentoReparo = new ParametrosMovimentoReparo()
-                {
-                    CodEstabel    = SecurityAuxiliar.GetCodEstabel(),
-                    CodFilial     = edtFilial.Text,
-                    NumRR         = edtRR.Text,
-                    Digito        = edtDigito.Text,
-                    Opcao         = _opcao,
-                    CodBarras     = edtScan.Text
-                };
+                BtnLeituraDigitacao.IsEnabled = false;
 
-                Leitura(parametrosMovimentoReparo);
+                if (string.IsNullOrWhiteSpace(edtFilial.Text) && string.IsNullOrWhiteSpace(edtRR.Text) && string.IsNullOrWhiteSpace(edtDigito.Text))
+                    await DisplayAlert("Erro", "Digite uma Filial, RR e Dígito !", "OK");
+                else
+                {
+                    var parametrosMovimentoReparo = new ParametrosMovimentoReparo()
+                    {
+                        CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                        CodFilial = edtFilial.Text,
+                        NumRR = edtRR.Text,
+                        Digito = edtDigito.Text,
+                        Opcao = _opcao,
+                        CodBarras = edtScan.Text
+                    };
+
+                    Leitura(parametrosMovimentoReparo);
+                }
+            }
+            finally
+            {
+                BtnLeituraDigitacao.IsEnabled = true;
             }
         }
 
@@ -140,17 +160,17 @@ namespace CollectorQi.Views
                 if (String.IsNullOrEmpty(parametrosMovimentoReparo.CodBarras))
                     parametrosMovimentoReparo.CodBarras = String.Empty;
                 else
-                    parametrosMovimentoReparo.CodBarras =  SecurityAuxiliar.GetCodEstabel() + parametrosMovimentoReparo.CodBarras.Substring(2);
+                    parametrosMovimentoReparo.CodBarras =  SecurityAuxiliar.GetCodEstabel() + parametrosMovimentoReparo.CodBarras.Substring(3);
 
                 var result = await LeituraEtiquetaArmazenagemService.SendLeituraEtiquetaAsync(parametrosMovimentoReparo);
 
-                if (result != null && result.ParamReparo != null && result.ParamReparo.ParamLeitura != null)
+                if (result != null && result.ParamReparo != null && result.ParamReparo.ParamLeitura != null && result.Retorno == "OK")
                 {
                     _rowId            = result.ParamReparo.ParamLeitura.RowId;
                     edtItem.Text      = result.ParamReparo.ParamLeitura.CodItem;
                     edtDescricao.Text = result.ParamReparo.ParamLeitura.DescItem;
-                    edtLocal.Text     = result.ParamReparo.ParamLeitura.Localiza;
-                    edtMsg.Text       = result.ParamReparo.ParamLeitura.Mensagem;
+                    edtLocalizacao.Text = result.ParamReparo.ParamLeitura.Localiza;
+                    //edtMsg.Text       = result.ParamReparo.ParamLeitura.Mensagem;
                     edtFilial.Text    = result.ParamReparo.ParamLeitura.CodFilial;
                     edtRR.Text        = result.ParamReparo.ParamLeitura.NumRR.ToString();
                     edtDigito.Text    = result.ParamReparo.ParamLeitura.Digito.ToString();
@@ -160,6 +180,32 @@ namespace CollectorQi.Views
                         frame2.IsVisible = true;
                         BtnLeituraDigitacao.IsVisible = false;
                         frameBuscaReparo.IsVisible = false;
+                    }
+
+                    if (String.IsNullOrEmpty(edtLocalizacao.Text))
+                    {
+                        frameLocalizacao.IsVisible = false;
+                    }
+                    else
+                    {
+                        frameLocalizacao.IsVisible = true;
+                    }
+
+                    edtScan.IsReadOnly   = true;
+                    edtRR.IsReadOnly     = true;
+                    edtFilial.IsReadOnly = true;
+                    edtDigito.IsReadOnly = true;
+                    BtnLeituraDigitacao.IsEnabled = false;
+                }
+                else
+                {
+                    if (result != null && result.Resultparam != null && result.Resultparam.Count > 0)
+                    {
+                        await DisplayAlert("Erro", result.Resultparam[0].ErrorHelp, "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Erro", "Erro na confirmação do reparo", "OK");
                     }
                 }
             }
@@ -179,6 +225,7 @@ namespace CollectorQi.Views
 
             try
             {
+                BtnEfetivar.IsEnabled = false;
                 if (string.IsNullOrWhiteSpace(edtScan.Text) && (string.IsNullOrWhiteSpace(edtFilial.Text) || string.IsNullOrWhiteSpace(edtRR.Text) || string.IsNullOrWhiteSpace(edtDigito.Text)))
                 { 
                     await DisplayAlert("Erro", "Faça a leitura da etiqueta ou Digite uma filial, RR e dígito !", "OK");
@@ -215,6 +262,7 @@ namespace CollectorQi.Views
             }
             finally
             {
+                BtnEfetivar.IsEnabled = true;
                 await pageProgress.OnClose();
             }
         }
@@ -236,17 +284,28 @@ namespace CollectorQi.Views
             }
         }
 
+
+        private void ToolbarLimpar_Clicked(object sender, EventArgs e)
+        {
+            Limpar();
+        }
+
         private void ChangeSwt()
         {
             if (SwtCodigoBarras.On)
             {
                 SwtCodigoBarras.Text          = "Digita Reparo";
+                frame1.IsVisible              = false;
                 BtnLeituraDigitacao.IsVisible = true;
                 frameBuscaReparo.IsVisible    = true;
-                frame1.IsVisible              = false;
-                edtFilial.IsReadOnly          = false;
-                edtRR.IsReadOnly              = false;
-                edtDigito.IsReadOnly          = false;
+
+                if (String.IsNullOrEmpty(_rowId))
+                {
+                    BtnLeituraDigitacao.IsEnabled = true;
+                    edtFilial.IsReadOnly          = false;
+                    edtRR.IsReadOnly              = false;
+                    edtDigito.IsReadOnly          = false;
+                }
             }
             else
             {
@@ -257,6 +316,11 @@ namespace CollectorQi.Views
                 edtFilial.IsReadOnly          = true;
                 edtRR.IsReadOnly              = true;
                 edtDigito.IsReadOnly          = true;
+
+                if (String.IsNullOrEmpty(_rowId))
+                {
+                    edtScan.IsReadOnly = false;
+                }
             }
         }
 

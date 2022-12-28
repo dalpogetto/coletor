@@ -72,6 +72,7 @@ namespace CollectorQi.Services.ESCL027
                     }
                     else
                     {
+                        throw new Exception("Erro " + result.ToString());
                         //   ErroConnectionERP.ValidateConnection(result.StatusCode);
                     }
                 }
@@ -93,13 +94,15 @@ namespace CollectorQi.Services.ESCL027
         public class ResultLocalizacoesItemJson
         {
             [JsonProperty("Localizacoes")]
-            public List<ResultLocalizacao> Resultparam { get; set; }
+            public List<ResultLocalizacaoItem> Resultparam { get; set; }
         }
 
         public class ResultLocalizacaoItem
         {
             [JsonProperty("CodLocaliz")]
             public string CodLocaliz { get; set; }
+
+            public string SaldoInfo { get; set; }
         }
 
         public class ObterLocalizItemSend

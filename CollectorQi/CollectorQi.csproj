@@ -113,8 +113,8 @@
     <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoItemListaPage.xaml.cs">
       <DependentUpon>ConsultaLocalizacaoItemListaPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoListaPage.xaml.cs">
-      <DependentUpon>ConsultaLocalizacaoListaPage.xaml</DependentUpon>
+    <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoLocalizacaoListaPage.xaml.cs">
+      <DependentUpon>ConsultaLocalizacaoLocalizacaoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL025\ConsultaLocalizacaoDepositoListaPage.xaml.cs">
       <DependentUpon>ConsultaLocalizacaoDepositoListaPage.xaml</DependentUpon>
@@ -134,8 +134,8 @@
     <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualItemPopUp.xaml.cs">
       <DependentUpon>SaldoVirtualItemPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualListaPage.xaml.cs">
-      <DependentUpon>SaldoVirtualListaPage.xaml</DependentUpon>
+    <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualLocalizacaoListaPage.xaml.cs">
+      <DependentUpon>SaldoVirtualLocalizacaoListaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Armazenagem\ESCL026\SaldoVirtualLocalizPopUp.xaml.cs">
       <DependentUpon>SaldoVirtualLocalizPopUp.xaml</DependentUpon>

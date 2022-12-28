@@ -61,13 +61,16 @@ namespace CollectorQi.Views
         private ObservableCollection<DepositosViewModel> _ItemsFiltered;
         private ObservableCollection<DepositosViewModel> _ItemsUnfiltered;
 
-        public ConsultaLocalizacaoDepositoListaPage()
+        private string _codDepos;
+        public ConsultaLocalizacaoDepositoListaPage(string pCodDepos)
         {
             InitializeComponent();
 
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
 
             cvDepositos.BindingContext = this;
+
+            _codDepos = pCodDepos;
         }
 
         protected async override void OnAppearing()
@@ -88,15 +91,19 @@ namespace CollectorQi.Views
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                var lstDeposito = await CadastrosDeposito.ObterListaDepositos();
+                var lstDeposito = await DepositosGuardaMaterialService.SendGuardaMaterialAsync( /* parametrosDepositosGuardaMaterial.TipoTransferencia */ );
 
-                if (lstDeposito != null && lstDeposito.Count > 0)
+                Items.Clear();
+
+                if (lstDeposito != null && lstDeposito.Param != null && lstDeposito.Param.ParamResult != null)
                 {
-                    foreach (var row in lstDeposito)
+                    foreach (var item in lstDeposito.Param.ParamResult)
                     {
-                        var modelView = Mapper.Map<Deposito, DepositosViewModel>(row);
-
-                        Items.Add(modelView);
+                        Items.Add(new DepositosViewModel
+                        {
+                            CodDepos  = item.CodDepos,
+                            NomeDepos = item.Nome
+                        });
                     }
                 }
 
@@ -105,6 +112,20 @@ namespace CollectorQi.Views
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
+
+                if (!String.IsNullOrEmpty(_codDepos) && Items != null)
+                {
+                    var currentDepos = Items.FirstOrDefault(x => x.CodDepos == _codDepos);
+
+                    cvDepositos.SelectedItem = currentDepos;
+                }
+
+                if (Items != null && Items.Count == 1)
+                {
+                    var currentDepos = Items[0];
+
+                    cvDepositos.SelectedItem = currentDepos;
+                }
 
             }
             catch (Exception ex)
@@ -149,14 +170,36 @@ namespace CollectorQi.Views
             }
         }
 
-        public void CodigoBarras(string pCodDepos, string pCodLocaliz)
+        public void CodigoBarras(string pCodDepos, string pCodBarras)
         {
             if (pageLocaliz != null && pageLocaliz.IsVisible)
             {
                 pageLocaliz.OnClose();
             }
 
-            Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoItemListaPage(pCodDepos, pCodLocaliz)); 
+            if (pCodBarras.Substring(0, 3) == "10;")
+            {
+                Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoItemListaPage(pCodDepos, pCodBarras.Replace("10;", "").Trim()));
+            }
+            else
+            {
+                var splItem = pCodBarras.Split(';');
+                string strCodItem;
+
+                if (splItem.Length > 1)
+                {
+                    strCodItem = splItem[1];
+                }
+                else
+                {
+                    strCodItem = pCodBarras;
+                }
+
+                if (!String.IsNullOrEmpty(strCodItem))
+                {
+                    Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoLocalizacaoListaPage(pCodDepos, strCodItem));
+                }
+            }
         }
 
         protected override bool OnBackButtonPressed()

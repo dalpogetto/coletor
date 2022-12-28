@@ -56,7 +56,21 @@ namespace CollectorQi.Services.ESCL029
                     if (result.IsSuccessStatusCode)
                     {
                         string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultConteudoJson>(responseData);
+
+                        if (responseData.Contains("Error"))
+                        {
+                            parametros = JsonConvert.DeserializeObject<ResultConteudoJson>(responseData);
+                        }
+                        else
+                        {
+                            var parametrosSuccess = JsonConvert.DeserializeObject<ResultConteudoSuccessJson>(responseData);
+
+                            parametros = new ResultConteudoJson()
+                            {
+                                Retorno = parametrosSuccess.Retorno,
+                                ParamReparo = parametrosSuccess.ParamReparo
+                            };
+                        }
                     }
                     else
                     {
@@ -80,14 +94,44 @@ namespace CollectorQi.Services.ESCL029
 
         public class ResultConteudoJson
         {
-            [JsonProperty("Conteudo")]
             public ResultReparoJson ParamReparo { get; set; }
+            public string Retorno { get; set; }
+            public string Id { get; set; }
+
+            [JsonProperty("Conteudo")]
+            public List<ResultSendErrorJson> Resultparam { get; set; }
         }
+
+        public class ResultSendErrorJson
+        {
+            public string ErrorDescription { get; set; }
+            public string ErrorHelp { get; set; }
+        }
+
 
         public class ResultReparoJson
         {
             [JsonProperty("Reparo")]
             public LeituraMovimentoReparo ParamLeitura { get; set; }
         }
+
+        public class ResultConteudoSuccessJson
+        {
+            [JsonProperty("Conteudo")]
+            public ResultReparoJson ParamReparo { get; set; }
+            public string Retorno { get; set; }
+        }
+
+        /*
+        public class ResultErroJson
+        {
+            public string Retorno { get; set; }
+            public string Id { get; set; }
+
+            [JsonProperty("Conteudo")]
+            public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
+
+        }*/
+
     }
 }

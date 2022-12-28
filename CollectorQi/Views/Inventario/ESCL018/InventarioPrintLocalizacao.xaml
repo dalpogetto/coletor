@@ -86,7 +86,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label x:Name="lblLocalizacao" Text="Localização " Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" FontSize="Medium"  TextColor="{StaticResource NavigationPrimary}" ></Label>
-                                <local:CustomEntryText x:Name="txtLocalizacao" Placeholder="Código da Localização..." Text="" MaxLength="30" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" FontSize="Small" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="txtLocalizacao" Placeholder="Código da Localização..." Text="" MaxLength="30" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" FontSize="Small" Grid.ColumnSpan="1" TextChanged="txtLocalizacao_TextChanged" />
 
                             </Grid>
                         </Frame>

@@ -81,13 +81,13 @@ namespace CollectorQi.Views
                 case "Consulta de Localização":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Consulta de Localização";
-                    Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoDepositoListaPage() { Title = "Consulta de Localização" });
+                    Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoDepositoListaPage(null) { Title = "Consulta de Localização" });
                     break;
 
                 case "Manutenção Saldo Virtual":
                     ConferenciaPage.MenuId = 2;
                     ConferenciaPage.MenuDesc = "Manutenção Saldo Virtual";
-                    Application.Current.MainPage = new NavigationPage(new SaldoVirtualDepositoListaPage() { Title = "Manutenção Saldo Virtual" });
+                    Application.Current.MainPage = new NavigationPage(new SaldoVirtualDepositoListaPage(null) { Title = "Manutenção Saldo Virtual" });
                     break;
 
                     //case "MovimentoReparos":

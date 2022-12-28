@@ -14,13 +14,14 @@ namespace CollectorQi.Views
     public partial class SaldoVirtualItemPopUp : PopupPage
     {
 
-        public Action<ItemSaldoViewModel> _actRefresh;
+        public Action<string, string, string> _actRefresh;
 
         public string _codDepos { get; set; }
         public string _codLocaliz { get; set; }
-        public ItemSaldoViewModel _item { get; set; }
+        public string _codItem { get; set; }
+        public string _saldo { get; set; }
 
-        public SaldoVirtualItemPopUp(string pCodDepos, string pCodLocaliz, ItemSaldoViewModel pItem /* int pInventarioId, InventarioItemVO pInventarioItem*/ )        
+        public SaldoVirtualItemPopUp(string pCodDepos, string pCodLocaliz, string pCodItem, string pSaldo /* int pInventarioId, InventarioItemVO pInventarioItem*/ )        
         {
             try
             {
@@ -28,7 +29,8 @@ namespace CollectorQi.Views
 
                 _codDepos   = pCodDepos;
                 _codLocaliz = pCodLocaliz;
-                _item       = pItem;
+                _codItem    = pCodItem;
+                _saldo      = pSaldo;
 
             }
             catch (Exception ex)
@@ -41,8 +43,8 @@ namespace CollectorQi.Views
         {
             edtCodDepos.Text   = _codDepos;
             edtCodLocaliz.Text = _codLocaliz;
-            edtCodItem.Text    = _item.CodigoItem;
-            txtQuantidade.Text = _item.SaldoInfo.ToString();
+            edtCodItem.Text    = _codItem;
+            txtQuantidade.Text = _saldo.ToString();
           
             await Task.Run(async () =>
             { 
@@ -115,7 +117,7 @@ namespace CollectorQi.Views
                         var saldoVirtual = new AtualizarSaldoVirtualSend()
                         {
                             CodEstabel   = SecurityAuxiliar.GetCodEstabel(),
-                            CodigoItem   = _item.CodigoItem,
+                            CodigoItem   = _codItem,
                             CodLocaliza  = _codLocaliz,
                             CodDepos     = _codDepos,
                             Lote         = String.Empty,
@@ -128,8 +130,7 @@ namespace CollectorQi.Views
                         {
                             if (resultService.Retorno == "OK")
                             {
-                                _item.SaldoInfo = decQuantidade.ToString();
-                                _actRefresh(_item);
+                                _actRefresh(_codItem, _codLocaliz, decQuantidade.ToString());
 
                                 await pageProgress.OnClose();
                                 OnBackButtonPressed();
