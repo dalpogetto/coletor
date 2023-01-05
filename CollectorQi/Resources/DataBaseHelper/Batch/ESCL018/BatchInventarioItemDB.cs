@@ -18,8 +18,8 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch.ESCL018
             var dbAsync = new BaseOperations();
             try
             {
-                dbAsync.Connection.QueryAsync<BatchInventarioItemVO>("UPDATE BatchInventarioVO SET statusIntegracao = ? " +
-                                                                                             "WHERE inventarioId    = ? ",
+                dbAsync.Connection.QueryAsync<BatchInventarioItemVO>("UPDATE BatchInventarioItemVO SET statusIntegracao = ? " +
+                                                                                                "WHERE inventarioItemId    = ? ",
                                                                           byStatusIntegracao,
                                                                           byInventarioId);
 

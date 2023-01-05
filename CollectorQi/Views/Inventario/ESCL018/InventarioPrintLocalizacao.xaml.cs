@@ -216,5 +216,18 @@ namespace CollectorQi.Views
                 txtLocalizacao.Text = txtLocalizacao.Text.Replace("10;", "").Trim();
             }
         }
+
+
+        private void txtDeposito_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                (sender as Entry).Text = e.NewTextValue.ToUpperInvariant();
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

@@ -65,7 +65,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Localização: " FontAttributes="Bold" FontSize="Small" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Localizacao}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding LocalizView}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start"  FontSize="Small" />
                                             </Grid>
                                         </StackLayout>
 

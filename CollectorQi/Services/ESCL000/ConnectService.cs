@@ -100,6 +100,39 @@ namespace CollectorQi.Services.ESCL000
             }
         }
 
+        public async static Task CarregarListaFilial()
+        {
+            try
+            {
+                var lstFilial = await CollectorQi.Services.ESCL000.CadastrosFiliais.ObterListaFiliais(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha);
+
+                /*
+                Device.BeginInvokeOnMainThread(() =>
+                {
+
+                    if (pProgressBarPopUp != null)
+                        pProgressBarPopUp.OnAcompanhar("Salvando Cadastros Banco de Dados...");
+                });*/
+
+                if (lstFilial != null && lstFilial.Count > 0)
+                {
+
+                    CriaEstabelecimento(lstFilial);
+                }
+                else
+                {
+                    // Elimina todos estab e retorna OK
+                    CriaEstabelecimento(lstFilial);
+
+                    throw new Exception("Usuário sem acesso a nenhuma filial!");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async static void CriaEstabelecimento(List<Models.ESCL000.Filial> pLstFilial)
         {
             #region Estabelecimento

@@ -60,7 +60,7 @@ namespace CollectorQi.Views
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Guarda de Materiais";
 
-                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(null));
 
                     break;
 

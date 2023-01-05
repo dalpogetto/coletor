@@ -19,7 +19,7 @@ namespace CollectorQi.Services
 
         public IntegracaoServiceMovto(int v = 1)
         {
-            Interval = TimeSpan.FromMinutes(v);
+            Interval = TimeSpan.FromSeconds(v);
         }
 
         async Task<bool> IPeriodicTask.StartJob()
@@ -76,34 +76,16 @@ namespace CollectorQi.Services
                    
                        if (lstBatchInventarioPend.Count > 0)
                        {
-                           for (int i = 0; i < lstBatchInventarioPend.Count; i++)
-                           {
-                            //var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioPend[i]);
+                        for (int i = 0; i < lstBatchInventarioPend.Count; i++)
+                        {
+                            if (!String.IsNullOrEmpty(SecurityAuxiliar.CodUsuario) && !String.IsNullOrEmpty(SecurityAuxiliar.CodSenha))
+                            {
+                                var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioBatchAsync(lstBatchInventarioPend[i], true);
 
-                            SecurityAuxiliar.CodUsuario = "a.alvessouzasilva@DIEBOLD_MASTER";
-                            SecurityAuxiliar.CodSenha = "D!ebold2023";
-
-                            var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioBatchAsync(lstBatchInventarioPend[i]);
-                   
-                               App.CallNotification.callNotification(eTpNotificacao.Inventario, tplRetorno);
-                           }
+                                App.CallNotification.callNotification(eTpNotificacao.Inventario, tplRetorno);
+                            }
+                        }
                        }
-                   
-                       /*
-                       var lstBatchInventarioErro = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.ErroIntegracao);
-                   
-                       // Integração com erro nao envia notificaçãoo
-                       if (lstBatchInventarioErro.Count > 0)
-                       {
-                           for (int i = 0; i < lstBatchInventarioPend.Count; i++)
-                           {
-                   
-                               //var tplRetorno = Models.Datasul.IntegracaoOnlineBatch.EfetivaInventarioSistemaOnline(lstBatchInventarioErro[i]);
-                               var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioAsync(null, lstBatchInventarioPend[i], 0, null);
-                           }
-                       }
-                       */
-
                     }
                     catch (Exception ex)
                     {

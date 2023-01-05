@@ -290,7 +290,7 @@ namespace CollectorQi.Views
                             Serie             = edtSerie.Text ?? String.Empty,
                             CodItem           = edtItCodigo.Text ?? String.Empty,
                             Lote              = edtLote.Text ?? String.Empty,
-                            Quantidade        = int.Parse(edtQuantidade.Text)
+                            Quantidade        = edtQuantidade.Text
                         };
 
                         var efetivarTransferenciaRetorno = await efetivarTransferencia.SendTransferenciaDepositoAsync(dadosLeituraDadosItemTransferenciaDeposito);
@@ -513,8 +513,8 @@ namespace CollectorQi.Views
 
             if (pBlnQuestion)
             {
-                edtDepositoSaida.Text = "";
-                edtDepositoEntrada.Text = "";
+              //  edtDepositoSaida.Text = "";
+              //  edtDepositoEntrada.Text = "";
             }
 
             edtLocalizacaoSaida.Text = "";
@@ -528,6 +528,7 @@ namespace CollectorQi.Views
             edtLote.Text = "";
             //edtSaldo.Text = "";
             edtQuantidade.Text = "";
+            edtSaldo.Text = "";
         }
 
         protected override bool OnBackButtonPressed()
@@ -601,8 +602,32 @@ namespace CollectorQi.Views
                             edtNroDocto.Text = item.NF;
                             edtSerie.Text = item.Serie;
                             edtLote.Text = item.Lote;
-                            edtSaldo.Text = Decimal.ToInt32(item.Saldo).ToString();
-                            edtQuantidade.Text = Decimal.ToInt32(item.Quantidade).ToString();
+                            try
+                            {
+                                edtSaldo.Text = int.Parse(item.Saldo).ToString();
+                                
+                            }
+                            catch
+                            {
+                                edtSaldo.Text = item.Saldo;
+                            }
+
+                            if (edtSaldo != null)
+                                edtSaldo.Text = edtSaldo.Text.Replace(".0", "").Trim();
+
+                            try
+                            {
+
+                                edtQuantidade.Text = int.Parse(item.Quantidade).ToString();
+                                
+                            }
+                            catch
+                            {
+                                edtQuantidade.Text = item.Quantidade;
+                            }
+
+                            if (edtQuantidade.Text != null)
+                                edtQuantidade.Text = edtQuantidade.Text.Replace(".0", "").Trim();
 
                         }
                     }

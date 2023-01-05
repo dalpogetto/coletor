@@ -20,6 +20,7 @@ namespace CollectorQi.Views
     {
         public Action<string, bool, string> _actConfirmaGuardaMateriais;
 
+
         public GuardaMateriasConfirmaQuantidadePopUp( string pCodDepos, string pCodLocalizacao, string pCodItem, string pTipoTransacao, string pCodBarras /* int pInventarioId, InventarioItemVO pInventarioItem */ )        
         {
             try

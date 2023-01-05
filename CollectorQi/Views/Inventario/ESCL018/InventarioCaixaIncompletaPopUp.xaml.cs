@@ -75,18 +75,24 @@ namespace CollectorQi.Views
 
             await Task.Run(async () =>
             { 
-                await Task.Delay(100);
+                await Task.Delay(300);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    if (SwtCxCompleta.On)
-                    {
-                        edtCodigoBarras.Focus();
-                    }
-                    else
-                    {
-                        txtQuantidade.Focus();
-                    }
+                    /* if (!String.IsNullOrEmpty(edtCodigoBarras.Text))
+                     {
+                         txtQuantidade.Focus();
+                     }
+                     else if (SwtCxCompleta.On)
+                     {
+                         edtCodigoBarras.Focus();
+                     }
+                     else
+                     {
+                         txtQuantidade.Focus();
+                     }
+                    */
 
+                    txtQuantidade.Focus();
                 });
             });
         }
@@ -178,7 +184,7 @@ namespace CollectorQi.Views
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
 
 
-                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
+                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this, false);
 
                         if (resultService != null && resultService.Retorno != null)
                         {

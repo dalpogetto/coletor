@@ -70,7 +70,9 @@
 
                                 <Label x:Name="lblFilial" Text="Detalhes Reparo" FontSize="Small" Grid.ColumnSpan="5" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
-                                <local:CustomEntry                   x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Filial..."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                                <local:CustomEntry                   x:Name="edtCodEstab" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Estab.."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
+
+                                <local:CustomEntry                   x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Filial..."  Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" />
 
                                 <local:CustomEntry IsNumeric="True" x:Name="edtRR"      FontSize="Small" HorizontalOptions="Fill"   Placeholder="RR..."      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
 

@@ -188,7 +188,9 @@ namespace CollectorQi.Views
                         return;
                     } */
 
-                    string codEstabOrigem = SearchBarItCodigo.Text.Substring(0, 3);
+                    // Alinhado com Kawano/Valter - encaminhar estabelecimento do tecnico
+                    //string codEstabOrigem = SearchBarItCodigo.Text.Substring(0, 3);
+                    string codEstabOrigem = SecurityAuxiliar.GetCodEstabel();
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
                     var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
@@ -364,8 +366,9 @@ namespace CollectorQi.Views
                     return;
                 }
 
-                string codEstabOrigem = pCodBarras.Substring(0, 3);
-              //  await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+                // Alinhado com Kawano/Valter - encaminhar estabelecimento do tecnico
+                //string codEstabOrigem = SearchBarItCodigo.Text.Substring(0, 3);
+                string codEstabOrigem = SecurityAuxiliar.GetCodEstabel();
 
                 var dRetornoNota = await ValidarReparosNotaFiscalService.SendValidarReparosAsync(new ValidarReparosNotaFiscal
                 {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using CollectorQi.Services.ESCL000;
 using CollectorQi.Resources;
+using CollectorQi.Resources.Batch;
 
 namespace CollectorQi.Services.ESCL021
 {
@@ -22,8 +23,63 @@ namespace CollectorQi.Services.ESCL021
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/LeituraEtiqueta";
 
-        // Metodo ObterParametros Totvs
         public async static Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAsync(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
+        {
+            try
+            {
+                ResultTransferenciaDepositoJson leituraEtiqueta = null;
+                try
+                {
+                    leituraEtiqueta = await SendLeituraEtiquetaAOnline(dadosLeituraItemTransferenciaDeposito);
+                }
+                catch
+                {
+
+                }
+
+                if (leituraEtiqueta == null)
+                {
+                    var dadosLeitura = LeituraEtiqueta.Item(dadosLeituraItemTransferenciaDeposito.CodigoBarras);
+
+                    leituraEtiqueta = new ResultTransferenciaDepositoJson();
+                    leituraEtiqueta.Param = new ResultDepositosItemJson();
+                    leituraEtiqueta.Retorno = "OK";
+                    leituraEtiqueta.Param.ParamResult = new List<DadosLeituraDadosItemTransferenciaDeposito>();
+                    leituraEtiqueta.Param.ParamResult.Add(new DadosLeituraDadosItemTransferenciaDeposito
+                    {
+                        CodItem = dadosLeitura.CodItem,
+                        NF  = dadosLeitura.NotaFiscal,
+                        Quantidade = dadosLeitura.QtdeItem,
+                        Serie = dadosLeitura.NumeroSerie,
+                        Saldo = "Atenção! Não foi possivel capturar o saldo do item!"
+
+                    });
+
+                    /*
+
+                    edtNroDocto.Text = item.NF;
+                    edtSerie.Text = item.Serie;
+                    edtLote.Text = item.Lote;
+                    edtSaldo.Text = Decimal.ToInt32(item.Saldo).ToString();
+                    edtQuantidade.Text = Decimal.ToInt32(item.Quantidade).ToString();*/
+
+
+
+
+                }
+
+
+                return leituraEtiqueta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        // Metodo ObterParametros Totvs
+        public async static Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAOnline(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
         {
             ResultTransferenciaDepositoJson parametros = null;
 
@@ -40,6 +96,8 @@ namespace CollectorQi.Services.ESCL021
 
                 client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
                 client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+
+                client.Timeout = TimeSpan.FromSeconds(4);
 
                 var json = JsonConvert.SerializeObject(requestJson);
 

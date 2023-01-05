@@ -56,13 +56,17 @@ namespace CollectorQi.Views
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsFiltered;
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsUnfiltered;
 
-        public GuardaMateriaisDepositoListaPage()
+        private string _codDepos;
+
+        public GuardaMateriaisDepositoListaPage(string pCodDepos)
         {
             InitializeComponent();
           
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
 
             cvDepositosGuardaMaterial.BindingContext = this;
+
+            _codDepos = pCodDepos;
         }
 
         protected async override void OnAppearing()
@@ -109,6 +113,17 @@ namespace CollectorQi.Views
                 {
                     cvDepositosGuardaMaterial.SelectedItem = Items[0];
                 }
+
+                if (Items != null && _codDepos != null)
+                {
+                    var currentDeposito = Items.FirstOrDefault(x => x.CodDepos == _codDepos);
+
+                    if (currentDeposito != null)
+                    {
+                        cvDepositosGuardaMaterial.SelectedItem = currentDeposito;
+                    }
+                }
+
 
                 /*
                 ObsInventario.Clear();
@@ -175,7 +190,7 @@ namespace CollectorQi.Views
                 {
                     Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(dRetorno.paramRetorno,
                                                                                                                codigoBarras,
-                                                                                                               current.CodDepos, 1));
+                                                                                                               current.CodDepos, 1, current));
                 }
             }
             catch (Exception ex)

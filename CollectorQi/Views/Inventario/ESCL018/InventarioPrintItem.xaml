@@ -67,7 +67,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label x:Name="lblDeposito" Text="Depósito" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtCodDeposito" Placeholder="Código do Depósito..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+                                <local:CustomEntryText x:Name="txtCodDeposito" Placeholder="Código do Depósito..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" TextChanged="txtDeposito_TextChanged"/>
 
                             </Grid>
                         </Frame>

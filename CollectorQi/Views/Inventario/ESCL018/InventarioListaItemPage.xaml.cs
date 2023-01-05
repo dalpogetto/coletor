@@ -363,7 +363,7 @@ namespace CollectorQi.Views
 
                 //System.Diagnostics.Debug.Write(e);
                 bool lCodBarras = false;
-                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5){
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 10){
                     lCodBarras = true;
                 }
 
@@ -372,7 +372,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(1100), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(lCodBarras); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,
@@ -392,14 +392,14 @@ namespace CollectorQi.Views
                 //cvInventarioItem.IsEnabled = false;
                 string strCodItemBusca = string.Empty;
 
-                if (SearchBarItCodigo.Text.IndexOf(";") >= 1)
+                if (!String.IsNullOrEmpty(SearchBarItCodigo.Text) && SearchBarItCodigo.Text.IndexOf(";") >= 1)
                 {
                     var splItem = SearchBarItCodigo.Text.Split(';');
 
-                    if (splItem[0] == "03" || splItem[0] == "02")
-                    {
+                    //if (splItem[0] == "03" || splItem[0] == "02")
+                    //{
                         strCodItemBusca = splItem[1].Trim();
-                    }
+                    //}
                 }
                 else
                 {
@@ -420,7 +420,8 @@ namespace CollectorQi.Views
 
                 if (plCodBarras)
                 {
-                    SearchBarItCodigo.Unfocus();
+                    //SearchBarItCodigo.Unfocus();
+                    BuscaItemList();
                 }
             }
             catch (Exception ex)
@@ -457,9 +458,9 @@ namespace CollectorQi.Views
         }
 
 
-
-        private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
+        private async void BuscaItemList()
         {
+
             if (!String.IsNullOrEmpty(SearchBarItCodigo.Text))
             {
                 var current = _ItemsUnfiltered.FirstOrDefault(p => p.CodItem == SearchBarItCodigo.Text);
@@ -485,9 +486,15 @@ namespace CollectorQi.Views
                 if (current != null)
                 {
                     OpenPagePopUp(current);
-                    
+
                 }
             }
+        }
+
+
+        private async void SearchBarItCodigo_Unfocused(object sender, FocusEventArgs e)
+        {
+           // BuscaItemList();
         }
 
         private async void OpenPagePopUp(InventarioItemViewModel current)

@@ -8,6 +8,7 @@ using CollectorQi.Services.ESCL029;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CollectorQi.Views
@@ -26,6 +27,18 @@ namespace CollectorQi.Views
         {            
             PopupNavigation.Instance.PopAsync();
             return true;
+        }
+        protected async override void OnAppearing()
+        {
+
+            await Task.Run(async () =>
+            {
+                await Task.Delay(400);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    edtScan.Focus();
+                });
+            });
         }
 
         async void OnClick_Imprimir(object sender, EventArgs e)
@@ -80,11 +93,16 @@ namespace CollectorQi.Views
 
                 var impressaoReparo = new ImpressaoReparo()
                 {
-                    CodigoBarras = edtScan.Text,
-                    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                    CodigoBarras = "",
+                    //CodigoBarras = edtScan.Text,
+                    //CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                    CodEstabel        = edtCodEstab.Text,
+                    CodEstabelTecnico = SecurityAuxiliar.GetCodEstabel(),
+                    //CodEstabel = 
+                    //CodEstabel = edtS
                     CodFilial = edtFilial.Text,
                     CodItem = edtItem.Text,
-                    NumRR = edtRR.Text,
+                    NumRR = edtRR.Text.Replace(",","."),
                     Digito = int.Parse(edtDigito.Text)
                 };
 
@@ -140,10 +158,13 @@ namespace CollectorQi.Views
 
                 // Conforme alinhado com Kawano, utilizar no código de barras o codigo do estabelecimento local
                 // Futuramente alterar API para corrigir atualização
-                if (String.IsNullOrEmpty(parametrosMovimentoReparo.CodBarras))
+                /*
+                 * if (String.IsNullOrEmpty(parametrosMovimentoReparo.CodBarras))
                     parametrosMovimentoReparo.CodBarras = String.Empty;
                 else
                     parametrosMovimentoReparo.CodBarras = SecurityAuxiliar.GetCodEstabel() + parametrosMovimentoReparo.CodBarras.Substring(3);
+                */
+
 
                 var result = await LeituraEtiquetaArmazenagemService.SendLeituraEtiquetaAsync(parametrosMovimentoReparo);
 
@@ -156,6 +177,8 @@ namespace CollectorQi.Views
                     edtFilial.Text = result.ParamReparo.ParamLeitura.CodFilial;
                     edtRR.Text = result.ParamReparo.ParamLeitura.NumRR.ToString();
                     edtDigito.Text = result.ParamReparo.ParamLeitura.Digito.ToString();
+
+                    edtCodEstab.Text = result.ParamReparo.ParamLeitura.CodEstabel.ToString();
 
                     if (!SwtCodigoBarras.On)
                     {
@@ -178,16 +201,23 @@ namespace CollectorQi.Views
                     edtFilial.IsReadOnly = true;
                     edtDigito.IsReadOnly = true;
                     BtnLeituraDigitacao.IsEnabled = false;
+
+                    // Click Efetivar
+                    OnClick_Imprimir(BtnImprimir, new EventArgs());
+
                 }
                 else
                 {
                     if (result != null && result.Resultparam != null && result.Resultparam.Count > 0)
                     {
                         await DisplayAlert("Erro", result.Resultparam[0].ErrorHelp, "OK");
+
+                        edtScan.Text = String.Empty;
                     }
                     else
                     {
                         await DisplayAlert("Erro", "Erro na confirmação do reparo", "OK");
+                        edtScan.Text = String.Empty;
                     }
                 }
             }

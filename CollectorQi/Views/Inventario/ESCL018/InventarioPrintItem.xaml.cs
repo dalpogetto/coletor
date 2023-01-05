@@ -283,5 +283,10 @@ namespace CollectorQi.Views
                 }
             }
         }
+
+        private void txtDeposito_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            (sender as Entry).Text = e.NewTextValue.ToUpperInvariant();
+        }
     }
 }

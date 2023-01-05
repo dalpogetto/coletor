@@ -129,6 +129,11 @@ namespace CollectorQi
             get { return (int)GetValue(ImageOpacityProperty); }
             set { SetValue(ImageOpacityProperty, value); }
         }
+
+        public void OnFocusEsp()
+        {
+            this.Focus();
+        }
     }
 
     public enum ImageAlignment

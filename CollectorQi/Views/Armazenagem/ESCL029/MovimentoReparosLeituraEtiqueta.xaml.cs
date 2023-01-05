@@ -36,16 +36,19 @@ namespace CollectorQi.Views
             //Parametros = parametros;
 
             ChangeSwt();
+
+            //edtScan.Focus();
         }
         protected async override void OnAppearing()
         {
+            
             await Task.Run(async () =>
             {
-                await Task.Delay(200);
+                await Task.Delay(400);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    BtnScan.Focus();
-                });
+                    edtScan.Focus();
+               });
             });
         }
         protected override bool OnBackButtonPressed()
@@ -76,6 +79,15 @@ namespace CollectorQi.Views
             frameLocalizacao.IsVisible = false;
 
             ChangeSwt();
+
+            if (SwtCodigoBarras.On)
+            {
+                edtFilial.Focus();
+            }
+            else
+            {
+                edtScan.Focus();
+            }
         }
         
         private void BtnLimpar_Clicked(object sender, System.EventArgs e)
@@ -196,6 +208,9 @@ namespace CollectorQi.Views
                     edtFilial.IsReadOnly = true;
                     edtDigito.IsReadOnly = true;
                     BtnLeituraDigitacao.IsEnabled = false;
+
+                    // Click Efetivar
+                    BtnEfetivar_Clicked(BtnEfetivar, new EventArgs());
                 }
                 else
                 {
@@ -252,7 +267,8 @@ namespace CollectorQi.Views
                 }
                 else
                 {
-                    await DisplayAlert("Movimentação de Reparo", "Movimentação de Reparo efetuado com sucesso","OK");
+                    //  await DisplayAlert("Movimentação de Reparo", "Movimentação de Reparo efetuado com sucesso","OK");
+                    
                     Limpar();
                 }
             }

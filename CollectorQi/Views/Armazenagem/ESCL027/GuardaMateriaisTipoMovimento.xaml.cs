@@ -16,7 +16,9 @@ namespace CollectorQi.Views
         public List<DepositosGuardaMaterialItem> ListaDepositosGuardaMaterialItem { get; set; }
         public ObservableCollection<InventarioFisicoViewModel> ObsInventario { get; } 
         public string Local { get; set; }
-        public string CodDepos { get; set; }
+        public string _codDepos { get; set; }
+
+        
 
         public GuardaMateriaisTipoMovimento(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos)
         {
@@ -24,7 +26,7 @@ namespace CollectorQi.Views
 
             ListaDepositosGuardaMaterialItem = listaDepositosGuardaMaterialItem;
             Local = local;
-            CodDepos = codDepos;
+            _codDepos = codDepos;
 
             lblDescricao.Text = "Depósito / Localização: " + codDepos + " / " + local;
         }
@@ -32,19 +34,19 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(_codDepos));
 
             return true;
         }
 
         protected void BtnEntrada_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 1));
+            //Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, _codDepos, 1));
         }
 
         protected void BtnSaida_Clicked(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, CodDepos, 0));
+            //Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(ListaDepositosGuardaMaterialItem, Local, _codDepos, 0));
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)

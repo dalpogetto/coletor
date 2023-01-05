@@ -63,20 +63,20 @@ namespace CollectorQi.Droid
             }
             else
             {
+                if (Rg.Plugins.Popup.Services.PopupNavigation.Instance == null)
+                {
+                    Rg.Plugins.Popup.Popup.Init(this);
 
-                Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
-                Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAllAsync();
-                Rg.Plugins.Popup.Popup.Init(this);
-
+                    Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAllAsync();
+                    Rg.Plugins.Popup.Popup.Init(this);
+                }
             }
 
             LoadApplication(new App());
 
             CreateNotificationChannelTransf();
             CreateNotificationChannelInventario();
-
-
-
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

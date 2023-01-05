@@ -3,6 +3,7 @@ using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using CollectorQi.Services;
+using CollectorQi.Services.ESCL000;
 using CollectorQi.ViewModels;
 using CollectorQi.VO;
 using Plugin.Connectivity;
@@ -251,106 +252,81 @@ namespace CollectorQi.Views
 
         private async Task<string> SelectEmpresa()
         {
-            var empresas = SecurityAuxiliar.EmpresaAll;
 
-            if (empresas != null)
+            try
             {
-                string[] arrayDep = new string[empresas.Count];
-                for (int i = 0; i < empresas.Count; i++)
+                var empresas = SecurityAuxiliar.EmpresaAll;
+
+                if (empresas != null)
                 {
-                    arrayDep[i] = empresas[i].codEmpresa + " (" + empresas[i].nomEmpresa.Trim() + ")";
-                }
-
-                if (empresas.Count == 1)
-                {
-                    SecurityAuxiliar.CodEmpresa = empresas[0].codEmpresa + " (" + empresas[0].nomEmpresa.Trim() + ")";
-
-                    /*lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
-                    frameEstab.IsVisible = true;
-                    */
-
-                    return SecurityAuxiliar.CodEmpresa;
-                }
-                else
-                {
-                    var action = await DisplayActionSheet("Escolha a Empresa?", "Cancelar", null, arrayDep);
-
-                    if (action != "Cancelar" && action != null)
+                    string[] arrayDep = new string[empresas.Count];
+                    for (int i = 0; i < empresas.Count; i++)
                     {
-                        SecurityAuxiliar.CodEmpresa = action;
+                        arrayDep[i] = empresas[i].codEmpresa + " (" + empresas[i].nomEmpresa.Trim() + ")";
+                    }
 
-                        lblCodEmpresa.Text = action;
-                        frameEmpresa.IsVisible = true;
 
-                        /*
-                        SecurityAuxiliar.Estabelecimento = action;
-                        lblCodEstabel.Text = action;
+                    if (empresas.Count == 1)
+                    {
+                        SecurityAuxiliar.CodEmpresa = empresas[0].codEmpresa + " (" + empresas[0].nomEmpresa.Trim() + ")";
+
+                        /*lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
                         frameEstab.IsVisible = true;
                         */
+
+                        await ConnectService.CarregarListaFilial();
+
+                        SecurityAuxiliar.Estabelecimento = "";
+                        lblCodEstabel.Text = "Escolha o Estabelecimento";
+
 
                         return SecurityAuxiliar.CodEmpresa;
                     }
                     else
                     {
-                        SecurityAuxiliar.CodEmpresa = String.Empty;
-                        lblCodEmpresa.Text = String.Empty;
-                        frameEmpresa.IsVisible = false;
+                        var action = await DisplayActionSheet("Escolha a Empresa?", "Cancelar", null, arrayDep);
+
+                        if (action != "Cancelar" && action != null)
+                        {
+                            SecurityAuxiliar.CodEmpresa = action;
+
+                            lblCodEmpresa.Text = action;
+                            frameEmpresa.IsVisible = true;
+
+                            await ConnectService.CarregarListaFilial();
+
+
+                            SecurityAuxiliar.Estabelecimento = "";
+                            lblCodEstabel.Text = "Escolha o Estabelecimento";
+                            /*
+                            SecurityAuxiliar.Estabelecimento = action;
+                            lblCodEstabel.Text = action;
+                            frameEstab.IsVisible = true;
+                            */
+
+                            return SecurityAuxiliar.CodEmpresa;
+                        }
+                        else
+                        {
+                            SecurityAuxiliar.CodEmpresa = String.Empty;
+                            lblCodEmpresa.Text = String.Empty;
+                            frameEmpresa.IsVisible = false;
+                        }
                     }
-                }
-            }
-            else
-            {
-                await DisplayAlert("Erro!", "Nenhum empresa encontrada.", "Cancelar");
-            }
-
-            System.Diagnostics.Debug.Write(empresas);
-
-            return String.Empty;
-
-            /*
-            var estabelec = await EstabelecDB.GetEstabelec();
-            if (estabelec != null)
-            {
-                string[] arrayDep = new string[estabelec.Count];
-                for (int i = 0; i < estabelec.Count; i++)
-                {
-                    arrayDep[i] = estabelec[i].CodEstabel + " (" + estabelec[i].Nome.Trim() + ")";
-                }
-
-                if (estabelec.Count == 1)
-                {
-                    SecurityAuxiliar.Estabelecimento = estabelec[0].CodEstabel + " (" + estabelec[0].Nome.Trim() + ")";
-
-                    lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
-                    frameEstab.IsVisible = true;
-
-                    return SecurityAuxiliar.Estabelecimento;
                 }
                 else
                 {
-                    var action = await DisplayActionSheet("Escolha o Estabelecimento?", "Cancelar", null, arrayDep);
-
-                    if (action != "Cancelar" && action != null)
-                    {
-                        SecurityAuxiliar.Estabelecimento = action;
-                        lblCodEstabel.Text = action;
-                        frameEstab.IsVisible = true;
-
-                        return SecurityAuxiliar.Estabelecimento;
-                    }
-                    else
-                    {
-                        SecurityAuxiliar.Estabelecimento = String.Empty;
-                        lblCodEstabel.Text = String.Empty;
-                        frameEstab.IsVisible = false;
-                    }
+                    await DisplayAlert("Erro!", "Nenhum empresa encontrada.", "Cancelar");
                 }
-            }
-            else
-                await DisplayAlert("Erro!", "Nenhum estabelecimento encontrado.", "Cancelar");
 
+                System.Diagnostics.Debug.Write(empresas);
+
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Erro!", "Não foi possivel carregar os estabelecimentos da empresa " + e.Message, "OK");
+            }
             return String.Empty;
-            */
         }
 
         private async Task<string> SelectEstab()

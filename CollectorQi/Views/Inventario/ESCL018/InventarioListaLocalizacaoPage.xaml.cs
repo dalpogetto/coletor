@@ -282,11 +282,7 @@ namespace CollectorQi.Views
 
             return true;
         }
-        public class InventarioLocalizacaoViewModel : InventarioLocalizacaoVO, INotifyPropertyChanged
-        {
-            public event PropertyChangedEventHandler PropertyChanged;
-        }
-
+  
         private void SearchLocalizacao_Unfocused(object sender, FocusEventArgs e)
         {
             if (!String.IsNullOrEmpty(SearchLocalizacao.Text))
@@ -357,4 +353,32 @@ namespace CollectorQi.Views
         }
 
     }
+    public class InventarioLocalizacaoViewModel : InventarioLocalizacaoVO, INotifyPropertyChanged
+    {
+        public string LocalizView
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(Localizacao) && Localizacao.Length == 10)
+                {
+                    string codLocaliz = "";
+
+                    codLocaliz = Localizacao.Substring(0, 3) + " - ";
+                    codLocaliz = codLocaliz + Localizacao.Substring(3, 2) + " - ";
+                    codLocaliz = codLocaliz + Localizacao.Substring(5, 3) + " - ";
+                    codLocaliz = codLocaliz + Localizacao.Substring(8, 2);
+
+                    return codLocaliz;
+                }
+                else
+                {
+                    return Localizacao;
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+
 }
