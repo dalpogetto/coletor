@@ -56,36 +56,17 @@ namespace CollectorQi.Views
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsFiltered;
         private ObservableCollection<GuardaMateriaisDepositoViewModel> _ItemsUnfiltered;
 
+        private string _codDepos;
 
-        /*
-        public ObservableCollection<GuardaMateriaisDepositoViewModel> ObsDepositosGuardaMaterial { get; set; }
-        public List<DepositosGuardaMaterial> ListaDepositosGuardaMaterial { get; set; }
-        public DepositosGuardaMaterial DepositosGuardaMaterial { get; set; }
-        */
-
-        public GuardaMateriaisDepositoListaPage()
+        public GuardaMateriaisDepositoListaPage(string pCodDepos)
         {
             InitializeComponent();
-            //ObsDepositosGuardaMaterial = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
-            //ListaDepositosGuardaMaterial = new List<DepositosGuardaMaterial>();
-            //ListaDepositosGuardaMaterial = listadepositosGuardaMaterial;
-
+          
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
 
-            /*
-            if (listadepositosGuardaMaterial != null)
-            {
-                foreach (var item in listadepositosGuardaMaterial)
-                {
-                    if (item.CodDepos != "DEC")
-                        continue;
-
-                    var modelView = Mapper.Map<DepositosGuardaMaterial, GuardaMateriaisDepositoViewModel>(item);
-                    ObsDepositosGuardaMaterial.Add(modelView);
-                }
-            }*/
-
             cvDepositosGuardaMaterial.BindingContext = this;
+
+            _codDepos = pCodDepos;
         }
 
         protected async override void OnAppearing()
@@ -95,7 +76,6 @@ namespace CollectorQi.Views
             //ObsDepositosGuardaMaterial = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
             Items = new ObservableCollection<GuardaMateriaisDepositoViewModel>();
 
-
             CarregaListView();
         }
 
@@ -103,8 +83,6 @@ namespace CollectorQi.Views
         {
             //var lstInventario = await ParametersInventarioService.SendParametersAsync();
             var pageProgress = new ProgressBarPopUp("Carregando Guarda de Materias, aguarde...");
-
-            // ObsDepositosGuardaMaterial.Clear();
 
             try
             {
@@ -129,6 +107,23 @@ namespace CollectorQi.Views
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
+
+                // Se tem apenas um depósito, acessa automatica
+                if (Items!= null && Items.Count == 1)
+                {
+                    cvDepositosGuardaMaterial.SelectedItem = Items[0];
+                }
+
+                if (Items != null && _codDepos != null)
+                {
+                    var currentDeposito = Items.FirstOrDefault(x => x.CodDepos == _codDepos);
+
+                    if (currentDeposito != null)
+                    {
+                        cvDepositosGuardaMaterial.SelectedItem = currentDeposito;
+                    }
+                }
+
 
                 /*
                 ObsInventario.Clear();
@@ -162,38 +157,45 @@ namespace CollectorQi.Views
 
         public async void ConfirmaLocalizacao(string pLocalizacao, DepositosGuardaMaterial current)
         {
-            string codigoBarras = pLocalizacao;
-
-            var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
-            var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial()
-            { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = codigoBarras };
-
-            // Leitura Localizacação - /api/integracao/coletores/v1/escl021api/LeituraEtiquetaLocaliza
-            //var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);         
-
-            // recarrega a lista da API
-            var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
-            { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodDepos = current.CodDepos, CodigoBarras = codigoBarras };
-
-            dadosLeituraItemGuardaMaterial.CodLocaliza = pLocalizacao;
-            dadosLeituraItemGuardaMaterial.Transacao   = 1;
-            dadosLeituraItemGuardaMaterial.SemSaldo    = 0;
-
-            // /api/integracao/coletores/v1/escl027api/LeituraEtiquetaLocaliza
-          //  var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
-            var dRetorno = await LeituraEtiquetaLerLocalizaGuardaMaterialService.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
-
-            System.Diagnostics.Debug.Write(dRetorno);
-
-            if (dRetorno.Retorno.Contains("Error"))
+            try
             {
-                await DisplayAlert("ERRO", dRetorno.Resultparam[0].ErrorHelp, "OK");
+                string codigoBarras = pLocalizacao;
+
+                var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
+                var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial()
+                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = codigoBarras };
+
+                // Leitura Localizacação - /api/integracao/coletores/v1/escl021api/LeituraEtiquetaLocaliza
+                //var dDepositoItemRetorno = await dLeituraEtiqueta.SendLeituraEtiquetaLocalizaAsync(dadosLeituraLocalizaGuardaMaterial);         
+
+                // recarrega a lista da API
+                var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
+                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodDepos = current.CodDepos, CodigoBarras = codigoBarras };
+
+                dadosLeituraItemGuardaMaterial.CodLocaliza = pLocalizacao;
+                dadosLeituraItemGuardaMaterial.Transacao = 1;
+                dadosLeituraItemGuardaMaterial.SemSaldo = 0;
+
+                // /api/integracao/coletores/v1/escl027api/LeituraEtiquetaLocaliza
+                //  var dLeituraEtiquetaLerLocaliza = new LeituraEtiquetaLerLocalizaGuardaMaterialService();
+                var dRetorno = await LeituraEtiquetaLerLocalizaGuardaMaterialService.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
+
+                System.Diagnostics.Debug.Write(dRetorno);
+
+                if (dRetorno.Retorno.Contains("Error"))
+                {
+                    await DisplayAlert("ERRO", dRetorno.Resultparam[0].ErrorHelp, "OK");
+                }
+                else
+                {
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(dRetorno.paramRetorno,
+                                                                                                               codigoBarras,
+                                                                                                               current.CodDepos, 1, current));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoItemListaPage(dRetorno.paramRetorno,
-                                                                                                           codigoBarras,
-                                                                                                           current.CodDepos,1)); 
+                await DisplayAlert("Erro", "Erro na busca de localização " + ex.Message, "OK");
             }
         }
 
@@ -332,7 +334,7 @@ namespace CollectorQi.Views
                 //PerformSearch();
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                await Task.Delay(TimeSpan.FromMilliseconds(300), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
                     .ContinueWith(
                         delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
                         CancellationToken.None,

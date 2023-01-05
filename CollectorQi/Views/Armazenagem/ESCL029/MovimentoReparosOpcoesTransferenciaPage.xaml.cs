@@ -18,13 +18,11 @@ namespace CollectorQi.Views
         public ObservableCollection<OpcoesTransferenciaMovimentoReparoViewModel> ObsOpcoesTransferenciaMovimentoReparo { get; set; }
         public ParametrosInventarioReparo Parametros { get; set; }
 
-        
-
         public MovimentoReparosOpcoesTransferenciaPage(List<OpcoesTransferenciaMovimentoReparo> listaOpcoesTransferenciaMovimentoReparo, ParametrosInventarioReparo parametros)
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.GetCodEstabel();
+            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
             ListaOpcoesTransferenciaMovimentoReparo = listaOpcoesTransferenciaMovimentoReparo;
             ObsOpcoesTransferenciaMovimentoReparo = new ObservableCollection<OpcoesTransferenciaMovimentoReparoViewModel>();
             Parametros = parametros;
@@ -44,9 +42,10 @@ namespace CollectorQi.Views
         private void cvOpcoesTransferencia_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var current = (cvOpcoesTransferenciaMovimentoReparo.SelectedItem as OpcoesTransferenciaMovimentoReparo);
-            
 
-            Application.Current.MainPage = new NavigationPage(new MovimentoReparosLeituraEtiqueta(ListaOpcoesTransferenciaMovimentoReparo, Parametros, current.DescOpcao, 1));
+            int iOpcao = int.Parse(current.Opcao);
+
+            Application.Current.MainPage = new NavigationPage(new MovimentoReparosLeituraEtiqueta(ListaOpcoesTransferenciaMovimentoReparo, Parametros, current.DescOpcao, iOpcao));
         }
 
         protected override bool OnBackButtonPressed()

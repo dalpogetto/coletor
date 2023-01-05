@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CollectorQi.Services.ESCL000;
+using CollectorQi.Resources;
+using CollectorQi.Resources.Batch;
 
 namespace CollectorQi.Services.ESCL021
 {
     public class LeituraEtiquetaTransferenciaDepositoService
     {
-        ResultTransferenciaDepositoJson parametros = null;
+       
 
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private static string URI = ServiceCommon.SystemUrl;
@@ -21,29 +23,114 @@ namespace CollectorQi.Services.ESCL021
 
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/LeituraEtiqueta";
 
-        // Metodo ObterParametros Totvs
-        public async Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAsync(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
+        public async static Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAsync(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
         {
+            try
+            {
+                ResultTransferenciaDepositoJson leituraEtiqueta = null;
+                try
+                {
+                    leituraEtiqueta = await SendLeituraEtiquetaAOnline(dadosLeituraItemTransferenciaDeposito);
+                }
+                catch
+                {
+
+                }
+
+                if (leituraEtiqueta == null)
+                {
+                    var dadosLeitura = LeituraEtiqueta.Item(dadosLeituraItemTransferenciaDeposito.CodigoBarras);
+
+                    leituraEtiqueta = new ResultTransferenciaDepositoJson();
+                    leituraEtiqueta.Param = new ResultDepositosItemJson();
+                    leituraEtiqueta.Retorno = "OK";
+                    leituraEtiqueta.Param.ParamResult = new List<DadosLeituraDadosItemTransferenciaDeposito>();
+                    leituraEtiqueta.Param.ParamResult.Add(new DadosLeituraDadosItemTransferenciaDeposito
+                    {
+                        CodItem = dadosLeitura.CodItem,
+                        NF  = dadosLeitura.NotaFiscal,
+                        Quantidade = dadosLeitura.QtdeItem,
+                        Serie = dadosLeitura.NumeroSerie,
+                        Saldo = "Atenção! Não foi possivel capturar o saldo do item!"
+
+                    });
+
+                    /*
+
+                    edtNroDocto.Text = item.NF;
+                    edtSerie.Text = item.Serie;
+                    edtLote.Text = item.Lote;
+                    edtSaldo.Text = Decimal.ToInt32(item.Saldo).ToString();
+                    edtQuantidade.Text = Decimal.ToInt32(item.Quantidade).ToString();*/
+
+
+
+
+                }
+
+
+                return leituraEtiqueta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        // Metodo ObterParametros Totvs
+        public async static Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAOnline(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
+        {
+            ResultTransferenciaDepositoJson parametros = null;
+
             try
             {
                 RequestDadosLeituraItemJson requestJson = new RequestDadosLeituraItemJson() { Param = dadosLeituraItemTransferenciaDeposito };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
-                client.BaseAddress = new Uri(URI);
+                //client.BaseAddress = new Uri(URI);
 
-                // Substituir por user e password
-                //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+
+                client.Timeout = TimeSpan.FromSeconds(4);
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_SEND_PARAMETERS)
+                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_SEND_PARAMETERS)
                     {
                         Content = content
                     };
 
+                    var result = await client.SendAsync(req);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        string responseData = await result.Content.ReadAsStringAsync();
+
+                        if (responseData.Contains("Error"))
+                        {
+                            //    parametros = JsonConvert.DeserializeObject<ResultSendInventarioReturnJson>(responseData);
+                        }
+                        else
+                        { 
+                             parametros = JsonConvert.DeserializeObject<ResultTransferenciaDepositoJson>(responseData);
+
+                            /*
+                            parametros = new ResultSendInventarioReturnJson()
+                            {
+                                Retorno = parametroSuccess.Retorno
+                            };*/
+                        }
+                    }
+
+                    /*
                     var result = await client.SendAsync(req);
 
                     if (result.IsSuccessStatusCode)
@@ -54,12 +141,13 @@ namespace CollectorQi.Services.ESCL021
                     else
                     {
                         Debug.Write(result);
-                    }
+                    } */
+
                 }
             }
             catch (Exception e)
             {
-                Debug.Write(e);
+                throw e;
             }
 
             return parametros;

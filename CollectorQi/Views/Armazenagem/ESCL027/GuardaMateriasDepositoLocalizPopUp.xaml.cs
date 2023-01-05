@@ -22,6 +22,7 @@ namespace CollectorQi.Views
     public partial class GuardaMateriasDepositoLocalizPopUp : PopupPage
     {
         public Action<String, DepositosGuardaMaterial> _confirmaLocalizacao { get; set; }
+        public Action<string> _confirmaLocalizacaoItem { get; set; }
         private DepositosGuardaMaterial _depositosGuardaMaterial { get; set; }
 
         public GuardaMateriasDepositoLocalizPopUp(string pLocalizacao, DepositosGuardaMaterial pDepositosGuardaMaterial)        
@@ -47,7 +48,7 @@ namespace CollectorQi.Views
         {
             await Task.Run(async () =>
             {
-                await Task.Delay(100);
+                await Task.Delay(300);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     edtLocalizacao.Focus();
@@ -65,14 +66,55 @@ namespace CollectorQi.Views
             return true;
         }
 
+        public async void PopUpClose()
+        {
+            await PopupNavigation.Instance.PopAsync();
+        }
+
         void OnClick_Confirmar(object sender, EventArgs e)
         {
             try
             {
                 BtnEfetivar.IsEnabled = false;
 
-                _confirmaLocalizacao(edtLocalizacao.Text, _depositosGuardaMaterial);
+                if (_confirmaLocalizacao != null)
+                {
+                    _confirmaLocalizacao(edtLocalizacao.Text, _depositosGuardaMaterial);
+                }
+
+                if (_confirmaLocalizacaoItem != null)
+                {
+                    _confirmaLocalizacaoItem(edtLocalizacao.Text);
+                }
+
                 PopupNavigation.Instance.PopAsync();
+            }
+            finally
+            {
+                BtnEfetivar.IsEnabled = true;
+            }
+        }
+
+        private void edtLocalizacao_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5)
+                {
+                    BtnEfetivar.IsEnabled = false;
+
+                    if (_confirmaLocalizacao != null)
+                    {
+                        _confirmaLocalizacao(edtLocalizacao.Text, _depositosGuardaMaterial);
+                    }
+
+                    if (_confirmaLocalizacaoItem != null)
+                    {
+                        _confirmaLocalizacaoItem(edtLocalizacao.Text);
+                    }
+
+                    PopupNavigation.Instance.PopAsync();
+                }
             }
             finally
             {

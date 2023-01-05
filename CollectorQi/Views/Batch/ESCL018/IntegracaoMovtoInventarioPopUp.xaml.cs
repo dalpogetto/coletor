@@ -26,6 +26,12 @@ namespace CollectorQi.Views
                 edtSituaocaInventario.Text  = pBatchInventarioViewModel.StatusIntegracaoString;
                 imgSituacaoInventario.Source = pBatchInventarioViewModel.Image;
 
+                edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel;
+                edtCodDepos.Text = pBatchInventarioViewModel.CodDepos;
+                edtDtInventario.Text = pBatchInventarioViewModel.DtEfetivacao.ToString();
+                edtContagem.Text = pBatchInventarioViewModel.Contagem.ToString();
+                edtErro.Text = "";
+
             //    edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel       + " (" + pBatchInventarioViewModel.__estabelec__.Nome.Trim() + ")" ;
              //   edtCodDepos.Text        = pBatchInventarioViewModel.CodDepos         + " (" + pBatchInventarioViewModel.__deposito__.Nome.Trim() + ")";
              //  edtDtInventario.Text = pBatchInventarioViewModel.DtInventario.ToString("dd/MM/yy");   

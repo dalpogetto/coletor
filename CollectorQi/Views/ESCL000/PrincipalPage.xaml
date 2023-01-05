@@ -26,7 +26,28 @@
             </Grid>
             
             <Label Text=""  x:Name="lblMensagemErro" Margin="15,0,15,0" TextColor="White"  />
-            
+
+            <Frame  HasShadow="true" Margin="15,10,15,0" CornerRadius="5" x:Name="frameEmpresa" VerticalOptions="End"  OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer Tapped="OnTapped_FrameEmpresa" NumberOfTapsRequired="1"/>
+                </Frame.GestureRecognizers>
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label VerticalOptions="Start" Grid.Column="0" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text="Empresa: "/>
+
+                    <Label x:Name="lblCodEmpresa"  Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                </Grid>
+            </Frame>
+
             <Frame  HasShadow="true" Margin="15,10,15,0" CornerRadius="5" x:Name="frameEstab" VerticalOptions="End"  OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
                 <Frame.GestureRecognizers>
                     
@@ -37,8 +58,13 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-              
-                        <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label VerticalOptions="Start" Grid.Column="0" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text="Estab: "/>
+                    <Label x:Name="lblCodEstabel"  Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
                     </Grid>                
             </Frame>
             
@@ -52,7 +78,8 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-              
+
+                    
                         <Label x:Name="lblFrameCadastros" Text="ATUALIZA CADASTROS" VerticalOptions="Start" HorizontalOptions="Center" Font="Small" FontAttributes="Bold"  />
                     </Grid>                
             </Frame>

@@ -18,18 +18,24 @@ namespace CollectorQi.Views
 {
     public partial class GuardaMateriasConfirmaQuantidadePopUp : PopupPage
     {
-        public Action<string> _actConfirmaGuardaMateriais;
+        public Action<string, bool, string> _actConfirmaGuardaMateriais;
 
-        public GuardaMateriasConfirmaQuantidadePopUp( string pCodDepos, string pCodLocalizacao, string pCodItem, string pTipoTransacao /* int pInventarioId, InventarioItemVO pInventarioItem */ )        
+
+        public GuardaMateriasConfirmaQuantidadePopUp( string pCodDepos, string pCodLocalizacao, string pCodItem, string pTipoTransacao, string pCodBarras /* int pInventarioId, InventarioItemVO pInventarioItem */ )        
         {
             try
             {
                 InitializeComponent();
 
-                edtDeposito.Text = pCodDepos;
-                edtLocalizacao.Text = pCodLocalizacao;
-                edtItem.Text = pCodItem;
+                edtDeposito.Text      = pCodDepos;
+                edtLocalizacao.Text   = pCodLocalizacao;
+                edtItem.Text          = pCodItem;
                 edtTipoTransacao.Text = pTipoTransacao;
+
+                if (!String.IsNullOrEmpty(pCodBarras))
+                {
+                    edtCodigoBarras.Text = pCodBarras;
+                }
             }
             catch (Exception ex)
             {
@@ -87,6 +93,11 @@ namespace CollectorQi.Views
             entry.Text = (int.Parse(entry.Text) + value).ToString();
         }
 
+        public async void PopUpClose()
+        {
+            await PopupNavigation.Instance.PopAsync();
+        }
+
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtQuantidade.Text))
@@ -110,7 +121,7 @@ namespace CollectorQi.Views
                 BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
-                    _actConfirmaGuardaMateriais(edtCodigoBarras.Text);
+                    _actConfirmaGuardaMateriais(edtCodigoBarras.Text, true, txtQuantidade.Text) ;
                     await pageProgress.OnClose();
                     OnBackButtonPressed();
                 }

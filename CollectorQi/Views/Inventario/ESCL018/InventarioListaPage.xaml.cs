@@ -88,9 +88,6 @@ namespace CollectorQi.Views
 
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                //var lstInventario = new ObservableCollection<InventarioLocalizacaoViewModel>();
-
-                //var lstLocalizacoesVO = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.InventarioId, this);
                 var lstInventario = await ParametersInventarioService.SendParametersAsync(this);
 
                 foreach (var row in lstInventario)
@@ -101,6 +98,8 @@ namespace CollectorQi.Views
                 }
 
                 OnPropertyChanged("ObsInventario");
+
+                
 
             }
             catch (Exception ex)
@@ -117,66 +116,6 @@ namespace CollectorQi.Views
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)
         {
             CarregaListView();
-           /*
-            var current = (cvInventario.SelectedItem as InventarioVO);
-
-            if (!CrossConnectivity.Current.IsConnected)
-            {
-                await DisplayAlert("Erro!", "Para buscar os inventários no sistema o dispositivo deve estar conectado.", "CANCELAR");
-
-                return;
-            }
-
-            BtnCarregaInventario.IsEnabled = false;
-
-            var pageProgress = new ProgressBarPopUp("Carregando inventário, aguarde...");
-
-            try
-            {
-
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                ObsInventario.Clear();
-
-                var parametersInventario = new ParametersInventarioService();
-                var lstInventario = await parametersInventario.SendParametersAsync();
-                var listInventario = new List<ModelInventario>();
-
-                foreach (var item in lstInventario.param.Resultparam)
-                {
-                    var inventario = new ModelInventario();
-                    inventario.dtSaldo = item.DtSaldo;
-                    inventario.codEstabel = item.CodEstabel;
-                    inventario.codDepos = item.CodDeposito;
-                    inventario.idInventario = item.IdInventario;
-                    inventario.DescEstabel = item.DescEstabel;
-                    inventario.DescDepos = item.DescDepos;
-                    listInventario.Add(inventario);
-
-                    var inventarioVO = new InventarioVO();
-                    inventarioVO.DtInventario = DateTime.ParseExact(item.DtSaldo, "dd/MM/yy", CultureInfo.InvariantCulture);
-                    inventarioVO.CodEstabel = item.CodEstabel;
-                    inventarioVO.CodDepos = item.CodDeposito;
-                    inventarioVO.InventarioId = item.IdInventario;
-                    inventarioVO.DescEstabel = item.DescEstabel;
-                    inventarioVO.DescDepos = item.DescDepos;
-
-                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(inventarioVO);
-                    ObsInventario.Add(modelView);
-                }
-
-                await Models.ConnectService.CriaInventario(listInventario);
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
-            }
-            finally
-            {
-                BtnCarregaInventario.IsEnabled = true;
-                await pageProgress.OnClose();
-            }
-           */
         }
 
         protected async override void OnAppearing()
@@ -186,52 +125,12 @@ namespace CollectorQi.Views
             ObsInventario = new ObservableCollection<InventarioViewModel>();
 
             CarregaListView();
-
-            /*
-
-            var pageProgress = new ProgressBarPopUp("Carregando inventário, aguarde...");
-
-            try
-            {
-
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                ObsInventario = new ObservableCollection<InventarioViewModel>();
-
-                lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
-
-                var lstInventario = InventarioDB.GetInventarioAtivoByEstab(SecurityAuxiliar.GetCodEstabel()).OrderBy(p => p.CodDepos).OrderBy(p => p.DtInventario).ToList();
-
-                for (int i = 0; i < lstInventario.Count(); i++)
-                {
-                    var modelView = Mapper.Map<InventarioVO, InventarioViewModel>(lstInventario[i]);
-                    ObsInventario.Add(modelView);
-                }
-
-                if (ObsInventario.Count <= 0)
-                {
-                    await pageProgress.OnClose();
-                    OnClick_CarregaInventario(new object(), new EventArgs());
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancelar");
-            }
-            finally
-            {
-                await pageProgress.OnClose();
-            }
-
-            OnPropertyChanged("ObsInventario");
-            */
         }
-
 
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new PrincipalPage());
+            Application.Current.MainPage = new NavigationPage(new InventarioPage());
 
             return true;
         }

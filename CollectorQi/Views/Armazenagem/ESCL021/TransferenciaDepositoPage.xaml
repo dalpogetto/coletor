@@ -22,6 +22,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <!--
                     <StackLayout BackgroundColor="White" Grid.Row="0">
@@ -128,24 +129,10 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="45" />
-                              <!--      <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" /> -->
                                 </Grid.RowDefinitions>
-                                <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
-
-                                <local:CustomEntryText x:Name="edtItCodigo" FontSize="Small" MaxLength="40" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto..." Grid.Row="1" Grid.ColumnSpan="2" />
-
-                                <!--<StackLayout Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
-                                    <Button x:Name="BtnQR" android:Button.UseDefaultPadding="true"  android:Button.UseDefaultShadow="true"        WidthRequest="70"  Image="cameraMini.png"
-                                        BackgroundColor="Transparent"   Clicked="OnClick_QR" />
-                                    <Button x:Name="BtnBuscaItem4" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true"  WidthRequest="70"  Image="zoomMini.png"
-                                        BackgroundColor="Transparent"  Clicked="OnClick_BuscaItem" />
-                                </StackLayout>
-                                -->
-
-                            <!--    <local:CustomEntryText x:Name="edtDescItem" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Descrição do produto..." Grid.Row="2" Grid.Column="0"     Grid.ColumnSpan="4" />
-                                <local:CustomEntryText x:Name="edtUnidade" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Unidade de medida..." Grid.Row="3"     Grid.Column="0"     Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="edtTipoConta" IsReadOnly="true" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Conta..." Grid.Row="3"   Grid.Column="2"     Grid.ColumnSpan="2" /> -->
+                                
+                                <Label x:Name="lblItem" Text="Item / Código de Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.ColumnSpan="2" />
+                                <local:CustomEntryText x:Name="edtItCodigo" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do produto ou Código de Barras..." Grid.Row="1" Grid.ColumnSpan="2"  TextChanged="edtItCodigo_TextChanged"/>
                             </Grid>
                         </Frame>
                     </StackLayout>
@@ -201,7 +188,7 @@
                         </Frame>
                     </StackLayout>
 
-                    <!--
+                   
                     <StackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame9" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
@@ -216,9 +203,9 @@
                                 <local:CustomEntryText x:Name="edtSaldo" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Saldo Sistema..." Grid.Row="1" Grid.Column="0"  />
                             </Grid>
                         </Frame>
-                    </StackLayout> -->
+                    </StackLayout> 
 
-                    <StackLayout Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5">
+                    <StackLayout Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5">
                         <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame10" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>

@@ -28,9 +28,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[]    { "guardaMaterias.png"           , "transferenciaDeposito.png"          , "movto_repair3.png"                   /* , "print.png"*/  };
-                string[] titulo = new string[]    { "Guarda de Materiais"          , "Transferência de Depósito"          , "Movimentação de Reparo"              /* , "Impressão de Etiquetas de Identificação" */ };
-                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"    /* , "Impressão (ESCL010/ESCL013/ESCL020)" ,*/  };  
+                string[] imagem = new string[]    { "guardaMaterias.png"           , "transferenciaDeposito.png"          , "movto_repair3.png"                 , "consulta_localizacao.png"           , "saldo_virtual.png"                    /* , "print.png"*/  };
+                string[] titulo = new string[]    { "Guarda de Materiais"          , "Transferência de Depósito"          , "Movimentação de Reparo"            , "Consulta de Localização"            , "Manutenção Saldo Virtual"             /* , "Impressão de Etiquetas de Identificação" */ };
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"  , "Consulta de Localização (ESCL025)"  , "Manutenção Saldo Virtual (ESCL026)"   /* , "Impressão (ESCL010/ESCL013/ESCL020)" ,*/  };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -60,7 +60,7 @@ namespace CollectorQi.Views
                     ConferenciaPage.MenuId = 1;
                     ConferenciaPage.MenuDesc = "Guarda de Materiais";
 
-                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
+                    Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(null));
 
                     break;
 
@@ -78,14 +78,18 @@ namespace CollectorQi.Views
                     break;
 
 
-                    /*
-                case "Impressão de Etiquetas de Identificação":
+                case "Consulta de Localização":
                     ConferenciaPage.MenuId = 2;
-                    ConferenciaPage.MenuDesc = "Impressão de Etiquetas";
-                    Application.Current.MainPage = new NavigationPage(new ArmazenagemImprimirPage() { Title = "Impressão de Etiqueta" });
+                    ConferenciaPage.MenuDesc = "Consulta de Localização";
+                    Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoDepositoListaPage(null) { Title = "Consulta de Localização" });
                     break;
 
-                */
+                case "Manutenção Saldo Virtual":
+                    ConferenciaPage.MenuId = 2;
+                    ConferenciaPage.MenuDesc = "Manutenção Saldo Virtual";
+                    Application.Current.MainPage = new NavigationPage(new SaldoVirtualDepositoListaPage(null) { Title = "Manutenção Saldo Virtual" });
+                    break;
+
                     //case "MovimentoReparos":
                     //    ConferenciaPage.MenuId = 3;
                     //    ConferenciaPage.MenuDesc = "Movimento de Reparos";

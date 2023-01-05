@@ -15,6 +15,10 @@ namespace CollectorQi
         NaoIniciado = 1,
         [Description("Erro Integração")]
         ErroIntegracao = 2,
+        [Description("Integração CX")]
+        IntegracaoCX = 3
+
+
     }
     public enum eStatusConnection
     {

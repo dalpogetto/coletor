@@ -41,6 +41,9 @@ namespace CollectorQi.Services.ESCL021
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
+
                 var json = JsonConvert.SerializeObject(requestJson);
 
                 // using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
@@ -50,7 +53,7 @@ namespace CollectorQi.Services.ESCL021
                 //     Content = content
                 // };
 
-                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_SEND_PARAMETERS + "?codEstabel=101&tipoTransacao=1");
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI + URI_SEND_PARAMETERS + $"?codEstabel={SecurityAuxiliar.GetCodEstabel()}&tipoTransacao=1");
 
                 var result = await client.SendAsync(req);
 

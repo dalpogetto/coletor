@@ -27,115 +27,109 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-     
-                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
-                                </Grid.RowDefinitions>
 
-                                <Label x:Name="lblCodBarra" Text="Scan" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-                                <local:CustomEntryText x:Name="txtCodBarra" Text="" Keyboard="Default" Grid.Row="1" Grid.Column="0" FontSize="Small" Grid.ColumnSpan="1" />
-
-                            </Grid>
-                        </Frame>
+                    <StackLayout Margin="10,0,10,0" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="5">
+                        <TableView HeightRequest="50" >
+                            <TableRoot >
+                                <TableSection >
+                                    <SwitchCell x:Name="SwtCodigoBarras" Text="Código Barras" OnChanged="SwtCodigoBarras_OnChanged"></SwitchCell>
+                                </TableSection>
+                            </TableRoot>
+                        </TableView>
                     </StackLayout>
 
                     <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame1" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label x:Name="lblEstabelecimento" Text="Estabelecimento" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtCodEstabelecimento" Unfocused="txtCodEstabelecimento_Unfocused" Placeholder="Código do Estabelecimento..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
-
-                                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">
-                                    <Button x:Name="BtnBuscaEstab" Clicked="BtnBuscaEstab_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
-                                </StackLayout>
-
-                                <local:CustomEntryText x:Name="txtDescEstabelecimento" IsReadOnly="True" Placeholder="Nome do Estabelecimento..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <Label x:Name="lblScan" Text="Código de Barras" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" />
+                                <local:CustomEntryText x:Name="edtScan" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Código de Barras..." Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" TextChanged="edtScan_TextChanged"/>
+                                <Button x:Name="BtnScan" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" FontSize="Small" VerticalOptions="Start" HorizontalOptions="Start" Image="zoomMini.png" BackgroundColor="Transparent" TextColor="White" BorderRadius="16"
+                                 Clicked="BtnScan_Clicked" Grid.Row="1" Grid.Column="7" />
                             </Grid>
                         </Frame>
                     </StackLayout>
-
 
                     <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label x:Name="lblFilial" Text="Filial" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtCodFilial" Unfocused="txtCodFilial_Unfocused" Placeholder="Código da Filial..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
 
-                                <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">
-                                    <Button x:Name="BtnBuscaFilial" Clicked="BtnBuscaFilial_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
-                                </StackLayout>
+                                <Label x:Name="lblFilial" Text="Detalhes Reparo" FontSize="Small" Grid.ColumnSpan="5" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
-                                <local:CustomEntryText x:Name="txtDescFilial" IsReadOnly="True" Placeholder="Nome da Filial..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                <local:CustomEntry                   x:Name="edtCodEstab" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Estab.."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
+
+                                <local:CustomEntry                   x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Filial..."  Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" />
+
+                                <local:CustomEntry IsNumeric="True" x:Name="edtRR"      FontSize="Small" HorizontalOptions="Fill"   Placeholder="RR..."      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+
+                                <local:CustomEntry IsNumeric="True" x:Name="edtDigito"  FontSize="Small" HorizontalOptions="Fill"   Placeholder="Dígito..."  Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" />
+
+                                <Frame x:Name="frameBuscaReparo" IsVisible="false" Grid.Row="3" Grid.ColumnSpan="5" BackgroundColor="Transparent" Margin="0,-2" Padding="0,-5">
+                                    <Button x:Name="BtnLeituraDigitacao"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="zoomMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
+                                         Clicked="BtnLeituraDigitacao_Clicked" Grid.Row="3" Text="Busca Reparos" Grid.Column="0" Grid.ColumnSpan="5" />
+                                </Frame>
                             </Grid>
                         </Frame>
                     </StackLayout>
 
-
                     <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame3" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-
-                                <Label x:Name="lblItem" Text="Item" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                                <local:CustomEntryText x:Name="txtItCodigo" Unfocused="txtItCodigo_Unfocused" Placeholder="Código do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
-
-                               <!-- <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" BackgroundColor="Transparent">
-                                    <Button x:Name="BtnBuscaItem" Clicked="BtnBuscaItem_Clicked" android:Button.UseDefaultPadding="true" android:Button.UseDefaultShadow="true" WidthRequest="35" Image="zoomMini.png"/>
-                                </StackLayout>
-                                -->
-                                
-                                <local:CustomEntryText x:Name="txtDescItem" IsReadOnly="true" Placeholder="Nome do Item..." Text="" FontSize="Small" Keyboard="Default" VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-
+                                <Label x:Name="lblItem" Text="Item" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtItem" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Item..." Grid.Row="1" Grid.Column="0"  />
                             </Grid>
                         </Frame>
                     </StackLayout>
 
                     <StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
-                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,20,10,-17" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frame4" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="40" />
                                 </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblDescricao" Text="Descrição" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtDescricao" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Descrição..." Grid.Row="1" Grid.Column="0"  />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
 
-                                <Label x:Name="lblNumRR" TextColor="{StaticResource NavigationPrimary}" Text="NumRR" Grid.Row="0" Grid.Column="0" FontSize="Medium"  ></Label>
-
-                                <Label x:Name="lblDigito" TextColor="{StaticResource NavigationPrimary}" Text="Digito" Grid.Row="0" Grid.Column="1" FontSize="Medium" ></Label>
-
-                                <local:CustomEntryText x:Name="txtNumRR" Text="" Placeholder="Número RR..." Keyboard="Numeric" Grid.Row="1" Grid.Column="0" FontSize="Small" />
-                                <local:CustomEntryText x:Name="txtDigito" Text="" Placeholder="Digito..."  Keyboard="Numeric" Grid.Row="1" Grid.Column="1" FontSize="Small" />
-
+                    <StackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Frame VerticalOptions="StartAndExpand" HasShadow="true" Margin="10,0,10,0" CornerRadius="5" x:Name="frameLocalizacao" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB" IsVisible="false">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblLocalizacao" Text="Localização" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Start" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <local:CustomEntryText x:Name="edtLocalizacao" IsReadOnly="true" FontSize="Small" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Plain" Placeholder="Localização..." Grid.Row="1" Grid.Column="0"  />
                             </Grid>
                         </Frame>
                     </StackLayout>

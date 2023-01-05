@@ -1,8 +1,9 @@
-﻿using CollectorQi.Models;
-using CollectorQi.Resources;
+﻿using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
+using CollectorQi.Services;
+using CollectorQi.Services.ESCL000;
 using CollectorQi.ViewModels;
 using CollectorQi.VO;
 using Plugin.Connectivity;
@@ -13,7 +14,6 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using CollectorQi.Services;
 
 
 namespace CollectorQi.Views
@@ -35,25 +35,44 @@ namespace CollectorQi.Views
         {
             try
             {
-                var versaoSistema = new ValidaVersaoSistema();
+                var versaoSistema    = new ValidaVersaoSistema();
+                
+                // Validar
                 var existeNovaVersao = await versaoSistema.ExisteNovaVersao();
-
-
-                var security = await SecurityDB.GetSecurityAsync();
-
+                var security         = await SecurityDB.GetSecurityAsync();
+                
                 if (security != null && security.Autenticado && !existeNovaVersao)
                 {
                     SecurityAuxiliar.Autenticado = true;
-                    SecurityAuxiliar.CodUsuario = security.CodUsuario;
-                    SecurityAuxiliar.CodSenha = security.CodSenha;
+                    SecurityAuxiliar.CodUsuario  = security.CodUsuario;
+                    SecurityAuxiliar.CodSenha    = security.CodSenha;
                 }
 
                 // Victor Alves - Verifica ultima atualizacao Banco
                 await SecurityDB.AtualizarSecurityIntegracao();
 
+                if (SecurityAuxiliar.EmpresaAll != null && SecurityAuxiliar.EmpresaAll.Count > 0)
+                {
+                    if (SecurityAuxiliar.EmpresaAll.Count == 1)
+                    {
+                        var empCurrent = SecurityAuxiliar.EmpresaAll.FirstOrDefault();
+                        SecurityAuxiliar.CodEmpresa = empCurrent.codEmpresa + " (" + empCurrent.nomEmpresa.Trim() + ")";
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            await SelectEmpresa();
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("Nenhuma empresa cadastrar para o usuário");
+                }
+
                 if (security != null && !existeNovaVersao)
                 {
-
                     if (CrossConnectivity.Current.IsConnected)
                     {
                         Task.Run(() => Services.ESCL000.ConnectService.ConnectColetorAsync(SecurityAuxiliar.CodUsuario, SecurityAuxiliar.CodSenha, null));
@@ -62,7 +81,7 @@ namespace CollectorQi.Views
                     lblMensagemErro.Text = String.Empty;
 
                     footerCodUsuario.Text = SecurityAuxiliar.CodUsuario;
-                    footerVersion.Text = "v" + VersionTracking.CurrentVersion;
+                    footerVersion.Text    = "v" + VersionTracking.CurrentVersion;
 
                     /* Valida integração de cadastros */
                     //if (security.DtUltIntegracao.AddDays(30) < DateTime.Today.Date)
@@ -78,11 +97,11 @@ namespace CollectorQi.Views
                     //string[] subTitulo = new string[] { "Opções do Almoxarifado" ,
                     //                                "Inventariar produtos",
                     //                                "Escolher o estabelecimento",
-                    //                                "Ultima Integração (" + security.DtUltIntegracao + ")",
+                    //                                "Ultima Integração (" + security.DtUltIntegracaoerro par  + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { "armazenagem.png", "conferencia.png", "inventario.png", "estabelecimento.png", "integration.png", "logout.png" };
-                    string[] titulo = new string[] { "Armazenagem", "Recebimento", "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" };
+                    string[] imagem = new string[] { "armazenagem.png"            , "conferencia.png"  , "inventario.png", "estabelecimento.png", "integration.png", "logout.png" };
+                    string[] titulo = new string[] { "Armazenagem"                , "Recebimento"      , "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" };
 
                     string[] subTitulo = new string[] { "Armazenagens em Depósito", "Conferência Física, Recebimento e Reparos", "Inventário Físico e Reparos", "Escolher o estabelecimento", "Última Integração",
                                                     "Sair da conta: " + SecurityAuxiliar.CodUsuario };
@@ -117,6 +136,17 @@ namespace CollectorQi.Views
                     {
                         frameCadastros.IsVisible = false;
 
+                        if (!String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            lblCodEmpresa.Text = SecurityAuxiliar.CodEmpresa;
+                            frameEmpresa.IsVisible = true;
+                        }
+                        else
+                        {
+                            lblCodEmpresa.Text = String.Empty;
+                            frameEmpresa.IsVisible = true;
+                        }
+
                         if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
                             lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
@@ -132,6 +162,11 @@ namespace CollectorQi.Views
                     if (String.IsNullOrEmpty(lblCodEstabel.Text))
                     {
                         lblCodEstabel.Text = "Escolha o Estabelecimento";
+                    }
+
+                    if (String.IsNullOrEmpty(lblCodEmpresa.Text))
+                    {
+                        lblCodEmpresa.Text = "Escolha a Empresa";
                     }
                 }
             }
@@ -215,10 +250,89 @@ namespace CollectorQi.Views
             return false;
         }
 
+        private async Task<string> SelectEmpresa()
+        {
+
+            try
+            {
+                var empresas = SecurityAuxiliar.EmpresaAll;
+
+                if (empresas != null)
+                {
+                    string[] arrayDep = new string[empresas.Count];
+                    for (int i = 0; i < empresas.Count; i++)
+                    {
+                        arrayDep[i] = empresas[i].codEmpresa + " (" + empresas[i].nomEmpresa.Trim() + ")";
+                    }
+
+
+                    if (empresas.Count == 1)
+                    {
+                        SecurityAuxiliar.CodEmpresa = empresas[0].codEmpresa + " (" + empresas[0].nomEmpresa.Trim() + ")";
+
+                        /*lblCodEstabel.Text = SecurityAuxiliar.Estabelecimento;
+                        frameEstab.IsVisible = true;
+                        */
+
+                        await ConnectService.CarregarListaFilial();
+
+                        SecurityAuxiliar.Estabelecimento = "";
+                        lblCodEstabel.Text = "Escolha o Estabelecimento";
+
+
+                        return SecurityAuxiliar.CodEmpresa;
+                    }
+                    else
+                    {
+                        var action = await DisplayActionSheet("Escolha a Empresa?", "Cancelar", null, arrayDep);
+
+                        if (action != "Cancelar" && action != null)
+                        {
+                            SecurityAuxiliar.CodEmpresa = action;
+
+                            lblCodEmpresa.Text = action;
+                            frameEmpresa.IsVisible = true;
+
+                            await ConnectService.CarregarListaFilial();
+
+
+                            SecurityAuxiliar.Estabelecimento = "";
+                            lblCodEstabel.Text = "Escolha o Estabelecimento";
+                            /*
+                            SecurityAuxiliar.Estabelecimento = action;
+                            lblCodEstabel.Text = action;
+                            frameEstab.IsVisible = true;
+                            */
+
+                            return SecurityAuxiliar.CodEmpresa;
+                        }
+                        else
+                        {
+                            SecurityAuxiliar.CodEmpresa = String.Empty;
+                            lblCodEmpresa.Text = String.Empty;
+                            frameEmpresa.IsVisible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Erro!", "Nenhum empresa encontrada.", "Cancelar");
+                }
+
+                System.Diagnostics.Debug.Write(empresas);
+
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Erro!", "Não foi possivel carregar os estabelecimentos da empresa " + e.Message, "OK");
+            }
+            return String.Empty;
+        }
+
         private async Task<string> SelectEstab()
         {
             var estabelec = await EstabelecDB.GetEstabelec();
-            if (estabelec != null)
+            if (estabelec != null && estabelec.Count > 0)
             {
                 string[] arrayDep = new string[estabelec.Count];
                 for (int i = 0; i < estabelec.Count; i++)
@@ -274,6 +388,9 @@ namespace CollectorQi.Views
                     CodSenha = String.Empty,
                     Autenticado = false
                 });
+
+                SecurityAuxiliar.CodUsuario = "";
+                SecurityAuxiliar.CodSenha = "";
 
                 //await Navigation.PushModalAsync(new LoginPage(/*AtualizaListView */ ));
                 ShowModalLogin();
@@ -352,7 +469,14 @@ namespace CollectorQi.Views
 
         async void OnTapped_FrameEstab(object sender, EventArgs e)
         {
+            //await SelectEmpresa();
             await SelectEstab();
+        }
+
+        async void OnTapped_FrameEmpresa(object sender, EventArgs e)
+        {
+            await SelectEmpresa();
+            //await SelectEstab();
         }
 
         async void OnTapped_FrameCadastros(object sender, EventArgs e)
@@ -417,8 +541,19 @@ namespace CollectorQi.Views
                             return;
                         }
 
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            var strEmpresa = await SelectEmpresa();
+                            if (strEmpresa == "Cancelar" || String.IsNullOrEmpty(strEmpresa))
+                            {
+                                return;
+                            }
+                        }
+
                         if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
+                          
+
                             var strEstab = await SelectEstab();
                             if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
                                 return;
@@ -452,8 +587,18 @@ namespace CollectorQi.Views
                             return;
                         }
 
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            var strEmpresa = await SelectEmpresa();
+                            if (strEmpresa == "Cancelar" || String.IsNullOrEmpty(strEmpresa))
+                            {
+                                return;
+                            }
+                        }
+
                         if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
                         {
+
                             var strEstab = await SelectEstab();
                             if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
                                 return;
@@ -485,6 +630,13 @@ namespace CollectorQi.Views
                         {
                             await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
                             return;
+                        }
+
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            var strEmpresa = await SelectEmpresa();
+                            if (strEmpresa == "Cancelar" || String.IsNullOrEmpty(strEmpresa))
+                                return;
                         }
 
                         if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))

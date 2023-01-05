@@ -39,6 +39,7 @@ namespace CollectorQi.Services.ESCL021
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 // Substituir por user e password
                 //var byteArray = new UTF8Encoding().GetBytes("super:prodiebold11");

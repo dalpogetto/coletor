@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Archive>
+  <Name>CollectorQi</Name>
+  <PackageName>com.collector.qualiit.collectorqi</PackageName>
+  <PackageVersionCode>19</PackageVersionCode>
+  <PackageVersionName>1.0.19(t)</PackageVersionName>
+  <PackageFormat>apk</PackageFormat>
+  <CreationDate>638073124596985822</CreationDate>
+  <SolutionName>CollectorQi</SolutionName>
+  <SolutionPath>C:\Users\a.alvessouzasilva\source\repos\Diebold.Collector\CollectorQi.sln</SolutionPath>
+  <Status></Status>
+  <Configuration>
+    <DebugMode>false</DebugMode>
+  </Configuration>
+</Archive>

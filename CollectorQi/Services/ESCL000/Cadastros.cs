@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -38,11 +39,12 @@ namespace CollectorQi.Services.ESCL000
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 //var json = JsonConvert.SerializeObject(requestJson);
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 /*
                 using (var content = new StringContent(null, Encoding.UTF8, "application/json"))
                 { */
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_OBTER_EMITENTE + "?CodEmitente=" + codEmitente.ToString())
+                HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_OBTER_EMITENTE + "?CodEmitente=" + codEmitente.ToString())
                     {
                         //Content = content
                     }; 

@@ -21,12 +21,6 @@ namespace CollectorQi.Views
 
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.GetCodEstabel();
 
-            txtData.Text = "21/06/2022";
-            txtDeposito.Text = "DRA";
-            _codDeposHidden = "DRA";
-            txtTecnico.Text = "2692";
-            txtSenha.Text = "100309";
-
             if (parametrosInventarioReparo != null)
             {
                 if(!string.IsNullOrEmpty(parametrosInventarioReparo.CodTecnico.ToString()))

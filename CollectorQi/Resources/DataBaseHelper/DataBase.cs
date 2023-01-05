@@ -127,7 +127,6 @@ namespace CollectorQi.Resources.DataBaseHelper
                         //conexao.DropTable<BatchDepositoTransfereVO>();
                         if (!IsTableExists("BatchDepositoTransfereVO", conexao))
                             conexao.CreateTable<BatchDepositoTransfereVO>();
-                        //conexao.DropTable<BatchInventarioVO>();
 
                         if (!IsTableExists("BatchInventarioItemVO", conexao))
                         {
@@ -142,7 +141,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                     }
                 }
 
-                return true;   
+                return true;  
             }
             catch (SQLiteException ex)
             {
@@ -156,6 +155,7 @@ namespace CollectorQi.Resources.DataBaseHelper
             {
                 //dbAsync.Connection.CloseAsync();
             } 
+                
 
         }
     }

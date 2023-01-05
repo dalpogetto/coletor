@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,7 +28,9 @@ namespace CollectorQi.Views
         private List<DepositosGuardaMaterialItem> _listaDepositosGuardaMaterialItem;
         private string _codigoBarrasLocalizacao;
 
-        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento)
+        private DepositosGuardaMaterial _depositoGuardaMaterial;
+
+        public GuardaMateriaisDepositoItemListaPage(List<DepositosGuardaMaterialItem> listaDepositosGuardaMaterialItem, string local, string codDepos, int? tipoMovimento, DepositosGuardaMaterial pDepositoGuardaMaterial)
         {
             InitializeComponent();
 
@@ -46,6 +49,7 @@ namespace CollectorQi.Views
             _tipoMovimento                    = tipoMovimento;
             _codDepos                         = codDepos;
             _listaDepositosGuardaMaterialItem = listaDepositosGuardaMaterialItem;
+            _depositoGuardaMaterial = pDepositoGuardaMaterial;
 
             cvGuardaMateriaisDepositoItem.BindingContext = this;
         }
@@ -53,9 +57,93 @@ namespace CollectorQi.Views
         protected override bool OnBackButtonPressed()
         {
             base.OnBackButtonPressed();
-            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage());
+            Application.Current.MainPage = new NavigationPage(new GuardaMateriaisDepositoListaPage(_codDepos));
 
             return true;
+        }
+
+        private async void CarregaListViewPopUp(string pLocalizacao)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando Itens, aguarde...");
+
+            try
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                _codigoBarrasLocalizacao = pLocalizacao;
+
+                if (pLocalizacao.Length > 0)
+                {
+                    _localCodigoBarras = pLocalizacao;
+                    pLocalizacao = pLocalizacao.Replace("10[", "").Replace("10;", "").Replace("10]", "");
+                }
+
+                BtnTipoMovimento.Text = "Depósito: " + _codDepos + "   /   Localização: " + pLocalizacao;
+
+                _local = pLocalizacao;
+
+                var dLeituraEtiqueta = new LeituraEtiquetaLocalizaGuardaMaterialService();
+                var dadosLeituraLocalizaGuardaMaterial = new DadosLeituraLocalizaGuardaMaterial()
+                { CodEstabel = SecurityAuxiliar.GetCodEstabel(), CodigoBarras = _localCodigoBarras };
+
+                // recarrega a lista da API
+                var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
+                {
+                    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                    CodDepos = _codDepos,
+                    CodigoBarras = _localCodigoBarras
+                };
+
+                dadosLeituraItemGuardaMaterial.CodLocaliza = _codigoBarrasLocalizacao;
+                dadosLeituraItemGuardaMaterial.Transacao = 1;
+
+                if ((SwtSaldo).On)
+                {
+                    dadosLeituraItemGuardaMaterial.SemSaldo = 1;
+                }
+                else
+                {
+                    dadosLeituraItemGuardaMaterial.SemSaldo = 0;
+                }
+
+                var dRetorno = await LeituraEtiquetaLerLocalizaGuardaMaterialService.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
+
+                ObsGuardaMateriaisDepositoItem.Clear();
+
+                if (dRetorno.Retorno.Contains("Error"))
+                {
+                    await DisplayAlert("ERRO", dRetorno.Resultparam[0].ErrorHelp, "OK");
+                    OnPropertyChanged("ObsGuardaMateriaisDepositoItem");
+                }
+                else
+                {
+                    // Chamar a API novamente passando sem saldo 0 
+                    if (dRetorno != null && dRetorno.paramRetorno != null)
+                    {
+                        foreach (var item in dRetorno.paramRetorno)
+                        {
+                            var modelView = Mapper.Map<DepositosGuardaMaterialItem, DepositosGuardaMaterialItemViewModel>(item);
+                            ObsGuardaMateriaisDepositoItem.Add(modelView);
+                        }
+                    }
+                    OnPropertyChanged("ObsGuardaMateriaisDepositoItem");
+                }
+
+                if (_pagePopUpLocaliz != null)
+                {
+                    _pagePopUpLocaliz.PopUpClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro!", ex.Message, "Cancelar");
+            }
+            finally
+            {
+                await pageProgress.OnClose();
+            }
+
+            //CarregaListView();
         }
 
         private async void CarregaListView()
@@ -107,27 +195,81 @@ namespace CollectorQi.Views
         {
             OnBackButtonPressed();
         }
-        public async void CodigoBarras(string pCodigoBarras)
+        public async void CodigoBarras(string pCodigoBarras, bool origemPopUp, string pQuantidade)
         {
             var pageProgress = new ProgressBarPopUp("Efetivando Item, aguarde...");
 
             try
             {
+
+                // Solicitou informar a quantidade e digita a caixa 
+                if (SwtQuantidade.On && !origemPopUp)
+                {
+                    string strItCodigo = "";                    
+                    
+                    if (pCodigoBarras.Contains(";"))
+                    {
+                        strItCodigo = pCodigoBarras.Split(';')[1];
+                    }
+                    else
+                    {
+                        strItCodigo = pCodigoBarras;
+                    }
+
+                    var item = ObsGuardaMateriaisDepositoItem.FirstOrDefault(x => x.CodigoItem == strItCodigo);
+
+                    if (item != null)
+                    {
+                        await OpenPopUpQuantidade(item, pCodigoBarras);
+                        return;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Erro", "Item não encontrado", "OK");
+                    }
+                }
+                
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
                 ObsGuardaMateriaisDepositoItem  = new ObservableCollection<DepositosGuardaMaterialItemViewModel>();
                 var depositosGuardaMaterialItem = new DepositosGuardaMaterialItem();
 
+                // altera quantidade no codigo de barras
+                if (SwtQuantidade.On && pQuantidade != null)
+                {
+                    var splCodigoBarras = pCodigoBarras.Split(';');
+
+                    if (splCodigoBarras != null)
+                    {
+                        splCodigoBarras[3] = pQuantidade.ToString();
+                    }
+
+                    pCodigoBarras = "";
+                    for (int i = 0; i < splCodigoBarras.Length; i++)
+                    {
+                        if (pCodigoBarras == "")
+                        {
+                            pCodigoBarras = splCodigoBarras[i];
+                        }
+                        else
+                        {
+                            pCodigoBarras = pCodigoBarras + ';' + splCodigoBarras[i];
+                        }
+                    }
+                }
+
+
                 var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
                 {
-                    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
-                    CodDepos = _codDepos,
-                    CodLocaliza = _local,
-                    Transacao = _tipoMovimento,
-                    SemSaldo = SemSaldo,
-                    CodigoBarras = pCodigoBarras
+                    CodEstabel   = SecurityAuxiliar.GetCodEstabel(),
+                    CodDepos     = _codDepos,
+                    CodLocaliza  = _local,
+                    Transacao    = _tipoMovimento,
+                    SemSaldo     = SemSaldo,
+                    CodigoBarras = pCodigoBarras,
+                    
                 };
-
+            
                 var resultService = await LeituraEtiquetaGuardaMaterialService.SendLeituraEtiquetaAsync(dadosLeituraItemGuardaMaterial);
 
                 if (resultService != null && resultService.Retorno != null)
@@ -150,6 +292,11 @@ namespace CollectorQi.Views
                         }
                         else
                         {
+                            if (_pagePopUp != null)
+                            {
+                               _pagePopUp.PopUpClose();
+                                // await PopupNavigation.Instance.PushAsync(_pagePopUp);
+                            }
                             _listaDepositosGuardaMaterialItem = dRetorno.paramRetorno;
                             CarregaListView();
                         }
@@ -228,13 +375,13 @@ namespace CollectorQi.Views
 
         private void SwitchCellQuantidade_OnChanged(object sender, ToggledEventArgs e)
         {
-            if (((SwitchCell)sender).On)
+            if (!((SwitchCell)sender).On)
             {
-                SwtQuantidade.Text = "Quantidade Padrão";
+                SwtQuantidade.Text = "Quantidade Caixa";
             }
             else
             {
-                SwtQuantidade.Text = "Informar Quantidade";
+                SwtQuantidade.Text = "Informar a quantidade";
             }
         }
 
@@ -327,8 +474,25 @@ namespace CollectorQi.Views
 
         private async void cvGuardaMateriaisDepositoItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            cvGuardaMateriaisDepositoItem.IsEnabled = false;
+
+            if (cvGuardaMateriaisDepositoItem.SelectedItem == null)
+                return;
+
+            cvGuardaMateriaisDepositoItem.SelectedItem = null;
+
+            var current = (cvGuardaMateriaisDepositoItem.SelectedItem as DepositosGuardaMaterialItemViewModel);
+
+            SwtQuantidade.On = true;
+
+            await OpenPopUpQuantidade(current, "");
+        }
+
+        private async Task OpenPopUpQuantidade(DepositosGuardaMaterialItemViewModel current, string pCodBarras)
+        {
             try
             {
+                /*
                 cvGuardaMateriaisDepositoItem.IsEnabled = false;
 
                 if (cvGuardaMateriaisDepositoItem.SelectedItem == null)
@@ -337,6 +501,7 @@ namespace CollectorQi.Views
                 cvGuardaMateriaisDepositoItem.SelectedItem = null;
 
                 var current = (cvGuardaMateriaisDepositoItem.SelectedItem as DepositosGuardaMaterialItemViewModel);
+                */
 
                 // Saida
                 if (current.SaldoInfo <= 0 && SwtEntradaSaida.On)
@@ -356,8 +521,9 @@ namespace CollectorQi.Views
                     tipoTransacao = "Entrada";
                 }
 
-                var page = new GuardaMateriasConfirmaQuantidadePopUp(_codDepos, _local, current.CodigoItem, tipoTransacao);
+                var page = new GuardaMateriasConfirmaQuantidadePopUp(_codDepos, _local, current.CodigoItem, tipoTransacao, pCodBarras);
                 page._actConfirmaGuardaMateriais = CodigoBarras;
+                _pagePopUp = page;
                 await PopupNavigation.Instance.PushAsync(page);
 
             }
@@ -369,9 +535,39 @@ namespace CollectorQi.Views
             {
                 cvGuardaMateriaisDepositoItem.IsEnabled = true;
             }
+        }
 
+
+        GuardaMateriasConfirmaQuantidadePopUp _pagePopUp = null;
+        GuardaMateriasDepositoLocalizPopUp _pagePopUpLocaliz = null;
+
+        private async void BtnTipoMovimento_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                BtnTipoMovimento.IsEnabled = false;
+
+                //var pageProgress = new ProgressBarPopUp("Carregando...");
+
+                _pagePopUpLocaliz = new GuardaMateriasDepositoLocalizPopUp(null, _depositoGuardaMaterial);
+                _pagePopUpLocaliz._confirmaLocalizacaoItem = CarregaListViewPopUp;
+                await PopupNavigation.Instance.PushAsync(_pagePopUpLocaliz);
+                //await pageProgress.OnClose();
+
+               // cvDepositosGuardaMaterial.SelectedItem = null;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERRO", ex.Message, "OK");
+            }
+            finally
+            {
+                BtnTipoMovimento.IsEnabled = true;
+            } 
         }
     }
+
+
 
     public class DepositosGuardaMaterialItemViewModel : DepositosGuardaMaterialItem
     {

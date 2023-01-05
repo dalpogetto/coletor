@@ -70,7 +70,7 @@ namespace CollectorQi.Views
             }
 
             ColConfirmar.BindingContext = this;
-            ColConfirmar.ItemsLayout = new ListItemsLayout(ItemsLayoutOrientation.Vertical);
+           // ColConfirmar.ItemsLayout = new ListItemsLayout(ItemsLayoutOrientation.Vertical);
 
             if (SecurityAuxiliar.Autenticado == false)
             {

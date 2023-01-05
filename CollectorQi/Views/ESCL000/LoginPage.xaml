@@ -8,7 +8,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-           <Frame  BackgroundColor="Transparent"  Grid.Row="0"  VerticalOptions="StartAndExpand" Padding="0" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+           <Frame  BackgroundColor="Transparent"  Grid.Row="0"  VerticalOptions="StartAndExpand" Padding="0" Margin="0,0,0,-25" HorizontalOptions="FillAndExpand">
                <Frame.GestureRecognizers>                    
                    <TapGestureRecognizer Tapped="OnTapped_Img" NumberOfTapsRequired="1"/>
                </Frame.GestureRecognizers>
@@ -16,39 +16,44 @@
                 <!--<Image Grid.Row="0" Aspect="AspectFit" Source="scaLogo.png" Opacity="1.0" VerticalOptions="StartAndExpand" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" />-->
                <Image Grid.Row="0" Aspect="AspectFit" Source="logoProjeto.png" Opacity="1.0" VerticalOptions="StartAndExpand" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" />
            </Frame>
+            
            <AbsoluteLayout Grid.Row="1" VerticalOptions="Start" Margin="0,0,0,0">               
                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
                     <!--<Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,10,30,30" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB">-->
-                    <Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,10,30,30" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#cccbcb">    
+                    <Frame VerticalOptions="CenterAndExpand" HasShadow="true" Margin="30,0" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#cccbcb">    
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="20" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="20" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="60" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="15" />
+                                <RowDefinition Height="55" />
+                                <RowDefinition Height="15" />
+                                <RowDefinition Height="55" />
+                                <RowDefinition Height="15" />
+                                <RowDefinition Height="55" />
+                                <RowDefinition Height="55" />
                                 <RowDefinition>
                                     <RowDefinition.Height>
                                         <OnPlatform x:TypeArguments="GridLength" iOS="20" Android="0" />
                                     </RowDefinition.Height>
                                 </RowDefinition>
                             </Grid.RowDefinitions>
+                            
                             <StackLayout HeightRequest="60" x:Name="acessar">
                                 <Label Text="Acesse a sua conta" HorizontalOptions="Center" TextColor="{StaticResource NavigationPrimary}" Grid.Row="0" FontSize="15" />
                             </StackLayout>
+                            
                             <Label Text="Usuário" Margin="0, 0, 0, 0" VerticalOptions="Start" Grid.Row="1" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" />
-                            <!--<Entry Grid.Row="2"  Margin="0, 0, 0, 0" x:Name="usuario" VerticalOptions="Start" Placeholder="Usuário" PlaceholderColor="{StaticResource TextColorPlaceHolder}" FontSize="14"  />
-                            -->
                             <customentry:CustomEntryText x:Name="usuario"                   Image="entry_icon_user"    Grid.Row="2"  FontSize="16"   ImageHeight="13" ImageWidth="13"  IsCurvedCornersEnabled="false" Placeholder="Digite o usuário..." />
                            
                             <Label Text="Senha" Margin="0, 0, 0, 0" VerticalOptions="Start" Grid.Row="3" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" />
-
                             <customentry:CustomEntryText x:Name="senha" IsPassword="true"  Image="entry_icon_password" Grid.Row="4"  FontSize="16"   ImageHeight="13" ImageWidth="13"  IsCurvedCornersEnabled="false"  Placeholder="Digite a senha..." />
-                   
+
+                            <Label Text="Dominio" Margin="0, 0, 0, 0" VerticalOptions="Start" Grid.Row="5" FontSize="Small" TextColor="{StaticResource NavigationPrimary}" />
+                            <customentry:CustomEntryText x:Name="dominio"  Image="entry_domain" Grid.Row="6"  FontSize="16"   ImageHeight="13" ImageWidth="13"  IsCurvedCornersEnabled="false"  Placeholder="Digite o dominio..." />
                             
-                            <Button x:Name="BtnLogin" Text="ACESSAR" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" HeightRequest="50" BorderRadius="16" VerticalOptions="Start" Grid.Row="5" />
-                            <ActivityIndicator Color="Black" Grid.Row="6" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
+                            <Button x:Name="BtnLogin" Text="ACESSAR" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" HeightRequest="50" BorderRadius="16" VerticalOptions="Start" Grid.Row="7" />
+
+                            <ActivityIndicator Color="Black" Grid.Row="8" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
                                 <ActivityIndicator.WidthRequest>
                                     <OnPlatform x:TypeArguments="x:Double" iOS="100" Android="100" WinPhone="400" />
                                 </ActivityIndicator.WidthRequest>

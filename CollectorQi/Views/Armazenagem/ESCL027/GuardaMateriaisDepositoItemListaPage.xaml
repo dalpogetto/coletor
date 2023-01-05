@@ -9,7 +9,7 @@
         <StackLayout BackgroundColor="#fff">
             
             <Button x:Name="BtnTipoMovimento" Margin="10,10,10,10" BorderColor="#A5C3FA" FontSize="Small"  MinimumHeightRequest="70" BackgroundColor="{StaticResource TextColorPlaceHolder}" BorderRadius="7"
-                    Grid.Row="0" Grid.Column="0" TextColor="#515151" />
+                    Grid.Row="0" Grid.Column="0" TextColor="#515151" Clicked="BtnTipoMovimento_Clicked" />
 
             <StackLayout Margin="10,0,10,0" Orientation="Horizontal">
                 <TableView HeightRequest="50" >
@@ -36,7 +36,7 @@
                 <TableView HeightRequest="50">
                     <TableRoot>
                         <TableSection>
-                            <SwitchCell x:Name="SwtQuantidade" Text="Informar Quantidade" OnChanged="SwitchCellQuantidade_OnChanged"></SwitchCell>
+                            <SwitchCell x:Name="SwtQuantidade" Text="Quantidade Caixa" OnChanged="SwitchCellQuantidade_OnChanged"></SwitchCell>
                         </TableSection>
                     </TableRoot>
                 </TableView>

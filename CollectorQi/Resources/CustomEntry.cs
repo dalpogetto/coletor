@@ -15,7 +15,10 @@ namespace CollectorQi
             set { SetValue(IsNumericProperty, value); }
 
         }
+
     }
+
+
 
     public class TextChangedBehavior : Behavior<SearchBar>
     {

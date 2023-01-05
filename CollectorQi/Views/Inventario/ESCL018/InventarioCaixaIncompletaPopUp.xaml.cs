@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
+using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.Services.ESCL018;
+using CollectorQi.Services.ESCL018B;
 using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -61,11 +63,35 @@ namespace CollectorQi.Views
                 FrameLote.IsVisible = false;
             }
 
+            var security = await SecurityDB.GetSecurityAsync();
+
+            if (security != null && !security.CxCompleta)
+            {
+                SwtCxCompleta.On = false;
+            }
+            {
+                SwtCxCompleta.On = true;
+            }
+
             await Task.Run(async () =>
             { 
-                await Task.Delay(100);
+                await Task.Delay(300);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
+                    /* if (!String.IsNullOrEmpty(edtCodigoBarras.Text))
+                     {
+                         txtQuantidade.Focus();
+                     }
+                     else if (SwtCxCompleta.On)
+                     {
+                         edtCodigoBarras.Focus();
+                     }
+                     else
+                     {
+                         txtQuantidade.Focus();
+                     }
+                    */
+
                     txtQuantidade.Focus();
                 });
             });
@@ -144,7 +170,7 @@ namespace CollectorQi.Views
                             CodItem            = _inventarioItemVO.CodItem.Trim(),
                             CodDepos           = _inventarioItemVO.CodDepos.Trim(),
                             QuantidadeDigitada = decQuantidade,
-                            CodEmp             = "1",
+                            CodEmp             = SecurityAuxiliar.GetCodEmpresa(),
                             Contagem           = _inventarioItemVO.Contagem,
                             CodEstabel         = _inventarioItemVO.CodEstabel,
                             CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
@@ -158,7 +184,7 @@ namespace CollectorQi.Views
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
 
 
-                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this);
+                        var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this, false);
 
                         if (resultService != null && resultService.Retorno != null)
                         {
@@ -222,6 +248,35 @@ namespace CollectorQi.Views
             {
                 return String.Empty;
             }
+        }
+
+        private async void edtCodigoBarras_UnFocused(object sender, FocusEventArgs e)
+        {
+            try
+            {
+                if (!String.IsNullOrEmpty(edtCodigoBarras.Text))
+                {
+                    if (SwtCxCompleta.On)
+                    {
+                        var result = await ParametersEtiquetaPAM.ObterEtiqueta(edtCodigoBarras.Text);
+
+                        if (result != null && result.Qtde > 0)
+                        {
+                            txtQuantidade.Text = result.Qtde.ToString();
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private async void SwtCxCompleta_OnChanged(object sender, ToggledEventArgs e)
+        {
+            try
+            {
+                await SecurityDB.AtualizarSecurityParametros(SwtCxCompleta.On);
+            }
+            catch { }
         }
     }
 }

@@ -41,6 +41,8 @@ namespace CollectorQi.Views
             lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
             ParametrosDepositosGuardaMaterial = parametrosDepositosGuardaMaterial;
 
+            edtItCodigo.Completed += (sender, e) => edtItCodigo_Completed(sender, e);
+
             if (parametrosDepositosGuardaMaterial != null)
             {
                 if (parametrosDepositosGuardaMaterial.LocalizacaoStatus)
@@ -192,8 +194,10 @@ namespace CollectorQi.Views
         //    edtLocalizacaoEntrada.Text = dGuardaMaterialRetorno.Result.Local;
         }
 
+
         async void OnClick_QR(object sender, EventArgs e)
         {
+            /*
             var iTemLeituraEtiquetaService = new LeituraEtiquetaTransferenciaDepositoService();
 
             var dadosLeituraItemTransferenciaDeposito = new DadosLeituraItemTransferenciaDeposito()
@@ -211,71 +215,14 @@ namespace CollectorQi.Views
                 edtItCodigo.Text = item.CodItem;
                 /* edtDescItem.Text = item.DescItem;
                 edtUnidade.Text = item.Un;
-                edtTipoConta.Text = item.Conta; */
+                edtTipoConta.Text = item.Conta; 
                 edtNroDocto.Text = item.NF;
                 edtSerie.Text = item.Serie;
                 edtLote.Text = item.Lote;
                // edtSaldo.Text = item.Saldo.ToString();
                 edtQuantidade.Text = item.Quantidade.ToString();
-            }
-
-            /*
-            var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-
-            ZXing.Mobile.MobileBarcodeScanningOptions scanningOptions = new ZXing.Mobile.MobileBarcodeScanningOptions();
-
-            /*scanningOptions.UseFrontCameraIfAvailable = switchCameraFrontal.IsToggled;
-
-            scanningOptions.PossibleFormats.Add(ZXing.BarcodeFormat.CODE_128);
-            scanningOptions.PossibleFormats.Add(ZXing.BarcodeFormat.CODE_39);
-            scanningOptions.PossibleFormats.Add(ZXing.BarcodeFormat.CODABAR);
-            scanningOptions.PossibleFormats.Add(ZXing.BarcodeFormat.QR_CODE);
-
-            var result = await scanner.Scan(scanningOptions);
-
-            if (result != null)
-            {
-                VerifyProd(result.Text.ToString().Trim()); 
-            }*/
-
-            //try
-            //{
-            //    //BtnQR.IsEnabled = false;
-            //    var customScanPage = new ZXingScannerPage();
-            //    customScanPage.SetResultAction(VerifyProd);
-            //    await Navigation.PushModalAsync(customScanPage);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayAlert("Erro!", ex.Message, "OK");
-            //}
-            //finally
-            //{
-            //    //BtnQR.IsEnabled = true;
-            //}
+            } */
         }
-
-        //public void OnClick_BuscaItem(object sender, EventArgs e)
-        //{
-        //    //try
-        //    //{
-        //    //    BtnBuscaItem.IsEnabled = false;
-
-        //    //    var page = new ItemPopUp(edtItCodigo, edtDescItem, edtUnidade, edtTipoConEst, null);
-
-        //    //    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    await DisplayAlert("Erro!", ex.Message, "OK");
-        //    //}
-        //    //finally
-        //    //{
-        //    //    BtnBuscaItem.IsEnabled = true;
-        //    //}
-        //}
 
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
@@ -343,7 +290,7 @@ namespace CollectorQi.Views
                             Serie             = edtSerie.Text ?? String.Empty,
                             CodItem           = edtItCodigo.Text ?? String.Empty,
                             Lote              = edtLote.Text ?? String.Empty,
-                            Quantidade        = int.Parse(edtQuantidade.Text)
+                            Quantidade        = edtQuantidade.Text
                         };
 
                         var efetivarTransferenciaRetorno = await efetivarTransferencia.SendTransferenciaDepositoAsync(dadosLeituraDadosItemTransferenciaDeposito);
@@ -548,6 +495,11 @@ namespace CollectorQi.Views
         //    }
         //}
 
+        private async void edtItCodigo_Completed(object sender, EventArgs e)
+        {
+          
+        }
+
         async void Limpar(bool pBlnQuestion)
         {
             if (pBlnQuestion)
@@ -558,8 +510,13 @@ namespace CollectorQi.Views
                     return;
             }
 
-            edtDepositoSaida.Text = "";
-            edtDepositoEntrada.Text = "";
+
+            if (pBlnQuestion)
+            {
+              //  edtDepositoSaida.Text = "";
+              //  edtDepositoEntrada.Text = "";
+            }
+
             edtLocalizacaoSaida.Text = "";
             edtLocalizacaoEntrada.Text = "";
             edtItCodigo.Text = "";
@@ -571,6 +528,7 @@ namespace CollectorQi.Views
             edtLote.Text = "";
             //edtSaldo.Text = "";
             edtQuantidade.Text = "";
+            edtSaldo.Text = "";
         }
 
         protected override bool OnBackButtonPressed()
@@ -595,6 +553,104 @@ namespace CollectorQi.Views
             finally
             {
                 ToolBarPrint.IsEnabled = true;
+            }
+        }
+
+        private async void edtItCodigo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var pageProgress = new ProgressBarPopUp("Carregando...");
+
+            try
+            {
+
+                
+                if (String.IsNullOrEmpty(e.OldTextValue) && edtItCodigo.Text != null && edtItCodigo.Text.Length >= 10)
+                {
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                    //  var iTemLeituraEtiquetaService = new LeituraEtiquetaTransferenciaDepositoService();
+
+                    if (String.IsNullOrEmpty(edtDepositoSaida.Text))
+                    {
+                        throw new Exception("Informar o depósito de saída");
+                    }
+
+                    if (String.IsNullOrEmpty(edtDepositoEntrada.Text))
+                    {
+                        throw new Exception("Informar o depósito de entrada");
+                    }
+
+                    var dadosLeituraItemTransferenciaDeposito = new DadosLeituraItemTransferenciaDeposito()
+                    {
+                        CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                        CodDeposOrigem = _codDeposEntradaHidden,
+                        CodLocalizaOrigem = edtLocalizacaoEntrada.Text ?? String.Empty,
+                        CodigoBarras = edtItCodigo.Text
+                    };
+
+                    var itemLeituraEtiquetaServiceRetorno = await LeituraEtiquetaTransferenciaDepositoService.SendLeituraEtiquetaAsync(dadosLeituraItemTransferenciaDeposito);
+
+                    if (itemLeituraEtiquetaServiceRetorno != null)
+                    {
+                        
+                        foreach (var item in itemLeituraEtiquetaServiceRetorno.Param.ParamResult)
+                        {
+                            edtItCodigo.Text = item.CodItem;
+                            /* edtDescItem.Text = item.DescItem;
+                            edtUnidade.Text = item.Un;
+                            edtTipoConta.Text = item.Conta; */
+                            edtNroDocto.Text = item.NF;
+                            edtSerie.Text = item.Serie;
+                            edtLote.Text = item.Lote;
+                            try
+                            {
+                                edtSaldo.Text = int.Parse(item.Saldo).ToString();
+                                
+                            }
+                            catch
+                            {
+                                edtSaldo.Text = item.Saldo;
+                            }
+
+                            if (edtSaldo != null)
+                                edtSaldo.Text = edtSaldo.Text.Replace(".0", "").Trim();
+
+                            try
+                            {
+
+                                edtQuantidade.Text = int.Parse(item.Quantidade).ToString();
+                                
+                            }
+                            catch
+                            {
+                                edtQuantidade.Text = item.Quantidade;
+                            }
+
+                            if (edtQuantidade.Text != null)
+                                edtQuantidade.Text = edtQuantidade.Text.Replace(".0", "").Trim();
+
+                        }
+                    }
+
+                    /*
+                    await edtCodigoBarrasEtiqueta();
+
+                    await pageProgress.OnClose();
+
+                    if (txtQuantidade.Text.Length > 0 && txtQuantidade.Text != "0")
+                    {
+                        await ClickButtonEfetivar(true);
+                    } */
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", "Erro leitura etiqueta " + ex.Message, "OK");
+                edtItCodigo.Text = String.Empty;
+            }
+            finally
+            {
+                await pageProgress.OnClose();
             }
         }
 

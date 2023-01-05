@@ -27,10 +27,8 @@ namespace CollectorQi.Services.ESCL000
         {
             ValidaAplicativoErrorResponse parametros = null;
 
-
             try
             {
-
 
                 ValidaMobileRequest mobile = new ValidaMobileRequest();
 
@@ -40,52 +38,57 @@ namespace CollectorQi.Services.ESCL000
                     .Get<IHTTPClientHandlerCreationService>()
                     .GetInsecureHandler());
 
+                if (!String.IsNullOrEmpty(SecurityAuxiliar.CodUsuario)) { 
+
                 //client.BaseAddress = new Uri(URI);
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var json = JsonConvert.SerializeObject(mobile);
 
-                client.DefaultRequestHeaders.Add("CompanyId", "1");
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
-                using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
-                {
-                    HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
+                    using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                     {
-                        Content = content
-                    };
-
-                    var result = await client.SendAsync(req);
-
-                    /*
-                    if (result.IsSuccessStatusCode)
-                    {
-                        string responseData = await result.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<ValidaAplicativoResponse>(responseData);
-                    }
-                    else
-                    {
-                        Debug.Write(result);
-                        return default;
-                    }*/
-
-                    if (result.IsSuccessStatusCode)
-                    {
-                        string responseData = await result.Content.ReadAsStringAsync();
-
-                        if (responseData.Contains("Error"))
+                        HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, URI + URI_SEND_PARAMETERS)
                         {
-                            parametros = JsonConvert.DeserializeObject<ValidaAplicativoErrorResponse>(responseData);
+                            Content = content
+                        };
+
+                        var result = await client.SendAsync(req);
+
+                        /*
+                        if (result.IsSuccessStatusCode)
+                        {
+                            string responseData = await result.Content.ReadAsStringAsync();
+                            return JsonConvert.DeserializeObject<ValidaAplicativoResponse>(responseData);
                         }
                         else
                         {
-                            var parametrosSuccess = JsonConvert.DeserializeObject<ValidaAplicativoResponse>(responseData);
+                            Debug.Write(result);
+                            return default;
+                        }*/
 
-                            parametros = new ValidaAplicativoErrorResponse()
+                        if (result.IsSuccessStatusCode)
+                        {
+                            string responseData = await result.Content.ReadAsStringAsync();
+
+                            if (responseData.Contains("Error"))
                             {
-                                Retorno = parametrosSuccess.Retorno,
-                                APKInfo = parametrosSuccess.Conteudo.APKInfo
-                            };
+                                parametros = JsonConvert.DeserializeObject<ValidaAplicativoErrorResponse>(responseData);
+                            }
+                            else
+                            {
+                                var parametrosSuccess = JsonConvert.DeserializeObject<ValidaAplicativoResponse>(responseData);
+
+                                parametros = new ValidaAplicativoErrorResponse()
+                                {
+                                    Retorno = parametrosSuccess.Retorno,
+                                    APKInfo = parametrosSuccess.Conteudo.APKInfo,
+                                    ListaEmpresas = parametrosSuccess.Conteudo.ListaEmpresas
+                                };
+                            }
                         }
                     }
                 }
@@ -124,6 +127,13 @@ namespace CollectorQi.Services.ESCL000
     public class ApkInfo
     {
         public IList<ValidaAplicativoInfo> APKInfo { get; set; } = new List<ValidaAplicativoInfo>();
+        public IList<ListaEmpresas> ListaEmpresas { get; set; }  = new List<ListaEmpresas>(); 
+    }
+
+    public class ListaEmpresas
+    {
+        public string nomEmpresa { get; set; } = String.Empty;
+        public string codEmpresa { get; set; } = String.Empty;
     }
 
     public class ValidaAplicativoInfo
@@ -148,6 +158,7 @@ namespace CollectorQi.Services.ESCL000
         public string Retorno { get; set; }
 
         public IList<ValidaAplicativoInfo> APKInfo { get; set; } = new List<ValidaAplicativoInfo>();
+        public IList<ListaEmpresas> ListaEmpresas { get; set; } = new List<ListaEmpresas>();
 
         public string Id { get; set; }
 

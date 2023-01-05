@@ -23,7 +23,7 @@ namespace CollectorQi.Services.ESCL028
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl028api/ValidarReparos";
 
         // Metodo ObterParametros Totvs
-        public static async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal)
+        public static async Task<ResultNotaFiscalJson> SendValidarReparosAsync(ESCL.ValidarReparosNotaFiscal validarReparosNotaFiscal, string pCodEstab)
         {
             ResultNotaFiscalJson parametros = null;
 
@@ -37,7 +37,7 @@ namespace CollectorQi.Services.ESCL028
 
 
                 Param p = new Param { 
-                    CodEstabel = SecurityAuxiliar.GetCodEstabel()
+                    CodEstabel = pCodEstab
                 };
 
                 List<ESCL.ValidarReparosNotaFiscal> v = new List<ESCL.ValidarReparosNotaFiscal>();
@@ -55,6 +55,9 @@ namespace CollectorQi.Services.ESCL028
                 // Substituir por user e password
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 var json = JsonConvert.SerializeObject(requestJson);
 

@@ -6,6 +6,7 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using CollectorQi.Models;
+using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -36,7 +37,10 @@ namespace CollectorQi.Services.ESCL000
 
                 HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, URI_CADASTRO_FILIAIS);
 
-                client.DefaultRequestHeaders.Add("CompanyId", "1");
+                var codEmpresa = SecurityAuxiliar.GetCodEmpresa();
+
+                client.DefaultRequestHeaders.Add("CompanyId", codEmpresa);
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 var result = await client.SendAsync(req);
 

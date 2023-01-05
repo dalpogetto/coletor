@@ -155,7 +155,7 @@ namespace CollectorQi
         private static void StartBackgroundService()
         {
             //Atualiza a cada 5 Minutos
-            BackgroundAggregatorService.Add(() => new IntegracaoServiceMovto(5));
+            BackgroundAggregatorService.Add(() => new IntegracaoServiceMovto(30));
 
             // Atualiza a cada 60 minutos os cadastros TOTVS
             BackgroundAggregatorService.Add(() => new IntegracaoServiceCad(60));

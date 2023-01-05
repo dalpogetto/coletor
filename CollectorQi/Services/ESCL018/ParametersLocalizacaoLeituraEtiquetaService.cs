@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Services.ESCL000;
+using CollectorQi.Resources;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -41,7 +42,8 @@ namespace CollectorQi.Services.ESCL018
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
-                client.DefaultRequestHeaders.Add("CompanyId", "1");
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {

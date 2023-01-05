@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using CollectorQi.Resources;
-using static CollectorQi.Services.ESCL018.ParametersFichasUsuarioService;
+using static CollectorQi.Services.ESCL018.ObterLocalizPorEstabDepService;
 using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 using CollectorQi.ViewModels.Interface;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
@@ -34,7 +34,7 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
 
-        public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
+        public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO, bool pIsNotification = false)
         {
 
             var inventarioBarra = new InventarioItemBarra()
@@ -45,27 +45,37 @@ namespace CollectorQi.Services.ESCL018
                 CodItem = inventarioItemVO.CodItem.Trim(),
                 CodDepos = inventarioItemVO.CodDepos.Trim(),
                 QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
-                CodEmp = "1",
+                CodEmp = SecurityAuxiliar.GetCodEmpresa(),
                 Contagem = 1,
                 CodEstabel = inventarioItemVO.CodEstabel,
                 CodigoBarras = inventarioItemVO.CodigoBarras
 
             };
 
-            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null);
+            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null, pIsNotification);
 
             return "Inventário Integrado com sucesso";
 
             //return Task.Str<"Inventário Integrado com sucesso">;
         }
 
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal)
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal, bool pIsNotification)
         {
             ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
 
             try
             {
-                return await SendInventarioAsyncERP(requestParam);
+                var resultInventario = await SendInventarioAsyncERP(requestParam);
+
+                if (pIsNotification)
+                {
+                    //InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.);
+                    var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
+                    BatchInventarioItemDB.AtualizaStatusIntegracao(batchInventarioItem.InventarioItemId, eStatusIntegracao.EnviadoIntegracao);
+                }
+
+                return resultInventario;
+               
             }
             catch (Exception e)
             {
@@ -113,7 +123,8 @@ namespace CollectorQi.Services.ESCL018
 
                 var json = JsonConvert.SerializeObject(requestJson);
 
-                client.DefaultRequestHeaders.Add("CompanyId", "1");
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
+                client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {

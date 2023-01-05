@@ -32,7 +32,7 @@
                                 </Grid.RowDefinitions>
                                 <Label x:Name="lblLocalizacao" Text="Localização" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" />
                                 
-                                <local:CustomEntryText x:Name="edtLocalizacao" IsReadOnly="false" FontSize="Small" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Digite a localização..." Grid.Row="1"
+                                <local:CustomEntryText x:Name="edtLocalizacao" IsReadOnly="false" FontSize="Small" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Digite a localização..." Grid.Row="1" TextChanged="edtLocalizacao_TextChanged"
                                     Grid.Column="0" />
 
                                 <StackLayout Orientation="Horizontal" Margin="10,0,10,0" Grid.Row="3">
