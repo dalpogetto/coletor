@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" Title="Leitura da Etiqueta de Reparo" x:Class="CollectorQi.Views.MovimentoReparosLeituraEtiqueta" xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="voltarMini.png" Text="Voltar" Clicked="ToolBarVoltar_Clicked" x:Name="ToolBarVoltar"></ToolbarItem>
+
         <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
         <ToolbarItem Icon="closeMini.png" Text="Search" Clicked="ToolbarLimpar_Clicked" x:Name="ToolBarLimpar"></ToolbarItem>
     </ContentPage.ToolbarItems>

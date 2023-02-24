@@ -93,8 +93,8 @@ namespace CollectorQi.Views
 
         public void resultDigita(InventarioItemVO byCurrent, decimal byQtdDigita)
         {
-            var idxCurrent = Items.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
-            var idxCurrentUnfiltred = _ItemsUnfiltered.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
+            var idxCurrent = Items.Where(p => p.InventarioItemKey == byCurrent.InventarioItemKey);
+            var idxCurrentUnfiltred = _ItemsUnfiltered.Where(p => p.InventarioItemKey == byCurrent.InventarioItemKey);
 
             /* Victor Alves - 31/10/2019 - Se os itens nao estiver na lista, filtra pois vai mostrar o qual ele digitou */
             byCurrent.Quantidade = byQtdDigita;
@@ -559,7 +559,7 @@ namespace CollectorQi.Views
 
         public async void RefreshRowInventarioItem(InventarioItemVO pInventarioItemVO)
         {
-            var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
+            var current = Items.FirstOrDefault(p => p.InventarioItemKey == pInventarioItemVO.InventarioItemKey);
 
             if (current != null)
             {
@@ -571,7 +571,7 @@ namespace CollectorQi.Views
         }
         public async void DeleteRowInventarioItem(InventarioItemVO pInventarioItemVO)
         {
-            var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
+            var current = Items.FirstOrDefault(p => p.InventarioItemKey == pInventarioItemVO.InventarioItemKey);
 
             if (current != null) {
                 Items.Remove(current);
@@ -640,7 +640,25 @@ namespace CollectorQi.Views
                 }
                 else if (this.StatusIntegracao == eStatusInventarioItem.IntegracaoCX)
                 {
-                    return "intSucessoMed.png";
+                    var result = InventarioItemCodigoBarrasDB.GetByInventarioItemKey(this.InventarioItemKey);
+
+                    if (result != null)
+                    {
+                        var qtd = result.Sum(x => x.Quantidade);
+
+                        if (qtd > 0)
+                        {
+                            return "intSucessoMed.png";
+                        }
+                        else
+                        {
+                            return "intPendenteMed.png";
+                        }
+                    }
+                    else
+                    {
+                        return "intPendenteMed.png";
+                    }
                 }
                 else
                 {
@@ -676,14 +694,24 @@ namespace CollectorQi.Views
                 }
                 else if (this.StatusIntegracao == eStatusInventarioItem.IntegracaoCX)
                 {
-                    if (this.QuantidadeAcum != null && this.QuantidadeAcum > 0)
-                    {
+                    var result = InventarioItemCodigoBarrasDB.GetByInventarioItemKey(this.InventarioItemKey);
 
-                        return $"{this.QuantidadeAcum.ToString()} (CX)";
+                    if (result != null)
+                    {
+                        var qtd = result.Sum(x => x.Quantidade);
+
+                        if (qtd > 0)
+                        {
+                            return $"{qtd.ToString()} (CX)";
+                        }
+                        else
+                        {
+                            return "Não Digitado";
+                        }
                     }
                     else
                     {
-                        return "Cont (CX)";
+                        return "Não Digitado";
                     }
                 } 
                 else
@@ -695,7 +723,7 @@ namespace CollectorQi.Views
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

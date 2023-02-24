@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.ESCL018;
+using CollectorQi.Models.ESCL021;
 using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.Services.ESCL018B;
+using CollectorQi.Services.ESCL021;
 using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -35,7 +37,6 @@ namespace CollectorQi.Views
 
                 _inventarioItemVO = pInventarioItem;
                 _inventarioId     = pInventarioId;
-
             }
             catch (Exception ex)
             {
@@ -45,33 +46,25 @@ namespace CollectorQi.Views
 
         protected async override void OnAppearing()
         {
-            var inventario = await InventarioDB.GetInventario(_inventarioId);
+            var inventario = InventarioDB.GetInventario(_inventarioId);
 
             edtItCodigo.Text           = _inventarioItemVO.CodItem.ToString();
-            edtCodEstabelecimento.Text = _inventarioItemVO.CodEstabel + " - " + inventario.DescEstabel;
-            edtCodDeposito.Text        = _inventarioItemVO.CodDepos + " - " + inventario.DescDepos;
+            edtCodEstabelecimento.Text = inventario.CodEstabel + " - " + inventario.DescEstabel;
+            edtCodDeposito.Text        = inventario.CodDepos + " - " + inventario.DescDepos;
             edtCodigoBarras.Text       = _inventarioItemVO.CodigoBarras;
             edtLote.Text               = _inventarioItemVO.Lote;
 
-            if (_inventarioItemVO.Quantidade > 0)
-            {
-                txtQuantidade.Text = _inventarioItemVO.Quantidade.ToString();
-            }
+           //if (_inventarioItemVO.Quantidade > 0)
+           //{
+           //    txtQuantidade.Text = _inventarioItemVO.Quantidade.ToString();
+           //}
 
             if (String.IsNullOrEmpty(_inventarioItemVO.Lote))
             {
                 FrameLote.IsVisible = false;
             }
 
-            var security = await SecurityDB.GetSecurityAsync();
-
-            if (security != null && !security.CxCompleta)
-            {
-                SwtCxCompleta.On = false;
-            }
-            {
-                SwtCxCompleta.On = true;
-            }
+            await edtLeituraEtiqueta();
 
             await Task.Run(async () =>
             { 
@@ -91,6 +84,16 @@ namespace CollectorQi.Views
                          txtQuantidade.Focus();
                      }
                     */
+
+
+                    var security = await SecurityDB.GetSecurityAsync();
+
+                    if (security != null && !security.CxCompleta)
+                    {
+                        SwtCxCompleta.On = false;
+                    } else {
+                        SwtCxCompleta.On = true;
+                    }
 
                     txtQuantidade.Focus();
                 });
@@ -168,11 +171,11 @@ namespace CollectorQi.Views
                             Lote               = _inventarioItemVO.Lote.Trim(),
                             Localizacao        = _inventarioItemVO.Localizacao.Trim(),
                             CodItem            = _inventarioItemVO.CodItem.Trim(),
-                            CodDepos           = _inventarioItemVO.CodDepos.Trim(),
+                            CodDepos           = _inventarioItemVO.__inventario__.CodDepos.Trim(),
                             QuantidadeDigitada = decQuantidade,
                             CodEmp             = SecurityAuxiliar.GetCodEmpresa(),
                             Contagem           = _inventarioItemVO.Contagem,
-                            CodEstabel         = _inventarioItemVO.CodEstabel,
+                            CodEstabel         = SecurityAuxiliar.GetCodEstabel(),
                             CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
                         };
 
@@ -182,7 +185,6 @@ namespace CollectorQi.Views
 
                         _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
                         inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
-
 
                         var resultService = await ParametersLeituraEtiquetaService.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0 , this, false);
 
@@ -250,7 +252,7 @@ namespace CollectorQi.Views
             }
         }
 
-        private async void edtCodigoBarras_UnFocused(object sender, FocusEventArgs e)
+        private async Task edtLeituraEtiqueta()
         {
             try
             {
@@ -258,11 +260,53 @@ namespace CollectorQi.Views
                 {
                     if (SwtCxCompleta.On)
                     {
+                        /*
                         var result = await ParametersEtiquetaPAM.ObterEtiqueta(edtCodigoBarras.Text);
 
                         if (result != null && result.Qtde > 0)
                         {
                             txtQuantidade.Text = result.Qtde.ToString();
+                        }
+                        */
+
+
+                        var dadosLeituraItemTransferenciaDeposito = new DadosLeituraItemTransferenciaDeposito()
+                        {
+                            CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                            //CodDeposOrigem = _codDeposSaidaHidden,
+                            //CodLocalizaOrigem = edtLocalizacaoSaida.Text ?? String.Empty,
+                            CodigoBarras = edtCodigoBarras.Text
+                        };
+
+                        var itemLeituraEtiquetaServiceRetorno = await LeituraEtiquetaTransferenciaDepositoService.SendLeituraEtiquetaAsync(dadosLeituraItemTransferenciaDeposito);
+
+                        if (itemLeituraEtiquetaServiceRetorno != null &&
+                            itemLeituraEtiquetaServiceRetorno.Param != null &&
+                            itemLeituraEtiquetaServiceRetorno.Param.ParamResult != null &&
+                            itemLeituraEtiquetaServiceRetorno.Param.ParamResult.Count > 0)
+                        {
+
+                            var item = itemLeituraEtiquetaServiceRetorno.Param.ParamResult[0];
+
+                            if (String.IsNullOrEmpty(item.CodItem))
+                            {
+                                throw new Exception("Não foi possivel ler a etiqueta.");
+                            }
+
+                            try
+                            {
+                                txtQuantidade.Text = int.Parse(item.Quantidade).ToString();
+                            }
+                            catch
+                            {
+                                txtQuantidade.Text = item.Quantidade;
+                            }
+
+                            if (txtQuantidade != null)
+                                txtQuantidade.Text = txtQuantidade.Text.Replace(".0", "").Trim();
+
+                            // txtQuantidade.Text = item.Quantidade;
+
                         }
                     }
                 }
@@ -270,11 +314,26 @@ namespace CollectorQi.Views
             catch { }
         }
 
+        private async void edtCodigoBarras_UnFocused(object sender, FocusEventArgs e)
+        {
+            await edtLeituraEtiqueta();
+        }
+
         private async void SwtCxCompleta_OnChanged(object sender, ToggledEventArgs e)
         {
             try
             {
-                await SecurityDB.AtualizarSecurityParametros(SwtCxCompleta.On);
+                bool blnCx = false;
+                if (SwtCxCompleta.On)
+                {
+                    blnCx = true;
+                }
+                else
+                {
+                    blnCx = false;
+                }
+
+                await SecurityDB.AtualizarSecurityParametros(blnCx) ;
             }
             catch { }
         }

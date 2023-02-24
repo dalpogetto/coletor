@@ -67,7 +67,7 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = "Estab: " + SecurityAuxiliar.Estabelecimento + " / Depos: " + pCodItem ;
+            lblCodEstabel.Text = "Item: " + pCodItem;
 
             _codDepos = pCodDepos;
             _codItem  = pCodItem;
@@ -124,7 +124,6 @@ namespace CollectorQi.Views
         
         async void cvLocalizacoes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             try
             {
                 cvLocalizacoes.IsEnabled = false;
@@ -211,6 +210,12 @@ namespace CollectorQi.Views
             {
                 ToolBarPrint.IsEnabled = true;
             }
+        }
+
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
         }
 
     }    

@@ -16,6 +16,7 @@ using CollectorQi.VO.Batch.ESCL018;
 using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using AutoMapper;
 using CollectorQi.Models.ESCL018;
+using CollectorQi.Views;
 
 namespace CollectorQi.Services.ESCL018B
 {
@@ -32,84 +33,113 @@ namespace CollectorQi.Services.ESCL018B
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/EfetivarContagem";
 
-        public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
+        //public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
+        //{
+        //
+        //    var inventarioBarra = new InventarioItemBarra()
+        //    {
+        //        IdInventario = inventarioItemVO.InventarioId,
+        //        Lote = inventarioItemVO.Lote.Trim(),
+        //        Localizacao = inventarioItemVO.Localizacao.Trim(),
+        //        CodItem = inventarioItemVO.CodItem.Trim(),
+        //        CodDepos = inventarioItemVO.__inventario__.CodDepos.Trim(),
+        //        QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
+        //        CodEmp = "1",
+        //        Contagem = 1,
+        //        CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+        //        CodigoBarras = inventarioItemVO.CodigoBarras
+        //
+        //    };
+        //
+        //    await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null);
+        //
+        //    return "Inventário Integrado com sucesso";
+        //
+        //    //return Task.Str<"Inventário Integrado com sucesso">;
+        //}
+
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(InventarioVO byInventario, List<ListaItemInventarioPAM> byLstItemDigitado, string byLocalizacao)
         {
-
-            var inventarioBarra = new InventarioItemBarra()
-            {
-                IdInventario = inventarioItemVO.InventarioId,
-                Lote = inventarioItemVO.Lote.Trim(),
-                Localizacao = inventarioItemVO.Localizacao.Trim(),
-                CodItem = inventarioItemVO.CodItem.Trim(),
-                CodDepos = inventarioItemVO.CodDepos.Trim(),
-                QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
-                CodEmp = "1",
-                Contagem = 1,
-                CodEstabel = inventarioItemVO.CodEstabel,
-                CodigoBarras = inventarioItemVO.CodigoBarras
-
-            };
-
-            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null);
-
-            return "Inventário Integrado com sucesso";
-
-            //return Task.Str<"Inventário Integrado com sucesso">;
-        }
-
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO, int inventarioItemId, ContentPage modal)
-        {
-            ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
-
+            
             try
             {
-                var integraERP = await SendInventarioAsyncERP(requestParam);
+                var integraERP = await SendInventarioAsyncERP(byInventario, byLstItemDigitado, byLocalizacao);
 
-                if (integraERP.Retorno == "OK")
-                {
-                    result.Retorno = integraERP.Retorno;
-                    result.Localizacao = requestParam.Localizacao;
-                    result.Item = requestParam.CodItem;
+                return integraERP;
 
-                    InventarioItemDB.DeletarInventarioByInventarioId(byInventarioItemVO);
-                }
+
+                //if (integraERP.Retorno == "OK")
+                //{
+                //    result.Retorno = integraERP.Retorno;
+                //    result.Localizacao = requestParam.Localizacao;
+                //    result.Item = requestParam.CodItem;
+                //
+                //    InventarioItemDB.DeletarInventarioByInventarioId(byInventarioItemVO);
+                //
             }
             catch (Exception e)
             {
-                if (e.Message == "Unauthorized")
-                {
-                    LoginPageInterface.ShowModalLogin(modal);
-                }
-                else
-                {
 
-                    try
-                    {
-                        InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.ErroIntegracao);
-                        var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
-                        await BatchInventarioItemDB.AtualizaBatchInventario(batchInventarioItem);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.Write(e);
-                    }
-                    result.Retorno = "IntegracaoBatch";
-                }
+                throw e;
+               // if (e.Message == "Unauthorized")
+               // {
+               //     LoginPageInterface.ShowModalLogin(modal);
+               // }
+               // else
+               // {
+               //
+               //     try
+               //     {
+               //         InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.ErroIntegracao);
+               //         var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
+               //         await BatchInventarioItemDB.AtualizaBatchInventario(batchInventarioItem);
+               //
+               //     }
+               //     catch (Exception ex)
+               //     {
+               //         System.Diagnostics.Debug.Write(e);
+               //     }
+               //     result.Retorno = "IntegracaoBatch";
+               // }
             }
 
-            return result;
 
-            // return lstInventarioItemVO;
         }
 
         // Metodo ObterParametros Totvs
-        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(InventarioItemBarra requestParam)
+        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(InventarioVO byInventario, List<ListaItemInventarioPAM> byLstItemDigitado, string byLocalizacao)
         {
             ResultSendInventarioReturnJson parametros = null;
             try
             {
-                RequestInventarioBarraJson requestJson = new RequestInventarioBarraJson() { Param = requestParam };
+                //RequestInventarioBarraJson requestJson = new RequestInventarioBarraJson() { Param = requestParam };
+
+                InventarioPAM inventarioPAM = new InventarioPAM
+                {
+                    IdInventario = byInventario.IdInventario,
+                    CodDepos = byInventario.CodDepos,
+                    CodEstabel = byInventario.CodEstabel,
+                    Localizacao = byLocalizacao,
+                    Lote = ""
+
+                };
+
+                List <ItensPAM> lstItensPAM = new List<ItensPAM>();
+                foreach (var row in byLstItemDigitado)
+                {
+                    lstItensPAM.Add(new ItensPAM
+                    {
+                        CodigoBarras = row.CodigoBarras,
+                        CodItem = row.CodItem,
+                        QtdeDigitada = row.QtdeDigitada.ToString()
+                    });
+                }
+
+                RequestInventarioPAMJson requestJson = new RequestInventarioPAMJson()
+                {
+                    Param = inventarioPAM,
+                    ListaItens = lstItensPAM
+                };
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 //client.BaseAddress = new Uri(URI);
@@ -146,10 +176,10 @@ namespace CollectorQi.Services.ESCL018B
 
                             parametros = new ResultSendInventarioReturnJson()
                             {
-                                Retorno = parametroSuccess.Retorno
+                                Retorno         = parametroSuccess.Retorno,
+                                ConteudoSuccess = parametroSuccess.ResultConteudo         
                             };
                         }
-
                     }
                     else
                     {
@@ -172,18 +202,51 @@ namespace CollectorQi.Services.ESCL018B
             public InventarioItem Param { get; set; }
         }
 
-        public class RequestInventarioBarraJson
+        public class RequestInventarioPAMJson
         {
             [JsonProperty("Inventario")]
-            public InventarioItemBarra Param { get; set; }
+            public InventarioPAM Param { get; set; }
+
+            [JsonProperty("ListaItens")]
+            public List<ItensPAM> ListaItens { get; set; }
         }
 
+        public class ItensPAM
+        {
+            public string CodigoBarras { get; set; }
+            public string CodItem { get; set; }
+            public string QtdeDigitada { get; set; }
+        }
+
+        public class InventarioPAM
+        {
+            public int IdInventario { get; set; }
+            public string CodEstabel { get; set; }
+            public string CodDepos { get; set; }
+            public string Localizacao { get; set; }
+            public string Lote { get; set; }
+        }
 
         public class ResultSendInventarioSuccessJson
         {
             public string Retorno { get; set; }
+
+            [JsonProperty("Conteudo")]
+            public ResultConteudoSuccessJson ResultConteudo { get; set; }
         }
 
+        public class  ResultConteudoSuccessJson
+        {
+            [JsonProperty("ListaItens")]
+            public List<ResultConteudoListItem> ListaItens { get; set; }
+        }
+        
+        public class ResultConteudoListItem
+        {
+            public string CodItem { get; set; }
+            public string CodigoBarras { get; set; }
+            public string Mensagem { get; set; }
+        }
 
         public class ResultSendInventarioReturnJson : ResultEfetivaContagemSuccess
         {
@@ -192,6 +255,8 @@ namespace CollectorQi.Services.ESCL018B
             public List<ResultSendInventarioErrorJson> Resultparam { get; set; }
 
             public string Retorno { get; set; }
+
+            public ResultConteudoSuccessJson ConteudoSuccess { get; set; }
         }
 
         public class ResultEfetivaContagemSuccess

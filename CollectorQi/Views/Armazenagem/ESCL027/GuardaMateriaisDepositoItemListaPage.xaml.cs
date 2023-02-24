@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -237,12 +238,16 @@ namespace CollectorQi.Views
                 // altera quantidade no codigo de barras
                 if (SwtQuantidade.On && pQuantidade != null)
                 {
+                    /*
                     var splCodigoBarras = pCodigoBarras.Split(';');
 
+                    /*
                     if (splCodigoBarras != null)
                     {
                         splCodigoBarras[3] = pQuantidade.ToString();
                     }
+                    
+
 
                     pCodigoBarras = "";
                     for (int i = 0; i < splCodigoBarras.Length; i++)
@@ -256,8 +261,14 @@ namespace CollectorQi.Views
                             pCodigoBarras = pCodigoBarras + ';' + splCodigoBarras[i];
                         }
                     }
-                }
+                    */
 
+                    
+                }
+                else
+                {
+                    pQuantidade = "-1";
+                }
 
                 var dadosLeituraItemGuardaMaterial = new DadosLeituraItemGuardaMaterial()
                 {
@@ -266,7 +277,8 @@ namespace CollectorQi.Views
                     CodLocaliza  = _local,
                     Transacao    = _tipoMovimento,
                     SemSaldo     = SemSaldo,
-                    CodigoBarras = pCodigoBarras,
+                    CodigoBarras = CleanInput(pCodigoBarras),
+                    Quantidade   = pQuantidade,
                     
                 };
             
@@ -276,8 +288,6 @@ namespace CollectorQi.Views
                 {
                     if (resultService.Retorno == "OK")
                     {
-                        await DisplayAlert("Guarda de Materiais", "Guarda de Materias efetivada com sucesso", "OK");
-
                         // Envia o codigo de barras da localizacao para buscar os itens da localizacao
                         dadosLeituraItemGuardaMaterial.CodigoBarras = _codigoBarrasLocalizacao;
 
@@ -294,9 +304,16 @@ namespace CollectorQi.Views
                         {
                             if (_pagePopUp != null)
                             {
-                               _pagePopUp.PopUpClose();
+                                _pagePopUp.PopUpClose();
                                 // await PopupNavigation.Instance.PushAsync(_pagePopUp);
                             }
+                            else
+                            {
+                                var pageBarras = new GuardaMateriaisDepositoItemListaPagePopUp();
+                                pageBarras._confirmaItem = CodigoBarras;
+                                await PopupNavigation.Instance.PushAsync(pageBarras);
+                            }
+
                             _listaDepositosGuardaMaterialItem = dRetorno.paramRetorno;
                             CarregaListView();
                         }
@@ -564,6 +581,27 @@ namespace CollectorQi.Views
             {
                 BtnTipoMovimento.IsEnabled = true;
             } 
+        }
+        static string CleanInput(string strIn)
+        {
+            // Replace invalid characters with empty strings.
+            try
+            {
+                return Regex.Replace(strIn, @"[^0-9a-zA-Z;./-]+", "",
+                                     RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters,
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
+            }
+        }
+
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
         }
     }
 

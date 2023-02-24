@@ -55,12 +55,21 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
             }
         }
 
-        public async static Task<InventarioVO> GetInventario(int byIdInventario)
+        
+        public static InventarioVO GetInventario(int byIdInventario)
         {
             var dbAsync = new BaseOperations();
             try
             {
-                return await dbAsync.Connection.Table<InventarioVO>().Where(p => p.IdInventario == byIdInventario).FirstOrDefaultAsync();
+                var result = dbAsync.Connection.Table<InventarioVO>().Where(p => p.IdInventario == byIdInventario);
+
+                if (result != null && result.FirstAsync() != null)
+                {
+                    return result.FirstAsync().Result;
+                }
+
+                return null;
+
             }
             catch (SQLiteException ex)
             {

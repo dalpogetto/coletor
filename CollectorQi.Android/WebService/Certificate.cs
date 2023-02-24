@@ -1,20 +1,10 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xamarin.Forms;
-using System.Net.Http;
-using Xamarin.Android.Net;
-using Javax.Net.Ssl;
-using Android.Net;
+﻿using Android.Net;
 using CollectorQi.Droid.WebService;
 using CollectorQi.Services;
+using Javax.Net.Ssl;
+using System.Net.Http;
+using Xamarin.Android.Net;
+using Xamarin.Forms;
 
 /*
 internal class HTTPClientHandlerCreationService_Android

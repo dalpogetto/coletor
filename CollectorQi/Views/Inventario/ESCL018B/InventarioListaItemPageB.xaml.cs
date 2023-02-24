@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CollectorQi.Models.Datasul;
 using CollectorQi.Models.ESCL018;
+using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.Services.ESCL018B;
@@ -61,7 +62,6 @@ namespace CollectorQi.Views
         private ObservableCollection<InventarioItemViewModel> _ItemsUnfiltered;
         private InventarioVO _inventario;
         private string _codLocaliz { get; set; }
-        private List<InventarioItemVO> _lstInventarioItemVO;
 
         public InventarioListaItemPageB(InventarioVO pInventarioVO , string pCodLocaliz)
         {
@@ -76,52 +76,7 @@ namespace CollectorQi.Views
             lblCodLocalizacao.Text = $"Depósito / Localização: {_inventario.CodDepos} / {_codLocaliz}";
 
         }
-
-        async void OnClick_CaixaIncompleta(object sender, EventArgs e)
-        {
-            /*
-            var pageProgress = new ProgressBarPopUp("Carregando...");
-            var page = new InventarioCaixaIncompletaPopUp(_inventario.IdInventario, null);
-            await PopupNavigation.Instance.PushAsync(page);
-            await pageProgress.OnClose();
-            */
-
-        }
-
-        public void resultDigita(InventarioItemVO byCurrent, decimal byQtdDigita)
-        {
-            var idxCurrent = Items.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
-            var idxCurrentUnfiltred = _ItemsUnfiltered.Where(p => p.InventarioItemId == byCurrent.InventarioItemId);
-
-            /* Victor Alves - 31/10/2019 - Se os itens nao estiver na lista, filtra pois vai mostrar o qual ele digitou */
-            byCurrent.Quantidade = byQtdDigita;
-
-            /* Victor Alves - 31/10/2019 - Atualiza itens filtrados */
-            if (idxCurrent.Count() > 0)
-            {
-                //idxCurrent.FirstOrDefault().QtdDigitada = byQtdDigita;
-                OnPropertyChanged("Items");
-            }
-            else
-            {
-                Items.Add(Mapper.Map<InventarioItemVO, InventarioItemViewModel>(byCurrent));
-                OnPropertyChanged("Items");
-            }
-
-            /* Victor Alves - 31/10/2019 - Atualiza itens não filtrados, se o usuário digitou filtro */
-            /* E clicou para aparecer na tela, quando retorna tem que atualizar os dois              */
-            if (idxCurrentUnfiltred.Count() > 0)
-            {
-                //idxCurrentUnfiltred.FirstOrDefault().QtdDigitada = byQtdDigita;
-                OnPropertyChanged("Items");
-            }
-            else
-            {
-                Items.Add(Mapper.Map<InventarioItemVO, InventarioItemViewModel>(byCurrent));
-                OnPropertyChanged("Items");
-            }
-        }
-
+                
         private async void CarregaListView()
         {
             var pageProgress = new ProgressBarPopUp("Carregando Itens do Inventário, aguarde...");
@@ -133,8 +88,6 @@ namespace CollectorQi.Views
                 Items = new ObservableCollection<InventarioItemViewModel>();
 
                 var lstInventarioItemVO = await ObterLocalizPorEstabDepService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz, this);
-
-                //var lstLocalizacoesVO = await ParametersObterLocalizacaoUsuarioService.GetObterLocalizacoesUsuarioAsync(_inventarioVO.IdInventario, this);
 
                 foreach (var row in lstInventarioItemVO)
                 {
@@ -166,150 +119,6 @@ namespace CollectorQi.Views
             base.OnAppearing();
 
             CarregaListView();
-
-          //  var pageProgress = new ProgressBarPopUp("Carregando Itens, aguarde...");
-          //
-          //  try
-          //  {
-          //
-          //      await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-          //
-          //      Items = new ObservableCollection<InventarioItemViewModel>();
-          //
-          //      var lstInventarioItem = await ParametersFichasUsuarioService.GetObterFichasUsuarioAsync(_inventario.IdInventario, _codLocaliz);
-          //
-          //      List<InventarioLocalizacaoVO> lstInventarioLocalizacaoVO = new List<InventarioLocalizacaoVO>();
-          //      _lstInventarioItemVO = new List<InventarioItemVO>();
-          //
-          //      foreach (var inventarioItem in lstInventarioItem.param.Resultparam)
-          //      {
-          //          
-          //          InventarioItemVO inventarioItemVO = new InventarioItemVO();
-          //          inventarioItemVO.InventarioId = inventarioItem.IdInventario;
-          //          inventarioItemVO.CodLocaliz = inventarioItem.Localizacao;
-          //          inventarioItemVO.CodLote = inventarioItem.Lote;
-          //          // CodRefer = inventarioItem.Cod
-          //          inventarioItemVO.ItCodigo = inventarioItem.CodItem;
-          //
-          //          var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(inventarioItemVO);
-          //
-          //          Items.Add(modelView);
-          //      }
-          //
-          //      _ItemsUnfiltered = Items;
-          //
-          //      OnPropertyChanged("Items");
-          //
-          //      SearchBarItCodigo.Focus();
-          //
-          //  }
-          //  catch (Exception ex)
-          //  {
-          //      System.Diagnostics.Debug.Write(ex);
-          //      //await DisplayAlert("Erro!", ex.Message, "Cancelar");
-          //  }
-          //  finally
-          //  {
-          //      await pageProgress.OnClose();
-          //  }
-        }
-
-        async void OnClick_NovoItem(object sender, EventArgs e)
-        {
-        }
-
-        async void OnClick_BuscaItem(object sender, EventArgs e)
-        {
-           // var param = new ParametersItemLeituraEtiquetaService();
-           //
-           // var inventario = new Inventario()
-           // {
-           //     IdInventario = _inventario.IdInventario,
-           //     CodEstabel = _inventario.CodEstabel,
-           //     CodDepos = _inventario.CodDepos,
-           //    // Localizacao = localizacao,
-           //     Lote = "",
-           //     QuantidadeDigitada = 0,
-           //     CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-           // };
-           //
-           // var _inventarioItem = await param.SendInventarioAsync(inventario);
-           //
-           // var filtroReturn = Items.FirstOrDefault(x => x.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem);
-           // filtroReturn.Quantidade += _inventarioItem.paramConteudo.Resultparam[0].Quantidade;
-           //
-           // foreach (var item in Items)
-           // {
-           //     if (item.CodRefer == _inventarioItem.paramConteudo.Resultparam[0].CodItem)
-           //     {
-           //         Items.Remove(item);
-           //         break;
-           //     }
-           // }
-           //
-           // var modelView = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(filtroReturn);
-           // Items.Add(modelView);
-           //
-           // cvInventarioItem.BindingContext = this;
-           //
-           // var pageProgress = new ProgressBarPopUp("Leitura realizada com sucesso !!!");
-           // await PopupNavigation.Instance.PushAsync(pageProgress);
-           // await pageProgress.OnClose();
-
-        }
-
-        private async void VerifyProd(string strQr)
-        {
-            if (strQr == null)
-                return;
-
-            try
-            {
-                var mdlEtiqueta = csAuxiliar.GetEtiqueta(strQr);
-
-                //var inventarioItem = InventarioItemDB.GetInventarioItemByQr(_inventario.IdInventario, mdlEtiqueta.itCodigo, mdlEtiqueta.lote).FirstOrDefault();
-
-              // if (inventarioItem != null)
-              // {
-              //     //var page = new InventarioUpdateItemPopUp(_inventario.InventarioId, inventarioItem.InventarioItemId);
-              //     var page = new InventarioCaixaIncompletaPopUp(_inventario.IdInventario, null);
-              //     //page.SetResultDigita(resultDigita);
-              //
-              //     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-              // }
-              // else
-              // {
-              //     //if (_inventario.Contagem == 1)
-              //     //{
-              //     //    var result = await DisplayAlert("Atenção!", "Item (" + mdlEtiqueta.itCodigo + ") não encontrado no inventário, deseja adicionar para a digitação?", "Sim", "Não");
-              //     //
-              //     //    if (result.ToString() == "True")
-              //     //    {
-              //     //        var page = new InventarioCaixaIncompletaPopUp(_inventario.InventarioId, null);
-              //     //
-              //     //        page.SetResultDigita(resultDigita);
-              //     //
-              //     //        var item = ItemDB.GetItem(mdlEtiqueta.itCodigo);
-              //     //
-              //     //        if (item == null)
-              //     //            throw new Exception("Item (" + mdlEtiqueta.itCodigo + ") não encontrado.");
-              //     //
-              //     //        page.SetNovoItemInventario(mdlEtiqueta.itCodigo, item.DescItem, item.Un, item.__TipoConEst__, mdlEtiqueta.lote, mdlEtiqueta.dtValiLote);
-              //     //
-              //     //        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(page);
-              //     //    }
-              //     //}
-              //     //else
-              //     //{
-              //     //    throw new Exception("Item (" + mdlEtiqueta.itCodigo + ") não encontrado no inventário." + Environment.NewLine +
-              //     //                        "Nova ficha (item) no inventário só pode ser criado na contagem (1) e não é permitido a criação de uma nova ficha (item) no inventário (" + _inventario.Contagem.ToString() + ").");
-              //     //}
-              // }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "OK");
-            }
         }
 
         async void OnClick_EfetivaInventario(object sender, System.EventArgs e)
@@ -356,17 +165,11 @@ namespace CollectorQi.Views
         {
             try
             {
-
-
-                //System.Diagnostics.Debug.Write(e);
                 bool lCodBarras = false;
                 if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5){
                     lCodBarras = true;
                 }
-
-
-                //await Task.Run(() => PerformSearch());
-                //PerformSearch();
+                
                 /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
                 Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
                 await Task.Delay(TimeSpan.FromMilliseconds(1500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
@@ -376,9 +179,8 @@ namespace CollectorQi.Views
                         TaskContinuationOptions.OnlyOnRanToCompletion,
                         TaskScheduler.FromCurrentSynchronizationContext());
             }
-            catch (Exception ex)
+            catch
             {
-                //await DisplayAlert("Erro!", ex.Message, "Cancel");
             }
         }
 
@@ -426,55 +228,7 @@ namespace CollectorQi.Views
             }
             finally
             {
-                //cvInventarioItem.IsEnabled = true;
             }
-        }
-
-        async void BtnZerar_Clicked(object sender, EventArgs e)
-        {
-            var param = new ParametersZerarLeituraEtiquetaService();
-
-            var inventario = new Inventario()
-            {
-                IdInventario = _inventario.IdInventario,
-                CodEstabel = _inventario.CodEstabel,
-                CodDepos = _inventario.CodDepos,
-              //  Localizacao = localizacao,
-                Lote = "",
-                QuantidadeDigitada = 0,
-                CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-            };
-
-            var _inventarioItemZerar = await param.SendInventarioAsync(inventario);
-
-            var pageProgress = new ProgressBarPopUp(_inventarioItemZerar.Resultparam.Zerar);
-            await PopupNavigation.Instance.PushAsync(pageProgress);
-            Thread.Sleep(1000);
-            await pageProgress.OnClose();
-        }
-
-
-        async void BtnEfetiva_Click(object sender, EventArgs e)
-        {
-            var param = new ParametersZerarLeituraEtiquetaService();
-
-            var inventario = new Inventario()
-            {
-                IdInventario = _inventario.IdInventario,
-                CodEstabel = _inventario.CodEstabel,
-                CodDepos = _inventario.CodDepos,
-                //  Localizacao = localizacao,
-                Lote = "",
-                QuantidadeDigitada = 0,
-                CodigoBarras = "02[65.116.00709-1[1[2[3[4[5[6[1[8"  // receber do leitor
-            };
-
-            var _inventarioItemZerar = await param.SendInventarioAsync(inventario);
-
-            var pageProgress = new ProgressBarPopUp(_inventarioItemZerar.Resultparam.Zerar);
-            await PopupNavigation.Instance.PushAsync(pageProgress);
-            Thread.Sleep(1000);
-            await pageProgress.OnClose();
         }
 
         static string CleanInput(string strIn)
@@ -493,10 +247,19 @@ namespace CollectorQi.Views
             }
         }
 
-        async void OnClick_EfetivarContagem(object sender, EventArgs e)
+        void OnClick_EfetivarContagem(object sender, EventArgs e)
         {
+            EfetivarContagem(false);
+        }
 
-            var result = await DisplayAlert("Confirmação!", $"Deseja efetivar a contagem?", "Sim", "Não");
+        public async void EfetivarContagem(bool blnEfetivaPopUp)
+        {
+            var result = true;
+
+            if (!blnEfetivaPopUp)
+            {
+                result = await DisplayAlert("Confirmação!", $"Deseja efetivar a contagem?", "Sim", "Não");
+            }
 
             var pageProgress = new ProgressBarPopUp("Carregando...");
             try
@@ -507,71 +270,206 @@ namespace CollectorQi.Views
                 {
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
-                    var lstInventarioItem = InventarioItemDB.GetInventarioItemByConfirmadoCx(_inventario.IdInventario, _codLocaliz);
-                        
-                    if (lstInventarioItem.Count == 0)
+              
+                    // Busca todos itens digitados da Lista
+                    List<ListaItemInventarioPAM> lstItensDigitados = new List<ListaItemInventarioPAM>();
+                    foreach (var row in Items)
                     {
-                       await DisplayAlert("Erro!", "Não há itens pendentes de efetivação de contagem", "Ok");
+                        var resultDigitacao = InventarioItemCodigoBarrasDB.GetByInventarioItemKey(row.InventarioItemKey); 
+                        if (resultDigitacao != null && resultDigitacao.Count > 0)
+                        {
+                            foreach(var rowDig in resultDigitacao)
+                            {
+                                ListaItemInventarioPAM registroItemDigitado;
+                                if (String.IsNullOrEmpty(rowDig.CodigoBarras))
+                                {
+                                    registroItemDigitado = lstItensDigitados.FirstOrDefault(x => x.CodItem == row.CodItem);
+
+                                    if (registroItemDigitado == null)
+                                    {
+                                        registroItemDigitado = new ListaItemInventarioPAM
+                                        {
+                                            CodItem = row.CodItem,
+                                            CodigoBarras = "",
+                                            QtdeDigitada = rowDig.Quantidade
+                                        };
+                                    }
+                                    else
+                                    {
+                                        registroItemDigitado.QtdeDigitada += rowDig.Quantidade; 
+                                    }
+                                }
+                                else
+                                {
+                                    registroItemDigitado = lstItensDigitados.FirstOrDefault(x => x.CodigoBarras == row.CodigoBarras);
+
+                                    if (registroItemDigitado == null)
+                                    {
+                                        registroItemDigitado = new ListaItemInventarioPAM
+                                        {
+                                            CodItem      = row.CodItem,
+                                            CodigoBarras = rowDig.CodigoBarras,
+                                            QtdeDigitada = rowDig.Quantidade
+                                        };
+                                    }
+                                    else
+                                    {
+                                        registroItemDigitado.QtdeDigitada += rowDig.Quantidade;
+                                    }
+                                }
+
+                                lstItensDigitados.Add(registroItemDigitado);
+                            }
+                        }
                     }
 
-                        var _inventarioItemVO = lstInventarioItem.FirstOrDefault();
+                    if (lstItensDigitados.Count == 0)
+                    {
+                        await DisplayAlert("Erro!", "Não há itens pendentes de efetivação de contagem", "Ok");
+                        return;
+                    }
 
-                        var inventarioBarra = new InventarioItemBarra()
-                        {
-                            IdInventario = _inventarioItemVO.InventarioId,
-                            Lote = _inventarioItemVO.Lote.Trim(),
-                            Localizacao = _inventarioItemVO.Localizacao.Trim(),
-                            CodItem = _inventarioItemVO.CodItem.Trim(),
-                            CodDepos = _inventarioItemVO.CodDepos.Trim(),
-                            QuantidadeDigitada = int.Parse(_inventarioItemVO.QuantidadeAcum.ToString()),
-                            CodEmp = "1",
-                            Contagem = _inventarioItemVO.Contagem,
-                            CodEstabel = _inventarioItemVO.CodEstabel,
-                            CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras)
-                        };
+                    var resultService = await ParametersEfetivarContagem.SendInventarioAsync(_inventario, lstItensDigitados, _codLocaliz);
 
-
+                    //var _inventarioItemVO = lstInventarioItem.FirstOrDefault();
+                    //
+                    //var resultDigitacao = InventarioItemCodigoBarrasDB.GetByInventarioItemKey(_inventarioItemVO.InventarioItemKey);
+                    //decimal qtdAcumulada = 0;
+                    //if (resultDigitacao != null)
+                    //{
+                    //    qtdAcumulada = resultDigitacao.Sum(x => x.Quantidade);
+                    //}
+                    //
+                    //var inventarioBarra = new InventarioItemBarra()
+                    //{
+                    //    IdInventario = _inventarioItemVO.InventarioId,
+                    //    Lote = _inventarioItemVO.Lote.Trim(),
+                    //    Localizacao = _inventarioItemVO.Localizacao.Trim(),
+                    //    CodItem = _inventarioItemVO.CodItem.Trim(),
+                    //    CodDepos = _inventarioItemVO.__inventario__.CodDepos.Trim(),
+                    //    QuantidadeDigitada = int.Parse(qtdAcumulada.ToString()),
+                    //    CodEmp = SecurityAuxiliar.GetCodEmpresa(),
+                    //    Contagem = _inventarioItemVO.Contagem,
+                    //    CodEstabel = SecurityAuxiliar.GetCodEstabel(),
+                    //    CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras)
+                    //};
 
                     //_inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
 
-                    if (_inventarioItemVO.Quantidade > 0)
-                    {
-                        _inventarioItemVO.CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras);
-
-                        _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
-                        inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
-
-                    }
-                    else
-                    {
-                        _inventarioItemVO.CodigoBarras = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
-                        _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
-                        inventarioBarra.CodigoBarras = _inventarioItemVO.CodigoBarras;
-                    }
-                        
-
-                    var resultService = await ParametersEfetivarContagem.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0, this);
+                    //if (_inventarioItemVO.Quantidade > 0)
+                    //{
+                    //    _inventarioItemVO.CodigoBarras = CleanInput(_inventarioItemVO.CodigoBarras);
+                    //
+                    //    _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
+                    //    inventarioBarra.CodigoBarras = inventarioBarra.CodigoBarras.Replace(";", "[");
+                    //
+                    //}
+                    //else
+                    //{
+                    //    _inventarioItemVO.CodigoBarras = $"02;{_inventarioItemVO.CodItem.Trim()};1;1;1;0;1;1;1;1";
+                    //    _inventarioItemVO.CodigoBarras = _inventarioItemVO.CodigoBarras.Replace(";", "[");
+                    //    inventarioBarra.CodigoBarras = _inventarioItemVO.CodigoBarras;
+                    //}
+                    //
+                    //var resultService = await ParametersEfetivarContagem.SendInventarioAsync(inventarioBarra, _inventarioItemVO, 0, this);
 
                     if (resultService != null && resultService.Retorno != null)
                     {
                         if (resultService.Retorno == "OK")
                         {
+                            string strErro = "";
+                            string strSucesso = "";
+                            List<string> lstCodItemEfetivado = new List<string>();
+                            if (resultService.ConteudoSuccess != null && resultService.ConteudoSuccess.ListaItens != null)
+                            {
+                                var resultadoErro = resultService.ConteudoSuccess.ListaItens.Exists(x => x.Mensagem.Contains("Erro:"));
 
-                            await DisplayAlert("Sucesso!", $"{resultService.Localizacao}/{resultService.Item} Efetivação concluída com sucesso !", "OK");
+                                if (resultadoErro != null)
+                                {
+                                    foreach (var rowErro in resultService.ConteudoSuccess.ListaItens.Where(x => x.Mensagem.Contains("Erro:")))
+                                    {
+                                        if (strErro == "")
+                                        {
+                                            strErro = $"({rowErro.CodItem} - {rowErro.Mensagem}";
+                                        }
+                                        else
+                                        {
+                                            strErro = strErro + " / " + $"({rowErro.CodItem} - {rowErro.Mensagem}";
+                                        }
+                                    }
+                                }
+
+                                var resultSucesso = resultService.ConteudoSuccess.ListaItens.Exists(x => x.Mensagem.Contains("OK:"));
+
+                                if (resultSucesso != null)
+                                {
+                                    foreach (var rowSucucesso in resultService.ConteudoSuccess.ListaItens.Where(x => x.Mensagem.Contains("OK:")))
+                                    {
+                                        if (strSucesso == "")
+                                        {
+                                            strSucesso = $"({rowSucucesso.CodItem} - {rowSucucesso.Mensagem}";
+                                        }
+                                        else
+                                        {
+                                            strSucesso = strSucesso + " / " + $"({rowSucucesso.CodItem} - {rowSucucesso.Mensagem}";
+                                        }
+
+                                        lstCodItemEfetivado.Add(rowSucucesso.CodigoBarras);
+                                    }
+                                }
+                            }
+
+                            bool lExistErro = false;
+                            if (String.IsNullOrEmpty(strErro) && !String.IsNullOrEmpty(strSucesso)) {
+                                await DisplayAlert("Sucesso!", $"{resultService.Localizacao} Efetivação concluída com sucesso !", "OK");
+                            }
+                            else if (!String.IsNullOrEmpty(strErro) && !String.IsNullOrEmpty(strSucesso))
+                            {
+                                await DisplayAlert("Sucesso!", $"{resultService.Localizacao} Efetivação concluída com sucesso ! Porem ocorreu erro de efetivação nos items ({strErro}, favor revisar a atualização", "OK");
+                                lExistErro = true;
+                            }
+
+                            if (lstCodItemEfetivado.Count > 0)
+                            {
+                                foreach (var rowObs in Items) {
+                                    
+                                    if (lstCodItemEfetivado.Exists(x => x == rowObs.CodItem))
+                                    {
+                                        InventarioItemCodigoBarrasDB.DeleteByItemId(rowObs.InventarioItemKey);
+                                    }
+                                }
+                            }
 
                             await pageProgress.OnClose();
-                            OnBackButtonPressed();
-                        }
-                        else if (resultService.Retorno == "IntegracaoBatch")
-                        {
-                            await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
 
-                            _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
-                            //_actRefreshPage(_inventarioItemVO);
+                            if (!lExistErro) {
+                                if (!blnEfetivaPopUp)
+                                {
+                                    OnBackButtonPressed();
+                                }
+                                else
+                                {
+                                    if (_pagePopUp != null) { _pagePopUp.OnCloseCustom(); }
+                                    OnBackButtonPressed();
+                                }
+                            }
+                            else
+                            {
+                                CarregaListView();
+                            }
 
-                            await pageProgress.OnClose();
-                            OnBackButtonPressed();
+                            
                         }
+                       // else if (resultService.Retorno == "IntegracaoBatch")
+                       // {
+                       //     await DisplayAlert("Atenção!", "Erro de conexão com ERP, a atualização do item será integrado de forma Offline", "OK");
+                       //
+                       //     _inventarioItemVO.StatusIntegracao = eStatusInventarioItem.ErroIntegracao;
+                       //     //_actRefreshPage(_inventarioItemVO);
+                       //
+                       //     await pageProgress.OnClose();
+                       //     OnBackButtonPressed();
+                       // }
                         else
                         {
                             if (resultService.Resultparam != null && resultService.Resultparam.Count > 0)
@@ -633,6 +531,8 @@ namespace CollectorQi.Views
             }
         }
 
+        InventarioCaixaIncompletaPopUpB _pagePopUp;
+
         private async void OpenPagePopUp(InventarioItemViewModel current)
         {
             var pageProgress = new ProgressBarPopUp("Carregando...");
@@ -648,10 +548,12 @@ namespace CollectorQi.Views
             }
 
             //current.CodigoBarras = SearchBarItCodigo.Text.Replace(";","[");
-            var page = new InventarioCaixaIncompletaPopUpB(_inventario.IdInventario, current);
-            page._actDeleteRow = DeleteRowInventarioItem;
-            page._actRefreshPage = RefreshRowInventarioItem;
-            await PopupNavigation.Instance.PushAsync(page);
+            _pagePopUp = new InventarioCaixaIncompletaPopUpB(_inventario, current);
+            _pagePopUp._actDeleteRow = DeleteRowInventarioItem;
+            _pagePopUp._actRefreshPage = RefreshRowInventarioItem;
+            //_pagePopUp._actEfetivaInventirio = EfetivarContagem;
+
+            await PopupNavigation.Instance.PushAsync(_pagePopUp);
            // await pageProgress.OnClose();
 
             cvInventarioItem.SelectedItem = null;
@@ -692,62 +594,61 @@ namespace CollectorQi.Views
             }
         }
 
-        public async void RefreshRowInventarioItem(InventarioItemVO pInventarioItemVO)
+        public async void RefreshRowInventarioItem(InventarioItemVO pInventarioItemVO, bool pBlnClose, string byInventarioItemKey)
         {
-            if (pInventarioItemVO != null)
+            try
             {
-                var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
-
-                if (current != null)
+                if (pInventarioItemVO != null)
                 {
-                    Items[Items.IndexOf(current)] = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(pInventarioItemVO);
+                    var current = Items.FirstOrDefault(p => p.InventarioItemKey == pInventarioItemVO.InventarioItemKey);
 
-                    //current =
+                    if (current != null)
+                    {
+                        if (!pBlnClose)
+                        {
+                            if (!String.IsNullOrEmpty(current.CodItem))
+                            {
+                                Items[Items.IndexOf(current)] = Mapper.Map<InventarioItemVO, InventarioItemViewModel>(pInventarioItemVO);
+                            }
+                            else
+                            {
+                                Items[Items.IndexOf(current)] = Items[Items.IndexOf(current)];
+                            }
+                        }
+                        else
+                        {
+                            Items[Items.IndexOf(current)] = Items[Items.IndexOf(current)];
+                        }
+                        OnPropertyChanged("Items");
+                    }
+                }
+                else
+                {
+                    if (byInventarioItemKey != null)
+                    {
+                        var current = Items.FirstOrDefault(p => p.InventarioItemKey == byInventarioItemKey);
+
+                        if (current != null)
+                        {
+                            Items[Items.IndexOf(current)] = Items[Items.IndexOf(current)];
+                        }
+                    }
+
                     OnPropertyChanged("Items");
                 }
             }
-            else
+            catch
             {
-                OnPropertyChanged("Items");
+                return;
             }
         }
+
         public async void DeleteRowInventarioItem(InventarioItemVO pInventarioItemVO)
         {
 
             OnPropertyChanged("Items");
 
-            var newItem = Items.FirstOrDefault(x => x.CodItem == pInventarioItemVO.CodItem && x.InventarioItemId != pInventarioItemVO.InventarioItemId);
-
-            /*
-            // Evento de atualizacao do PopUp, se existe um novo item igual abre ele da próxima leitura.
-            if (newItem != null)
-            {
-                OpenPagePopUp(newItem);
-            }
-            */
-            /*
-            var current = Items.FirstOrDefault(p => p.InventarioItemId == pInventarioItemVO.InventarioItemId);
-
-            if (current != null) {
-                Items.Remove(current);
-
-                var newItem = Items.FirstOrDefault(x => x.CodItem == pInventarioItemVO.CodItem && x.InventarioItemId != pInventarioItemVO.InventarioItemId);
-
-                OnPropertyChanged("Items");
-
-                // Evento de atualizacao do PopUp, se existe um novo item igual abre ele da próxima leitura.
-                if (newItem != null)
-                {
-                    OpenPagePopUp(newItem);
-                }
-            }
-
-            if (Items.Count <= 0)
-            {
-                await DisplayAlert("Localização Finalizada", $"Itens da localização {_codLocaliz} inventariados com sucesso", "OK");
-                OnBackButtonPressed();
-            }*/
-
+            var newItem = Items.FirstOrDefault(x => x.CodItem == pInventarioItemVO.CodItem && x.InventarioItemKey != pInventarioItemVO.InventarioItemKey);
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -789,6 +690,16 @@ namespace CollectorQi.Views
         private void SearchBarItCodigo_SearchButtonPressed(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Write(e);
+        }
+
+        private async void ToolBarEtiqueta_Clicked(object sender, EventArgs e)
+        {
+            var page = new InventarioListaCodigoBarrasPopUp(Items.ToList());
+
+            await PopupNavigation.Instance.PushAsync(page);
+
+            page._actRefreshPage = RefreshRowInventarioItem;
+
         }
     }
 
@@ -865,5 +776,12 @@ namespace CollectorQi.Views
             return true;
         }
         
+    }
+
+    public class ListaItemInventarioPAM
+    {
+        public string CodigoBarras { get; set; }
+        public string CodItem { get; set; }
+        public decimal QtdeDigitada { get; set; }
     }
 }

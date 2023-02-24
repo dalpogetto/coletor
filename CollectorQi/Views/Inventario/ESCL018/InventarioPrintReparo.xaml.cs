@@ -165,7 +165,6 @@ namespace CollectorQi.Views
                     parametrosMovimentoReparo.CodBarras = SecurityAuxiliar.GetCodEstabel() + parametrosMovimentoReparo.CodBarras.Substring(3);
                 */
 
-
                 var result = await LeituraEtiquetaArmazenagemService.SendLeituraEtiquetaAsync(parametrosMovimentoReparo);
 
                 if (result != null && result.ParamReparo != null && result.ParamReparo.ParamLeitura != null && result.Retorno == "OK")

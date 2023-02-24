@@ -38,7 +38,6 @@ namespace CollectorQi.VO
         public string CodLocaliz  { get => codLocaliz; set => codLocaliz  = value; }
         [Indexed(Name = "idxPk", Order = 6, Unique = true)]
         public string CodLote     { get => codLote;    set => codLote     = value; }
-       
         
         public DateTime?   DtValiLote  { get => dtValiLote;    set => dtValiLote    = value; }
         public decimal   QtidadeAtu    { get => qtidadeAtu;    set => qtidadeAtu    = value; }

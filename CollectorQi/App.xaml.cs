@@ -62,12 +62,6 @@ namespace CollectorQi
                 Application.Current.MainPage.DisplayAlert("Erro Aplicação!", ex.ToString(), "OK");
             }
 
-/*            AutoMapper.Mapper.Initialize(Load());
-
-            MainPage = new NavigationPage(new InventarioListaPage()); */
-
-
-
             // First time ever launched application
             var firstLaunch = VersionTracking.IsFirstLaunchEver;
 
@@ -125,13 +119,9 @@ namespace CollectorQi
                 _.CreateMap<RequisicaoItemVO, RequisicaoItemViewModel>();
                 _.CreateMap<RequisicaoItemViewModel, RequisicaoItemVO>();
 
-                
-
                 // Nova atualizacao
                 _.CreateMap<InventarioItemVO, BatchInventarioItemVO>();
-
                 _.CreateMap<BatchInventarioItemVO, InventarioItemVO>();
-
                 _.CreateMap<NotaFiscalViewModel, NotaFiscalVO>();
                 //_.CreateMap<ESCL.Parametros, InventarioViewModel>();
                 //_.CreateMap<SaldoEstoqVO, RequisicaoSaldoEstoqViewModel>();
@@ -155,10 +145,10 @@ namespace CollectorQi
         private static void StartBackgroundService()
         {
             //Atualiza a cada 5 Minutos
-            BackgroundAggregatorService.Add(() => new IntegracaoServiceMovto(30));
+            BackgroundAggregatorService.Add(() => new IntegracaoServiceMovto(8));
 
             // Atualiza a cada 60 minutos os cadastros TOTVS
-            BackgroundAggregatorService.Add(() => new IntegracaoServiceCad(60));
+            //BackgroundAggregatorService.Add(() => new IntegracaoServiceCad(60));
 
             //Inicia o Background Service
             BackgroundAggregatorService.StartBackgroundService();

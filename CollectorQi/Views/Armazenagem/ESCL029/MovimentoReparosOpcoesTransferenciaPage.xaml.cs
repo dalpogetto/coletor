@@ -77,5 +77,10 @@ namespace CollectorQi.Views
         {
 
         }
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+        }
     }
 }

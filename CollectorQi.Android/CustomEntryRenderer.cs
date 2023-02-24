@@ -1,11 +1,8 @@
-﻿using System;
-using Xamarin.Forms;
-using Android.Views;
-
-using Xamarin.Forms.Platform.Android;
-using Android.Content;
-using CollectorQi;
+﻿using Android.Content;
 using Android.Text.Method;
+using CollectorQi;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CollectorQi.Droid.CustomEntryRenderer))]
 namespace CollectorQi.Droid

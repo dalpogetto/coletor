@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 x:Class="CollectorQi.Views.InventarioListaCodigoBarrasPopUp" 
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+                 xmlns:local="clr-namespace:CollectorQi;assembly=CollectorQi">
+
+    <StackLayout BackgroundColor="#fff" IsClippedToBounds="true" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="10,10" Spacing="3">
+
+        <Frame  HasShadow="true" Margin="10,5,10,5" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="lblQtdItem"         VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text="Qtd Item:"    Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="lblQtdItemValue"    VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text=""             Grid.Row="0" Grid.Column="1"/>
+                
+                <Label x:Name="lblQtdVolume"       VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text="Qtd Volume:"  Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="lblQtdVolumeValue"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold" Text=""             Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+        </Frame>
+        
+        <StackLayout>
+                    
+        <CollectionView x:Name="cvCodigoBarras" ItemsSource="{Binding Items}" SelectionChanged="cvCodigoBarras_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0">
+            <CollectionView.EmptyView>
+                <StackLayout>
+                    <Label Text="Nenhuma Código de Barras Registrado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+
+                        <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,5,10,10" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB" Padding="10,10,10,15">
+
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Cod Item:" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding __inventarioItem__.CodItem}" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" />
+
+                                        <Label Grid.Row="1" Grid.Column="0" Text="Quantidade:" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Quantidade}" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" />
+
+                                        <Label Grid.Row="2" Grid.Column="0" Text="Cod Barras:" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" />
+                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding CodEtiquetaDescript}" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" />
+
+                                        <Label Grid.Row="3" Grid.Column="0" Text="Cod Barras:" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" FontAttributes="Bold" />
+                                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding CodEtiqueta}" VerticalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" />
+                                    </Grid>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        </StackLayout>
+    </StackLayout>
+</pages:PopupPage>

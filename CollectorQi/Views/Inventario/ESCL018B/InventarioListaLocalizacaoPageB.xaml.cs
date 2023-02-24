@@ -84,39 +84,6 @@ namespace CollectorQi.Views
             cvLeituraEtiqueta.BindingContext = this;
         }
 
-        async void OnClick_BuscaEtiqueta(object sender, System.EventArgs e)
-        {
-           //var pageProgress = new ProgressBarPopUp("Carregando Consulta de Etiqueta...");
-           //await PopupNavigation.Instance.PushAsync(pageProgress);
-           //
-           //try
-           //{
-           //    var inventario = new Inventario()
-           //    {
-           //        IdInventario = _inventarioVO.InventarioId,
-           //        CodEstabel = _inventarioVO.CodEstabel,
-           //        CodDepos = _inventarioVO.CodDepos,
-           //      //  CodigoBarras = txtEtiqueta.Text,
-           //    };
-           //
-           //    var localizacao = new ParametersLocalizacaoLeituraEtiquetaService();
-           //    var localizacaoResult = await localizacao.SendInventarioAsync(inventario);
-           //  //  txtEtiqueta.Text = localizacaoRetorno = localizacaoResult.Resultparam.Localizacao;
-           //}
-           //catch (Exception ex)
-           //{
-           //    var pageProgressErro = new ProgressBarPopUp("Erro: " + ex.Message);
-           //    await PopupNavigation.Instance.PushAsync(pageProgressErro);
-           //    await pageProgressErro.OnClose();
-           //}
-           //finally
-           //{
-           //    await pageProgress.OnClose();
-           //    //BtnProximo.IsEnabled = true;
-           //}
-        }
-
-
         private async void CarregaListView()
         {
             var pageProgress = new ProgressBarPopUp("Carregando Localização, aguarde...");

@@ -22,14 +22,14 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
                     var inventarioItemVO = (await
                         dbAsync.Connection.QueryAsync<InventarioItemVO>(
                         "select * from InventarioItemVO where inventarioId = ? " +
-                                                         " and codEstabel   = ? " +
-                                                         " and codDepos      = ? " +
+                                                    //     " and codEstabel   = ? " +
+                                                    //     " and codDepos      = ? " +
                                                          " and localizacao     = ? " +
                                                          " and lote     = ? " +
                                                          " and codItem     = ? ",
                                                      byLstInventarioItem[i].InventarioId,
-                                                     byLstInventarioItem[i].CodEstabel,
-                                                     byLstInventarioItem[i].CodDepos,
+                                                  //   byLstInventarioItem[i].CodEstabel,
+                                                  //   byLstInventarioItem[i].CodDepos,
                                                      byLstInventarioItem[i].Localizacao,
                                                      byLstInventarioItem[i].Lote,
                                                      byLstInventarioItem[i].CodItem));
@@ -60,21 +60,21 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
             }
         }
 
-        public async static void AtualizaInventarioItemBatch(InventarioItemVO byInventarioItem, eStatusInventarioItem byInventarioStatus)
+        public async static Task AtualizaInventarioItemBatch(InventarioItemVO byInventarioItem, eStatusInventarioItem byInventarioStatus)
         {
             var dbAsync = new BaseOperations();
             try
             {
                 await dbAsync.Connection.QueryAsync<InventarioItemVO>("UPDATE InventarioItemVO SET statusIntegracao  = ?, " +
                                                                                                    "quantidade       = ?, " +
-                                                                                                   "codigoBarras     = ?,  " +
-                                                                                                   "quantidadeAcum   = ? " + 
-                                                                       "WHERE inventarioItemId                       = ? ",
+                                                                                                   "codigoBarras     = ?  " +
+                                                                       //                               "quantidadeAcum   = ? " + 
+                                                                       "WHERE InventarioItemKey                       = ? ",
                                                                        byInventarioStatus,
                                                                        byInventarioItem.Quantidade,
                                                                        byInventarioItem.CodigoBarras,
-                                                                       byInventarioItem.QuantidadeAcum,
-                                                                       byInventarioItem.InventarioItemId);
+                                                                     //  byInventarioItem.QuantidadeAcum,
+                                                                       byInventarioItem.InventarioItemKey);
 
             }
             catch (SQLiteException ex)
@@ -143,6 +143,57 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
             try
             {
                 return dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == byInventarioId && p.Localizacao == byLocalizacao).ToListAsync().Result;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+        public static List<InventarioItemVO> GetInventarioItemById(int byInventarioId)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+                return dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioId == byInventarioId).ToListAsync().Result;
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+
+
+        public static InventarioItemVO GetInventarioItemByIdItem(string byInventarioItemKey)
+        {
+            var dbAsync = new BaseOperations();
+            try
+            {
+
+                var result = dbAsync.Connection.Table<InventarioItemVO>().Where(p => p.InventarioItemKey == byInventarioItemKey);
+
+                if (result != null && result.FirstAsync() != null)
+                {
+                    return result.FirstAsync().Result;
+                }
+
+                return null;
             }
             catch (SQLiteException ex)
             {
@@ -485,8 +536,8 @@ namespace CollectorQi.Resources.DataBaseHelper.ESCL018
             {
                 //await dbAsync.Connection.QueryAsync<InventarioItemVO>("delete from InventarioItemVO where inventarioId = ?", byInventarioId);
                 //dbAsync.DeleteAsync(inventarioItem);
-                dbAsync.Connection.QueryAsync<InventarioItemVO>("delete from InventarioItemVO where inventarioItemId = ? ",
-                                                                              byInventarioItem.InventarioItemId);
+                dbAsync.Connection.QueryAsync<InventarioItemVO>("delete from InventarioItemVO where inventarioItemKey = ? ",
+                                                                              byInventarioItem.InventarioItemKey);
                 return true;
             }
             catch (SQLiteException ex)

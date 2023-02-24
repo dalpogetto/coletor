@@ -21,7 +21,7 @@ using CollectorQi.Services.ESCL000;
 
 namespace CollectorQi.Services.ESCL018
 {
-    public static class ParametersLeituraEtiquetaServiceB
+    public static class ParametersLimparLeituraEtiquetaServiceB
     {
         // ResultInventarioJson parametros = null;
 
@@ -32,95 +32,11 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraSequencialEtiqueta";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LimparLeitura";
 
-        public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
-        {
-
-            var inventarioBarra = new InventarioItemBarra()
-            {
-                IdInventario = inventarioItemVO.InventarioId,
-                Lote = inventarioItemVO.Lote.Trim(),
-                Localizacao = inventarioItemVO.Localizacao.Trim(),
-                CodItem = inventarioItemVO.CodItem.Trim(),
-                CodDepos = inventarioItemVO.CodDepos.Trim(),
-                QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
-                CodEmp = "1",
-                Contagem = 1,
-                CodEstabel = inventarioItemVO.CodEstabel,
-                CodigoBarras = inventarioItemVO.CodigoBarras
-
-            };
-
-            await SendInventarioAsync(inventarioBarra, inventarioItemVO, 0, null, 0);
-
-            return "Inventário Integrado com sucesso";
-
-            //return Task.Str<"Inventário Integrado com sucesso">;
-        }
-
-        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam, InventarioItemVO byInventarioItemVO , int inventarioItemId, ContentPage modal, decimal quantidadeAcumulada)
-        {
-            ResultSendInventarioReturnJson result = new ResultSendInventarioReturnJson();
-
-
-            try
-            {
-                // Le o banco, verifica se tem OUTRO item igual 3 e valida..
-                //var getItemByCX = InventarioItemDB.GetInventarioItemByItemCx(byInventarioItemVO.InventarioId, byInventarioItemVO.CodItem);
-
-               // if(getItemByCX.Count == 0)
-               // {
-                    var sendInventarioERP = await SendInventarioAsyncERP(requestParam);
-
-                    if (sendInventarioERP.Retorno == "OK")
-                    {
-                        byInventarioItemVO.QuantidadeAcum = quantidadeAcumulada;
-                        InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.IntegracaoCX);
-                    }
-
-                    result = sendInventarioERP;
-              /*  } 
-                else
-                {
-                    var itemPendenteDeEfetivacao = getItemByCX[0];
-
-                    result.Retorno = "IntegracaoBatchErrorLeituraEtiqueta";
-                    result.Localizacao = itemPendenteDeEfetivacao.Localizacao;
-                    result.Item = itemPendenteDeEfetivacao.CodItem;
-                } */
-            }
-            catch (Exception e)
-            {
-                if (e.Message == "Unauthorized")
-                {
-                    LoginPageInterface.ShowModalLogin(modal);
-                }
-                else
-                {
-
-                    try
-                    {
-                        InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.ErroIntegracao);
-                        var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
-                        await BatchInventarioItemDB.AtualizaBatchInventario(batchInventarioItem);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.Write(e);
-                    }
-                    result.Retorno = "IntegracaoBatch";
-                }
-            }
-
-            return result;
-
-           // return lstInventarioItemVO;
-        }
 
         // Metodo ObterParametros Totvs
-        private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
+        public static async Task<ResultSendInventarioReturnJson> SendInventarioAsync(ESCL.InventarioItemBarra requestParam)
         {
             ResultSendInventarioReturnJson parametros = null;
             try

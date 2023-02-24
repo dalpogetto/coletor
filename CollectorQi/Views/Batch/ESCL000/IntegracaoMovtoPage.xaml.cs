@@ -26,14 +26,14 @@ namespace CollectorQi.Views
             else
             {
 
-                string[] imagem = new string[] { "inventario.png"    , "repair.png"                                                            
-                                                ,"guardaMaterias.png", "transferenciaDeposito.png", "movto_repair3.png" };
+                string[] imagem = new string[] { "inventario.png"    /*, "repair.png"                                                            
+                                                ,"guardaMaterias.png", "transferenciaDeposito.png", "movto_repair3.png" */ };
 
-                string[] titulo = new string[] { "Inventário Físico"   , "Inventário de Reparos"                                               
-                                                ,"Guarda de Materiais" , "Transferência de Depósito"  , "Movimentação de Reparo"  };
+                string[] titulo = new string[] { "Inventário Físico"   /*, "Inventário de Reparos"                                               
+                                                ,"Guarda de Materiais" , "Transferência de Depósito"  , "Movimentação de Reparo" */  };
 
-                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)", "Contagem de Inventário de Reparos (ESCL017)"
-                                                   ,"Guarda de Materiais (ESCL027)"          , "Transferência de Depósito (ESCL021)"         , "Movimentação de Reparo (ESCL029)"  };
+                string[] subTitulo = new string[] { "Contagem de Inventário Físico (ESCL018)" /*, "Contagem de Inventário de Reparos (ESCL017)"
+                                                   ,"Guarda de Materiais (ESCL027)"          , "Transferência de Depósito (ESCL021)"         , "Movimentação de Reparo (ESCL029)"*/  };
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;

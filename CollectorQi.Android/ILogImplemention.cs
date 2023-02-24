@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Util;
+﻿using Android.Util;
 
 [assembly: Xamarin.Forms.Dependency(typeof(ILogInterface))]
 namespace CollectorQualiIT.Droid

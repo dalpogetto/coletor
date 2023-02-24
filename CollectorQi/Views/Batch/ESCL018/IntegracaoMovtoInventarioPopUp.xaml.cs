@@ -26,8 +26,8 @@ namespace CollectorQi.Views
                 edtSituaocaInventario.Text  = pBatchInventarioViewModel.StatusIntegracaoString;
                 imgSituacaoInventario.Source = pBatchInventarioViewModel.Image;
 
-                edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel;
-                edtCodDepos.Text = pBatchInventarioViewModel.CodDepos;
+                //edtEstabelecimento.Text = pBatchInventarioViewModel.CodEstabel;
+                edtCodDepos.Text = pBatchInventarioViewModel.__inventario__.CodDepos;
                 edtDtInventario.Text = pBatchInventarioViewModel.DtEfetivacao.ToString();
                 edtContagem.Text = pBatchInventarioViewModel.Contagem.ToString();
                 edtErro.Text = "";

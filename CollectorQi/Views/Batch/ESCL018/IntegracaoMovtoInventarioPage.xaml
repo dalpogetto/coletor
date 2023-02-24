@@ -85,7 +85,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Estab.: " FontAttributes="Bold"  FontSize="Micro" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodEstabel}"     HorizontalTextAlignment="Start" VerticalTextAlignment="End"   FontSize="Micro"/>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding __inventario__.CodEstabel}"     HorizontalTextAlignment="Start" VerticalTextAlignment="End"   FontSize="Micro"/>
                                                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding __estabelec__.Nome}"  LineBreakMode="NoWrap"    HorizontalTextAlignment="Start" VerticalTextAlignment="End"   FontSize="Micro"/>
                                             </Grid>
                                             
@@ -99,7 +99,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Dep.: " FontAttributes="Bold"  FontSize="Micro" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodDepos}"     HorizontalTextAlignment="End" VerticalTextAlignment="End"   FontSize="Micro"/>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding __inventario__.CodDepos}"     HorizontalTextAlignment="End" VerticalTextAlignment="End"   FontSize="Micro"/>
                                                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding __deposito__.Nome}"   LineBreakMode="TailTruncation"   HorizontalTextAlignment="End" VerticalTextAlignment="End"   FontSize="Micro"/>
                                             </Grid>
                                         
@@ -112,7 +112,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Data Saldo:" FontAttributes="Bold"   FontSize="Micro"/>
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtSaldo ,  StringFormat='{0:dd/MM/yyyy}'}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro" />
+                                               <Label Grid.Row="0" Grid.Column="1" Text="{Binding __inventario__.DtSaldo ,  StringFormat='{0:dd/MM/yyyy}'}"   VerticalTextAlignment="End" FontSize="Micro" />
                                             </Grid>
                                         <Grid Grid.Row="3" Grid.Column="0" HorizontalOptions="FillAndExpand">
                                             <Grid.RowDefinitions>
@@ -123,7 +123,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Row="0" Grid.Column="0" Text="Item:" FontAttributes="Bold"   FontSize="Micro" />
-                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodItem}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro"/>
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodItem}"   VerticalTextAlignment="End" FontSize="Micro"/>
                                         </Grid>
                                         <Grid Grid.Row="4" Grid.Column="0" HorizontalOptions="FillAndExpand">
                                                 <Grid.RowDefinitions>
@@ -134,7 +134,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="Contagem:" FontAttributes="Bold"   FontSize="Micro" />
-                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Contagem}" FontAttributes=""  VerticalTextAlignment="End" FontSize="Micro"/>
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Contagem}"   VerticalTextAlignment="End" FontSize="Micro"/>
                                             </Grid>
                                         </Grid>
                                 </Frame>
