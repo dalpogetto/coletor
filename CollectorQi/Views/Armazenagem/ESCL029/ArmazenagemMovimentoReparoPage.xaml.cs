@@ -217,5 +217,21 @@ namespace CollectorQi.Views
         {
             (sender as Entry).Text = e.NewTextValue.ToUpperInvariant();
         }
+
+        private void ToolBarPrint_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolBarPrint_Clicked_1(object sender, EventArgs e)
+        {
+
+        }
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+        }
+
     }
 }   

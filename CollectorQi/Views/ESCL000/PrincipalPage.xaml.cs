@@ -39,9 +39,25 @@ namespace CollectorQi.Views
                 
                 // Validar
                 var existeNovaVersao = await versaoSistema.ExisteNovaVersao();
+
+                if (!existeNovaVersao.LoginValidado)
+                {
+                    await DisplayAlert("Nova Versao", existeNovaVersao.Mensagem , "OK");
+
+                    Uri urlVersao = new Uri(existeNovaVersao.LinkVersao);
+
+                    await Launcher.OpenAsync(urlVersao);
+
+                    Application.Current.Quit();
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                    System.Environment.Exit(0);
+
+                    return;
+                }
+
                 var security         = await SecurityDB.GetSecurityAsync();
                 
-                if (security != null && security.Autenticado && !existeNovaVersao)
+                if (security != null && security.Autenticado && existeNovaVersao.LoginValidado)
                 {
                     SecurityAuxiliar.Autenticado = true;
                     SecurityAuxiliar.CodUsuario  = security.CodUsuario;
@@ -71,7 +87,7 @@ namespace CollectorQi.Views
                     throw new Exception("Nenhuma empresa cadastrar para o usuário");
                 }
 
-                if (security != null && !existeNovaVersao)
+                if (security != null && existeNovaVersao.LoginValidado)
                 {
                     if (CrossConnectivity.Current.IsConnected)
                     {
@@ -100,11 +116,25 @@ namespace CollectorQi.Views
                     //                                "Ultima Integração (" + security.DtUltIntegracaoerro par  + ")",
                     //                                "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
-                    string[] imagem = new string[] { "armazenagem.png"            , "conferencia.png"  , "inventario.png", "estabelecimento.png", "integration.png", "logout.png" };
-                    string[] titulo = new string[] { "Armazenagem"                , "Recebimento"      , "Inventário", "Estabelecimento", "Integração TOTVS", "Logoff" };
+                    string[] imagem = new string[] { "armazenagem.png"    , 
+                                                     "conferencia.png"    , 
+                                                     "inventario.png"     ,
+                                                     "estabelecimento.png",
+                                                     "integration.png"    , 
+                                                     "logout.png" };
 
-                    string[] subTitulo = new string[] { "Armazenagens em Depósito", "Conferência Física, Recebimento e Reparos", "Inventário Físico e Reparos", "Escolher o estabelecimento", "Última Integração",
-                                                    "Sair da conta: " + SecurityAuxiliar.CodUsuario };
+                    string[] titulo = new string[] { "Armazenagem"     , 
+                                                     "Recebimento"     ,
+                                                     "Inventário"      ,
+                                                     "Estabelecimento" , 
+                                                     "Integração TOTVS", "Logoff" };
+
+                    string[] subTitulo = new string[] { "Armazenagens em Depósito", 
+                                                        "Conferência Física, Recebimento e Reparos", 
+                                                        "Inventário Físico e Reparos", 
+                                                        "Escolher o estabelecimento", 
+                                                        "Última Integração",
+                                                        "Sair da conta: " + SecurityAuxiliar.CodUsuario };
 
                     List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                     MenuItemDetail menuItemDetail;
@@ -655,6 +685,39 @@ namespace CollectorQi.Views
                         //  Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
 
                         Application.Current.MainPage = new NavigationPage(new InventarioPage() { Title = menuItemDetail.Name.Trim() });
+                        break;
+
+                    case "Expedição":
+
+                        if (!String.IsNullOrEmpty(lblMensagemErro.Text))
+                        {
+                            await DisplayAlert("Erro!", lblMensagemErro.Text, "OK");
+                            return;
+                        }
+
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.CodEmpresa))
+                        {
+                            var strEmpresa = await SelectEmpresa();
+                            if (strEmpresa == "Cancelar" || String.IsNullOrEmpty(strEmpresa))
+                                return;
+                        }
+
+                        if (String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        {
+                            var strEstab = await SelectEstab();
+                            if (strEstab == "Cancelar" || String.IsNullOrEmpty(strEstab))
+                                return;
+                        }
+
+                        //  if (!String.IsNullOrEmpty(SecurityAuxiliar.Estabelecimento))
+                        //  {
+                        //      RecebimentoPage.InicialPage = menuItemDetail.MenuItemDatailId;
+                        //      Application.Current.MainPage = new NavigationPage(new RecebimentoPage());
+                        //  }
+
+                        //  Application.Current.MainPage = new NavigationPage(new InventarioListaPage() { Title = menuItemDetail.Name.Trim() });
+
+                       // Application.Current.MainPage = new NavigationPage(new GerarPedidoDepositoViewModel() { Title = menuItemDetail.Name.Trim() });
                         break;
 
                     case "Estabelecimento":

@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Android.App;
+using Android.Views;
+using AutoMapper;
 using CollectorQi.Models.ESCL021;
 using CollectorQi.Resources;
 using CollectorQi.Services.ESCL021;
@@ -17,7 +19,7 @@ using Xamarin.Forms.Xaml;
 
 namespace CollectorQi.Views
 {
-    public partial class DepositosUsuarioPorTransacaoListaPopUp : PopupPage, INotifyPropertyChanged
+    public partial class DepositosUsuarioPorTransacaoListaPopUp : PopupPage  , INotifyPropertyChanged 
     {
 
         #region Property
@@ -41,13 +43,6 @@ namespace CollectorQi.Views
             return true;
         }
 
-        private int _rating;
-        public int Rating
-        {
-            get { return _rating; }
-            set => SetProperty(ref _rating, value);
-        }
-
         #endregion
 
         public ObservableCollection<DepositosUsuarioPorTransacaoViewModel> Items
@@ -64,9 +59,10 @@ namespace CollectorQi.Views
         private ObservableCollection<DepositosUsuarioPorTransacaoViewModel> _ItemsFiltered;
         private ObservableCollection<DepositosUsuarioPorTransacaoViewModel> _ItemsUnfiltered;
 
-        CustomEntryText _edtCodDepos;
+        public CustomEntryText _edtCodDepos;
+        public string _tipoTransacao;
         public Action<string,string, bool> _setDepos;
-        string _tipoTransacao;
+        public Action _backGround;
 
         public DepositosUsuarioPorTransacaoListaPopUp(CustomEntryText pCodDepos, string pTipoTransacao)
         {
@@ -85,38 +81,58 @@ namespace CollectorQi.Views
             Items = new ObservableCollection<DepositosUsuarioPorTransacaoViewModel>();
 
             CarregaListView();
+
+            //cvDepositosUsuarioTransacao.Focus();
+            //SearchBarCodDepos.IsReadOnly = false;
+            //SearchBarCodDepos.IsEnabled = true;
+           // SearchBarCodDepos.IsReadOnly = false;
         }
 
         private async void CarregaListView()
         {
-            var pageProgress = new ProgressBarPopUp("Carregando Depósito...");
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-            var dGuardaMaterialRetorno = await DepositosGuardaMaterialService.SendGuardaMaterialAsync( /* parametrosDepositosGuardaMaterial.TipoTransferencia */ );
-          
-            Items.Clear();
-
-            if (dGuardaMaterialRetorno != null && dGuardaMaterialRetorno.Param != null && dGuardaMaterialRetorno.Param.ParamResult != null)
+            try
             {
-                foreach (var item in dGuardaMaterialRetorno.Param.ParamResult)
+                var dGuardaMaterialRetorno = await DepositosGuardaMaterialService.SendGuardaMaterialAsync();
+
+                Items.Clear();
+
+                if (dGuardaMaterialRetorno != null && dGuardaMaterialRetorno.Param != null && dGuardaMaterialRetorno.Param.ParamResult != null)
                 {
-                    Items.Add(new DepositosUsuarioPorTransacaoViewModel
+                    foreach (var item in dGuardaMaterialRetorno.Param.ParamResult)
                     {
-                        CodDepos = item.CodDepos,
-                        Nome = item.Nome,
-                        DepLab = item.DepLab
-                    });
+                        Items.Add(new DepositosUsuarioPorTransacaoViewModel
+                        {
+                            CodDepos = item.CodDepos,
+                            Nome = item.Nome,
+                            DepLab = item.DepLab
+                        });
+                    }
                 }
+
+                _ItemsUnfiltered = Items;
+
+                OnPropertyChanged("Items");
+
+                //await Task.Run(async () =>
+                //{
+                //    await Task.Delay(500);
+                //    Device.BeginInvokeOnMainThread(async () =>
+                //    {
+                //        SearchBarCodDepos.IsEnabled = true;
+                //
+                //    });
+                //});
             }
+            finally
+            {
+            }
+        }
 
-            SearchBarCodDepos.Focus();
-
-            _ItemsUnfiltered = Items;
-
-            OnPropertyChanged("Items");
-
-            await pageProgress.OnClose();
+        protected override bool OnBackButtonPressed()
+        {
+            PopupNavigation.Instance.PopAsync();
+            
+            return true;
         }
 
         void cvDepositosUsuarioTransacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -126,60 +142,52 @@ namespace CollectorQi.Views
             if (current != null)
             {
                 _edtCodDepos.Text = current.CodDepos + " " + current.Nome;
-                //_codDeposHidden = current.CodDepos;
                 _setDepos(current.CodDepos, _tipoTransacao, current.DepLab);
             }
 
             PopupNavigation.Instance.PopAsync();
         }
 
-
-        private CancellationTokenSource throttleCts = new CancellationTokenSource();
-
-        async void Handle_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                //await Task.Run(() => PerformSearch());
-                //PerformSearch();
-                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
-              Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
-                    .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
-                        CancellationToken.None,
-                        TaskContinuationOptions.OnlyOnRanToCompletion,
-                        TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        async public void PerformSearch()
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(SearchBarCodDepos.Text))
-                    Items = _ItemsUnfiltered;
-                else
-                {
-                    /* Victor Alves - 31/10/2019 - Melhoria de performance Item */
-                    _ItemsFiltered = new ObservableCollection<DepositosUsuarioPorTransacaoViewModel>(_ItemsUnfiltered.Where(i =>
-                   (i is DepositosUsuarioPorTransacaoViewModel && (((DepositosUsuarioPorTransacaoViewModel)i).CodDeposNome.ToLower().Contains(SearchBarCodDepos.Text.ToLower())))
-                   ));
-
-                    Items = _ItemsFiltered;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erro!", ex.Message, "Cancel");
-            }
-            finally
-            {
-            }
-        }
+       // private CancellationTokenSource throttleCts = new CancellationTokenSource();
+       // async void Handle_TextChanged(object sender, TextChangedEventArgs e)
+       // {
+       //     try
+       //     {
+       //       Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+       //         await Task.Delay(TimeSpan.FromMilliseconds(500), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+       //             .ContinueWith(
+       //                 delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+       //                 CancellationToken.None,
+       //                 TaskContinuationOptions.OnlyOnRanToCompletion,
+       //                 TaskScheduler.FromCurrentSynchronizationContext());
+       //     }
+       //     catch (Exception ex)
+       //     {
+       //     }
+       // }
+        //async public void PerformSearch()
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrWhiteSpace(SearchBarCodDepos.Text))
+        //            Items = _ItemsUnfiltered;
+        //        else
+        //        {
+        //            _ItemsFiltered = new ObservableCollection<DepositosUsuarioPorTransacaoViewModel>(_ItemsUnfiltered.Where(i =>
+        //           (i is DepositosUsuarioPorTransacaoViewModel && (((DepositosUsuarioPorTransacaoViewModel)i).CodDeposNome.ToLower().Contains(SearchBarCodDepos.Text.ToLower())))
+        //           ));
+        //
+        //            Items = _ItemsFiltered;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await DisplayAlert("Erro!", ex.Message, "Cancel");
+        //    }
+        //    finally
+        //    {
+        //    }
+        //}
     }
 
     public class DepositosUsuarioPorTransacaoViewModel : DepositosGuardaMaterial
@@ -210,5 +218,11 @@ namespace CollectorQi.Views
             OnPropertyChanged(propertyName);
             return true;
         }
+    }
+    public interface IKeyboardService
+    {
+        event EventHandler KeyboardIsShown;
+        event EventHandler KeyboardIsHidden;
+       // void showSoftKeyboard(View v);
     }
 }

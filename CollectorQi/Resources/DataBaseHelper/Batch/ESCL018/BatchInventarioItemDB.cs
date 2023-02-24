@@ -12,16 +12,16 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch.ESCL018
     public static class BatchInventarioItemDB
     {
 
-        public static bool AtualizaStatusIntegracao(int byInventarioId, eStatusIntegracao byStatusIntegracao)
+        public static bool AtualizaStatusIntegracao(string byInventarioItemKey, eStatusIntegracao byStatusIntegracao)
         {
 
             var dbAsync = new BaseOperations();
             try
             {
                 dbAsync.Connection.QueryAsync<BatchInventarioItemVO>("UPDATE BatchInventarioItemVO SET statusIntegracao = ? " +
-                                                                                                "WHERE inventarioItemId    = ? ",
+                                                                                                "WHERE inventarioItemKey    = ? ",
                                                                           byStatusIntegracao,
-                                                                          byInventarioId);
+                                                                          byInventarioItemKey);
 
                 return true;
             }
@@ -69,7 +69,7 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch.ESCL018
             var dbAsync = new BaseOperations();
             try
             {
-                await dbAsync.Connection.Table<BatchInventarioItemVO>().Where(p => p.InventarioItemId == byBatchInventarioVO.InventarioItemId).DeleteAsync();
+                await dbAsync.Connection.Table<BatchInventarioItemVO>().Where(p => p.InventarioItemKey == byBatchInventarioVO.InventarioItemKey).DeleteAsync();
 
                 await dbAsync.InsertAsync(byBatchInventarioVO);
 

@@ -5,10 +5,15 @@ namespace CollectorQi.VO.ESCL018
 {
     public class InventarioVO
     {
+        // Chave
         private int idInventario                    = 0;
+
+        // Chave
         private string codEstabel                   = "";
-        private string descEstabel                  = "";
         private string codDepos                     = "";
+        
+        // Valores
+        private string descEstabel = "";
         private string descDepos                    = "";
         private DateTime dtSaldo                    = DateTime.MinValue;
         private eStatusInventario statusInventario  = eStatusInventario.NaoIniciado;

@@ -43,14 +43,13 @@ namespace CollectorQi.Services.ESCL018
                            // InventarioItemId = row.In
                             InventarioId = byInventarioId,
                             Lote = row.Lote,
-                            CodEstabel = row.CodEstabel,
+                            //CodEstabel = row.CodEstabel,
                             Localizacao = row.Localizacao,
                             CodItem = row.CodItem,
                             Contagem = row.Contagem,
                             Serie = row.Serie,
                             IVL = row.IVL,
                             CodEmp = row.CodEmp,
-                            CodDepos = row.CodDepos,
                             Quantidade = row.Quantidade
 
                         });

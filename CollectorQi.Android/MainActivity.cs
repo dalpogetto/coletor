@@ -1,23 +1,14 @@
-﻿using System;
-using Android.App;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Android.OS;
-using Matcha.BackgroundService.Droid;
+﻿using Android.App;
 using Android.Content;
-using Xamarin.Forms;
-using Android.Support.V4.App;
-using CollectorQi.Views;
-using Android.Nfc;
-using Android.Support.Design.Widget;
-using Android.Util;
-using Android.Support.V4.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Views;
+using Android.Views.InputMethods;
+using Matcha.BackgroundService.Droid;
 
 namespace CollectorQi.Droid
 {
-    [Activity(Name= "CollectorQi.Mobile.Droid.MainActivity", Label = "CollectorQi", Icon = "@mipmap/iconsca", /*Theme = "@style/MainTheme"*/ Theme = "@style/MainTheme.Splash" , MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleInstance, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Name = "CollectorQi.Mobile.Droid.MainActivity", Label = "CollectorQi", Icon = "@mipmap/iconsca", /*Theme = "@style/MainTheme"*/ Theme = "@style/MainTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleInstance, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public static int COUNT_VALUE = 0;
@@ -30,7 +21,7 @@ namespace CollectorQi.Droid
         {
             //ZXing.Mobile.MobileBarcodeScanner.Initialize(Application);
 
-       
+
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -50,7 +41,7 @@ namespace CollectorQi.Droid
 
             var idTransferencia = Intent.GetStringExtra("id_transferencia");
             var idInventario = Intent.GetStringExtra("id_inventario");
-       
+
             if (idInventario != null)
                 csAuxiliar.idNotify = idInventario;
             else if (idTransferencia != null)
@@ -81,9 +72,9 @@ namespace CollectorQi.Droid
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-           // MenuInflater.Inflate(Resource.Menu.mainMenu, menu);
+            // MenuInflater.Inflate(Resource.Menu.mainMenu, menu);
 
-            
+
             return base.OnCreateOptionsMenu(menu);
         }
 
@@ -95,12 +86,27 @@ namespace CollectorQi.Droid
         public override void OnBackPressed()
         {
 
+            
             if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
             {
 
+
+
+              //  var context = Android.App.Application.Context;
+              //  var inputMethodManager = context.GetSystemService(Context.InputMethodService) as InputMethodManager;
+              //  if (inputMethodManager != null && context is Activity)
+              //  {
+                 //   var activity = context as ContextWrapper;
+                 //   var token = activity.CurrentFocus?.WindowToken;
+              //      inputMethodManager.HideSoftInputFromWindow(token, HideSoftInputFlags.None);
+                //inputMethodManager.HideSoftInputFromWindow(token, )
+                   //activity.FOcu
+              //  }
+
                 // Do something if there are some pages in the `PopupStack`
             }
-    
+
+
             //base.OnBackPressed();
         }
 
@@ -111,7 +117,7 @@ namespace CollectorQi.Droid
                 return;
             }
 
-            var channelName         = "notification_services_transf";
+            var channelName = "notification_services_transf";
             var channelDescription = "Notificaçao de integração";
             var channel = new NotificationChannel(CHANNEL_ID_TRANSF, channelName, NotificationImportance.Default)
             {
@@ -146,13 +152,13 @@ namespace CollectorQi.Droid
         {
 
 
-       //     CollectorQi.Views.handlePop.handlePopUp.OnClose();
-        //    CollectorQi.Views.handlePop.handlePopUp.Remo
-           // System.Diagnostics.Debug.Write()
-             base.OnNewIntent(intent); 
+            //     CollectorQi.Views.handlePop.handlePopUp.OnClose();
+            //    CollectorQi.Views.handlePop.handlePopUp.Remo
+            // System.Diagnostics.Debug.Write()
+            base.OnNewIntent(intent);
             //NotificationClickedOn(intent);
 
-           // csAuxiliar.IsNotify = false;
+            // csAuxiliar.IsNotify = false;
 
         }
 

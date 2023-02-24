@@ -29,6 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.3" />
+    <PackageReference Include="CHD.HWBackButtonManager" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout" Version="20.3.0.61" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
@@ -161,14 +162,44 @@
     <Compile Update="Views\Armazenagem\ArmazenagemPrintPopUp.xaml.cs">
       <DependentUpon>ArmazenagemPrintPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoEnviarParametroPage.xaml.cs">
+      <DependentUpon>GerarPedidoEnviarParametroPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoEmitentePopUp.xaml.cs">
+      <DependentUpon>GerarPedidoEmitentePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoPesoVolumePopUp.xaml.cs">
+      <DependentUpon>GerarPedidoPesoVolumePopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ESCL000\DepositoPopUp.xaml.cs">
       <DependentUpon>DepositoPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\_GerarPedidoDepositoItemListaPage.xaml.cs">
+      <DependentUpon>_GerarPedidoDepositoItemListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\_GerarPedidoDepositoItemListaPagePopUp.xaml.cs">
+      <DependentUpon>_GerarPedidoDepositoItemListaPagePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoListaPage.xaml.cs">
+      <DependentUpon>GerarPedidoListaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\_GerarPedidoTipoMovimento.xaml.cs">
+      <DependentUpon>_GerarPedidoTipoMovimento.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\_GerarPedidoConfirmaQuantidadePopUp.xaml.cs">
+      <DependentUpon>_GerarPedidoConfirmaQuantidadePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\_GerarPedidoDepositoLocalizPopUp.xaml.cs">
+      <DependentUpon>_GerarPedidoDepositoLocalizPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Inventario\ESCL017\InventarioReparoListaDepositoPopUp.xaml.cs">
       <DependentUpon>InventarioReparoListaDepositoPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Inventario\ESCL017\InventarioReparoLeituraEtiquetaBarrasPopUp.xaml.cs">
       <DependentUpon>InventarioReparoLeituraEtiquetaBarrasPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Inventario\ESCL018B\InventarioListaCodigoBarrasPopUp.xaml.cs">
+      <DependentUpon>InventarioListaCodigoBarrasPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Inventario\ESCL018B\InventarioCaixaIncompletaPopUpB.xaml.cs">
       <DependentUpon>InventarioCaixaIncompletaPopUpB.xaml</DependentUpon>

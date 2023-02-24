@@ -65,6 +65,12 @@ namespace CollectorQi.Views
                 ToolBarPrint.IsEnabled = true;
             }
         }
+
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+        }
     }
 
     public class InventarioFisicoViewModel : InventarioVO

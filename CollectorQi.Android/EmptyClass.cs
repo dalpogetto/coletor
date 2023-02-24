@@ -1,5 +1,4 @@
-﻿using System;
-namespace CollectorQi.Droid
+﻿namespace CollectorQi.Droid
 {
     public class EmptyClass
     {
@@ -15,7 +14,7 @@ namespace CollectorQi.Droid
             ws.
             login.*/
 
-           // ws.userLogin("super");
+            // ws.userLogin("super");
 
         }
     }

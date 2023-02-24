@@ -61,7 +61,6 @@ namespace CollectorQi.Views
         private ObservableCollection<DepositosViewModel> _ItemsUnfiltered;
 
         private string _codDepos;
-
         public SaldoVirtualDepositoListaPage(string pCodDepos)
         {
             InitializeComponent();
@@ -72,7 +71,6 @@ namespace CollectorQi.Views
 
             _codDepos = pCodDepos;
         }
-
         protected async override void OnAppearing()
         {
             base.OnAppearing();
@@ -81,17 +79,13 @@ namespace CollectorQi.Views
 
             CarregaListView();
         }
-
         private async void CarregaListView()
         {
-            //var lstInventario = await ParametersInventarioService.SendParametersAsync();
             var pageProgress = new ProgressBarPopUp("Carregando Depósitos, aguarde...");
 
             try
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
-
-                // var lstDeposito = await CadastrosDeposito.ObterListaDepositos();
 
                 var lstDeposito = await DepositosGuardaMaterialService.SendGuardaMaterialAsync( /* parametrosDepositosGuardaMaterial.TipoTransferencia */ );
 
@@ -108,17 +102,6 @@ namespace CollectorQi.Views
                         });
                     }
                 }
-
-                /*
-                if (lstDeposito != null && lstDeposito.Count > 0)
-                {
-                    foreach (var row in lstDeposito)
-                    {
-                        var modelView = Mapper.Map<Deposito, DepositosViewModel>(row);
-
-                        Items.Add(modelView);
-                    }
-                }*/
 
                 SearchBarCodDepos.Focus();
 
@@ -155,7 +138,6 @@ namespace CollectorQi.Views
 
         async void cvDepositos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             try
             {
                 cvDepositos.IsEnabled = false;
@@ -164,8 +146,6 @@ namespace CollectorQi.Views
                     return;
 
                 var current = (cvDepositos.SelectedItem as DepositosViewModel);
-
-                //Application.Current.MainPage = new NavigationPage(new ConsultaLocalizacaoListaPage(current));
 
                 pageLocaliz = new SaldoVirtualLocalizPopUp(current.CodDepos);
                 pageLocaliz._confirmaLocalizacaoItem = CodigoBarras;
@@ -212,7 +192,6 @@ namespace CollectorQi.Views
                 {
                     Application.Current.MainPage = new NavigationPage(new SaldoVirtualLocalizacaoListaPage(pCodDepos, strCodItem));
                 }
-            //    Application.Current.MainPage = new NavigationPage(new SaldoVirtualListaPage(pCodDepos, pCodLocaliz));
             }
         }
 
@@ -263,7 +242,6 @@ namespace CollectorQi.Views
             }
             catch { }
         }
-
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             try
@@ -280,9 +258,13 @@ namespace CollectorQi.Views
                 ToolBarPrint.IsEnabled = true;
             }
         }
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+        }
 
     }    
-
     public class DepositosSaldoViewModel : Deposito, INotifyPropertyChanged
     {
         public string CodDeposNome

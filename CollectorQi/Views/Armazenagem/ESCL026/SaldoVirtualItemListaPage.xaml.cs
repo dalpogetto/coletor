@@ -67,31 +67,53 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = "Estabelecimento: " + SecurityAuxiliar.Estabelecimento;
-
+            
             _deposito   = pDeposito;
             _codLocaliz = pCodLocaliz;
 
             cvItem.BindingContext = this;
         }
-
         protected async override void OnAppearing()
         {
             base.OnAppearing();
               
             Items = new ObservableCollection<ItemSaldoViewModel>();
 
-            CarregaListView(true) ;
+            await CarregaListView(true) ;
         }
-
-        private async void CarregaListView(bool pSemSaldo)
+        private string GetLocalizMask(string pLocaliz)
         {
+            if (!String.IsNullOrEmpty(pLocaliz) && pLocaliz.Length >= 10)
+            {
+                string codLocaliz = "";
+
+                codLocaliz = pLocaliz.Substring(0, 3) + " - ";
+                codLocaliz = codLocaliz + pLocaliz.Substring(3, 2) + " - ";
+                codLocaliz = codLocaliz + pLocaliz.Substring(5, 3) + " - ";
+                codLocaliz = codLocaliz + pLocaliz.Substring(8, 2);
+
+                return codLocaliz;
+            }
+            else
+            {
+                return pLocaliz;
+            }
+        }
+        private async Task CarregaListView(bool pSemSaldo)
+        {
+            lblCodEstabel.Text = "Depósito: " + _deposito + " / " + "Localização: " + GetLocalizMask(_codLocaliz);
+            
             //var lstInventario = await ParametersInventarioService.SendParametersAsync();
             var pageProgress = new ProgressBarPopUp("Carregando Itens, aguarde...");
 
             try
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
+
+                if (Items != null)
+                {
+                    Items.Clear();
+                }
 
                 var lstItem = await Item.ObterLocalizDoItemPorEstabDep(_deposito, _codLocaliz, pSemSaldo);
 
@@ -112,6 +134,12 @@ namespace CollectorQi.Views
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
+
+                if (_origChangeLocaliz)
+                {
+                    SearchBarCodDepos.Text = String.Empty;
+                }
+
             }
             catch (Exception ex)
             {
@@ -209,20 +237,41 @@ namespace CollectorQi.Views
 
         private CancellationTokenSource throttleCts = new CancellationTokenSource();
 
+        private bool _origChangeLocaliz = false;
+
         async void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
-                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
-                    .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
-                        CancellationToken.None,
-                        TaskContinuationOptions.OnlyOnRanToCompletion,
-                        TaskScheduler.FromCurrentSynchronizationContext());
+
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5 && e.NewTextValue.Substring(0, 3) == "10;")
+                {
+                    // Usuario lendo etiqueta de localização, precisa mudar a localização e refresh em tela.
+                    _codLocaliz = e.NewTextValue.Replace("10;", "");
+
+                    _origChangeLocaliz = true;
+                    await CarregaListView(true);
+                    _origChangeLocaliz = false;
+                }
+                else
+                {
+
+                    /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
+                    Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+                    await Task.Delay(TimeSpan.FromMilliseconds(200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                        .ContinueWith(
+                            delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+                            CancellationToken.None,
+                            TaskContinuationOptions.OnlyOnRanToCompletion,
+                            TaskScheduler.FromCurrentSynchronizationContext());
+                }
             }
-            catch { }
+            catch { 
+            }
+            finally
+            {
+                _origChangeLocaliz = false;
+            }
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -240,6 +289,12 @@ namespace CollectorQi.Views
             {
                 ToolBarPrint.IsEnabled = true;
             }
+        }
+
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
         }
 
     }    

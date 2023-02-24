@@ -13,14 +13,11 @@ namespace CollectorQi.Views
 {
     public partial class SaldoVirtualItemPopUp : PopupPage
     {
-
         public Action<string, string, string> _actRefresh;
-
         public string _codDepos { get; set; }
         public string _codLocaliz { get; set; }
         public string _codItem { get; set; }
         public string _saldo { get; set; }
-
         public SaldoVirtualItemPopUp(string pCodDepos, string pCodLocaliz, string pCodItem, string pSaldo /* int pInventarioId, InventarioItemVO pInventarioItem*/ )        
         {
             try
@@ -80,7 +77,6 @@ namespace CollectorQi.Views
         {
             SumButton(txtQuantidade, 100);
         }
-
         private void SumButton(CustomEntry entry, int value)
         {
             if (String.IsNullOrEmpty(entry.Text)) { entry.Text = "0"; }
@@ -90,10 +86,7 @@ namespace CollectorQi.Views
             decimal qtd = decimal.Parse(entry.Text) + value;
 
             entry.Text = qtd.ToString();
-
-       //     System.Diagnostics.Debug.Write(qtd);
         }
-
         async void OnClick_Efetivar(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtQuantidade.Text))
@@ -157,7 +150,6 @@ namespace CollectorQi.Views
                 await pageProgress.OnClose();
             }
         }
-
         static string CleanInput(string strIn)
         {
             // Replace invalid characters with empty strings.

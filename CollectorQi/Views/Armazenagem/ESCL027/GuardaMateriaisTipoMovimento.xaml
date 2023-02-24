@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              Title="Tipo de Movimento" 
              x:Class="CollectorQi.Views.GuardaMateriaisTipoMovimento">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="voltarMini.png" Text="Voltar" Clicked="ToolBarVoltar_Clicked" x:Name="ToolBarVoltar"></ToolbarItem>
+
         <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

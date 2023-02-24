@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using CollectorQi.Models;
-using System.Threading.Tasks;
+﻿using CollectorQi.Models;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(CollectorQi.Droid.CallProcedureWithToken))]
@@ -8,7 +6,7 @@ namespace CollectorQi.Droid
 {
     public sealed class CallProcedureWithToken : ICallProcedureWithToken
     {
-        
+
         /*santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws;
         santacolomba_dts.totvscloud.com.br.userLogin login;
         santacolomba_dts.totvscloud.com.br.callProcedureWithToken callProc;
@@ -61,7 +59,7 @@ namespace CollectorQi.Droid
 
             return string.Empty;
 
-                
+
         }
 
         public string GetWSUrl()

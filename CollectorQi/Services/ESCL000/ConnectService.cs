@@ -87,7 +87,7 @@ namespace CollectorQi.Services.ESCL000
                     // Elimina todos estab e retorna OK
                     CriaEstabelecimento(lstFilial);
 
-                    throw new Exception("Usuário sem acesso a nenhuma filial!");
+                   // throw new Exception("Usuário sem acesso a nenhuma filial!");
                 }
 
                 return "OK";
@@ -124,7 +124,7 @@ namespace CollectorQi.Services.ESCL000
                     // Elimina todos estab e retorna OK
                     CriaEstabelecimento(lstFilial);
 
-                    throw new Exception("Usuário sem acesso a nenhuma filial!");
+                    //throw new Exception("Usuário sem acesso a nenhuma filial!");
                 }
             }
             catch (Exception e)

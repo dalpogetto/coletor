@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using CollectorQi.Models;
-using System.Threading.Tasks;
+﻿using CollectorQi.Models;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(CollectorQi.Droid.UserLogin))]
@@ -11,8 +9,8 @@ namespace CollectorQi.Droid
         /* santacolomba_dts.totvscloud.com.br.WebServiceExecBO ws;
         santacolomba_dts.totvscloud.com.br.userLogin login;
         */
-         public UserLogin()
-         {
+        public UserLogin()
+        {
             /*
             ws = new santacolomba_dts.totvscloud.com.br.WebServiceExecBO()
             {

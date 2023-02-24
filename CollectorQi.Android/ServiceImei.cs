@@ -19,7 +19,7 @@ namespace CollectorQi.Droid
             {
                 var context = Android.App.Application.Context;
 
-                if (ContextCompat.CheckSelfPermission(context, 
+                if (ContextCompat.CheckSelfPermission(context,
                     Manifest.Permission.ReadPhoneState) == (int)Permission.Granted)
                 {
                     var telephonyManager = (Android.Telephony.TelephonyManager)context

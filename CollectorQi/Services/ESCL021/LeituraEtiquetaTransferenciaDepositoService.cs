@@ -15,12 +15,8 @@ namespace CollectorQi.Services.ESCL021
 {
     public class LeituraEtiquetaTransferenciaDepositoService
     {
-       
-
         // Criar URI como parametrival no ambiente e nao utilizar a variavel
         private static string URI = ServiceCommon.SystemUrl;
-       // private const string URI = "https://62fa31c73c4f110faa941620.mockapi.io";
-
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl021api/LeituraEtiqueta";
 
         public async static Task<ResultTransferenciaDepositoJson> SendLeituraEtiquetaAsync(DadosLeituraItemTransferenciaDeposito dadosLeituraItemTransferenciaDeposito)
@@ -54,20 +50,7 @@ namespace CollectorQi.Services.ESCL021
                         Saldo = "Atenção! Não foi possivel capturar o saldo do item!"
 
                     });
-
-                    /*
-
-                    edtNroDocto.Text = item.NF;
-                    edtSerie.Text = item.Serie;
-                    edtLote.Text = item.Lote;
-                    edtSaldo.Text = Decimal.ToInt32(item.Saldo).ToString();
-                    edtQuantidade.Text = Decimal.ToInt32(item.Quantidade).ToString();*/
-
-
-
-
                 }
-
 
                 return leituraEtiqueta;
             }
@@ -89,7 +72,6 @@ namespace CollectorQi.Services.ESCL021
 
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 //client.BaseAddress = new Uri(URI);
-
 
                 var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
@@ -121,28 +103,8 @@ namespace CollectorQi.Services.ESCL021
                         else
                         { 
                              parametros = JsonConvert.DeserializeObject<ResultTransferenciaDepositoJson>(responseData);
-
-                            /*
-                            parametros = new ResultSendInventarioReturnJson()
-                            {
-                                Retorno = parametroSuccess.Retorno
-                            };*/
                         }
                     }
-
-                    /*
-                    var result = await client.SendAsync(req);
-
-                    if (result.IsSuccessStatusCode)
-                    {
-                        string responseData = await result.Content.ReadAsStringAsync();
-                        parametros = JsonConvert.DeserializeObject<ResultTransferenciaDepositoJson>(responseData);
-                    }
-                    else
-                    {
-                        Debug.Write(result);
-                    } */
-
                 }
             }
             catch (Exception e)

@@ -5,6 +5,8 @@
     </ScrollView>-->
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="voltarMini.png" Text="Voltar" Clicked="ToolBarVoltar_Clicked" x:Name="ToolBarVoltar"></ToolbarItem>
+
         <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
     </ContentPage.ToolbarItems>
 

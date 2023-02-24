@@ -41,87 +41,87 @@ namespace CollectorQi.Droid
         }*/
 
 
-            /*
-        protected override void Dispose(bool disposing)
-        {
+/*
+protected override void Dispose(bool disposing)
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(disposing);
+System.Diagnostics.Debug.Write(disposing);
 
-            base.Dispose(disposing);
+base.Dispose(disposing);
 
-            System.Diagnostics.Debug.Write(a);
+System.Diagnostics.Debug.Write(a);
 
-        }
+}
 
 
-        protected override void OnLayout(bool changed, int l, int t, int r, int b)
-        {
-            base.OnLayout(changed, l, t, r, b);
+protected override void OnLayout(bool changed, int l, int t, int r, int b)
+{
+base.OnLayout(changed, l, t, r, b);
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        }
+System.Diagnostics.Debug.Write(a);
+}
 
-        protected override void OnAttachedToWindow()
-        {
-         //   base.OnAttachedToWindow
-            String a = "1";
+protected override void OnAttachedToWindow()
+{
+//   base.OnAttachedToWindow
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        }
+System.Diagnostics.Debug.Write(a);
+}
 
-        protected override void OnDetachedFromWindow()
-        {
+protected override void OnDetachedFromWindow()
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        }
+System.Diagnostics.Debug.Write(a);
+}
 
-        protected override void OnWindowVisibilityChanged(ViewStates visibility)
-        {
+protected override void OnWindowVisibilityChanged(ViewStates visibility)
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        }
+System.Diagnostics.Debug.Write(a);
+}
 
-        public override bool DispatchTouchEvent(MotionEvent e)
-        {
+public override bool DispatchTouchEvent(MotionEvent e)
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-            return true;
-        }
+System.Diagnostics.Debug.Write(a);
+return true;
+}
 
-        public override bool OnTouchEvent(MotionEvent e)
-        {
+public override bool OnTouchEvent(MotionEvent e)
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
+System.Diagnostics.Debug.Write(a);
 
-            return true;
-        }
+return true;
+}
 
-        private void OnBackgroundClick(object sender, MotionEvent e)
-        {
+private void OnBackgroundClick(object sender, MotionEvent e)
+{
 
-            String a = "1";
+String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        } */
-        /*
-        private bool IsInRegion(float x, float y, View v)
-        {
+System.Diagnostics.Debug.Write(a);
+} */
+/*
+private bool IsInRegion(float x, float y, View v)
+{
 
-            String a = "1";
+    String a = "1";
 
-            System.Diagnostics.Debug.Write(a);
-        } 
-    }
+    System.Diagnostics.Debug.Write(a);
+} 
+}
 }*/

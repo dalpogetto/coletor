@@ -1,19 +1,15 @@
-﻿using System;
-using Android.Content;
-using Android.Content.Res;
+﻿using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
+using Android.InputMethodServices;
 using Android.Support.V4.Content;
-using Android.Support.V4.Content.Res;
+using Android.Util;
+using Android.Views;
 using CollectorQi;
+using CollectorQi.Droid;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using CollectorQi.Droid;
-using static Android.Resource;
-using Android.Util;
-using System.Drawing;
-using Android.Text;
 using Bitmap = Android.Graphics.Bitmap;
 
 [assembly: ExportRenderer(typeof(CustomEntryText), typeof(CustomEntryTextRenderer))]
@@ -75,18 +71,18 @@ namespace CollectorQi.Droid
 
 
             editText.CompoundDrawablePadding = 25;
-           
+
             Control.Background.SetColorFilter(element.LineColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
 
         }
 
-    public static float DpToPixels(Context context, float valueInDp)
-    {
-        DisplayMetrics metrics = context.Resources.DisplayMetrics;
-        return TypedValue.ApplyDimension(ComplexUnitType.Dip, valueInDp, metrics);
-    }
+        public static float DpToPixels(Context context, float valueInDp)
+        {
+            DisplayMetrics metrics = context.Resources.DisplayMetrics;
+            return TypedValue.ApplyDimension(ComplexUnitType.Dip, valueInDp, metrics);
+        }
 
-    private BitmapDrawable GetDrawable(string imageEntryImage)
+        private BitmapDrawable GetDrawable(string imageEntryImage)
         {
             int resID = Resources.GetIdentifier(imageEntryImage, "drawable", this.Context.PackageName);
             var drawable = ContextCompat.GetDrawable(this.Context, resID);
@@ -95,6 +91,5 @@ namespace CollectorQi.Droid
 
             return new BitmapDrawable(Resources, Bitmap.CreateScaledBitmap(bitmap, element.ImageWidth * 2, element.ImageHeight * 2, true));
         }
-
     }
 }

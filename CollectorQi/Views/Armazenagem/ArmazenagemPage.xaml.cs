@@ -28,9 +28,9 @@ namespace CollectorQi.Views
             }
             else
             {
-                string[] imagem = new string[]    { "guardaMaterias.png"           , "transferenciaDeposito.png"          , "movto_repair3.png"                 , "consulta_localizacao.png"           , "saldo_virtual.png"                    /* , "print.png"*/  };
-                string[] titulo = new string[]    { "Guarda de Materiais"          , "Transferência de Depósito"          , "Movimentação de Reparo"            , "Consulta de Localização"            , "Manutenção Saldo Virtual"             /* , "Impressão de Etiquetas de Identificação" */ };
-                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"  , "Consulta de Localização (ESCL025)"  , "Manutenção Saldo Virtual (ESCL026)"   /* , "Impressão (ESCL010/ESCL013/ESCL020)" ,*/  };  
+                string[] imagem = new string[]    { "guardaMaterias.png"           , "transferenciaDeposito.png"          , "movto_repair3.png"                 , "consulta_localizacao.png"           , "saldo_virtual.png"                   , "expedicao.png"                  /* , "print.png"*/  };
+                string[] titulo = new string[]    { "Guarda de Materiais"          , "Transferência de Depósito"          , "Movimentação de Reparo"            , "Consulta de Localização"            , "Manutenção Saldo Virtual"            , "Gerar Pedido"                   /* , "Impressão de Etiquetas de Identificação" */ };
+                string[] subTitulo = new string[] { "Guarda de Materiais (ESCL027)", "Transferência de Depósito (ESCL021)", "Movimentação de Reparo (ESCL029)"  , "Consulta de Localização (ESCL025)"  , "Manutenção Saldo Virtual (ESCL026)"  , "Expedição de Pedidos (ESCL034)" /* , "Impressão (ESCL010/ESCL013/ESCL020)" ,*/  };  
 
                 List<MenuItemDetail> menuItemDetails = new List<MenuItemDetail>();
                 MenuItemDetail menuItemDetail;
@@ -90,11 +90,18 @@ namespace CollectorQi.Views
                     Application.Current.MainPage = new NavigationPage(new SaldoVirtualDepositoListaPage(null) { Title = "Manutenção Saldo Virtual" });
                     break;
 
-                    //case "MovimentoReparos":
-                    //    ConferenciaPage.MenuId = 3;
-                    //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
-                    //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
-                    //    break;
+                //case "MovimentoReparos":
+                //    ConferenciaPage.MenuId = 3;
+                //    ConferenciaPage.MenuDesc = "Movimento de Reparos";
+                //    //Application.Current.MainPage = new NavigationPage(new ConferenciaPage() { Title = "Movimento de Reparos" });
+                //    break;
+
+                case "Gerar Pedido":
+                    ConferenciaPage.MenuId = 2;
+                    ConferenciaPage.MenuDesc = "Gerar Pedido";
+                    Application.Current.MainPage = new NavigationPage(new GerarPedidoEnviarParametroPage(null) { Title = "Gerar Pedido" });
+                    break;
+
             }
 
             ((ListView)sender).SelectedItem = null;

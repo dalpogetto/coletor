@@ -105,7 +105,7 @@ namespace CollectorQi.Views
 
                     var versaoSistema = new ValidaVersaoSistema();
                     var existeNovaVersao = await versaoSistema.ExisteNovaVersao();
-                    if (existeNovaVersao)
+                    if (existeNovaVersao != null && existeNovaVersao.LoginValidado)
                     {
                         logon = "Erro";
                     }

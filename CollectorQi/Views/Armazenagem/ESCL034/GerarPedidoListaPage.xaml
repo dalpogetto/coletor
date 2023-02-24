@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="Gerar Pedido" x:Class="CollectorQi.Views.GerarPedidoListaPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="voltarMini.png" Text="Voltar" Clicked="ToolBarVoltar_Clicked" x:Name="ToolBarVoltar"></ToolbarItem>
+        <ToolbarItem Icon="person.png" Text="Search" Clicked="ToolbarEmitente_Clicked" x:Name="ToolBarEmitente"></ToolbarItem>
+        <ToolbarItem Icon="keyboard.png" Text="Search" Clicked="ToolbarEmitente_Clicked" x:Name="ToolBarDigitaReparo"></ToolbarItem>
+        <ToolbarItem Icon="print.png" Text="Search" Clicked="ToolbarItem_Clicked" x:Name="ToolBarPrint"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <!--<StackLayout BackgroundColor="#4E4E4E">-->
+        <StackLayout BackgroundColor="#fff">
+            
+            <!--
+            <Frame  HasShadow="true" Margin="10,10,10,10" CornerRadius="5" x:Name="frame" OutlineColor="#A5C3FA" BackgroundColor="#b4b4b1" >
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+          
+                    <Label x:Name="lblCodEstabel"  VerticalOptions="Start" HorizontalOptions="Start" Font="Small" FontAttributes="Bold"  />
+                   
+                </Grid>
+            </Frame>
+            -->
+
+
+            <StackLayout Spacing="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Frame HorizontalOptions="FillAndExpand" HasShadow="true" Margin="12,2,12,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB" HeightRequest="30">
+
+                    <SearchBar IsVisible="{Binding SearchMode}" 
+                               Placeholder="Código Barras Reparo.." 
+                               Text="{Binding SearchText}" 
+                               x:Name="SearchReparo" 
+                               TextChanged="Handle_TextChanged" 
+                               VerticalOptions="StartAndExpand"
+                               HorizontalOptions="StartAndExpand"
+                               Margin="0,0,0,0"
+                               FontSize="Small"/>
+                </Frame>
+            </StackLayout>
+
+            <CollectionView x:Name="cvReparo" ItemsSource="{Binding Items}" SelectionChanged="cvReparo_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label Text="Nenhuma Reparo Informado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Spacing="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HasShadow="true" Margin="10,10,10,2" CornerRadius="5" x:Name="frame2" OutlineColor="#A5C3FA" BackgroundColor="#DCDCDB" Padding="0">
+
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="10,12,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Filial: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodFilial}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Small" />
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Item: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CodProduto}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Small" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="2" HorizontalOptions="FillAndExpand" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="Num RR: " FontAttributes="Bold" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding NumRR}" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" FontSize="Small" />
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Margin="10,5,10,5" Grid.Row="1"  VerticalOptions="End" HorizontalOptions="FillAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnEfetivarPedido" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="BtnEfetivarPedido_Clicked" Grid.Row="1" Grid.Column="0" Text="Finalizar" TextColor="White" />
+                <Button x:Name="BtnLimparPedido" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
+                          Clicked="BtnLimparPedido_Clicked" Grid.Row="2" Grid.Column="0" Text="Limpar Itens" TextColor="White" />
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,16 +1,8 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Views;
-using Android.Widget;
 using CollectorQi.Droid.Notification;
 using Java.Lang;
 
@@ -54,7 +46,7 @@ namespace CollectorQi.Droid.Notification
                               .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
                               .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
                               .SetContentTitle("(Integração) Transfêrencia") // Set the title
-                                                                 //.SetNumber() // Display the count in the Content Info
+                                                                             //.SetNumber() // Display the count in the Content Info
                               .SetSmallIcon(Resource.Drawable.almoxarifado) // This is the icon to display
                               .SetContentText(byStrMensagem); // the message to display.
 
@@ -97,7 +89,7 @@ namespace CollectorQi.Droid.Notification
                               .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
                               .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
                               .SetContentTitle("(Integração) Inventário") // Set the title
-                                                                 //.SetNumber() // Display the count in the Content Info
+                                                                          //.SetNumber() // Display the count in the Content Info
                               .SetSmallIcon(Resource.Drawable.inventario) // This is the icon to display
                               .SetContentText(byStrMensagem); // the message to display.
 
@@ -106,7 +98,7 @@ namespace CollectorQi.Droid.Notification
 
                 // Finally, publish the notification:
                 var notificationManager = NotificationManagerCompat.From(context);
-                notificationManager.Notify(MainActivity.NOTIFICATION_ID + 1 , builder.Build());
+                notificationManager.Notify(MainActivity.NOTIFICATION_ID + 1, builder.Build());
 
                 // Increment the button press count:
                 MainActivity.COUNT_VALUE++;

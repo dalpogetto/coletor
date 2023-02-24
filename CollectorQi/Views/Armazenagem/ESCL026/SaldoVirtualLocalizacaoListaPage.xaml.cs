@@ -66,7 +66,7 @@ namespace CollectorQi.Views
         {
             InitializeComponent();
 
-            lblCodEstabel.Text = "Estab: " + SecurityAuxiliar.Estabelecimento + " / Depos: " + pCodDepos ;
+            lblCodEstabel.Text = "Item: " + pCodItem;
 
             _codDepos = pCodDepos;
             _codItem = pCodItem;
@@ -83,8 +83,10 @@ namespace CollectorQi.Views
             CarregaListView();
         }
 
-        private async void CarregaListView()
+        private async Task CarregaListView()
         {
+            lblCodEstabel.Text = "Depósito: " + _codDepos + " / " + "Item: " + _codItem;
+
             //var lstInventario = await ParametersInventarioService.SendParametersAsync();
             var pageProgress = new ProgressBarPopUp("Carregando Localização, aguarde...");
 
@@ -92,11 +94,12 @@ namespace CollectorQi.Views
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(pageProgress);
 
+                Items.Clear();
+
                 var lstLocalizacao = await ItemService.ObterLocalizacaoPorEstabDepItem(_codDepos, _codItem, true);
 
                 System.Diagnostics.Debug.Write(lstLocalizacao);
-                
-                
+                                
                 if (lstLocalizacao != null && lstLocalizacao.param != null && lstLocalizacao.param.Resultparam != null && lstLocalizacao.param.Resultparam.Count > 0)
                 {
                     foreach (var row in lstLocalizacao.param.Resultparam)
@@ -110,6 +113,11 @@ namespace CollectorQi.Views
                 _ItemsUnfiltered = Items;
 
                 OnPropertyChanged("Items");
+
+                if (_origChangeItem)
+                {
+                    SearchBarCodLocaliz.Text = "";
+                }
             }
             catch (Exception ex)
             {
@@ -234,20 +242,53 @@ namespace CollectorQi.Views
 
         private CancellationTokenSource throttleCts = new CancellationTokenSource();
 
+        private bool _origChangeItem;
         async void Handle_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
-                Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
-                await Task.Delay(TimeSpan.FromMilliseconds(200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
-                    .ContinueWith(
-                        delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
-                        CancellationToken.None,
-                        TaskContinuationOptions.OnlyOnRanToCompletion,
-                        TaskScheduler.FromCurrentSynchronizationContext());
+
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length > 5 && e.NewTextValue.Substring(0,3) != "10;")
+                {
+                    var splItem = e.NewTextValue.Split(';');
+                    string strCodItem;
+
+                    if (splItem.Length > 1)
+                    {
+                        strCodItem = splItem[1];
+                    }
+                    else
+                    {
+                        strCodItem = e.NewTextValue;
+                    }
+
+
+                    _codItem = strCodItem;
+                    // Usuario lendo etiqueta de localização, precisa mudar a localização e refresh em tela.
+                    _origChangeItem = true;
+                    await CarregaListView();
+                    _origChangeItem = false;
+                }
+                else
+                {
+                    /* Victor Alves - 31/10/2019 - Processo para cancelar thread se digita varias vezes o item e trava  */
+                    Interlocked.Exchange(ref this.throttleCts, new CancellationTokenSource()).Cancel();
+                    await Task.Delay(TimeSpan.FromMilliseconds(200), this.throttleCts.Token) // if no keystroke occurs, carry on after 500ms
+                        .ContinueWith(
+                            delegate { PerformSearch(); }, // Pass the changed text to the PerformSearch function
+                            CancellationToken.None,
+                            TaskContinuationOptions.OnlyOnRanToCompletion,
+                            TaskScheduler.FromCurrentSynchronizationContext());
+                }
             }
-            catch { }
+            catch (Exception ex){
+
+                System.Diagnostics.Debug.Write(ex);
+            }
+            finally
+            {
+                _origChangeItem = false;
+            }
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -267,10 +308,39 @@ namespace CollectorQi.Views
             }
         }
 
+        private void ToolBarVoltar_Clicked(object sender, EventArgs e)
+        {
+            base.OnBackButtonPressed();
+            Xamarin.Forms.Application.Current.MainPage = new NavigationPage(new ArmazenagemPage());
+        }
+
     }    
     public class LocalizacaoSaldoViewModel : INotifyPropertyChanged
     {
         public string CodLocaliz { get;set; }
+
+        public string LocalizView
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(CodLocaliz) && CodLocaliz.Length == 10)
+                {
+                    string codLocaliz = "";
+
+                    codLocaliz = CodLocaliz.Substring(0, 3) + " - ";
+                    codLocaliz = codLocaliz + CodLocaliz.Substring(3, 2) + " - ";
+                    codLocaliz = codLocaliz + CodLocaliz.Substring(5, 3) + " - ";
+                    codLocaliz = codLocaliz + CodLocaliz.Substring(8, 2);
+
+                    return codLocaliz;
+                }
+                else
+                {
+                    return CodLocaliz;
+                }
+            }
+        }
+
 
         public string SaldoInfo { get; set; }
    

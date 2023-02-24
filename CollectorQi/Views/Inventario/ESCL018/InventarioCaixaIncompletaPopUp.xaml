@@ -52,7 +52,7 @@
                                 </Grid.RowDefinitions>
                                 <Label x:Name="lblInventario" Text="Inventário" FontSize="Medium" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
                                 <local:CustomEntryText x:Name="edtItCodigo" IsReadOnly="True" FontSize="Small" MaxLength="40" MinimumWidthRequest="150" VerticalOptions="Center" HorizontalOptions="Fill" Keyboard="Plain" Placeholder="Código do inventário..." Grid.Row="1"
-                                    Grid.Column="0" Grid.ColumnSpan="2" />
+                                    Grid.Column="0" Grid.ColumnSpan="4" />
                                 <local:CustomEntryText x:Name="edtCodEstabelecimento" IsReadOnly="true" FontSize="Small" MaxLength="300" Keyboard="Default" Placeholder="Codigo Estabelecimento..." VerticalOptions="Center" HorizontalOptions="Fill" Grid.Row="2" Grid.Column="0"
                                     Grid.ColumnSpan="4" />
                                 <local:CustomEntryText x:Name="edtCodDeposito" IsReadOnly="true" FontSize="Small" MaxLength="30" Keyboard="Default" Placeholder="Codigo Deposito..." VerticalOptions="Start" HorizontalOptions="Fill" Grid.Row="3" Grid.Column="0"

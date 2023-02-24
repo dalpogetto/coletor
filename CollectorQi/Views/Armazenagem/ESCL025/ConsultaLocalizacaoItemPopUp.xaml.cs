@@ -45,11 +45,11 @@ namespace CollectorQi.Views
 
         protected async override void OnAppearing()
         {
-            var inventario = await InventarioDB.GetInventario(_inventarioId);
+            var inventario = InventarioDB.GetInventario(_inventarioId);
 
             edtItCodigo.Text           = _inventarioItemVO.CodItem.ToString();
-            edtCodEstabelecimento.Text = _inventarioItemVO.CodEstabel + " - " + inventario.DescEstabel;
-            edtCodDeposito.Text        = _inventarioItemVO.CodDepos + " - " + inventario.DescDepos;
+            edtCodEstabelecimento.Text = inventario.CodEstabel + " - " + inventario.DescEstabel;
+            edtCodDeposito.Text        = inventario.CodDepos + " - " + inventario.DescDepos;
             edtCodigoBarras.Text       = _inventarioItemVO.CodigoBarras;
             edtLote.Text               = _inventarioItemVO.Lote;
 
@@ -162,11 +162,11 @@ namespace CollectorQi.Views
                             Lote               = _inventarioItemVO.Lote.Trim(),
                             Localizacao        = _inventarioItemVO.Localizacao.Trim(),
                             CodItem            = _inventarioItemVO.CodItem.Trim(),
-                            CodDepos           = _inventarioItemVO.CodDepos.Trim(),
+                            CodDepos           = _inventarioItemVO.__inventario__.CodDepos.Trim(),
                             QuantidadeDigitada = decQuantidade,
                             CodEmp             = SecurityAuxiliar.GetCodEmpresa(),
                             Contagem           = _inventarioItemVO.Contagem,
-                            CodEstabel         = _inventarioItemVO.CodEstabel,
+                            CodEstabel         = SecurityAuxiliar.GetCodEstabel(),
                             CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
                         };
 

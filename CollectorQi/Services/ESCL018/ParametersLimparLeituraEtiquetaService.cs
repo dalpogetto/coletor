@@ -43,11 +43,11 @@ namespace CollectorQi.Services.ESCL018
                 Lote = inventarioItemVO.Lote.Trim(),
                 Localizacao = inventarioItemVO.Localizacao.Trim(),
                 CodItem = inventarioItemVO.CodItem.Trim(),
-                CodDepos = inventarioItemVO.CodDepos.Trim(),
+                CodDepos = inventarioItemVO.__inventario__.CodDepos.Trim(),
                 QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
                 CodEmp = SecurityAuxiliar.GetCodEmpresa(),
                 Contagem = 1,
-                CodEstabel = inventarioItemVO.CodEstabel,
+                CodEstabel = SecurityAuxiliar.GetCodEstabel(),
                 CodigoBarras = inventarioItemVO.CodigoBarras
 
             };
@@ -71,7 +71,7 @@ namespace CollectorQi.Services.ESCL018
                 {
                     //InventarioItemDB.AtualizaInventarioItemBatch(byInventarioItemVO, eStatusInventarioItem.);
                     var batchInventarioItem = Mapper.Map<InventarioItemVO, BatchInventarioItemVO>(byInventarioItemVO);
-                    BatchInventarioItemDB.AtualizaStatusIntegracao(batchInventarioItem.InventarioItemId, eStatusIntegracao.EnviadoIntegracao);
+                    BatchInventarioItemDB.AtualizaStatusIntegracao(batchInventarioItem.InventarioItemKey, eStatusIntegracao.EnviadoIntegracao);
                 }
 
                 return resultInventario;

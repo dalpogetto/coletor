@@ -10,7 +10,7 @@ namespace CollectorQi.Services
 {
     public class ValidaVersaoSistema : ContentPage
     {
-        public async Task<bool> ExisteNovaVersao()
+        public async Task<ValidaAplicativoInfo> ExisteNovaVersao()
         {
             var novaVersao = false;
             
@@ -78,8 +78,9 @@ namespace CollectorQi.Services
 
                         if (!rVersao.LoginValidado)
                         {
-                            await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
-                            novaVersao = true;
+                            return rVersao;
+                           // await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
+                           // novaVersao = true;
                         }
 
                         if (rVersao.Versao != VersionTracking.CurrentVersion)
@@ -92,16 +93,16 @@ namespace CollectorQi.Services
 
                             if (result)
                             {
-                                await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
-                                novaVersao = true;
+                           //     await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
+                           //     novaVersao = true;
                             }
                         }
                     }
-
+                    return rVersao;
                 }
-
+                return null;
             }
-            return novaVersao;
+            return null;
         }
     }
 }

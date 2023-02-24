@@ -23979,85 +23979,88 @@ namespace CollectorQi.Droid
 			public const int pageBackground = 2131165610;
 			
 			// aapt resource value: 0x7F0701AB
-			public const int plugin_lc_smallicon = 2131165611;
+			public const int person = 2131165611;
 			
 			// aapt resource value: 0x7F0701AC
-			public const int popup_forms_android_close_icon = 2131165612;
+			public const int plugin_lc_smallicon = 2131165612;
 			
 			// aapt resource value: 0x7F0701AD
-			public const int popup_forms_android_shadow = 2131165613;
+			public const int popup_forms_android_close_icon = 2131165613;
 			
 			// aapt resource value: 0x7F0701AE
-			public const int popup_forms_dark_theme_close_icon = 2131165614;
+			public const int popup_forms_android_shadow = 2131165614;
 			
 			// aapt resource value: 0x7F0701AF
-			public const int popup_forms_light_theme_close_icon = 2131165615;
+			public const int popup_forms_dark_theme_close_icon = 2131165615;
 			
 			// aapt resource value: 0x7F0701B0
-			public const int preference_list_divider_material = 2131165616;
+			public const int popup_forms_light_theme_close_icon = 2131165616;
 			
 			// aapt resource value: 0x7F0701B1
-			public const int print = 2131165617;
+			public const int preference_list_divider_material = 2131165617;
 			
 			// aapt resource value: 0x7F0701B2
-			public const int product = 2131165618;
+			public const int print = 2131165618;
 			
 			// aapt resource value: 0x7F0701B3
-			public const int qr = 2131165619;
+			public const int product = 2131165619;
 			
 			// aapt resource value: 0x7F0701B4
-			public const int qrload = 2131165620;
+			public const int qr = 2131165620;
 			
 			// aapt resource value: 0x7F0701B5
-			public const int repair = 2131165621;
+			public const int qrload = 2131165621;
 			
 			// aapt resource value: 0x7F0701B6
-			public const int retirada = 2131165622;
+			public const int repair = 2131165622;
 			
 			// aapt resource value: 0x7F0701B7
-			public const int roundedbg = 2131165623;
+			public const int retirada = 2131165623;
 			
 			// aapt resource value: 0x7F0701B8
-			public const int roundedbgdark = 2131165624;
+			public const int roundedbg = 2131165624;
 			
 			// aapt resource value: 0x7F0701B9
-			public const int sairMini = 2131165625;
+			public const int roundedbgdark = 2131165625;
 			
 			// aapt resource value: 0x7F0701BA
-			public const int saldo_virtual = 2131165626;
+			public const int sairMini = 2131165626;
 			
 			// aapt resource value: 0x7F0701BB
-			public const int scabackground = 2131165627;
+			public const int saldo_virtual = 2131165627;
 			
 			// aapt resource value: 0x7F0701BC
-			public const int scaLogo = 2131165628;
+			public const int scabackground = 2131165628;
 			
 			// aapt resource value: 0x7F0701BD
-			public const int security = 2131165629;
+			public const int scaLogo = 2131165629;
 			
 			// aapt resource value: 0x7F0701BE
-			public const int splash_background = 2131165630;
+			public const int security = 2131165630;
 			
 			// aapt resource value: 0x7F0701BF
-			public const int test_custom_background = 2131165631;
+			public const int splash_background = 2131165631;
 			
 			// aapt resource value: 0x7F0701C0
-			public const int tooltip_frame_dark = 2131165632;
+			public const int test_custom_background = 2131165632;
 			
 			// aapt resource value: 0x7F0701C1
-			public const int tooltip_frame_light = 2131165633;
+			public const int tooltip_frame_dark = 2131165633;
 			
 			// aapt resource value: 0x7F0701C2
-			public const int transferenciaDeposito = 2131165634;
+			public const int tooltip_frame_light = 2131165634;
 			
 			// aapt resource value: 0x7F0701C3
-			public const int voltar = 2131165635;
+			public const int transferenciaDeposito = 2131165635;
 			
 			// aapt resource value: 0x7F0701C4
-			public const int voltarMini = 2131165636;
+			public const int voltar = 2131165636;
 			
 			// aapt resource value: 0x7F0701C5
-			public const int zoomMini = 2131165637;
+			public const int voltarMini = 2131165637;
+			
+			// aapt resource value: 0x7F0701C6
+			public const int zoomMini = 2131165638;
 			
 			static Drawable()
 			{

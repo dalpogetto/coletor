@@ -321,7 +321,7 @@ namespace CollectorQi.Views
             try
             {
 
-                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length >= 10)
+                if (String.IsNullOrEmpty(e.OldTextValue) && e.NewTextValue.Length >= 5)
                 {
                     await ConfirmaCodigoBarras();
                 }
