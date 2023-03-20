@@ -31,7 +31,7 @@ namespace CollectorQi.Services.ESCL018B
         //private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl002api/EnviarParametros";
 
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/EfetivarContagem";
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/EfetivarContagemPAM";
 
         //public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO)
         //{

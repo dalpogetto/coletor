@@ -14,9 +14,9 @@ namespace CollectorQi.Services.ESCL000
 
                 // return "https://brspupapl01.ad.diebold.com:8543";         // Desenv
                 // return "https://brspupapl01.ad.diebold.com:8143";         // -> Projetos
-                 return "https://brspupapl01.ad.diebold.com:8243";      // -> Homolog
+                // return "https://brspupapl01.ad.diebold.com:8243";      // -> Homolog
                 // return "https://totvsapptst.dieboldnixdorf.com.br:8243; // -> Homolog
-                // return "https://totvsapp.dieboldnixdorf.com.br:8143";  // -> Produção 
+                return "https://totvsapp.dieboldnixdorf.com.br:8143";  // -> Produção 
             }
         }
 
