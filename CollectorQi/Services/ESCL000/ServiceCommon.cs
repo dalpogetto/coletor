@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CollectorQi.Services.ESCL000
+﻿namespace CollectorQi.Services.ESCL000
 {
     public static class ServiceCommon
     {

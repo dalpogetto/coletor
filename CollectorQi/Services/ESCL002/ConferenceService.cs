@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using CollectorQi.Models;
-using CollectorQi.Resources.DataBaseHelper;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using CollectorQi.Services.ESCL000;

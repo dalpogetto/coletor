@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CollectorQi.VO;
 using SQLite;
 using System.Threading.Tasks;
-using Xamarin.Forms.Internals;
 
 namespace CollectorQi.Resources.DataBaseHelper
 {

@@ -70,13 +70,6 @@ namespace CollectorQi.Services.ESCL006
         public class ResultImpressaoJson
         {
             public string Conteudo { get; set; }
-            //[JsonProperty("Conteudo")]
-            //public ParametrosImpressaoResult Resultparam { get; set; }
-        }
-
-        //public class ParametrosImpressaoResult
-        //{
-        //    public string OK { get; set; }
-        //}       
+        } 
     }
 }

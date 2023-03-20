@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CollectorQi.Resources
+﻿namespace CollectorQi.Resources
 {
     // Query Cache para atualização de em Cache
 

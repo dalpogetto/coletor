@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using SQLite;
-using Xamarin.Forms.Internals;
-using System.Linq;
 using System.Threading.Tasks;
 using CollectorQi.VO.Batch.ESCL018;
 
@@ -11,7 +8,6 @@ namespace CollectorQi.Resources.DataBaseHelper.Batch.ESCL018
 {
     public static class BatchInventarioItemDB
     {
-
         public static bool AtualizaStatusIntegracao(string byInventarioItemKey, eStatusIntegracao byStatusIntegracao)
         {
 

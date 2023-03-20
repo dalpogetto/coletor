@@ -1,6 +1,4 @@
-﻿using Android.Views;
-using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace CollectorQi
 {

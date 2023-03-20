@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL028
+﻿namespace CollectorQi.Models.ESCL028
 {
     public class ListaDocumentosNotaFiscal
     {   

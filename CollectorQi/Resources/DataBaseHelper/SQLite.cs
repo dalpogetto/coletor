@@ -1,10 +1,7 @@
 ﻿using System.IO;
-//using SQLite;
-
 using Xamarin.Forms;
 using CollectorQi.Resources.DataBaseHelper;
 using System;
-
 using SQLite;
 
 [assembly: Dependency(typeof(SQLiteAndroid))]

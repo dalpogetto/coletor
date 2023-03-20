@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models
+﻿namespace CollectorQi.Models
 {
     public class ListaReparos
     {

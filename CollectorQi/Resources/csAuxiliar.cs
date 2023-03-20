@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
 using CollectorQi.Resources.DataBaseHelper;
 using System.ComponentModel;
 using System.Linq;

@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-//using System.ServiceModel;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Models.Datasul;
 using CollectorQi.Views;
 using CollectorQi.Resources;
-
-using System.Threading;
-using System.Globalization;
 using Xamarin.Forms;
 using CollectorQi.Models.ESCL028;
-using CollectorQi.Resources.DataBaseHelper.ESCL018;
-using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Models
 {

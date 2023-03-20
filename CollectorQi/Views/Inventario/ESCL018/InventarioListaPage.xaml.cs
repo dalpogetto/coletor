@@ -99,8 +99,6 @@ namespace CollectorQi.Views
 
                 OnPropertyChanged("ObsInventario");
 
-                
-
             }
             catch (Exception ex)
             {
@@ -110,7 +108,6 @@ namespace CollectorQi.Views
             {
                 await pageProgress.OnClose();
             }
-
         }
 
         async void OnClick_CarregaInventario(object sender, System.EventArgs e)

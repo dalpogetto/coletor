@@ -28,7 +28,6 @@ namespace CollectorQi.Views
             InitializeComponent();
 
             listView.ItemSelected += OnSelection;
-
         }
 
         private async Task AtualizaListView()

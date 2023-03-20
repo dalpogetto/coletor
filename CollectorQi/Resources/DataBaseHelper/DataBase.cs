@@ -1,16 +1,9 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 using CollectorQi.VO;
 using CollectorQi.VO.Batch;
-
-
-using Xamarin.Forms.Internals;
 using Xamarin.Essentials;
 using System.IO;
-using CsvHelper;
 using CollectorQi.VO.ESCL018;
 using CollectorQi.VO.Batch.ESCL018;
 

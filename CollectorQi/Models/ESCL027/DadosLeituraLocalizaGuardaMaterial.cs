@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL027
+﻿namespace CollectorQi.Models.ESCL027
 {
     public class DadosLeituraLocalizaGuardaMaterial
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL018
+﻿namespace CollectorQi.Models.ESCL018
 {
     public class InventarioItemBarra
     {
@@ -15,8 +13,6 @@ namespace CollectorQi.Models.ESCL018
         public string CodEmp { get; set; }
         public string CodDepos { get; set; }
         public int QuantidadeDigitada { get; set; }
-
-
         public string CodigoBarras { get; set; }
     }
 
