@@ -80,3 +80,4 @@ namespace CollectorQi.Resources.DataBaseHelper
         }
     }
 }
+

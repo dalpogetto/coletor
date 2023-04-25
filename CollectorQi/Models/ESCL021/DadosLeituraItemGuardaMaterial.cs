@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL021
+﻿namespace CollectorQi.Models.ESCL021
 {
     public class DadosLeituraItemGuardaMaterial
     {
@@ -10,7 +8,6 @@ namespace CollectorQi.Models.ESCL021
         public int? Transacao { get; set; }
         public int SemSaldo { get; set; }
         public string CodigoBarras { get; set; } 
-        
         public string Quantidade { get; set; }
     }
 }

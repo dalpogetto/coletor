@@ -644,9 +644,9 @@ namespace CollectorQi.Views
 
                     if (result != null)
                     {
-                        var qtd = result.Sum(x => x.Quantidade);
+                        var lExistDigitacao = (result.Count > 0);
 
-                        if (qtd > 0)
+                        if (lExistDigitacao)
                         {
                             return "intSucessoMed.png";
                         }
@@ -700,7 +700,9 @@ namespace CollectorQi.Views
                     {
                         var qtd = result.Sum(x => x.Quantidade);
 
-                        if (qtd > 0)
+                        var lExist = result.Count > 0;
+
+                        if (qtd > 0 || lExist)
                         {
                             return $"{qtd.ToString()} (CX)";
                         }

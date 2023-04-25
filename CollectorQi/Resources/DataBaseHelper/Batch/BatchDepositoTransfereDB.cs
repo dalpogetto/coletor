@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CollectorQi.VO.Batch;
 using SQLite;
-using Xamarin.Forms.Internals;
 using System.Linq;
 
 namespace CollectorQi.Resources.DataBaseHelper.Batch

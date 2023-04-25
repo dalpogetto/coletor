@@ -1,8 +1,5 @@
 ﻿using System.Linq;
 using Xamarin.Forms;
-using System;
-
-
 
 namespace CollectorQi
 {

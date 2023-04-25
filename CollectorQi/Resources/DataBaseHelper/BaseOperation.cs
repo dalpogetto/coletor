@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using SQLite;
 using Xamarin.Forms;
-using System.Linq;
-
 
 namespace CollectorQi.Resources.DataBaseHelper
 {

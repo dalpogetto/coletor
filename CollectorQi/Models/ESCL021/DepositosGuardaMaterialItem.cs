@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL021
+﻿namespace CollectorQi.Models.ESCL021
 {
     public class DepositosGuardaMaterialItem
     {

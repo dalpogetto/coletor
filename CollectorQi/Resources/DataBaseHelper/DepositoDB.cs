@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CollectorQi.VO;
 using SQLite;
-using Xamarin.Forms.Internals;
-using System.Linq;
 
 namespace CollectorQi.Resources.DataBaseHelper
 {
@@ -13,7 +10,7 @@ namespace CollectorQi.Resources.DataBaseHelper
         /*
         private DataBase db;
 
-        public DepositoDB()
+        public DepositoDB()S
         {
             db = new DataBase();
         }*/

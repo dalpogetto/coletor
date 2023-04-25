@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Xamarin.Forms;
 
 namespace CollectorQi
@@ -15,10 +14,7 @@ namespace CollectorQi
             set { SetValue(IsNumericProperty, value); }
 
         }
-
     }
-
-
 
     public class TextChangedBehavior : Behavior<SearchBar>
     {

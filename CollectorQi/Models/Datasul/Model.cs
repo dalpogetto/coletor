@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
 
 namespace CollectorQi
 {
@@ -79,7 +73,6 @@ namespace CollectorQi
         public string   codLote          { get; set; } = String.Empty;
         public string   dtValiLote       { get; set; } = String.Empty;
         public decimal  qtidadeAtu       { get; set; } = 0;
-        //public string   dtVersaoSaldo    { get; set; } = String.Empty;
         public int nrTrans { get; set; } = 0;
     }
 
@@ -95,8 +88,6 @@ namespace CollectorQi
         public bool conferido { get; set; } = false;
         public int relaciona { get; set; } = 0;
         public string codFilial { get; set; } = String.Empty;
-        //public int origemNotaFiscal { get; set; } = 0;
-        //public bool notaFiscalAtivo { get; set; } = false;
     }
 
     public class ModelInventario
@@ -117,11 +108,6 @@ namespace CollectorQi
         public int idInventario { get; set; } = 0;
         public string DescEstabel { get; set; }
         public string DescDepos { get; set; }
-
-        //public string DtSaldo { get; set; }
-        //public int? IdInventario { get; set; }
-        //public string CodEstabel { get; set; }
-        //public string CodDeposito { get; set; }
     }
 
     public class ModelInventarioErro
@@ -184,5 +170,3 @@ namespace CollectorQi
 
     }
 }
-
-

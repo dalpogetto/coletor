@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CollectorQi.VO;
 using SQLite;
-using Xamarin.Forms.Internals;
 using System.Linq;
 using System.Threading.Tasks;
 

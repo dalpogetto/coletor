@@ -4,7 +4,6 @@ using System.Text;
 
 namespace CollectorQi.Resources.Batch
 {
-    
     public class DadosLeituraEtiquetaPAM
     {
         public string CodItem { get; set; }

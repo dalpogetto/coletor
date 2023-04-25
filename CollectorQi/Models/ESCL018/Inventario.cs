@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL018
+﻿namespace CollectorQi.Models.ESCL018
 {
     public class Inventario
     {

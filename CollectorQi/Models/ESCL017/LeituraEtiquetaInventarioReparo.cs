@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL017
+﻿namespace CollectorQi.Models.ESCL017
 {
     public class LeituraEtiquetaInventarioReparo
     {

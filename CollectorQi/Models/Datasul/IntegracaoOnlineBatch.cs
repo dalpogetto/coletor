@@ -4,9 +4,7 @@ using Plugin.Connectivity;
 using CollectorQi.Resources.DataBaseHelper.Batch;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.VO.Batch;
-using AutoMapper;
 using System.Threading.Tasks;
-using CollectorQi.Resources.DataBaseHelper.ESCL018;
 using CollectorQi.VO.ESCL018;
 
 namespace CollectorQi.Models.Datasul

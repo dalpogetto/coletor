@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL029
+﻿namespace CollectorQi.Models.ESCL029
 {
     public class ParametrosMovimentoReparo
     {

@@ -1,7 +1,5 @@
-﻿//using ServiceTotvs;
-using System;
+﻿using System;
 using System.Collections.Generic;
-//using System.ServiceModel;
 using System.Text;
 using Xamarin.Forms.Internals;
 

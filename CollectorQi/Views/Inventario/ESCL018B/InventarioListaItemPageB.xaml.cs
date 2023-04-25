@@ -281,8 +281,8 @@ namespace CollectorQi.Views
                             foreach(var rowDig in resultDigitacao)
                             {
                                 ListaItemInventarioPAM registroItemDigitado;
-                                if (String.IsNullOrEmpty(rowDig.CodigoBarras))
-                                {
+                                //if (String.IsNullOrEmpty(rowDig.CodigoBarras))
+                                //{
                                     registroItemDigitado = lstItensDigitados.FirstOrDefault(x => x.CodItem == row.CodItem);
 
                                     if (registroItemDigitado == null)
@@ -293,32 +293,36 @@ namespace CollectorQi.Views
                                             CodigoBarras = "",
                                             QtdeDigitada = rowDig.Quantidade
                                         };
+
+                                        lstItensDigitados.Add(registroItemDigitado);
                                     }
                                     else
                                     {
                                         registroItemDigitado.QtdeDigitada += rowDig.Quantidade; 
                                     }
-                                }
-                                else
-                                {
-                                    registroItemDigitado = lstItensDigitados.FirstOrDefault(x => x.CodigoBarras == row.CodigoBarras);
 
-                                    if (registroItemDigitado == null)
-                                    {
-                                        registroItemDigitado = new ListaItemInventarioPAM
-                                        {
-                                            CodItem      = row.CodItem,
-                                            CodigoBarras = rowDig.CodigoBarras,
-                                            QtdeDigitada = rowDig.Quantidade
-                                        };
-                                    }
-                                    else
-                                    {
-                                        registroItemDigitado.QtdeDigitada += rowDig.Quantidade;
-                                    }
-                                }
 
-                                lstItensDigitados.Add(registroItemDigitado);
+                                    
+                                //}
+                                //else
+                                //{
+                                //    registroItemDigitado = lstItensDigitados.FirstOrDefault(x => x.CodigoBarras == row.CodigoBarras);
+                                //
+                                //    if (registroItemDigitado == null)
+                                //    {
+                                //        registroItemDigitado = new ListaItemInventarioPAM
+                                //        {
+                                //            CodItem      = row.CodItem,
+                                //            CodigoBarras = rowDig.CodigoBarras,
+                                //            QtdeDigitada = rowDig.Quantidade
+                                //        };
+                                //    }
+                                //    else
+                                //    {
+                                //        registroItemDigitado.QtdeDigitada += rowDig.Quantidade;
+                                //    }
+                                //}
+
                             }
                         }
                     }

@@ -1,16 +1,10 @@
-﻿using CollectorQi.Models.ESCL018;
-using CollectorQi.Resources;
-using CollectorQi.Resources.DataBaseHelper.ESCL018;
-using CollectorQi.ViewModels.Interface;
-using CollectorQi.VO.ESCL018;
+﻿using CollectorQi.Resources;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static CollectorQi.Services.ESCL018.ParametersObterLocalizacaoUsuarioService;
 
 namespace CollectorQi.Services.ESCL000
 {

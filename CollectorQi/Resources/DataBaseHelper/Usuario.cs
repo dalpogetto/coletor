@@ -1,11 +1,4 @@
-﻿using CollectorQi.VO;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms.Internals;
-
-namespace CollectorQi.Resources.DataBaseHelper
+﻿namespace CollectorQi.Resources.DataBaseHelper
 {
     public class Usuario 
     {

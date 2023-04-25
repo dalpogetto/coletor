@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CollectorQi.Models.ESCL000
+﻿namespace CollectorQi.Models.ESCL000
 {
     public class Filial
     {

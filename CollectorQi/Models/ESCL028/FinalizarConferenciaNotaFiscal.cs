@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CollectorQi.Models.ESCL028
+﻿namespace CollectorQi.Models.ESCL028
 {
     public class FinalizarConferenciaNotaFiscal
     {
@@ -10,8 +8,7 @@ namespace CollectorQi.Models.ESCL028
         public decimal NumRR { get; set; }
         public decimal Digito { get; set; }
     }
-
-    
+       
     public class FinalizarConferenciaDocumentos
     {
         public int CodEmitente { get; set; }

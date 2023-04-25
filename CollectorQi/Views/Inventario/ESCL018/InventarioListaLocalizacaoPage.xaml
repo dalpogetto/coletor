@@ -32,8 +32,6 @@
                     <!--<Entry x:Name="txtEtiqueta" Placeholder="Digite a etiqueta.." VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" FontSize="Small" WidthRequest="400"/> -->
                 </Frame>
             </StackLayout>
-            
-            
 
             <Grid Grid.Row="0">
                 <CollectionView x:Name="cvLeituraEtiqueta" ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChanged="cvLeituraEtiqueta_SelectionChanged" Grid.Row="0" Margin="10,0,10,0">
