@@ -14,6 +14,8 @@ using CollectorQi.Models.ESCL028;
 namespace CollectorQi.Models
 {
 
+    //teste
+
     public static class ConnectService
     {
         private static string ProgramName                     = "qip/qi0001.p";
