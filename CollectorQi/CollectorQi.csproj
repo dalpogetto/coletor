@@ -168,6 +168,9 @@
     <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoEmitentePopUp.xaml.cs">
       <DependentUpon>GerarPedidoEmitentePopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Armazenagem\ESCL034\SolicitarSeriePopUp.xaml.cs">
+      <DependentUpon>SolicitarSeriePopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Armazenagem\ESCL034\GerarPedidoPesoVolumePopUp.xaml.cs">
       <DependentUpon>GerarPedidoPesoVolumePopUp.xaml</DependentUpon>
     </Compile>

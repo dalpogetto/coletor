@@ -122,6 +122,7 @@ namespace CollectorQi.Services.ESCL034
         {
             public string RowId { get; set; }
             public string VlOrcado { get; set; }
+            public string Serie { get; set; }
         }
 
         public class GerarPedidoJsonResponse

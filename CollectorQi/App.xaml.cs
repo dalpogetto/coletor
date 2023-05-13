@@ -17,6 +17,8 @@ using CollectorQi.Resources;
 using ESCL = CollectorQi.Models.ESCL018;
 using CollectorQi.VO.ESCL018;
 using CollectorQi.VO.Batch.ESCL018;
+using System.Globalization;
+using CollectorQi.Services.ESCL000;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CollectorQi
@@ -33,6 +35,9 @@ namespace CollectorQi
             {
                 InitializeComponent();
 
+                //Cultura BR
+                ServiceCommon.SetarAmbienteCulturaBrasil();
+
                 if (String.IsNullOrEmpty(csAuxiliar.idNotify))
                 {
                     AutoMapper.Mapper.Initialize(Load());
@@ -40,6 +45,9 @@ namespace CollectorQi
                     /* Atualiza banco de dados */
                     DataBase db = new DataBase();
                     db.CriarBancoDeDados();
+
+                    //Criar Tabelas Temporarias
+                    db.CriarTabelasTemporarias();
 
                     // Code to run on the main thread
                     MainPage = new NavigationPage(new PrincipalPage());

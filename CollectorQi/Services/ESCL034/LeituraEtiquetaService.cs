@@ -153,6 +153,7 @@ namespace CollectorQi.Services.ESCL034
             public string VlOrcado { get; set; }
             public string Mensagem { get; set; }
             public string CodBarras { get; set; }
+            public string Serie { get; set; }
         }
 
         public class ResultConteudoSuccessJson

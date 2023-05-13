@@ -45,7 +45,7 @@ namespace CollectorQi.Services.ESCL018
                 Localizacao = inventarioItemVO.Localizacao.Trim(),
                 CodItem = inventarioItemVO.CodItem.Trim(),
                 CodDepos = inventarioItemVO.__inventario__.CodDepos.Trim(),
-                QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
+                QuantidadeDigitada = decimal.Parse(inventarioItemVO.Quantidade.ToString()),
                 CodEmp = SecurityAuxiliar.GetCodEmpresa(),
                 Contagem = 1,
                 CodEstabel = SecurityAuxiliar.GetCodEstabel(),
@@ -150,6 +150,9 @@ namespace CollectorQi.Services.ESCL018
         // Metodo ObterParametros Totvs
         private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
         {
+            //Alternar para Enviar Formato Decimal para o Progress
+            ServiceCommon.SetarAmbienteCulturaUSA();
+
             ResultSendInventarioReturnJson parametros = null;
             try
             {
@@ -207,6 +210,11 @@ namespace CollectorQi.Services.ESCL018
                 System.Diagnostics.Debug.Write(e);
                 throw e;
             }
+            finally
+            {
+                ServiceCommon.SetarAmbienteCulturaBrasil();
+            }
+            
 
             return parametros;
         }      

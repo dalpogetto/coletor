@@ -4,6 +4,7 @@ using CollectorQi.Models.ESCL021;
 using CollectorQi.Resources;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.Services.ESCL000;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.Services.ESCL018B;
 using CollectorQi.Services.ESCL021;
@@ -124,11 +125,11 @@ namespace CollectorQi.Views
             SumButton(txtQuantidade, 100);
         }
 
-        private void SumButton(CustomEntry entry, int value)
+        private void SumButton(Entry entry, int value)
         {
             if (String.IsNullOrEmpty(entry.Text)) { entry.Text = "0"; }
 
-            entry.Text = (int.Parse(entry.Text) + value).ToString();
+            entry.Text = (decimal.Parse(entry.Text) + value).ToString();
         }
 
         async void OnClick_Efetivar(object sender, EventArgs e)
@@ -139,7 +140,7 @@ namespace CollectorQi.Views
                 return;
             }
 
-            int decQuantidade = int.Parse(txtQuantidade.Text);
+            decimal decQuantidade = decimal.Parse(txtQuantidade.Text);
 
             if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
             {
@@ -159,6 +160,7 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp("Carregando...");
             try
             {
+                ServiceCommon.SetarAmbienteCulturaUSA();
                 BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
@@ -179,7 +181,7 @@ namespace CollectorQi.Views
                             CodigoBarras       = CleanInput(edtCodigoBarras.Text.Trim())
                         };
 
-                        _inventarioItemVO.Quantidade = int.Parse(txtQuantidade.Text);
+                        _inventarioItemVO.Quantidade = decimal.Parse(txtQuantidade.Text);
 
                         _inventarioItemVO.CodigoBarras = CleanInput(edtCodigoBarras.Text);
 
@@ -231,6 +233,7 @@ namespace CollectorQi.Views
             }
             finally
             {
+                ServiceCommon.SetarAmbienteCulturaBrasil();
                 BtnEfetivar.IsEnabled = true;
                 await pageProgress.OnClose();
             }
@@ -295,7 +298,7 @@ namespace CollectorQi.Views
 
                             try
                             {
-                                txtQuantidade.Text = int.Parse(item.Quantidade).ToString();
+                                txtQuantidade.Text = decimal.Parse(item.Quantidade, ServiceCommon.ObterCulturaUSA).ToString();
                             }
                             catch
                             {

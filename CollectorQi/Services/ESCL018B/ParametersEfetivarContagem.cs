@@ -109,6 +109,8 @@ namespace CollectorQi.Services.ESCL018B
         // Metodo ObterParametros Totvs
         private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(InventarioVO byInventario, List<ListaItemInventarioPAM> byLstItemDigitado, string byLocalizacao)
         {
+            ServiceCommon.SetarAmbienteCulturaUSA();
+
             ResultSendInventarioReturnJson parametros = null;
             try
             {
@@ -191,6 +193,10 @@ namespace CollectorQi.Services.ESCL018B
             {
                 System.Diagnostics.Debug.Write(e);
                 throw e;
+            }
+            finally
+            {
+                ServiceCommon.SetarAmbienteCulturaBrasil();
             }
 
             return parametros;

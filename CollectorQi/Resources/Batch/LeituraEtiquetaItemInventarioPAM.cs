@@ -7,7 +7,7 @@ namespace CollectorQi.Resources.Batch
     public class DadosLeituraEtiquetaPAM
     {
         public string CodItem { get; set; }
-        public int QtdUnitaria { get; set; }
+        public decimal QtdUnitaria { get; set; }
         public string LeitorCodigoBarras { get; set; }
         public string CodEtiqueta24 { get; set; }
         public string CodEtiqueta { get; set; }
@@ -21,7 +21,7 @@ namespace CollectorQi.Resources.Batch
             string cItCodigo = "";
             int iAuxItem = 0;
             int iDigito = 0;
-            int iQtdUnitaria = 0;
+            decimal iQtdUnitaria = 0;
             string piCodEtiq24 = "";
 
             var cCodEtiq24 = ConverteBase36(piLeitor);
@@ -47,7 +47,7 @@ namespace CollectorQi.Resources.Batch
             if (iDigito == 10) iDigito = 0;
 
             cItCodigo = cItCodigo + iDigito.ToString();
-            iQtdUnitaria = int.Parse(cCodEtiq24.Substring(10, 5));
+            iQtdUnitaria = decimal.Parse(cCodEtiq24.Substring(10, 5));
 
             // Se calcula digito errado, considera o do item;
             if (cItCodigo != byCodItem)

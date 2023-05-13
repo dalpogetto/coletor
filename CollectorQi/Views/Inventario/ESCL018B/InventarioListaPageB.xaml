@@ -79,7 +79,7 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="Data:" FontAttributes="Bold" FontSize="Small" />
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtSaldo, StringFormat='{0:dd/MM/yyyy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtSaldo, StringFormat='{0:dd/MM/yy}'}" VerticalTextAlignment="End" HorizontalOptions="Start" FontSize="Small" />
                                     </Grid>
                                     
                                     <!--

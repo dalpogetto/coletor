@@ -89,7 +89,8 @@ namespace CollectorQi.Views
                         lstReparos.Add(new GerarPedidoService.GerarPedidoListaReparos
                         {
                             RowId = row.RowId,
-                            VlOrcado = row.VlOrcado
+                            VlOrcado = row.VlOrcado,
+                            Serie = row.Serie
                         });
                     }
 

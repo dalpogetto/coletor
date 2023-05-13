@@ -46,6 +46,34 @@ namespace CollectorQi.Resources.DataBaseHelper
             }
         }
 
+        //Tabelas que sao dropadas e criadas na entrada do APK
+        public void CriarTabelasTemporarias()
+        {
+            try
+            {
+                string teste = Path.GetFullPath(pasta);
+
+                using (SQLiteConnection conexao = new SQLiteConnection(Path.Combine(pasta, banco)))
+                {
+                    conexao.DropTable<LeituraEtiquetaVO>();
+                    conexao.CreateTable<LeituraEtiquetaVO>();
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //dbAsync.Connection.CloseAsync();
+            }
+        }
+            
+
         public bool CriarBancoDeDados()
         {
             Version version = new Version();
@@ -75,10 +103,7 @@ namespace CollectorQi.Resources.DataBaseHelper
                         conexao.DropTable<RequisicaoItemSaldoEstoqVO>();
                         conexao.DropTable<FichasUsuarioVO>();
                         conexao.DropTable<NotaFiscalVO>();
-
                         conexao.DropTable<BatchInventarioItemVO>();
-
-
 
 
                         if (!IsTableExists("UsuarioVO", conexao))

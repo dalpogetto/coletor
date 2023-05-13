@@ -234,11 +234,11 @@ namespace CollectorQi.Views
             SumButton(txtQuantidade, 100);
         }
 
-        private void SumButton(CustomEntry entry, int value)
+        private void SumButton(Entry entry, int value)
         {
             if (String.IsNullOrEmpty(entry.Text)) { entry.Text = "0"; }
 
-            entry.Text = (int.Parse(entry.Text) + value).ToString();
+            entry.Text = (decimal.Parse(entry.Text) + value).ToString();
         }
 
         async void OnClick_Efetivar(object sender, EventArgs e)
@@ -274,11 +274,11 @@ namespace CollectorQi.Views
                 return false;
             }
 
-            int decQuantidade = 0;
+            decimal decQuantidade = 0;
 
             if (!blnCodBarras)
             {
-                decQuantidade = int.Parse(txtQuantidade.Text);
+                decQuantidade = decimal.Parse(txtQuantidade.Text);
 
                 /*
                 if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
@@ -336,7 +336,7 @@ namespace CollectorQi.Views
                         txtQuantidade.Text = "0";
                     }
 
-                    _inventarioItemVO.Quantidade   = int.Parse(txtQuantidade.Text);
+                    _inventarioItemVO.Quantidade   = decimal.Parse(txtQuantidade.Text);
                     _inventarioItemVO.CodigoBarras = strCodBarras;
 
                     if (!String.IsNullOrEmpty(_inventarioItemVO.CodigoBarras))

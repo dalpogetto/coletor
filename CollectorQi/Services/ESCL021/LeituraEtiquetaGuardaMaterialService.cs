@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CollectorQi.Services.ESCL000;
+using CollectorQi.Resources.DataBaseHelper;
 
 namespace CollectorQi.Services.ESCL021
 {
@@ -19,25 +20,63 @@ namespace CollectorQi.Services.ESCL021
         private static string URI = ServiceCommon.SystemUrl;
         //private const string URI = "https://6303e29c761a3bce77e090d4.mockapi.io";        
 
-        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl027api/LeituraEtiqueta";        
+        private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl027api/LeituraEtiqueta";
+
+        private static string ObterCodigoProduto(string codigoBarras)
+        {
+            if (codigoBarras != null)
+            {
+                var conteudo = codigoBarras.Split(';');
+                if (conteudo.Length == 0) return string.Empty;
+
+                return conteudo[1];
+            }
+            return string.Empty;
+        }
+
+        private static string ObterNumeroSerie(string codigoBarras)
+        {
+            if (codigoBarras != null)
+            {
+                var conteudo = codigoBarras.Split(';');
+                if (conteudo.Length == 0) return string.Empty;
+
+                switch (conteudo[0])
+                {
+                    case "01": return conteudo[4];
+                    case "02": return conteudo[8];
+                    case "03": return conteudo[5];
+                    case "04": return conteudo[6];
+                    case "07": return conteudo[8];
+                    case "08": return conteudo[8];
+                }
+            }
+
+            return string.Empty;
+        }
 
         // Metodo ObterParametros Totvs
         public static async Task<ResultSendGuardaMaterialReturnJson> SendLeituraEtiquetaAsync(DadosLeituraItemGuardaMaterial dadosLeituraItemGuardaMaterial)
         {
             ResultSendGuardaMaterialReturnJson parametros = null;
+            var codProduto = ObterCodigoProduto(dadosLeituraItemGuardaMaterial.CodigoBarras);
+            var numeroSerie = ObterNumeroSerie(dadosLeituraItemGuardaMaterial.CodigoBarras);
+
+            //11-05-2023: Valter: Não permitir realizar duas transferencias para o mesmo Item x Serie
+            if (! await LeituraEtiquetaDB.PrimeiraLeituraItemSerie(codProduto, numeroSerie))
+            {
+                throw new Exception($"Item: {codProduto} e Número de Série: {numeroSerie} já foram lidos nesta sessão !");
+            }
 
             try
             {
-
                 //ESCL.ParametrosNotaFiscal requestParam = new ESCL.ParametrosNotaFiscal() { CodEstabel = "126" };
                 RequestDadosLeituraItemJson requestJson = new RequestDadosLeituraItemJson() { Param = dadosLeituraItemGuardaMaterial };
-
+                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 var client = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
                 client.BaseAddress = new Uri(URI);
-
-                var byteArray = new UTF8Encoding().GetBytes($"{SecurityAuxiliar.GetUsuarioNetwork()}:{SecurityAuxiliar.CodSenha}");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
+                client.DefaultRequestHeaders.Add("CompanyId", SecurityAuxiliar.GetCodEmpresa());
                 client.DefaultRequestHeaders.Add("x-totvs-server-alias", ServiceCommon.SystemAliasApp);
 
                 var json = JsonConvert.SerializeObject(requestJson);
@@ -68,6 +107,8 @@ namespace CollectorQi.Services.ESCL021
                                 Retorno = parametroSuccess.Retorno
                             };
 
+                            //Gravar Item + Serie 
+                            await LeituraEtiquetaDB.GravarLeituraItemSerie(codProduto, numeroSerie);
                         }
                     }
                     else

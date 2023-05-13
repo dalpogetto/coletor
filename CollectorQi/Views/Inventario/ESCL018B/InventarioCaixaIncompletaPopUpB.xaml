@@ -142,8 +142,12 @@
 
                               <!-- Correção BUG Android (Samsung Não pega "," e "." no teclado númerico) -->
                     
-                                <local:CustomEntry IsNumeric="True" x:Name="txtQuantidade" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
-                                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
+                                <!--local:CustomEntry IsNumeric="True" x:Name="txtQuantidade" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/-->
+
+                                <local:CustomEntryNumeric x:Name="txtQuantidade" FontSize="Small" MaxLength="300" WidthRequest="300" Placeholder="Quantidade inventário..." VerticalOptions="Fill" HorizontalOptions="StartAndExpand"
+                                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" AllowFraction="True" AllowNegative="True"/>
+
 
                                 <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="CenterAndExpand">
                                     <Button CornerRadius="80" Text="+1"   Clicked="BtnQuantidadeSum1_Clicked"  BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" ></Button>

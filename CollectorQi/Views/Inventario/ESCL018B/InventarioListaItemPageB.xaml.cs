@@ -427,9 +427,9 @@ namespace CollectorQi.Views
                             if (String.IsNullOrEmpty(strErro) && !String.IsNullOrEmpty(strSucesso)) {
                                 await DisplayAlert("Sucesso!", $"{resultService.Localizacao} Efetivação concluída com sucesso !", "OK");
                             }
-                            else if (!String.IsNullOrEmpty(strErro) && !String.IsNullOrEmpty(strSucesso))
+                            else if (!String.IsNullOrEmpty(strErro) && (!String.IsNullOrEmpty(strSucesso) || strSucesso == ""))
                             {
-                                await DisplayAlert("Sucesso!", $"{resultService.Localizacao} Efetivação concluída com sucesso ! Porem ocorreu erro de efetivação nos items ({strErro}, favor revisar a atualização", "OK");
+                                await DisplayAlert("Atenção!", $"{resultService.Localizacao} Efetivação concluída com sucesso ! Porem ocorreu erro de efetivação nos items ({strErro}, favor revisar a atualização", "OK");
                                 lExistErro = true;
                             }
 

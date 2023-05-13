@@ -123,6 +123,7 @@
     <Compile Include="CustomEditText - Copy.cs" />
     <Compile Include="CustomEditTextExt.cs" />
     <Compile Include="CustomEditText.cs" />
+    <Compile Include="CustomEntryNumericRenderer.cs" />
     <Compile Include="CustomPopUpKeyboard.cs" />
     <Compile Include="HideKeyboard.cs" />
     <Compile Include="KeyboardService.cs" />
@@ -401,7 +402,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionCollectorQiAndroidHideInfoBar="True" XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionCollectorQiAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

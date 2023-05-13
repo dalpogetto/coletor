@@ -7,7 +7,7 @@
         public string CodDepos { get; set; }
         public string Localizacao { get; set; }
         public string Lote { get; set; }
-        public int QuantidadeDigitada { get; set; }
+        public decimal QuantidadeDigitada { get; set; }
         public string CodigoBarras { get; set; }
     }
 }

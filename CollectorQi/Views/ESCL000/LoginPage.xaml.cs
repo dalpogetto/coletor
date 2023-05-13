@@ -96,6 +96,12 @@ namespace CollectorQi.Views
                     strUsuario = usuario.Text.Trim();
                 }
 
+                //Valter - Extrair o @DIEBOLD_MASTER do usuario SUPER
+                if (strUsuario.Contains("super"))
+                {
+                    strUsuario = "super";
+                }
+
                 try
                 {
               

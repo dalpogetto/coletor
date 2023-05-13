@@ -12,7 +12,7 @@
         public int IVL { get; set; }
         public string CodEmp { get; set; }
         public string CodDepos { get; set; }
-        public int QuantidadeDigitada { get; set; }
+        public decimal QuantidadeDigitada { get; set; }
         public string CodigoBarras { get; set; }
     }
 
@@ -28,6 +28,6 @@
         public int IVL { get; set; }
         public string CodEmp { get; set; }
         public string CodDepos { get; set; }
-        public int Quantidade { get; set; }
+        public decimal Quantidade { get; set; }
     }
 }

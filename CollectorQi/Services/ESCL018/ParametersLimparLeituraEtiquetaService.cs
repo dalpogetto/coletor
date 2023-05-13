@@ -18,6 +18,7 @@ using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Services.ESCL000;
+using System.Globalization;
 
 namespace CollectorQi.Services.ESCL018
 {
@@ -34,6 +35,8 @@ namespace CollectorQi.Services.ESCL018
         //private const string URI = "https://62b47363a36f3a973d34604b.mockapi.io";
         private const string URI_SEND_PARAMETERS = "/api/integracao/coletores/v1/escl018api/LeituraEtiqueta";
 
+
+        //Valter : Alterado Quantidade de int para decimal
         public async static Task<string> SendInventarioBatchAsync(InventarioItemVO inventarioItemVO, bool pIsNotification = false)
         {
 
@@ -44,7 +47,8 @@ namespace CollectorQi.Services.ESCL018
                 Localizacao = inventarioItemVO.Localizacao.Trim(),
                 CodItem = inventarioItemVO.CodItem.Trim(),
                 CodDepos = inventarioItemVO.__inventario__.CodDepos.Trim(),
-                QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
+                QuantidadeDigitada = inventarioItemVO.Quantidade,
+               // QuantidadeDigitada = int.Parse(inventarioItemVO.Quantidade.ToString()),
                 CodEmp = SecurityAuxiliar.GetCodEmpresa(),
                 Contagem = 1,
                 CodEstabel = SecurityAuxiliar.GetCodEstabel(),
@@ -109,6 +113,10 @@ namespace CollectorQi.Services.ESCL018
         // Metodo ObterParametros Totvs
         private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
         {
+
+            //Alternar para Enviar Formato Decimal para o Progress
+            ServiceCommon.SetarAmbienteCulturaUSA();
+
             ResultSendInventarioReturnJson parametros = null;
             try
             {
@@ -164,6 +172,11 @@ namespace CollectorQi.Services.ESCL018
             {
                 System.Diagnostics.Debug.Write(e);
                 throw e;
+            }
+            finally
+            {
+                //Padrao - BR
+                ServiceCommon.SetarAmbienteCulturaBrasil();
             }
 
             return parametros;
