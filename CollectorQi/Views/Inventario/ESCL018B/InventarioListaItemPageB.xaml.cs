@@ -429,7 +429,7 @@ namespace CollectorQi.Views
                             }
                             else if (!String.IsNullOrEmpty(strErro) && (!String.IsNullOrEmpty(strSucesso) || strSucesso == ""))
                             {
-                                await DisplayAlert("Atenção!", $"{resultService.Localizacao} Efetivação concluída com sucesso ! Porem ocorreu erro de efetivação nos items ({strErro}, favor revisar a atualização", "OK");
+                                await DisplayAlert("Atenção!", $"{resultService.Localizacao}. Verificar os erros que ocorreram na efetivação dos itens. ({strErro}, favor revisar a atualização", "OK");
                                 lExistErro = true;
                             }
 
