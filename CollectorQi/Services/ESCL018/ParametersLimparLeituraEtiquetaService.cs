@@ -115,7 +115,7 @@ namespace CollectorQi.Services.ESCL018
         {
 
             //Alternar para Enviar Formato Decimal para o Progress
-            ServiceCommon.SetarAmbienteCulturaUSA();
+            //ServiceCommon.SetarAmbienteCulturaUSA();
 
             ResultSendInventarioReturnJson parametros = null;
             try
@@ -176,7 +176,7 @@ namespace CollectorQi.Services.ESCL018
             finally
             {
                 //Padrao - BR
-                ServiceCommon.SetarAmbienteCulturaBrasil();
+                //ServiceCommon.SetarAmbienteCulturaBrasil();
             }
 
             return parametros;

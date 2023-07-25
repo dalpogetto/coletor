@@ -1,15 +1,18 @@
-﻿using AutoMapper;
+﻿using Android.OS;
+using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Resources;
 using CollectorQi.Resources.Batch;
 using CollectorQi.Resources.DataBaseHelper;
 using CollectorQi.Resources.DataBaseHelper.ESCL018;
+using CollectorQi.Services.ESCL000;
 using CollectorQi.Services.ESCL018;
 using CollectorQi.Services.ESCL018B;
 using CollectorQi.VO.ESCL018;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,7 +34,7 @@ namespace CollectorQi.Views
             try
             {
                 InitializeComponent();
-
+                
                 _inventarioItemVO = pInventarioItem;
                 _inventario     = pInventario;
 
@@ -278,7 +281,7 @@ namespace CollectorQi.Views
 
             if (!blnCodBarras)
             {
-                decQuantidade = decimal.Parse(txtQuantidade.Text);
+                decQuantidade = decimal.Parse(txtQuantidade.Text, ServiceCommon.ObterCulturaBrasil);
 
                 /*
                 if (string.IsNullOrEmpty(edtCodigoBarras.Text) && decQuantidade > 0)
@@ -336,7 +339,7 @@ namespace CollectorQi.Views
                         txtQuantidade.Text = "0";
                     }
 
-                    _inventarioItemVO.Quantidade   = decimal.Parse(txtQuantidade.Text);
+                    _inventarioItemVO.Quantidade   = decimal.Parse(txtQuantidade.Text, ServiceCommon.ObterCulturaBrasil);
                     _inventarioItemVO.CodigoBarras = strCodBarras;
 
                     if (!String.IsNullOrEmpty(_inventarioItemVO.CodigoBarras))

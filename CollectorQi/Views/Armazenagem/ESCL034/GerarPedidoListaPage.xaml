@@ -67,11 +67,16 @@
                 </Frame>
             </StackLayout>
 
-            <StackLayout Spacing="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-               
+            <StackLayout Spacing="1" VerticalOptions="Start" Margin="20,0,0,0">
             </StackLayout>
 
             <CollectionView x:Name="cvReparo" ItemsSource="{Binding Items}" SelectionChanged="cvReparo_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0" >
+                <CollectionView.Header>
+                    <Grid>
+                        <Label Text="{Binding Items.Count, StringFormat='Reparos Lidos: {0:d}'}"/>
+                    </Grid>
+                    
+                </CollectionView.Header>
                 <CollectionView.EmptyView>
                     <StackLayout>
                         <Label Text="Nenhuma Reparo Informado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />
@@ -151,7 +156,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
+                
                 <Button x:Name="BtnEfetivarPedido" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="efetivarMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"
                           Clicked="BtnEfetivarPedido_Clicked" Grid.Row="1" Grid.Column="0" Text="Finalizar" TextColor="White" />
                 <Button x:Name="BtnLimparPedido" FontSize="Small"  MinimumHeightRequest="50" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="{StaticResource NavigationPrimary}" BorderRadius="16"

@@ -34,10 +34,7 @@ namespace CollectorQi
             try
             {
                 InitializeComponent();
-
-                //Cultura BR
-                ServiceCommon.SetarAmbienteCulturaBrasil();
-
+                
                 if (String.IsNullOrEmpty(csAuxiliar.idNotify))
                 {
                     AutoMapper.Mapper.Initialize(Load());

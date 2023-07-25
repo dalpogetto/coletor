@@ -13,6 +13,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -96,6 +97,9 @@ namespace CollectorQi.Views
                         SwtCxCompleta.On = true;
                     }
 
+                    //Valter - Leitura
+                    await edtLeituraEtiqueta();
+
                     txtQuantidade.Focus();
                 });
             });
@@ -160,7 +164,7 @@ namespace CollectorQi.Views
             var pageProgress = new ProgressBarPopUp("Carregando...");
             try
             {
-                ServiceCommon.SetarAmbienteCulturaUSA();
+                //ServiceCommon.SetarAmbienteCulturaUSA();
                 BtnEfetivar.IsEnabled = false;
                 if (result.ToString() == "True")
                 {
@@ -233,7 +237,7 @@ namespace CollectorQi.Views
             }
             finally
             {
-                ServiceCommon.SetarAmbienteCulturaBrasil();
+               // ServiceCommon.SetarAmbienteCulturaBrasil();
                 BtnEfetivar.IsEnabled = true;
                 await pageProgress.OnClose();
             }
@@ -298,7 +302,7 @@ namespace CollectorQi.Views
 
                             try
                             {
-                                txtQuantidade.Text = decimal.Parse(item.Quantidade, ServiceCommon.ObterCulturaUSA).ToString();
+                                txtQuantidade.Text = decimal.Parse(item.Quantidade, CultureInfo.InvariantCulture).ToString();
                             }
                             catch
                             {

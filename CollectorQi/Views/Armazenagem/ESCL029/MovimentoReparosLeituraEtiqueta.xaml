@@ -69,12 +69,14 @@
                                 
                                 <Label x:Name="lblFilial" Text="Detalhes Reparo" FontSize="Small" Grid.ColumnSpan="5" TextColor="{StaticResource NavigationPrimary}" VerticalOptions="Center" HorizontalTextAlignment="Start" Grid.Row="0" />
 
+                                
                                 <local:CustomEntry                   x:Name="edtFilial" FontSize="Small" HorizontalOptions="Fill" Keyboard="Plain"  Placeholder="Filial..."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
 
                                 <local:CustomEntry IsNumeric="True" x:Name="edtRR"      FontSize="Small" HorizontalOptions="Fill"   Placeholder="RR..."      Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
 
                                 <local:CustomEntry IsNumeric="True" x:Name="edtDigito"  FontSize="Small" HorizontalOptions="Fill"   Placeholder="Dígito..."  Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" />
-
+                                
+                                
                                 <Frame x:Name="frameBuscaReparo" IsVisible="false" Grid.Row="3" Grid.ColumnSpan="5" BackgroundColor="Transparent" Margin="0,-2" Padding="0,-5">
                                     <Button x:Name="BtnLeituraDigitacao"  FontSize="Small"   VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Image="zoomMini.png" BackgroundColor="{StaticResource NavigationPrimary}" TextColor="White" BorderRadius="16"
                                          Clicked="BtnLeituraDigitacao_Clicked" Grid.Row="3" Text="Busca Reparos" Grid.Column="0" Grid.ColumnSpan="5" />

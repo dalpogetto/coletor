@@ -17,6 +17,7 @@ using CollectorQi.Resources.DataBaseHelper.Batch.ESCL018;
 using AutoMapper;
 using CollectorQi.Models.ESCL018;
 using CollectorQi.Views;
+using System.Globalization;
 
 namespace CollectorQi.Services.ESCL018B
 {
@@ -109,7 +110,7 @@ namespace CollectorQi.Services.ESCL018B
         // Metodo ObterParametros Totvs
         private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(InventarioVO byInventario, List<ListaItemInventarioPAM> byLstItemDigitado, string byLocalizacao)
         {
-            ServiceCommon.SetarAmbienteCulturaUSA();
+            //ServiceCommon.SetarAmbienteCulturaUSA();
 
             ResultSendInventarioReturnJson parametros = null;
             try
@@ -133,7 +134,7 @@ namespace CollectorQi.Services.ESCL018B
                     {
                         CodigoBarras = row.CodigoBarras,
                         CodItem = row.CodItem,
-                        QtdeDigitada = row.QtdeDigitada.ToString()
+                        QtdeDigitada = row.QtdeDigitada.ToString(CultureInfo.InvariantCulture)
                     });
                 }
 
@@ -196,7 +197,7 @@ namespace CollectorQi.Services.ESCL018B
             }
             finally
             {
-                ServiceCommon.SetarAmbienteCulturaBrasil();
+                //ServiceCommon.SetarAmbienteCulturaBrasil();
             }
 
             return parametros;

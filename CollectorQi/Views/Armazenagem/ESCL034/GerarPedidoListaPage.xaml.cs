@@ -54,7 +54,7 @@ namespace CollectorQi.Views
                 OnPropertyChanged("Items");
             }
         }
-
+        
         private ObservableCollection<GerarPedidoViewModel> _Items;
         private ObservableCollection<GerarPedidoViewModel> _ItemsFiltered;
         private ObservableCollection<GerarPedidoViewModel> _ItemsUnfiltered;
@@ -73,7 +73,7 @@ namespace CollectorQi.Views
             cvReparo.BindingContext = this;
 
             Items = new ObservableCollection<GerarPedidoViewModel>();
-
+            
             _tecnico = tecnico;
             stackLayoutSerie.IsVisible = false;
         }
@@ -117,7 +117,9 @@ namespace CollectorQi.Views
                 if (result)
                 {
                     Items.Remove(current);
+
                     OnPropertyChanged("Items");
+                    
                 }
 
                 cvReparo.SelectedItem = null;
@@ -278,6 +280,7 @@ namespace CollectorQi.Views
                                 });
 
                                 _RowIdReparoCorrente = resultService.ParamReparo.ParamLeitura[0].RowId;
+                                
 
                                 OnPropertyChanged("Items");
 

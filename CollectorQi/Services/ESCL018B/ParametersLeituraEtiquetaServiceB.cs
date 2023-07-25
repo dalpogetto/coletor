@@ -151,7 +151,7 @@ namespace CollectorQi.Services.ESCL018
         private static async Task<ResultSendInventarioReturnJson> SendInventarioAsyncERP(ESCL.InventarioItemBarra requestParam)
         {
             //Alternar para Enviar Formato Decimal para o Progress
-            ServiceCommon.SetarAmbienteCulturaUSA();
+            //ServiceCommon.SetarAmbienteCulturaUSA();
 
             ResultSendInventarioReturnJson parametros = null;
             try
@@ -212,7 +212,7 @@ namespace CollectorQi.Services.ESCL018
             }
             finally
             {
-                ServiceCommon.SetarAmbienteCulturaBrasil();
+                //ServiceCommon.SetarAmbienteCulturaBrasil();
             }
             
 
