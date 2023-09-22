@@ -42,15 +42,12 @@ namespace CollectorQi.Views
                 if (!existeNovaVersao.LoginValidado)
                 {
                     await DisplayAlert("Nova Versao", existeNovaVersao.Mensagem , "OK");
-
                     Uri urlVersao = new Uri(existeNovaVersao.LinkVersao);
-
                     await Launcher.OpenAsync(urlVersao);
 
                     Application.Current.Quit();
                     System.Diagnostics.Process.GetCurrentProcess().Kill();
                     System.Environment.Exit(0);
-
                     return;
                 }
 

@@ -41,14 +41,18 @@
                 </Frame>
                 
             </StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand">
+                <Label x:Name="lblReparosLidos"/>
+            </StackLayout>
 
             <StackLayout IsVisible="True" x:Name="stackLayoutSerie" VerticalOptions="Start" Orientation="Vertical">
                 <Label x:Name="lblReparo" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Red" Margin="0,20,0,0" FontSize="Medium"/>
                 <Label x:Name="lblSerie" Text="Realize leitura do Número da Série" HorizontalOptions="Center" TextColor="Red"/>
-                <Frame HorizontalOptions="FillAndExpand" HasShadow="true" Margin="12,10,12,2" CornerRadius="5" x:Name="frame3" BorderColor="Red"  HeightRequest="110">
+                <Frame HorizontalOptions="FillAndExpand" HasShadow="true" Margin="12,10,12,2" CornerRadius="5" x:Name="frame3" BorderColor="Red"  HeightRequest="180">
 
                     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -63,20 +67,26 @@
 
                         <Button  x:Name="BtnSairSerie" FontSize="Small"  MinimumHeightRequest="50"  HorizontalOptions="FillAndExpand" Image="closeMini.png" BackgroundColor="PaleVioletRed"  BorderRadius="16" 
                                  Clicked="BtnSairSerie_Clicked" Grid.Row="1" Text="Cancelar Leitura" TextColor="White" />
+
+                        <Button x:Name="BtnSerieEmBranco" 
+                                Grid.Row="2"
+                                            FontSize="Small" 
+                                            MinimumHeightRequest="50" 
+                                            HorizontalOptions="FillAndExpand" 
+                                            Image="efetivarMini.png" 
+                                            BackgroundColor="{StaticResource NavigationPrimary}" 
+                                            TextColor="White" 
+                                            BorderRadius="16"
+                                            Clicked="BtnSerieEmBranco_Clicked" 
+                                            Text="Série não informada" />
                     </Grid>
                 </Frame>
             </StackLayout>
 
-            <StackLayout Spacing="1" VerticalOptions="Start" Margin="20,0,0,0">
-            </StackLayout>
+            
 
             <CollectionView x:Name="cvReparo" ItemsSource="{Binding Items}" SelectionChanged="cvReparo_SelectionChanged" SelectionMode="Single" Margin="10,0,10,0" >
-                <CollectionView.Header>
-                    <Grid>
-                        <Label Text="{Binding Items.Count, StringFormat='Reparos Lidos: {0:d}'}"/>
-                    </Grid>
-                    
-                </CollectionView.Header>
+                
                 <CollectionView.EmptyView>
                     <StackLayout>
                         <Label Text="Nenhuma Reparo Informado" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="Silver" />

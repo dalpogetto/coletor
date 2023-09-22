@@ -1,4 +1,5 @@
-﻿using CollectorQi.Resources;
+﻿using Android.Content;
+using CollectorQi.Resources;
 using CollectorQi.Services.ESCL000;
 using System;
 using System.Linq;
@@ -69,11 +70,15 @@ namespace CollectorQi.Services
                                 "Existe uma nova versão disponivel. Deseja atualizar agora?",
                                 "Sim", "Não");
 
+                           
                             if (result)
                             {
                                 await Launcher.OpenAsync(new Uri(rVersao.LinkVersao));
                                 novaVersao = true;
+
+                                
                             }
+                           
                         }
 
                         if (!rVersao.LoginValidado)

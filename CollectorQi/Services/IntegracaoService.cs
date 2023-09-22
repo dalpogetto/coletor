@@ -73,6 +73,7 @@ namespace CollectorQi.Services
                     {
                         /* Status Integracao pendente  */
                        var lstBatchInventarioPend = BatchInventarioItemDB.GetBatchInventarioByStatus(eStatusIntegracao.PendenteIntegracao);
+                    Console.WriteLine($"Qtde de registros {lstBatchInventarioPend.Count}");
                    
                        if (lstBatchInventarioPend.Count > 0)
                        {
@@ -83,6 +84,7 @@ namespace CollectorQi.Services
                                 var tplRetorno = await ParametersLeituraEtiquetaService.SendInventarioBatchAsync(lstBatchInventarioPend[i], true);
 
                                 App.CallNotification.callNotification(eTpNotificacao.Inventario, tplRetorno);
+                                Console.WriteLine(tplRetorno.ToString());
                             }
                         }
                        }

@@ -120,6 +120,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtualizacaoAPK.cs" />
     <Compile Include="CustomEditText - Copy.cs" />
     <Compile Include="CustomEditTextExt.cs" />
     <Compile Include="CustomEditText.cs" />
@@ -402,7 +403,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionCollectorQiAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionCollectorQiAndroidHideInfoBar="True" XamarinHotReloadXFormsNugetUpgradeInfoBarCollectorQiAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

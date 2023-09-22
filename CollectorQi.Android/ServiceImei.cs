@@ -15,6 +15,7 @@ namespace CollectorQi.Droid
         /// </summary>
         public string GetPhoneIMEI()
         {
+            
             try
             {
                 var context = Android.App.Application.Context;

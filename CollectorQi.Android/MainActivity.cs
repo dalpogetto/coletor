@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Views;
 using Android.Views.InputMethods;
 using Matcha.BackgroundService.Droid;
+using System;
 
 namespace CollectorQi.Droid
 {
@@ -16,6 +17,8 @@ namespace CollectorQi.Droid
         public static readonly string CHANNEL_ID_TRANSF = "location_notification_transf";
         public static readonly string CHANNEL_ID_INVENTARIO = "location_notification_inventario";
         internal static readonly string COUNT_KEY = "count";
+
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -65,6 +68,7 @@ namespace CollectorQi.Droid
             }
 
             LoadApplication(new App());
+            
 
             CreateNotificationChannelTransf();
             CreateNotificationChannelInventario();
@@ -162,6 +166,7 @@ namespace CollectorQi.Droid
 
         }
 
+       
     }
 
 }

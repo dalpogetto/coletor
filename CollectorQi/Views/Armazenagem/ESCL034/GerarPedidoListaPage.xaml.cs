@@ -51,6 +51,7 @@ namespace CollectorQi.Views
             set
             {
                 _Items = value;
+                lblReparosLidos.Text = $"Reparos lidos: {_Items.Count}";
                 OnPropertyChanged("Items");
             }
         }
@@ -63,6 +64,7 @@ namespace CollectorQi.Views
         private GerarPedidoTecnico _tecnico;
         private string _agrupamento = String.Empty;
         private string _RowIdReparoCorrente = string.Empty;
+        public int _ContadorReparos = 0;
 
         public GerarPedidoListaPage(GerarPedidoTecnico tecnico)
         {
@@ -88,6 +90,7 @@ namespace CollectorQi.Views
                 page._confirmaEmitente = ConfirmaEmitente;
                 await PopupNavigation.Instance.PushAsync(page);
             }
+            
         }
 
         public void ConfirmaEmitente(GerarPedidoEmitente emitente)
@@ -117,9 +120,6 @@ namespace CollectorQi.Views
                 if (result)
                 {
                     Items.Remove(current);
-
-                    OnPropertyChanged("Items");
-                    
                 }
 
                 cvReparo.SelectedItem = null;
@@ -131,6 +131,7 @@ namespace CollectorQi.Views
             finally
             {
                 cvReparo.IsEnabled = true;
+                prepararTelaInicial();
             }
         }
 
@@ -138,7 +139,6 @@ namespace CollectorQi.Views
         {
             base.OnBackButtonPressed();
             Application.Current.MainPage = new NavigationPage(new GerarPedidoEnviarParametroPage(_tecnico));
-
             return true;
         }
 
@@ -280,9 +280,7 @@ namespace CollectorQi.Views
                                 });
 
                                 _RowIdReparoCorrente = resultService.ParamReparo.ParamLeitura[0].RowId;
-                                
-
-                                OnPropertyChanged("Items");
+                                lblReparosLidos.Text = $"Reparos lidos: {Items.Count}";
 
                                 // lblCodEstabel.Text = "Agrupamento: " + resultService.ParamReparo.Agrupamento;
                             }
@@ -317,9 +315,9 @@ namespace CollectorQi.Views
             {
                 await pageProgress.OnClose();
                 SearchReparo.Text = String.Empty;
+                OnPropertyChanged("Items");
+                
             }
-
-
         }
 
        // async void SearchSerie_Unfocused(object sender, FocusEventArgs e)
@@ -361,8 +359,8 @@ namespace CollectorQi.Views
                             registroCorrente.Serie = SearchSerie.Text;
                             Items.Add(registroCorrente);
 
-                            OnPropertyChanged("Items");
                             prepararTelaInicial();
+
                         }
                         else
                         {
@@ -381,6 +379,7 @@ namespace CollectorQi.Views
             }
             finally
             {
+                OnPropertyChanged("Items");
                 
                 await pageProgress.OnClose();
             }
@@ -393,6 +392,8 @@ namespace CollectorQi.Views
             stackLayoutReparo.IsVisible = true;
             lblReparo.Text = string.Empty;
             SearchSerie.Text = string.Empty;
+            lblReparosLidos.Text = $"Reparos lidos: {Items.Count}";
+            OnPropertyChanged("Items");
             SearchReparo.Focus();
         }
 
@@ -401,7 +402,6 @@ namespace CollectorQi.Views
             try
             {
                 ToolBarPrint.IsEnabled = false;
-
                 var pageProgress = new ProgressBarPopUp("Carregando...");
                 var page = new ArmazenagemPrintPopUp(null, null);
                 await PopupNavigation.Instance.PushAsync(page);
@@ -410,6 +410,7 @@ namespace CollectorQi.Views
             finally
             {
                 ToolBarPrint.IsEnabled = true;
+                OnPropertyChanged("Items");
             }
         }
 
@@ -435,8 +436,6 @@ namespace CollectorQi.Views
                     var page = new GerarPedidoEmitentePopUp(_emitente);
                     page._confirmaEmitente = ConfirmaEmitente;
                     await PopupNavigation.Instance.PushAsync(page);
-
-                    OnPropertyChanged("Items");
                 }
             }
             finally
@@ -455,7 +454,7 @@ namespace CollectorQi.Views
         {
             try
             {
-                //10-05-2023: Valter: Nao permitir efetivar sem numero de serie
+                /*10-05-2023: Valter: Nao permitir efetivar sem numero de serie
                 
                 //Obter a lista de reparos sem serie
                 var listaReparosSemSerie = Items.Where(x => x.Serie == "" || x.Serie == null);
@@ -464,7 +463,7 @@ namespace CollectorQi.Views
                 //Montar a lista de reparos sem serie para visualizacao
                 listaReparosSemSerie.ForEach(x => reparosSemLeitura += $"{x.NumRR}, ");
 
-                //Mensagem na Tela
+                Mensagem na Tela - Retirada para possibilitar a leitura de series em branco
                 if (!String.IsNullOrEmpty(reparosSemLeitura))
                 {
                     await DisplayAlert("Erro", $"Reparo(s): {reparosSemLeitura} sem número de série, refaça a leitura.", "OK");
@@ -475,6 +474,7 @@ namespace CollectorQi.Views
 
                     return;
                 }
+                */
 
 
                 //Items.Clear();
@@ -484,12 +484,14 @@ namespace CollectorQi.Views
                     await DisplayAlert("Erro", "Nenhum reparo registrado para geração do pedido.", "OK");
                     return;
                 }
-
                 
                 var pagePesoVolume = new GerarPedidoPesoVolumePopUp(Items, _emitente, _tecnico);
                 pagePesoVolume._refreshRow = RefreshGrid;
                 await PopupNavigation.Instance.PushAsync(pagePesoVolume);
-                
+                OnPropertyChanged("Items");
+
+                lblReparosLidos.Text = $"Reparos lidos: {0}";
+
             }
             catch (Exception ex)
             {
@@ -501,7 +503,7 @@ namespace CollectorQi.Views
         {
             Items.Clear();
             prepararTelaInicial();
-            OnPropertyChanged("Items");
+            
         }
 
         private void ToolBarVoltar_Clicked(object sender, EventArgs e)
@@ -518,6 +520,11 @@ namespace CollectorQi.Views
                 Items.Remove(registroCorrente);
             }
             
+            prepararTelaInicial();
+        }
+
+        private void BtnSerieEmBranco_Clicked(object sender, EventArgs e)
+        {
             prepararTelaInicial();
         }
 
