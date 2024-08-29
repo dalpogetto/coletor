@@ -196,6 +196,7 @@ namespace CollectorQi.Views
                     }
                 }
             }
+            
             catch (Exception ex)
             {
                 await DisplayAlert("Erro!", "Erro para atualizar as ultimas integrações com o sistema, se o erro persistir, reinicie a aplicação. " + Environment.NewLine + ex.Message, "CANCELAR");
