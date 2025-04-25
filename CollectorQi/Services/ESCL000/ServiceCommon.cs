@@ -23,15 +23,12 @@ namespace CollectorQi.Services.ESCL000
         {
             get
             {
-                //return string.Empty;
-                //return "https://hawebdev.dieboldnixdorf.com.br:8543"; //Desenv
-                // return "https://brspupapl01.ad.diebold.com:8543";         // Desenv
-                // return "https://totvsapptst.dieboldnixdorf.com.br:8143";         // -> Projetos
-                //  return "https://brspupapl01.ad.diebold.com:8243";      // -> Homolog
+                return "https://hawebdev.dieboldnixdorf.com.br:8543"; //Desenv
+                //return "https://hawebdev.dieboldnixdorf.com.br:8243"; // -> Homolog
+                //return "https://totvsapptst.dieboldnixdorf.com.br:8243/"; //homolgacao endereco antigo
 
-                return "https://hawebdev.dieboldnixdorf.com.br:8243"; // -> Homolog
 
-                // return "https://totvsapp.dieboldnixdorf.com.br:8143";  // -> Produção 
+                 //return "https://application.dieboldnixdorf.com.br:8143";  // -> Produção 
             }
         }
 
